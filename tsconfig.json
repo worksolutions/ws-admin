@@ -21,7 +21,12 @@
     "noUnusedParameters": true,
     "noEmit": true,
     "jsx": "react",
-    "typeRoots": ["./node_modules/@types", "./global.d.ts"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./global.d.ts"
+    ],
+    "baseUrl": "./src",
+    "strictNullChecks": false
   },
   "include": [
     "src"
