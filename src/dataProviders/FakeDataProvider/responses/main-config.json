@@ -1,21 +1,13 @@
 {
-  "roles": [
-    "admin",
-    "guest",
-    "user",
-    "content-manager"
-  ],
+  "title": "Тестирование административной панели WS",
+  "roles": ["admin", "guest", "user", "content-manager"],
   "permissions": {
-    "allow": [
-      "*"
-    ],
-    "deny": [
-      "guest"
-    ]
+    "allow": ["*"],
+    "deny": ["guest"]
   },
   "pages": [
     {
-      "pageUrl": "admin/",
+      "pageUrl": "/admin",
       "title": "Тестирование административной панели WS",
       "blocks": [
         {
@@ -29,36 +21,24 @@
                     "title": "Пользователи",
                     "code": "users",
                     "permissions": {
-                      "allow": [
-                        "*"
-                      ],
-                      "deny": [
-                        "guest"
-                      ]
+                      "allow": ["*"],
+                      "deny": ["guest"]
                     }
                   },
                   {
                     "title": "Проекты",
                     "code": "projects",
                     "permissions": {
-                      "allow": [
-                        "*"
-                      ],
-                      "deny": [
-                        "guest"
-                      ]
+                      "allow": ["*"],
+                      "deny": ["guest"]
                     }
                   },
                   {
                     "title": "Настройки проекта",
                     "code": "settings",
                     "permissions": {
-                      "allow": [
-                        "admin"
-                      ],
-                      "deny": [
-                        "*"
-                      ]
+                      "allow": ["admin"],
+                      "deny": ["*"]
                     }
                   }
                 ]
@@ -70,12 +50,8 @@
         {
           "type": "List",
           "permissions": {
-            "allow": [
-              "*"
-            ],
-            "deny": [
-              "guest"
-            ]
+            "allow": ["*"],
+            "deny": ["guest"]
           },
           "options": {
             "dataSource": {
@@ -100,12 +76,8 @@
               },
               "delete": {
                 "permissions": {
-                  "allow": [
-                    "admin"
-                  ],
-                  "deny": [
-                    "*"
-                  ]
+                  "allow": ["admin"],
+                  "deny": ["*"]
                 },
                 "actionHandler": {
                   "type": "api:request",
@@ -120,12 +92,8 @@
               },
               "create": {
                 "permissions": {
-                  "allow": [
-                    "*"
-                  ],
-                  "deny": [
-                    "guest"
-                  ]
+                  "allow": ["*"],
+                  "deny": ["guest"]
                 },
                 "actionHandler": {
                   "type": "redirect",
@@ -136,12 +104,8 @@
               },
               "update": {
                 "permissions": {
-                  "allow": [
-                    "*"
-                  ],
-                  "deny": [
-                    "guest"
-                  ]
+                  "allow": ["*"],
+                  "deny": ["guest"]
                 },
                 "actionHandler": {
                   "type": "redirect",
@@ -173,12 +137,8 @@
             "actions": {
               "delete": {
                 "permissions": {
-                  "allow": [
-                    "admin"
-                  ],
-                  "deny": [
-                    "*"
-                  ]
+                  "allow": ["admin"],
+                  "deny": ["*"]
                 },
                 "actionHandler": {
                   "type": "api:request",
@@ -193,12 +153,8 @@
               },
               "update": {
                 "permissions": {
-                  "allow": [
-                    "*"
-                  ],
-                  "deny": [
-                    "guest"
-                  ]
+                  "allow": ["*"],
+                  "deny": ["guest"]
                 },
                 "actionHandler": {
                   "type": "api:request",
@@ -217,10 +173,7 @@
                 "title": "ФИО:",
                 "type": "Input",
                 "config": {
-                  "validations": [
-                    "text",
-                    "length > 3"
-                  ]
+                  "validations": ["text", "length > 3"]
                 },
                 "value": "{{name}}"
               },
@@ -229,10 +182,7 @@
                 "type": "ImageViewer",
                 "config": {
                   "multiFiles": false,
-                  "validations": [
-                    "type:jpg,png",
-                    "sizeLessThen:10mb"
-                  ]
+                  "validations": ["type:jpg,png", "sizeLessThen:10mb"]
                 },
                 "value": "{{userAvatar}}"
               },

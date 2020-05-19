@@ -4,21 +4,18 @@ import { Action } from "state/store";
 
 import { State } from "./state";
 
-import ApiDataProvider from "dataProviders/ApiDataProvider";
+import AppDataProvider from "dataProviders";
 import { promisifyAPI } from "state/lib";
 
 export const getAdminConfig = new Action<State>().create(
   {
     success: (state, payload) => {
-      return compose(
-        assocPath(["loading"], false),
-        assocPath(["workShifts"], payload),
-      )(state) as State;
+      return compose(assocPath(["appConfig"], payload))(state) as State;
     },
   },
   (actions) =>
     promisifyAPI(
-      ApiDataProvider.getMainConfig,
+      AppDataProvider.getMainConfig,
       () => {},
       actions.success,
       () => {},
@@ -26,5 +23,5 @@ export const getAdminConfig = new Action<State>().create(
 );
 
 export interface SystemStateInterface {
-  appConfig: any[];
+  appConfig: any;
 }

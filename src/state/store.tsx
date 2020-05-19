@@ -24,7 +24,7 @@ export class StoreContext<State extends Record<string, any>, Actions> {
 
     const storeInitialState = Object.assign({}, initialState, actions);
 
-    this.Provider = ({ children }) => {
+    const Provider = ({ children }) => {
       const state = React.useRef(storeInitialState);
       const update = useForceUpdate();
 
@@ -56,6 +56,8 @@ export class StoreContext<State extends Record<string, any>, Actions> {
         </this.context.Provider>
       );
     };
+
+    this.Provider = Provider;
   }
 
   getState() {

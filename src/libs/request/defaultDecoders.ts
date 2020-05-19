@@ -1,4 +1,4 @@
-import Decoder, { field, succeed, number, string, maybe, array } from "jsonous";
+import Decoder, { field, succeed, string, maybe, array } from "jsonous";
 import { ok, err } from "resulty";
 import { isNil } from "ramda";
 import moment, { Moment } from "moment";
@@ -9,22 +9,6 @@ import { DateMode } from "libs/date";
 import { isString } from "libs/is";
 
 export const identityValueDecoder = new Decoder(ok);
-
-export const trueValueDecoder = new Decoder<true>(function (value) {
-  return value === true ? ok<string, true>(true) : err('Ожидалось "true"');
-});
-
-export const falseValueDecoder = new Decoder<false>(function (value) {
-  return value === false ? ok<string, false>(false) : err('Ожидалось "false"');
-});
-
-export const zeroIfEmptyString = new Decoder((value) =>
-  ok(number.decodeAny(value).getOrElseValue(0)),
-);
-
-export const nullIfEmptyString = new Decoder((value) =>
-  ok(string.decodeAny(value).getOrElseValue(null) || null),
-);
 
 export const valueDecoder = <T>(inputValue: T) =>
   new Decoder<T>(function (value) {

@@ -101,7 +101,7 @@ export function useDebouncedInput<T>(
   useEffect(() => {
     debounceRef.current = debounce(onChange, debounceTime);
     return () => debounceRef.current.cancel();
-  }, [onChange]);
+  }, [debounceTime, onChange]);
 
   React.useEffect(() => setInputValue(value), [value]);
 
@@ -136,7 +136,7 @@ export const useTabRouter = <TABS, RESULT extends TABS[keyof TABS]>(
       return;
     }
     setCurrentTab(searchParams.tab as string);
-  }, [searchParams.tab]);
+  }, [initialTab, searchParams.tab]);
 
   return {
     currentTab,
@@ -163,5 +163,6 @@ export const useEffectSkipFirst = (
       return;
     }
     wasChanged.current = true;
+    // eslint-disable-next-line
   }, dependencies);
 };
