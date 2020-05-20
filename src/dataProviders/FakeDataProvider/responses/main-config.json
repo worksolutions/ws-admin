@@ -5,6 +5,41 @@
     "allow": ["*"],
     "deny": ["guest"]
   },
+  "sideMenu": {
+    "options": {
+      "dataSource": {
+        "type": "list",
+        "options": {
+          "data": [
+            {
+              "title": "Пользователи",
+              "code": "users",
+              "permissions": {
+                "allow": ["*"],
+                "deny": ["guest"]
+              }
+            },
+            {
+              "title": "Проекты",
+              "code": "projects",
+              "permissions": {
+                "allow": ["*"],
+                "deny": ["guest"]
+              }
+            },
+            {
+              "title": "Настройки проекта",
+              "code": "settings",
+              "permissions": {
+                "allow": ["admin"],
+                "deny": ["*"]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
   "pages": [
     {
       "pageUrl": "/admin",

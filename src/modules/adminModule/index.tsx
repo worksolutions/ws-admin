@@ -9,6 +9,9 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import DrawerMenu from "./components/DrawerMenu";
 import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
+import DataSourceHOC from "./HOC/DataSource/DataSourceHOC";
+
+const WrappedDrawerMenu = DataSourceHOC(DrawerMenu);
 
 export function AdminRootComponent() {
   const { appConfig, getAdminConfig } = systemState.getState();
@@ -18,54 +21,57 @@ export function AdminRootComponent() {
     // eslint-disable-next-line
   }, []);
 
+  if (!appConfig) {
+    return <CircularProgress />;
+  }
+
   return (
-    <>
-      <DrawerMenu
-        header={(openMenu) => (
-          <>
-            <AppBar position="sticky">
-              <Toolbar>
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  onClick={openMenu}
-                  edge="start"
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h6">
-                  {appConfig ? (
-                    appConfig.title
-                  ) : (
-                    <Skeleton
-                      variant="text"
-                      width={700}
-                      height={50}
-                      style={{
-                        backgroundColor: "rgba(255, 255, 255, .3)",
-                      }}
-                    />
-                  )}
-                </Typography>
-              </Toolbar>
-            </AppBar>
-            {appConfig ? (
-              <Switch>
-                {appConfig.pages.map((page) => (
-                  <Route
-                    key={page.pageUrl}
-                    exact
-                    path={page.pageUrl}
-                    render={() => <AdminPage settings={page} />}
+    <WrappedDrawerMenu
+      dataSource={appConfig.sideMenu.options.dataSource}
+      content={(openMenu) => (
+        <>
+          <AppBar position="sticky">
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={openMenu}
+                edge="start"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6">
+                {appConfig ? (
+                  appConfig.title
+                ) : (
+                  <Skeleton
+                    variant="text"
+                    width={700}
+                    height={50}
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, .3)",
+                    }}
                   />
-                ))}
-              </Switch>
-            ) : (
-              <CircularProgress />
-            )}
-          </>
-        )}
-      />
-    </>
+                )}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          {appConfig ? (
+            <Switch>
+              {appConfig.pages.map((page) => (
+                <Route
+                  key={page.pageUrl}
+                  exact
+                  path={page.pageUrl}
+                  render={() => <AdminPage settings={page} />}
+                />
+              ))}
+            </Switch>
+          ) : (
+            <CircularProgress />
+          )}
+        </>
+      )}
+    />
   );
 }

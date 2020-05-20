@@ -13,11 +13,9 @@ import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import Box from "@material-ui/core/Box";
+import { CircularProgress } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -25,26 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
-    },
-    appBar: {
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    hide: {
-      display: "none",
     },
     drawer: {
       width: drawerWidth,
@@ -81,10 +59,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface PersistentDrawerLeftInterface {
-  header: (open: () => void) => ReactNode;
+  content: (open: () => void) => ReactNode;
+  data?: {
+    title: string;
+    code: string;
+  }[];
 }
 export default function PersistentDrawerLeft({
-  header,
+  content,
+  data,
 }: PersistentDrawerLeftInterface) {
   const classes = useStyles();
   const theme = useTheme();
@@ -97,6 +80,8 @@ export default function PersistentDrawerLeft({
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  if (!data) return <CircularProgress />;
 
   return (
     <div className={classes.root}>
@@ -120,23 +105,9 @@ export default function PersistentDrawerLeft({
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+          {data.map((item) => (
+            <ListItem button key={item.code}>
+              <ListItemText primary={item.title} />
             </ListItem>
           ))}
         </List>
@@ -146,7 +117,7 @@ export default function PersistentDrawerLeft({
           [classes.contentShift]: open,
         })}
       >
-        {header(handleDrawerOpen)}
+        {content(handleDrawerOpen)}
       </Box>
     </div>
   );
