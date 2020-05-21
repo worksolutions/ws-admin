@@ -14,7 +14,7 @@ const AdminPage = ({ settings }: AdminPageInterface) => {
     <Container>
       {settings.blocks.map((block, index) => (
         <Box key={index} mb={2}>
-          <AdminBlock config={block} />
+          <AdminBlock props={block} />
         </Box>
       ))}
     </Container>

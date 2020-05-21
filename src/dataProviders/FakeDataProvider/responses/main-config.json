@@ -46,43 +46,6 @@
       "title": "Тестирование административной панели WS",
       "blocks": [
         {
-          "type": "SideMenu",
-          "options": {
-            "dataSource": {
-              "type": "list",
-              "options": {
-                "data": [
-                  {
-                    "title": "Пользователи",
-                    "code": "users",
-                    "permissions": {
-                      "allow": ["*"],
-                      "deny": ["guest"]
-                    }
-                  },
-                  {
-                    "title": "Проекты",
-                    "code": "projects",
-                    "permissions": {
-                      "allow": ["*"],
-                      "deny": ["guest"]
-                    }
-                  },
-                  {
-                    "title": "Настройки проекта",
-                    "code": "settings",
-                    "permissions": {
-                      "allow": ["admin"],
-                      "deny": ["*"]
-                    }
-                  }
-                ]
-              }
-            },
-            "config": {}
-          }
-        },
-        {
           "type": "List",
           "permissions": {
             "allow": ["*"],
@@ -90,9 +53,38 @@
           },
           "options": {
             "dataSource": {
-              "type": "api",
+              "type": "list",
               "options": {
-                "url": "/api/admin/users"
+                "data": {
+                  "columns": [
+                    { "title": "Name", "field": "name" },
+                    { "title": "Surname", "field": "surname" },
+                    {
+                      "title": "Birth Year",
+                      "field": "birthYear",
+                      "type": "numeric"
+                    },
+                    {
+                      "title": "Birth Place",
+                      "field": "birthCity",
+                      "lookup": { "34": "İstanbul", "63": "Şanlıurfa" }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "name": "Mehmet",
+                      "surname": "Baran",
+                      "birthYear": 1987,
+                      "birthCity": 63
+                    },
+                    {
+                      "name": "Zerya Betül",
+                      "surname": "Baran",
+                      "birthYear": 2017,
+                      "birthCity": 34
+                    }
+                  ]
+                }
               }
             }
           },

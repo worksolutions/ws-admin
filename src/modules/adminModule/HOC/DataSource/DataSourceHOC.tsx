@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react";
 import listDataSource from "./list/listDataSource";
 import apiRequestDataSource from "./list/apiRequestDataSource";
-import { METHODS } from "../../../../libs/request";
+import { METHODS } from "libs/request";
+import { AdminComponentInterface } from "../../types";
 
 export enum DataSourceType {
   LIST = "list",
@@ -24,9 +25,6 @@ export interface DataSourceInterface<T extends DataSourceType> {
   options: DataSourceOptions[T];
 }
 
-interface AdminComponentInterface {
-  data: any;
-}
 export default function <P>(Cmp: FC<P & AdminComponentInterface>) {
   return function (props: P & { dataSource: DataSourceInterface<any> }) {
     const { dataSource } = props;
