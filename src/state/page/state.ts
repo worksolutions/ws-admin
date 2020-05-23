@@ -3,10 +3,10 @@ import { StoreContext } from "light-state-manager";
 import { updatePageState } from "./services";
 
 export interface State {
-  state: any;
+  context: any;
 }
 const initialState: State = {
-  state: null,
+  context: null,
 };
 
 export default new StoreContext({

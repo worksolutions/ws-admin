@@ -10,7 +10,8 @@ interface Payload {
 export const updatePageState = new Action<State>().create(
   {
     save: (state, { path, data }: Payload) => {
-      return assocPath(["state", ...path.split(".")], data)(state) as State;
+      const pathList = path ? path.split(".") : [];
+      return assocPath(["state", ...pathList], data)(state) as State;
     },
   },
   (actions, payload: Payload) => {

@@ -1,27 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Container } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import {
   DataSourceInterface,
   DataSourceType,
 } from "../../HOC/DataSource/DataSourceHOC";
-import pageState from "../../../../state/page/state";
 import listDataSource from "../../HOC/DataSource/list/listDataSource";
 import apiRequestDataSource from "../../HOC/DataSource/list/apiRequestDataSource";
 
-const loadComponent = (type: string, cb: (cmp) => void) => {
-  console.log(1231);
+import pageState from "state/page/state";
+import { ActionsInterface, AdminComponentInterface } from "../../types";
+import { RouteComponentProps, withRouter } from "react-router";
+import { buildActions } from "../../componentBuilder/buildActions";
 
-  import(`commonComponents/${type}`)
-    .then((module) => {
-      console.log("module", module);
-      cb(module.default);
-    }, console.error)
-    .catch(console.error)
-    .finally(() => console.log("end"));
+export const loadComponent = (type: string, cb: (cmp) => void) => {
+  import(`commonComponents/${type}`).then(
+    (module) => cb(module.default),
+    console.error,
+  );
 };
 
-const useDataSource = (dataSource, context) => {
+export const useDataSource = (dataSource, context) => {
   const [data, setData] = useState(undefined);
   useEffect(() => {
     if (!dataSource) return undefined;
@@ -51,39 +50,35 @@ interface AdminBlockInterface {
       deny?: string[];
     };
     dataSource: DataSourceInterface<any>;
+    actions: ActionsInterface;
     config: any;
   };
 }
-const AdminBlock = ({ props }: AdminBlockInterface) => {
-  const { state } = pageState.getState();
-  const [Cmp, setCmp] = useState();
+const AdminBlock = withRouter(
+  ({ props, history }: AdminBlockInterface & RouteComponentProps) => {
+    const { context } = pageState.getState();
+    const [Cmp, setCmp] = useState<FC<AdminComponentInterface>>();
+    const data = useDataSource(props.dataSource, context);
+    const actions = buildActions(props.actions, context, history);
 
-  import(`commonComponents/Test`)
-    .then((module) => {
-      console.log("module", module);
-      setCmp(() => module.default as any);
-    }, console.error)
-    .catch(console.error)
-    .finally(() => console.log("end"));
+    useEffect(() => {
+      loadComponent(props.type, setCmp);
+      // eslint-disable-next-line
+    }, []);
 
-  useEffect(() => {
-    loadComponent(props.type, setCmp);
-    // eslint-disable-next-line
-  }, []);
+    if (!Cmp) {
+      return null;
+    }
 
-  const dataSource = useDataSource(props.dataSource, state);
-
-  if (!Cmp) {
-    return null;
-  }
-
-  return (
-    <Container>
-      <Paper elevation={3}>
-        <Cmp {...props} dataSource={dataSource} />
-      </Paper>
-    </Container>
-  );
-};
+    console.log(actions);
+    return (
+      <Container>
+        <Paper elevation={3}>
+          <Cmp {...props} data={data} actions={actions} />
+        </Paper>
+      </Container>
+    );
+  },
+);
 
 export default React.memo(AdminBlock);

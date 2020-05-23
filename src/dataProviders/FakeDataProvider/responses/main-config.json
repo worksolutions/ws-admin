@@ -84,59 +84,51 @@
               }
             }
           },
+          "actions": {
+            "view": {
+              "type": "redirect",
+              "options": {
+                "url": "/user/{{login}}"
+              }
+            },
+            "delete": {
+              "permissions": {
+                "allow": ["admin"],
+                "deny": ["*"]
+              },
+              "type": "api:request",
+              "options": {
+                "url": "/api/admin/user/delete",
+                "method": "get",
+                "params": {
+                  "id": "{{id}}"
+                }
+              }
+            },
+            "create": {
+              "permissions": {
+                "allow": ["*"],
+                "deny": ["guest"]
+              },
+              "type": "redirect",
+              "options": {
+                "url": "admin/user/create"
+              }
+            },
+            "update": {
+              "permissions": {
+                "allow": ["*"],
+                "deny": ["guest"]
+              },
+              "type": "redirect",
+              "options": {
+                "url": "admin/user/update/{{id}}"
+              }
+            }
+          },
           "config": {
             "pagination": {
               "countOnPage": 20
-            },
-            "actions": {
-              "view": {
-                "actionHandler": {
-                  "type": "redirect",
-                  "options": {
-                    "url": "/user/{{login}}"
-                  }
-                }
-              },
-              "delete": {
-                "permissions": {
-                  "allow": ["admin"],
-                  "deny": ["*"]
-                },
-                "actionHandler": {
-                  "type": "api:request",
-                  "options": {
-                    "url": "/api/admin/user/delete",
-                    "method": "get",
-                    "params": {
-                      "id": "{{id}}"
-                    }
-                  }
-                }
-              },
-              "create": {
-                "permissions": {
-                  "allow": ["*"],
-                  "deny": ["guest"]
-                },
-                "actionHandler": {
-                  "type": "redirect",
-                  "options": {
-                    "url": "admin/user/create"
-                  }
-                }
-              },
-              "update": {
-                "permissions": {
-                  "allow": ["*"],
-                  "deny": ["guest"]
-                },
-                "actionHandler": {
-                  "type": "redirect",
-                  "options": {
-                    "url": "admin/user/update/{{id}}"
-                  }
-                }
-              }
             }
           }
         }
@@ -161,14 +153,12 @@
                 "allow": ["admin"],
                 "deny": ["*"]
               },
-              "actionHandler": {
-                "type": "api:request",
-                "options": {
-                  "url": "/api/admin/user/delete",
-                  "method": "get",
-                  "params": {
-                    "id": "{{page.user.id}}"
-                  }
+              "type": "api:request",
+              "options": {
+                "url": "/api/admin/user/delete",
+                "method": "get",
+                "params": {
+                  "id": "{{page.user.id}}"
                 }
               }
             },
@@ -177,14 +167,12 @@
                 "allow": ["*"],
                 "deny": ["guest"]
               },
-              "actionHandler": {
-                "type": "api:request",
-                "options": {
-                  "url": "/api/admin/user/update",
-                  "method": "post",
-                  "params": {
-                    "id": "{{id}}"
-                  }
+              "type": "api:request",
+              "options": {
+                "url": "/api/admin/user/update",
+                "method": "post",
+                "params": {
+                  "id": "{{id}}"
                 }
               }
             }
