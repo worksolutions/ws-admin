@@ -5,7 +5,7 @@ import MaterialTable from "material-table";
 interface ListInterface extends AdminComponentInterface {
   // name: string;
 }
-const List = ({ data }: ListInterface) => {
+const List = ({ data, actions }: ListInterface) => {
   const [state, setState] = useState<{
     columns: {
       title: string;
@@ -23,15 +23,15 @@ const List = ({ data }: ListInterface) => {
       data={state.data}
       editable={{
         onRowAdd: (newData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
+          new Promise((resolve, reject) => {
+            actions.create(newData).then(() => {
               resolve();
               setState((prevState) => {
                 const data = [...prevState.data];
                 data.push(newData);
                 return { ...prevState, data };
               });
-            }, 600);
+            }, reject);
           }),
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve) => {
@@ -47,15 +47,16 @@ const List = ({ data }: ListInterface) => {
             }, 600);
           }),
         onRowDelete: (oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
+          new Promise((resolve, reject) => {
+            actions.delete(oldData).then(() => {
+              console.log("resolve");
               resolve();
               setState((prevState) => {
                 const data = [...prevState.data];
                 data.splice(data.indexOf(oldData), 1);
                 return { ...prevState, data };
               });
-            }, 600);
+            }, reject);
           }),
       }}
     />

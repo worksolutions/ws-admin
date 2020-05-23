@@ -7,9 +7,9 @@ export default function <P>(Cmp: FC<P>) {
     const {
       match: { params },
     } = props;
-    const { updatePageState } = pageState.getState();
+    const { _updatePageState } = pageState.getState();
     useEffect(() => {
-      updatePageState({ path: null, data: params });
+      _updatePageState({ path: null, data: params });
       // eslint-disable-next-line
     }, [params]);
     return <Cmp {...(props as P)} />;

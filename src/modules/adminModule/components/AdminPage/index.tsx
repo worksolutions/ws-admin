@@ -3,7 +3,6 @@ import { StoreContext } from "light-state-manager";
 
 import { useSetDocumentTitle } from "libs/hooks";
 import { Container } from "@material-ui/core";
-import { Box } from "@material-ui/core";
 
 import AdminBlock from "../AdminBlock";
 
@@ -15,19 +14,18 @@ interface AdminPageInterface {
   settings: any;
   context: any;
 }
-const AdminPage = ({ settings }: AdminPageInterface) => {
+const AdminPage = React.memo(({ settings }: AdminPageInterface) => {
   useSetDocumentTitle(settings.title);
+  const state = pageState.getState();
 
   return (
     <Container>
       {settings.blocks.map((block, index) => (
-        <Box key={index} mb={2}>
-          <AdminBlock props={block} />
-        </Box>
+        <AdminBlock key={index} props={block} context={state} />
       ))}
     </Container>
   );
-};
+});
 
 const PageWithContext = StoreContext.connectContexts(
   [pageState],

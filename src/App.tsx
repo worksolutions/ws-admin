@@ -12,7 +12,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { Route, Switch } from "react-router";
 import AdminPage from "./modules/adminModule/components/AdminPage";
 
-export default function () {
+export default React.memo(function () {
   const { appConfig, getAdminConfig } = systemState.getState();
   const WrappedDrawerMenu = createAdminComponent(DrawerMenu, {});
 
@@ -74,4 +74,4 @@ export default function () {
       )}
     />
   );
-}
+});

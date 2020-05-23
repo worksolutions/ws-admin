@@ -8,8 +8,7 @@ export function createAdminComponent<P>(
   context: any,
 ) {
   return function (props: P & any) {
-    const buildComponent = compose(DataSourceHOC);
-    const WrappedCmp = buildComponent(Cmp, context);
+    const WrappedCmp = compose(DataSourceHOC)(Cmp, context);
     return <WrappedCmp {...props} />;
   };
 }

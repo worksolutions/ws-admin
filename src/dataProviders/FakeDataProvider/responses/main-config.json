@@ -40,6 +40,44 @@
   },
   "pages": [
     {
+      "pageUrl": "/test/:name",
+      "title": "Тестирование блоков",
+      "blocks": [
+        {
+          "name": "TestBlock1",
+          "type": "TestBlock",
+          "dataSource": {
+            "type": "list",
+            "options": {
+              "data": "test.name"
+            }
+          },
+          "blocks": [
+            {
+              "name": "TestBlock2",
+              "type": "TestBlock",
+              "blocks": [],
+              "actions": {
+                "inc": {
+                  "type": "redirect",
+                  "options": {
+                    "url": "/user/{{login}}"
+                  }
+                }
+              },
+              "dataSource": {
+                "type": "list",
+                "options": {
+                  "data": "получилось???"
+                },
+                "context1": "test.name"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "pageUrl": "/admin",
       "title": "Тестирование административной панели WS",
       "blocks": [
@@ -69,6 +107,7 @@
                 ],
                 "data": [
                   {
+                    "id": "1114",
                     "name": "Mehmet",
                     "surname": "Baran",
                     "birthYear": 1987,
@@ -99,7 +138,7 @@
               "type": "api:request",
               "options": {
                 "url": "/api/admin/user/delete",
-                "method": "get",
+                "method": "delete",
                 "params": {
                   "id": "{{id}}"
                 }
@@ -110,9 +149,13 @@
                 "allow": ["*"],
                 "deny": ["guest"]
               },
-              "type": "redirect",
+              "type": "api:request",
               "options": {
-                "url": "admin/user/create"
+                "url": "/api/admin/user/create",
+                "method": "post",
+                "params": {
+                  "id": "{{name}}"
+                }
               }
             },
             "update": {

@@ -1,17 +1,13 @@
 import { StoreContext } from "light-state-manager";
 
-import { updatePageState } from "./services";
+import { _updatePageState } from "./services";
 
-export interface State {
-  context: any;
-}
-const initialState: State = {
-  context: null,
-};
+export interface State {}
+const initialState: State = {};
 
 export default new StoreContext({
   initialState,
   actions: {
-    updatePageState,
+    _updatePageState,
   },
 });

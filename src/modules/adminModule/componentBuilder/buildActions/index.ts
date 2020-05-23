@@ -1,29 +1,31 @@
-import { ActionHandlerType, ActionsInterface } from "../../types";
+import {
+  ActionHandlerType,
+  ActionInterface,
+  ActionsInterface,
+} from "../../types";
 import redirectActionHandler from "./handlers/redirectActionHandler";
 import apiRequestActionHandler from "./handlers/apiRequestActionHandler";
 
 export const buildActions = (
   actions: ActionsInterface,
-  context: any,
-  history: any,
+  {
+    context,
+  }: {
+    context: any;
+    updatePageState: ({ path: string, data: any }) => void;
+  },
 ): {
-  [key: string]: () => Promise<any>;
+  [key: string]: ActionInterface;
 } => {
   if (!actions) return null;
   return Object.entries(actions).reduce((acc, [actionName, value]) => {
-    console.log(value);
     switch (value.type) {
       case ActionHandlerType.REDIRECT:
-        acc[actionName] = redirectActionHandler(
-          value.options as any,
-          history,
-          context,
-        );
+        acc[actionName] = redirectActionHandler(value.options as any, context);
         break;
       case ActionHandlerType.API_REQUEST:
         acc[actionName] = apiRequestActionHandler(
           value.options as any,
-          history,
           context,
         );
         break;

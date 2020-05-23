@@ -29,9 +29,15 @@ export interface ActionsInterface {
   };
 }
 
+export interface ActionInterface {
+  (localContext?: any): Promise<any>;
+}
+
 export interface AdminComponentInterface {
   data?: any;
   actions?: {
-    [key: string]: () => Promise<any>;
+    [key: string]: ActionInterface;
   };
+  blocks?: any[];
+  context?: any;
 }
