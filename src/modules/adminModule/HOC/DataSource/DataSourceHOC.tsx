@@ -25,7 +25,7 @@ export interface DataSourceInterface<T extends DataSourceType> {
   options: DataSourceOptions[T];
 }
 
-export default function <P>(Cmp: FC<P & AdminComponentInterface>) {
+export default function <P>(Cmp: FC<P & AdminComponentInterface>, state: any) {
   return function (props: P & { dataSource: DataSourceInterface<any> }) {
     const { dataSource } = props;
 
@@ -36,7 +36,7 @@ export default function <P>(Cmp: FC<P & AdminComponentInterface>) {
         listDataSource(dataSource).then(setData);
         break;
       case DataSourceType.API_REQUEST:
-        apiRequestDataSource(dataSource).then(setData);
+        apiRequestDataSource(dataSource, state).then(setData);
         break;
       default:
         console.error(

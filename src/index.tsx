@@ -1,16 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import { Router } from "react-router";
+import { StoreContext } from "light-state-manager";
+
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
 import { createBrowserHistory } from "history";
 
-import { StoreContext } from "./state/store";
+import App from "./App";
 import systemState from "state/system/state";
-import { Router } from "react-router";
+import globalState from "state/global/state";
 
 const AppWithContext = StoreContext.connectContexts(
-  [[systemState, "system"]],
+  [systemState, globalState],
   App,
 );
 

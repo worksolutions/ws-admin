@@ -6,37 +6,35 @@
     "deny": ["guest"]
   },
   "sideMenu": {
-    "options": {
-      "dataSource": {
-        "type": "list",
-        "options": {
-          "data": [
-            {
-              "title": "Пользователи",
-              "code": "users",
-              "permissions": {
-                "allow": ["*"],
-                "deny": ["guest"]
-              }
-            },
-            {
-              "title": "Проекты",
-              "code": "projects",
-              "permissions": {
-                "allow": ["*"],
-                "deny": ["guest"]
-              }
-            },
-            {
-              "title": "Настройки проекта",
-              "code": "settings",
-              "permissions": {
-                "allow": ["admin"],
-                "deny": ["*"]
-              }
+    "dataSource": {
+      "type": "list",
+      "options": {
+        "data": [
+          {
+            "title": "Пользователи",
+            "code": "users",
+            "permissions": {
+              "allow": ["*"],
+              "deny": ["guest"]
             }
-          ]
-        }
+          },
+          {
+            "title": "Проекты",
+            "code": "projects",
+            "permissions": {
+              "allow": ["*"],
+              "deny": ["guest"]
+            }
+          },
+          {
+            "title": "Настройки проекта",
+            "code": "settings",
+            "permissions": {
+              "allow": ["admin"],
+              "deny": ["*"]
+            }
+          }
+        ]
       }
     }
   },
@@ -51,40 +49,38 @@
             "allow": ["*"],
             "deny": ["guest"]
           },
-          "options": {
-            "dataSource": {
-              "type": "list",
-              "options": {
-                "data": {
-                  "columns": [
-                    { "title": "Name", "field": "name" },
-                    { "title": "Surname", "field": "surname" },
-                    {
-                      "title": "Birth Year",
-                      "field": "birthYear",
-                      "type": "numeric"
-                    },
-                    {
-                      "title": "Birth Place",
-                      "field": "birthCity",
-                      "lookup": { "34": "İstanbul", "63": "Şanlıurfa" }
-                    }
-                  ],
-                  "data": [
-                    {
-                      "name": "Mehmet",
-                      "surname": "Baran",
-                      "birthYear": 1987,
-                      "birthCity": 63
-                    },
-                    {
-                      "name": "Zerya Betül",
-                      "surname": "Baran",
-                      "birthYear": 2017,
-                      "birthCity": 34
-                    }
-                  ]
-                }
+          "dataSource": {
+            "type": "list",
+            "options": {
+              "data": {
+                "columns": [
+                  { "title": "Name", "field": "name" },
+                  { "title": "Surname", "field": "surname" },
+                  {
+                    "title": "Birth Year",
+                    "field": "birthYear",
+                    "type": "numeric"
+                  },
+                  {
+                    "title": "Birth Place",
+                    "field": "birthCity",
+                    "lookup": { "34": "İstanbul", "63": "Şanlıurfa" }
+                  }
+                ],
+                "data": [
+                  {
+                    "name": "Mehmet",
+                    "surname": "Baran",
+                    "birthYear": 1987,
+                    "birthCity": 63
+                  },
+                  {
+                    "name": "Zerya Betül",
+                    "surname": "Baran",
+                    "birthYear": 2017,
+                    "birthCity": 34
+                  }
+                ]
               }
             }
           },
@@ -147,54 +143,53 @@
       ]
     },
     {
-      "pageUrl": "/user/{{id}}",
+      "pageUrl": "/user/:id",
       "title": "Детальная страница пользователя",
       "blocks": [
         {
           "type": "DetailView",
-          "options": {
-            "dataSource": {
-              "type": "api",
-              "options": {
-                "url": "/api/admin/user/{{id}}"
-              }
-            }
+          "dataSource": {
+            "type": "api",
+            "options": {
+              "url": "/api/admin/user/{{page.id}}"
+            },
+            "context": "page.user"
           },
-          "config": {
-            "actions": {
-              "delete": {
-                "permissions": {
-                  "allow": ["admin"],
-                  "deny": ["*"]
-                },
-                "actionHandler": {
-                  "type": "api:request",
-                  "options": {
-                    "url": "/api/admin/user/delete",
-                    "method": "get",
-                    "params": {
-                      "id": "{{id}}"
-                    }
-                  }
-                }
+          "actions": {
+            "delete": {
+              "permissions": {
+                "allow": ["admin"],
+                "deny": ["*"]
               },
-              "update": {
-                "permissions": {
-                  "allow": ["*"],
-                  "deny": ["guest"]
-                },
-                "actionHandler": {
-                  "type": "api:request",
-                  "options": {
-                    "url": "/api/admin/user/update",
-                    "method": "post",
-                    "params": {
-                      "id": "{{id}}"
-                    }
+              "actionHandler": {
+                "type": "api:request",
+                "options": {
+                  "url": "/api/admin/user/delete",
+                  "method": "get",
+                  "params": {
+                    "id": "{{page.user.id}}"
                   }
                 }
               }
             },
+            "update": {
+              "permissions": {
+                "allow": ["*"],
+                "deny": ["guest"]
+              },
+              "actionHandler": {
+                "type": "api:request",
+                "options": {
+                  "url": "/api/admin/user/update",
+                  "method": "post",
+                  "params": {
+                    "id": "{{id}}"
+                  }
+                }
+              }
+            }
+          },
+          "config": {
             "fields": [
               {
                 "title": "ФИО:",
@@ -216,13 +211,11 @@
               {
                 "title": "Приглашен пользователем:",
                 "type": "Dropdown",
-                "options": {
-                  "dataSource": {
-                    "alias": "dpAllUsers",
-                    "type": "api",
-                    "options": {
-                      "url": "/api/admin/users"
-                    }
+                "dataSource": {
+                  "alias": "dpAllUsers",
+                  "type": "api",
+                  "options": {
+                    "url": "/api/admin/users"
                   }
                 },
                 "config": {

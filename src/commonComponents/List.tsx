@@ -16,8 +16,6 @@ const List = ({ data }: ListInterface) => {
     data: { [key: string]: any }[];
   }>(data);
 
-  console.log(data);
-
   return (
     <MaterialTable
       title="Editable Example"

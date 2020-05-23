@@ -1,9 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import DataSourceHOC, {
+import {
   DataSourceInterface,
+  DataSourceType,
 } from "../../HOC/DataSource/DataSourceHOC";
+import pageState from "../../../../state/page/state";
+import listDataSource from "../../HOC/DataSource/list/listDataSource";
+import apiRequestDataSource from "../../HOC/DataSource/list/apiRequestDataSource";
+
+const loadComponent = (type: string, cb: (cmp) => void) => {
+  console.log(1231);
+
+  import(`commonComponents/${type}`)
+    .then((module) => {
+      console.log("module", module);
+      cb(module.default);
+    }, console.error)
+    .catch(console.error)
+    .finally(() => console.log("end"));
+};
+
+const useDataSource = (dataSource, context) => {
+  const [data, setData] = useState(undefined);
+  useEffect(() => {
+    if (!dataSource) return undefined;
+    switch (dataSource.type) {
+      case DataSourceType.LIST:
+        listDataSource(dataSource).then(setData);
+        break;
+      case DataSourceType.API_REQUEST:
+        apiRequestDataSource(dataSource, context).then(setData);
+        break;
+      default:
+        console.error(
+          `Указан неизвестный тип источника данных. [${dataSource.type}]`,
+        );
+        break;
+    }
+    // eslint-disable-next-line
+  }, [context]);
+  return data;
+};
 
 interface AdminBlockInterface {
   props: {
@@ -12,27 +50,37 @@ interface AdminBlockInterface {
       allow?: string[];
       deny?: string[];
     };
-    options: {
-      dataSource: DataSourceInterface<any>;
-    };
+    dataSource: DataSourceInterface<any>;
     config: any;
   };
 }
 const AdminBlock = ({ props }: AdminBlockInterface) => {
-  const [cmp, setCmp] = useState();
-  import(`commonComponents/${props.type}`).then(
-    (module) => setCmp(module.default),
-    console.error,
-  );
-  if (!cmp) {
+  const { state } = pageState.getState();
+  const [Cmp, setCmp] = useState();
+
+  import(`commonComponents/Test`)
+    .then((module) => {
+      console.log("module", module);
+      setCmp(() => module.default as any);
+    }, console.error)
+    .catch(console.error)
+    .finally(() => console.log("end"));
+
+  useEffect(() => {
+    loadComponent(props.type, setCmp);
+    // eslint-disable-next-line
+  }, []);
+
+  const dataSource = useDataSource(props.dataSource, state);
+
+  if (!Cmp) {
     return null;
   }
-  console.log(cmp);
-  const WrappedComponent = DataSourceHOC(cmp);
+
   return (
     <Container>
       <Paper elevation={3}>
-        <WrappedComponent {...props} dataSource={props.options.dataSource} />
+        <Cmp {...props} dataSource={dataSource} />
       </Paper>
     </Container>
   );
