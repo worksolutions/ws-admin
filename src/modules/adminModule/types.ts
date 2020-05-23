@@ -35,9 +35,9 @@ export interface ActionInterface {
 
 export interface AdminComponentInterface {
   data?: any;
+  config?: any;
   actions?: {
     [key: string]: ActionInterface;
   };
   blocks?: any[];
-  context?: any;
 }

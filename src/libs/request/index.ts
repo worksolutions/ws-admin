@@ -125,7 +125,7 @@ async function makeAndDecodeResponse(
     const errorMessage =
       data.message || (data.errors && data.errors.length ? data.errors[0] : "");
 
-    return [null, new RequestError(errorMessage, status, data.errors)];
+    return [null, new RequestError(errorMessage, status)];
   }
 }
 

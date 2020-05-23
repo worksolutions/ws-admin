@@ -11,10 +11,13 @@ import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { Route, Switch } from "react-router";
 import AdminPage from "./modules/adminModule/components/AdminPage";
+import { StoreContext } from "light-state-manager";
+import pageState from "./state/page/state";
 
 export default React.memo(function () {
   const { appConfig, getAdminConfig } = systemState.getState();
   const WrappedDrawerMenu = createAdminComponent(DrawerMenu, {});
+  const Page = StoreContext.connectContexts([pageState], AdminPage);
 
   useEffect(() => {
     getAdminConfig();
@@ -63,7 +66,7 @@ export default React.memo(function () {
                   key={page.pageUrl}
                   exact
                   path={page.pageUrl}
-                  render={(props) => <AdminPage {...props} settings={page} />}
+                  render={(props) => <Page {...props} settings={page} />}
                 />
               ))}
             </Switch>

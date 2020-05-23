@@ -8,6 +8,7 @@ import {
 
 import { ActionsInterface, AdminComponentInterface } from "../../types";
 import { buildActions } from "../../componentBuilder/buildActions";
+import pageState from "state/page/state";
 
 export const loadComponent = (type: string, cb: (cmp) => void) => {
   import(`commonComponents/${type}`).then(
@@ -17,7 +18,6 @@ export const loadComponent = (type: string, cb: (cmp) => void) => {
 };
 
 interface AdminBlockInterface {
-  context: any;
   props: {
     type: string;
     permissions: {
@@ -31,8 +31,9 @@ interface AdminBlockInterface {
     name?: string;
   };
 }
-const AdminBlock = React.memo(({ props, context }: AdminBlockInterface) => {
+const AdminBlock = React.memo(({ props }: AdminBlockInterface) => {
   const [Cmp, setCmp] = useState<FC<AdminComponentInterface>>();
+  const context = pageState.getState();
 
   const data = useDataSource(props.dataSource, {
     context: context,
@@ -56,7 +57,7 @@ const AdminBlock = React.memo(({ props, context }: AdminBlockInterface) => {
   return (
     <Container>
       <Paper elevation={3}>
-        <Cmp {...props} data={data} context={context} actions={actions} />
+        <Cmp {...props} data={data} actions={actions} />
       </Paper>
     </Container>
   );

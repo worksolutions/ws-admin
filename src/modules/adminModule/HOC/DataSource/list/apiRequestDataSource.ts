@@ -9,8 +9,8 @@ export default function (
 ): Promise<any> {
   const { method = METHODS.GET, params, url } = dataSource.options;
   return createRequest(
-    url,
+    insertContext(url, state),
     method,
     identityValueDecoder,
-  )({ body: insertContext(params, state) });
+  )({ body: insertContext(params, state) }).catch(console.error);
 }

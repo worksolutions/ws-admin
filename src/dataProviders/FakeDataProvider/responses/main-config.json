@@ -178,7 +178,7 @@
       ]
     },
     {
-      "pageUrl": "/user/:id",
+      "pageUrl": "/user/:pageId",
       "title": "Детальная страница пользователя",
       "blocks": [
         {
@@ -186,7 +186,7 @@
           "dataSource": {
             "type": "api",
             "options": {
-              "url": "/api/admin/user/{{page.id}}"
+              "url": "/api/admin/user/{{pageId}}"
             },
             "context": "page.user"
           },
@@ -231,17 +231,26 @@
                 "value": "{{name}}"
               },
               {
+                "title": "ФИО1:",
+                "type": "Input",
+                "config": {
+                  "validations": ["text", "length > 3"]
+                },
+                "value": "{{name2}}"
+              },
+              {
                 "title": "Изображение профиля:",
                 "type": "ImageViewer",
                 "config": {
                   "multiFiles": false,
                   "validations": ["type:jpg,png", "sizeLessThen:10mb"]
                 },
-                "value": "{{userAvatar}}"
+                "value": "https://jssors8.azureedge.net/demos/image-slider/img/faded-monaco-scenery-evening-dark-picjumbo-com-image.jpg"
               },
               {
                 "title": "Приглашен пользователем:",
                 "type": "Dropdown",
+                "value": "{{isInvitedBy}}",
                 "dataSource": {
                   "alias": "dpAllUsers",
                   "type": "api",
@@ -258,8 +267,7 @@
                       }
                     }
                   }
-                },
-                "value": "{{isInvitedBy}}"
+                }
               }
             ]
           }
