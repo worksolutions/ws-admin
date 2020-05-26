@@ -16,6 +16,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Box from "@material-ui/core/Box";
 import { CircularProgress } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -63,6 +64,7 @@ interface PersistentDrawerLeftInterface {
   data?: {
     title: string;
     code: string;
+    to: string;
   }[];
 }
 export default function PersistentDrawerLeft({
@@ -106,9 +108,11 @@ export default function PersistentDrawerLeft({
         <Divider />
         <List>
           {data.map((item) => (
-            <ListItem button key={item.code}>
-              <ListItemText primary={item.title} />
-            </ListItem>
+            <Link key={item.code} to={item.to}>
+              <ListItem button>
+                <ListItemText primary={item.title} />
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Drawer>

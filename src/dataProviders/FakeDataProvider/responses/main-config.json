@@ -11,28 +11,31 @@
       "options": {
         "data": [
           {
-            "title": "Пользователи",
-            "code": "users",
+            "title": "Список",
+            "code": "testList",
             "permissions": {
               "allow": ["*"],
               "deny": ["guest"]
-            }
+            },
+            "to": "/list"
           },
           {
-            "title": "Проекты",
-            "code": "projects",
+            "title": "Вложенность",
+            "code": "inDeep",
             "permissions": {
               "allow": ["*"],
               "deny": ["guest"]
-            }
+            },
+            "to": "/deep"
           },
           {
-            "title": "Настройки проекта",
-            "code": "settings",
+            "title": "Детальная страница",
+            "code": "detail",
             "permissions": {
               "allow": ["admin"],
               "deny": ["*"]
-            }
+            },
+            "to": "/detail/1"
           }
         ]
       }
@@ -40,7 +43,7 @@
   },
   "pages": [
     {
-      "pageUrl": "/test/:name",
+      "pageUrl": "/deep",
       "title": "Тестирование блоков",
       "blocks": [
         {
@@ -78,7 +81,7 @@
       ]
     },
     {
-      "pageUrl": "/admin",
+      "pageUrl": "/list",
       "title": "Тестирование административной панели WS",
       "blocks": [
         {
@@ -107,7 +110,7 @@
                 ],
                 "data": [
                   {
-                    "id": "1114",
+                    "id": "11141",
                     "name": "Mehmet",
                     "surname": "Baran",
                     "birthYear": 1987,
@@ -178,7 +181,7 @@
       ]
     },
     {
-      "pageUrl": "/user/:pageId",
+      "pageUrl": "/detail/:pageId",
       "title": "Детальная страница пользователя",
       "blocks": [
         {
@@ -228,7 +231,7 @@
                 "config": {
                   "validations": ["text", "length > 3"]
                 },
-                "value": "{{name}}"
+                "value": "{{page.user.name}}"
               },
               {
                 "title": "ФИО1:",

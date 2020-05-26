@@ -1,26 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { AdminComponentInterface } from "../modules/adminModule/types";
 import { TextField, ListItem } from "@material-ui/core";
 import List from "@material-ui/core/List";
-import CardMedia from "@material-ui/core/CardMedia";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
 
 const fieldsMap = {
-  Input: ({ value, title }) => <TextField value={value} title={title} />,
+  Input: ({ value, title, onChange }) => (
+    <TextField value={value} title={title} onChange={onChange} />
+  ),
   ImageViewer: ({ value, title }) => (
-    <Card>
-      <CardActionArea>
-        <CardMedia
-          image={value}
-          title={title}
-          style={{
-            width: 350,
-            height: 350,
-          }}
-        />
-      </CardActionArea>
-    </Card>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <span>{title}</span>
+      <img
+        style={{
+          maxWidth: 550,
+        }}
+        src={value}
+        alt={title}
+      />
+    </div>
   ),
 };
 
@@ -36,6 +33,7 @@ function DetailView({
     }[];
   };
 }) {
+  const [] = useState();
   return (
     <List component="nav">
       {config.fields.map((field) => {
