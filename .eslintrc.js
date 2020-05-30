@@ -33,6 +33,9 @@ module.exports = {
   ],
   rules: {
     "max-lines": ["error", 300],
+    "max-lines-per-function": ["error", { max: 30 }],
+    "max-params": ["error", 3],
+    "complexity": ["error", 20],
     "no-useless-constructor": 0,
     "@typescript-eslint/camelcase": 0,
     "@typescript-eslint/no-explicit-any": 0,
