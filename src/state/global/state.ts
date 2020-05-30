@@ -8,7 +8,4 @@ const initialState: State = {
   appConfig: null,
 };
 
-export default new StoreContext({
-  initialState,
-  actions: {},
-});
+export default new StoreContext(initialState, {});

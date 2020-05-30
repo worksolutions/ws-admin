@@ -1,4 +1,4 @@
-import { getMainConfig } from "./FakeDataProvider";
+import { getMainConfig } from "./ApiDataProvider";
 
 export default {
   getMainConfig,

@@ -8,7 +8,7 @@ function TestBlock({ data, blocks }: AdminComponentInterface) {
     <Paper elevation={3}>
       {JSON.stringify(data)}
       {blocks.map((block, index) => (
-        <AdminBlock key={index} props={block} />
+        <AdminBlock key={index} config={block} />
       ))}
     </Paper>
   );

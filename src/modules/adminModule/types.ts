@@ -21,12 +21,15 @@ export interface ActionHandlerInterface<T extends ActionHandlerType> {
   options: ActionHandlerOptions[T];
 }
 
+export interface ActionConfInterface {
+  permissions: boolean;
+  type: string;
+  options: ActionHandlerInterface<any>;
+  context?: string;
+}
+
 export interface ActionsInterface {
-  [key: string]: {
-    permissions: boolean;
-    type: string;
-    options: ActionHandlerInterface<any>;
-  };
+  [key: string]: ActionConfInterface;
 }
 
 export interface ActionInterface {
@@ -36,6 +39,7 @@ export interface ActionInterface {
 export interface AdminComponentInterface {
   data?: any;
   config?: any;
+  context?: any;
   actions?: {
     [key: string]: ActionInterface;
   };

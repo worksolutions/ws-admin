@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { AdminComponentInterface } from "../modules/adminModule/types";
-import { TextField, ListItem } from "@material-ui/core";
+import { TextField, ListItem, Button } from "@material-ui/core";
 import List from "@material-ui/core/List";
+import { insertContext } from "../modules/adminModule/context";
 
 const fieldsMap = {
   Input: ({ value, title, onChange }) => (
@@ -23,6 +24,8 @@ const fieldsMap = {
 
 function DetailView({
   config,
+  context,
+  actions,
 }: AdminComponentInterface & {
   config: {
     fields: {
@@ -33,15 +36,21 @@ function DetailView({
     }[];
   };
 }) {
-  const [] = useState();
   return (
-    <List component="nav">
-      {config.fields.map((field) => {
-        const render = fieldsMap[field.type];
-        if (!render) return null;
-        return <ListItem key={field.title}>{render(field)}</ListItem>;
-      })}
-    </List>
+    <div>
+      <List component="nav">
+        {config.fields.map((field) => {
+          const render = fieldsMap[field.type];
+          if (!render) return null;
+          return (
+            <ListItem key={field.title}>
+              {render(insertContext(field, context))}
+            </ListItem>
+          );
+        })}
+      </List>
+      <Button onClick={actions.update}>Обновить имя</Button>
+    </div>
   );
 }
 

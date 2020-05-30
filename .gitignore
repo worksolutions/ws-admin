@@ -1,4 +1,4 @@
 .idea
 node_modules
+/build/
 
-mockServer/rest/*/*/*/mock/response.txt

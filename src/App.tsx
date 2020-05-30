@@ -17,7 +17,7 @@ import pageState from "./state/page/state";
 export default React.memo(function () {
   const { appConfig, getAdminConfig } = systemState.getState();
   const WrappedDrawerMenu = createAdminComponent(DrawerMenu, {});
-  const Page = StoreContext.connectContexts([pageState], AdminPage);
+  const Page = StoreContext.connectContexts([[pageState, "page"]], AdminPage);
 
   useEffect(() => {
     getAdminConfig();

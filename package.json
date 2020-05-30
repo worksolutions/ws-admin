@@ -1,5 +1,5 @@
 {
-  "name": "react-typescript-template",
+  "name": "ws-admin",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,8 +13,9 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.53",
     "axios": "^0.19.2",
+    "http-proxy-middleware": "^1.0.4",
     "jsonous": "^5.0.1",
-    "light-state-manager": "0.0.5",
+    "light-state-manager": "^0.1.7",
     "material-table": "^1.57.2",
     "moment": "^2.25.3",
     "ramda": "^0.27.0",
@@ -45,9 +46,12 @@
     "eslint-plugin-prettier": "3.1.0",
     "eslint-plugin-react": "7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
+    "express": "^4.17.1",
+    "express-reload": "^1.2.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "node-mock-server": "^0.25.4",
+    "nodemon": "^2.0.4",
     "prettier": "2.0.2",
     "react-app-rewire-external-svg-loader": "^1.1.0",
     "react-app-rewired": "^2.1.6",
@@ -68,16 +72,9 @@
       "git add"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

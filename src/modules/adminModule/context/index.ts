@@ -1,7 +1,13 @@
-function insertContextData(text: string, context: any): string {
-  return text.replace(/{{(.+?)}}/gm, (match, p1) =>
-    context.hasOwnProperty(p1) ? context[p1] : match,
-  );
+import { hasPath, path } from "ramda";
+
+function insertContextData(text: string, context: object): string {
+  return text.replace(/{{(.+?)}}/gm, (match, p1) => {
+    const arrPath = p1.split(".");
+    console.log(context);
+    console.log(arrPath);
+    console.log(path(arrPath, context));
+    return hasPath(arrPath, context) ? path(arrPath, context) : match;
+  });
 }
 export function insertContext(data: any, context) {
   if (typeof data === "object") {

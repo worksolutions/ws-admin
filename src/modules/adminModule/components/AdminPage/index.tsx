@@ -18,7 +18,7 @@ const AdminPage = ({ settings }: AdminPageInterface & RouteComponentProps) => {
   return (
     <Container>
       {settings.blocks.map((block, index) => (
-        <AdminBlock key={index} props={block} />
+        <AdminBlock key={index} config={block} />
       ))}
     </Container>
   );

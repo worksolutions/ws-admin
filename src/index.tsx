@@ -12,7 +12,10 @@ import systemState from "state/system/state";
 import globalState from "state/global/state";
 
 const AppWithContext = StoreContext.connectContexts(
-  [systemState, globalState],
+  [
+    [systemState, "system"],
+    [globalState, "global"],
+  ],
   App,
 );
 

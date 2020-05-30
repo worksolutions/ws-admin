@@ -8,9 +8,6 @@ const initialState: State = {
   appConfig: null,
 };
 
-export default new StoreContext({
-  initialState,
-  actions: {
-    getAdminConfig,
-  },
+export default new StoreContext(initialState, {
+  getAdminConfig,
 });

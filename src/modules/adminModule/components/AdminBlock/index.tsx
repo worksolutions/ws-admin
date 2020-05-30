@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { Container } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import {
@@ -9,6 +9,10 @@ import {
 import { ActionsInterface, AdminComponentInterface } from "../../types";
 import { buildActions } from "../../componentBuilder/buildActions";
 import pageState from "state/page/state";
+import calculateContextDependency from "../../HOC/Context/calculateContextDependency";
+import { assocPath, path, pipe } from "ramda";
+import { pureConnect } from "light-state-manager";
+import withPerformance from "../../../../libs/performance/withPerformance";
 
 export const loadComponent = (type: string, cb: (cmp) => void) => {
   import(`commonComponents/${type}`).then(
@@ -18,7 +22,9 @@ export const loadComponent = (type: string, cb: (cmp) => void) => {
 };
 
 interface AdminBlockInterface {
-  props: {
+  contextDependsParam: string[];
+  context: any;
+  config: {
     type: string;
     permissions: {
       allow?: string[];
@@ -30,37 +36,60 @@ interface AdminBlockInterface {
     config: any;
     name?: string;
   };
+  updateState: (data: any) => void;
 }
-const AdminBlock = React.memo(({ props }: AdminBlockInterface) => {
+const AdminBlock = ({ config, context, updateState }: AdminBlockInterface) => {
   const [Cmp, setCmp] = useState<FC<AdminComponentInterface>>();
-  const context = pageState.getState();
 
-  const data = useDataSource(props.dataSource, {
+  const data = useDataSource(config.dataSource, {
     context: context,
-    updatePageState: context._updatePageState,
+    updatePageState: updateState,
   });
-  const actions = buildActions(props.actions, {
+  const actions = buildActions(config.actions, {
     context: context,
-    updatePageState: context._updatePageState,
+    updatePageState: updateState,
   });
 
   useEffect(() => {
-    loadComponent(props.type, setCmp);
+    loadComponent(config.type, setCmp);
     // eslint-disable-next-line
   }, []);
 
   if (!Cmp) {
     return null;
   }
-  console.log(props.name);
+  console.log("context", context);
 
   return (
     <Container>
       <Paper elevation={3}>
-        <Cmp {...props} data={data} actions={actions} />
+        <Cmp {...config} context={context} data={data} actions={actions} />
       </Paper>
     </Container>
   );
-});
+};
 
-export default React.memo(AdminBlock);
+export default pipe(
+  () => AdminBlock,
+  (cmp) =>
+    pureConnect(cmp, ({ contextDependsParam }) => {
+      const context = pageState.getState();
+      const updateState = useCallback(context._updatePageState, []);
+
+      const refererContext = contextDependsParam
+        ? contextDependsParam.reduce((acc, dependPropPath) => {
+            const dependPath = dependPropPath.split(".");
+            return assocPath(dependPath, path(dependPath, context), acc);
+          }, {} as object)
+        : {};
+
+      return {
+        contextDependsParam,
+        context: refererContext,
+        updateState,
+      };
+    }),
+  calculateContextDependency,
+  withPerformance(["context", "contextDependsParam", "updateState"]),
+  React.memo,
+)();

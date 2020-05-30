@@ -1,5 +1,10 @@
-import getMainConfig from "./requests/getMainConfig";
+import { createRequest, METHODS } from "../../libs/request";
+import { identityValueDecoder } from "../../libs/request/defaultDecoders";
 
-export default {
-  getMainConfig,
-};
+export function getMainConfig() {
+  return createRequest(
+    "/api/admin/config",
+    METHODS.GET,
+    identityValueDecoder,
+  )();
+}

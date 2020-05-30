@@ -220,7 +220,8 @@
                 "params": {
                   "id": "{{id}}"
                 }
-              }
+              },
+              "context": "page.user"
             }
           },
           "config": {
@@ -239,7 +240,7 @@
                 "config": {
                   "validations": ["text", "length > 3"]
                 },
-                "value": "{{name2}}"
+                "value": "{{page.user.name}}"
               },
               {
                 "title": "Изображение профиля:",
