@@ -1,5 +1,6 @@
-import { DataSourceInterface, DataSourceType } from "../DataSourceHOC";
 import { path } from "ramda";
+
+import { DataSourceInterface, DataSourceType } from "../DataSourceHOC";
 
 export default function (
   dataSource: DataSourceInterface<DataSourceType.CONTEXT>,

@@ -1,11 +1,12 @@
+import { createRequest, METHODS } from "libs/request";
+import { identityValueDecoder } from "libs/request/defaultDecoders";
+
 import {
   ActionHandlerOptions,
   ActionHandlerType,
   ActionInterface,
 } from "../../../types";
 import { insertContext } from "../../../context";
-import { createRequest, METHODS } from "libs/request";
-import { identityValueDecoder } from "libs/request/defaultDecoders";
 
 export default function (
   options: ActionHandlerOptions[ActionHandlerType.API_REQUEST],

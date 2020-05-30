@@ -1,6 +1,7 @@
-import { DataSourceInterface, DataSourceType } from "../DataSourceHOC";
 import { createRequest, METHODS } from "libs/request";
 import { identityValueDecoder } from "libs/request/defaultDecoders";
+
+import { DataSourceInterface, DataSourceType } from "../DataSourceHOC";
 import { insertContext } from "../../../context";
 
 export default function (

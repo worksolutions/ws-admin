@@ -1,8 +1,4 @@
 import React, { useEffect } from "react";
-
-import { createAdminComponent } from "./modules/adminModule/componentBuilder";
-import DrawerMenu from "./modules/adminModule/components/DrawerMenu";
-import systemState from "./state/system/state";
 import { AppBar, CircularProgress } from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -10,8 +6,12 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { Route, Switch } from "react-router";
-import AdminPage from "./modules/adminModule/components/AdminPage";
 import { StoreContext } from "light-state-manager";
+
+import { createAdminComponent } from "./modules/adminModule/componentBuilder";
+import DrawerMenu from "./modules/adminModule/components/DrawerMenu";
+import systemState from "./state/system/state";
+import AdminPage from "./modules/adminModule/components/AdminPage";
 import pageState from "./state/page/state";
 
 export default React.memo(function () {

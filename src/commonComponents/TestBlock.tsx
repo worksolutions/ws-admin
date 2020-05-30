@@ -1,7 +1,8 @@
-import { AdminComponentInterface } from "../modules/adminModule/types";
-import AdminBlock from "../modules/adminModule/components/AdminBlock";
 import React from "react";
 import Paper from "@material-ui/core/Paper";
+
+import { AdminComponentInterface } from "../modules/adminModule/types";
+import AdminBlock from "../modules/adminModule/components/AdminBlock";
 
 function TestBlock({ data, blocks }: AdminComponentInterface) {
   return (

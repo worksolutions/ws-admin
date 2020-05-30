@@ -1,7 +1,9 @@
 import React, { FC, useEffect } from "react";
-import pageState from "state/page/state";
 import { RouteComponentProps } from "react-router";
-import { useToggle } from "../../../../libs/hooks";
+
+import { useToggle } from "libs/hooks";
+
+import pageState from "state/page/state";
 
 export default function <P>(Cmp: FC<P>) {
   return function (props: P & RouteComponentProps) {

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
-import { AdminComponentInterface } from "../types";
 import { compose } from "ramda";
+
+import { AdminComponentInterface } from "../types";
 import DataSourceHOC from "../HOC/DataSource/DataSourceHOC";
 
 export function createAdminComponent<P>(

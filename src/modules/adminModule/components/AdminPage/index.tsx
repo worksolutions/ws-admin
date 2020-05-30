@@ -1,12 +1,11 @@
 import React from "react";
-
-import { useSetDocumentTitle } from "libs/hooks";
+import { RouteComponentProps, withRouter } from "react-router";
 import { Container } from "@material-ui/core";
 
-import AdminBlock from "../AdminBlock";
+import { useSetDocumentTitle } from "libs/hooks";
 
+import AdminBlock from "../AdminBlock";
 import pageContextHOC from "../../HOC/Context/pageContextHOC";
-import { RouteComponentProps, withRouter } from "react-router";
 
 interface AdminPageInterface {
   settings: any;
@@ -24,5 +23,4 @@ const AdminPage = ({ settings }: AdminPageInterface & RouteComponentProps) => {
   );
 };
 
-const PageWithContext = pageContextHOC(AdminPage);
-export default React.memo(withRouter(PageWithContext));
+export default React.memo(withRouter(pageContextHOC(AdminPage)));

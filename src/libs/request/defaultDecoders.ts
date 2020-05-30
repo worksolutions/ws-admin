@@ -3,10 +3,11 @@ import { ok, err } from "resulty";
 import { isNil } from "ramda";
 import moment, { Moment } from "moment";
 import { isNothing } from "maybeasy";
-import SuggestInterface from "types/SuggestInterface";
 
 import { DateMode } from "libs/date";
 import { isString } from "libs/is";
+
+import SuggestInterface from "types/SuggestInterface";
 
 export const identityValueDecoder = new Decoder(ok);
 

@@ -1,8 +1,11 @@
 import React, { FC, useEffect, useState } from "react";
+
+import { METHODS } from "libs/request";
+
+import { AdminComponentInterface } from "../../types";
+
 import listDataSource from "./list/listDataSource";
 import apiRequestDataSource from "./list/apiRequestDataSource";
-import { METHODS } from "libs/request";
-import { AdminComponentInterface } from "../../types";
 import fromContextDataSource from "./list/fromContextDataSource";
 
 export enum DataSourceType {

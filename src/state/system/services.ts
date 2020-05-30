@@ -1,9 +1,9 @@
 import { assocPath, compose } from "ramda";
 import { Action } from "light-state-manager";
+import AppDataProvider from "dataProviders";
 
 import { State } from "./state";
 
-import AppDataProvider from "dataProviders";
 import { promisifyAPI } from "state/lib";
 
 export const getAdminConfig = new Action<State>().create(

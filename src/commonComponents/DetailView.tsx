@@ -1,7 +1,8 @@
 import React from "react";
-import { AdminComponentInterface } from "../modules/adminModule/types";
 import { TextField, ListItem, Button } from "@material-ui/core";
 import List from "@material-ui/core/List";
+
+import { AdminComponentInterface } from "../modules/adminModule/types";
 import { insertContext } from "../modules/adminModule/context";
 
 const fieldsMap = {
