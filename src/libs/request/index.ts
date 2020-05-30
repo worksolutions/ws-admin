@@ -41,6 +41,7 @@ export class RequestError extends Error {
   }
 }
 
+// eslint-disable-next-line max-params
 async function makeAndDecodeResponse(
   url: string,
   method: METHODS,
@@ -129,6 +130,7 @@ async function makeAndDecodeResponse(
   }
 }
 
+// eslint-disable-next-line max-params
 async function makeRequest<T>(
   url: string,
   method: METHODS,
@@ -194,6 +196,7 @@ export function createRequest<DecoderGenericType>(
   requestConfig?: RequestConfigInterface,
 ): (data?: RequestOptions) => Promise<DecoderGenericType>;
 
+// eslint-disable-next-line max-params
 export function createRequest<DecoderGenericType>(
   url: string,
   method: METHODS,

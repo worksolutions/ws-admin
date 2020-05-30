@@ -1,18 +1,20 @@
 export function promisifyAPI<T>(
   api: () => Promise<T>,
-  stateStart: () => any = () => {},
-  stateSuccess: (data: T) => any = () => {},
-  stateError: (data: any) => any = () => {},
+  states: {
+    stateStart: () => any;
+    stateSuccess: (data: T) => any;
+    stateError: (data: any) => any;
+  },
 ): Promise<T> {
   return new Promise((resolve, reject) => {
-    stateStart();
+    if (states.stateStart) states.stateStart();
     api().then(
       (data) => {
-        stateSuccess(data);
+        if (states.stateSuccess) states.stateSuccess(data);
         resolve(data);
       },
       (error) => {
-        stateError(error);
+        if (states.stateError) states.stateError(error);
         reject(error);
       },
     );

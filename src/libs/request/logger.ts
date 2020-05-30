@@ -8,6 +8,7 @@ const enableLogger =
   process.env.NODE_ENV === "development" &&
   localStorage.getItem("log_requests") === "1";
 
+// eslint-disable-next-line max-params
 export function logRequestStart(
   url: string,
   method: METHODS,

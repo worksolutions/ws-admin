@@ -90,10 +90,11 @@ export function useForceUpdate() {
   return useCallback(() => updateState({}), []);
 }
 
+// eslint-disable-next-line max-params
 export function useDebouncedInput<T>(
   value: string,
-  debounceTime: number,
   onChange: (value: string, additionalData?: T) => void,
+  debounceTime: number,
   charCountThreshold = 3,
 ) {
   const [inputValue, setInputValue] = useState(value);

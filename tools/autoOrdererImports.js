@@ -40,7 +40,7 @@ function groupedImportsByOrders(imports) {
 }
 
 function rewriteFile(filePath, cb, errorHandler) {
-  let code = fs.readFileSync(filePath, "utf8");
+  const code = fs.readFileSync(filePath, "utf8");
   fs.writeFile(filePath, cb(code), (errorText) => {
     if (errorText) errorHandler(errorText);
   });

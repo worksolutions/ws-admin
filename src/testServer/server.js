@@ -1,5 +1,4 @@
 const express = require("express");
-const reload = require("express-reload");
 const mainConfig = require("../dataProviders/FakeDataProvider/responses/main-config.json");
 
 const app = express();
@@ -12,7 +11,6 @@ function success(data) {
   };
 }
 
-// app.use(reload(__dirname + "/server.js"));
 app.get("/api/admin/config", (_req, res) => res.json(success(mainConfig)));
 
 app.get("/api/admin/user/1", (_req, res) =>
