@@ -1,5 +1,7 @@
 # WS admin panel
 
+![Image of Yaktocat](./resources/logo.png)
+
 ###Библиотека для автоматической генерации административных панелей в web.
 
 Для запуска dev версии:
