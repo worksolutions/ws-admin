@@ -41,15 +41,20 @@ export const buildActions = (
     value: ActionConfInterface,
   ): ActionInterface {
     return (localContext) => {
-      return action(localContext).then((data) => {
-        if (value.context) {
-          updateState({
-            path: value.context,
-            data,
-          });
-        }
-        return data;
-      });
+      return action(localContext).then(
+        (data) => {
+          if (value.context) {
+            updateState({
+              path: value.context,
+              data,
+            });
+          }
+          return data;
+        },
+        (err) => {
+          console.error("Ошибка при выполнении действия", err.message);
+        },
+      );
     };
   }
 

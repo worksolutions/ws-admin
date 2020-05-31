@@ -26,6 +26,7 @@ const fieldsMap = {
 function DetailView({
   config,
   context,
+  data,
   actions,
 }: AdminComponentInterface & {
   config: {
@@ -50,7 +51,13 @@ function DetailView({
           );
         })}
       </List>
-      <Button onClick={actions.update}>Обновить имя</Button>
+      <Button
+        onClick={() => {
+          actions.update(data);
+        }}
+      >
+        Обновить имя
+      </Button>
     </div>
   );
 }

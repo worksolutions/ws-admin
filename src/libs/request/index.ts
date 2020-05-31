@@ -41,18 +41,26 @@ export class RequestError extends Error {
   }
 }
 
+function getErrorMessageFromResponceData(data): string {
+  return (
+    data.message || (data.errors && data.errors.length ? data.errors[0] : "")
+  );
+}
+
 // eslint-disable-next-line max-params,complexity
 async function makeAndDecodeResponse(
   url: string,
   method: METHODS,
   body: any,
-  { urlParams, cancelName, progressReceiver }: OptionsInterface,
+  { cancelName, progressReceiver }: OptionsInterface,
   { contentType, isFile }: RequestConfigInterface,
 ) {
   try {
     const requestData: AxiosRequestConfig = {
       url,
       method,
+      headers: { accept: "application/json" },
+      ...(contentType ? { "content-type": contentType } : {}),
     };
 
     if (cancelName) {
@@ -60,15 +68,6 @@ async function makeAndDecodeResponse(
       if (cancelForRequest) cancelForRequest.cancel(REQUEST_CANCELLED);
       cancellations[cancelName] = axios.CancelToken.source();
       requestData.cancelToken = cancellations[cancelName].token;
-    }
-
-    requestData.headers = { accept: "application/json" };
-
-    if (contentType) {
-      requestData.headers = {
-        ...requestData.headers,
-        "content-type": contentType,
-      };
     }
 
     if (isFile) {
@@ -88,23 +87,23 @@ async function makeAndDecodeResponse(
 
     requestData[method === METHODS.GET ? "params" : "data"] = body;
 
-    if (urlParams) {
-      for (const i in urlParams) {
-        // @ts-ignore
-        requestData.url = requestData.url.replace(`{${i}}`, urlParams[i]);
-      }
-    }
-
     if (progressReceiver) {
       requestData.onUploadProgress = function ({ loaded, total }) {
         progressReceiver(loaded / total);
       };
     }
 
-    const { data } = await axios(requestData);
+    const { data, status } = await axios(requestData);
 
     if (cancelName && cancellations[cancelName]) {
       delete cancellations[cancelName];
+    }
+
+    if (data && data.success === false) {
+      return [
+        null,
+        new RequestError(getErrorMessageFromResponceData(data), status),
+      ];
     }
 
     return [data, null];
@@ -123,10 +122,10 @@ async function makeAndDecodeResponse(
     if (!data)
       return [null, new RequestError("Не удалось получить ошибку", status)];
 
-    const errorMessage =
-      data.message || (data.errors && data.errors.length ? data.errors[0] : "");
-
-    return [null, new RequestError(errorMessage, status)];
+    return [
+      null,
+      new RequestError(getErrorMessageFromResponceData(data), status),
+    ];
   }
 }
 
@@ -158,23 +157,23 @@ async function makeRequest<T>(
       Err: (err) => [null, err],
     });
 
-  if (decoderError) {
-    errorLogger(
-      {
-        url,
-        method,
-        body,
-        options,
-      },
-      decoderError,
-    );
-    throw new RequestError(
-      `Не удалось произвести парсинг ответа: ${decoderError}`,
-      0,
-    );
+  if (!decoderError) {
+    return data;
   }
 
-  return data;
+  errorLogger(
+    {
+      url,
+      method,
+      body,
+      options,
+    },
+    decoderError,
+  );
+  throw new RequestError(
+    `Не удалось произвести парсинг ответа: ${decoderError}`,
+    0,
+  );
 }
 
 export interface RequestOptions {
@@ -188,7 +187,6 @@ export function createRequest<DecoderGenericType>(
   serverDataDecoder?: Decoder<DecoderGenericType>,
   requestConfig?: RequestConfigInterface,
 ): (data?: RequestOptions) => Promise<DecoderGenericType>;
-
 export function createRequest<DecoderGenericType>(
   url: string,
   method: METHODS,

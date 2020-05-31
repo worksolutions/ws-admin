@@ -19,5 +19,5 @@ export default function (
       identityValueDecoder,
     )({
       body: insertContext(options.params, { ...context, ...localContext }),
-    }).catch(console.error);
+    });
 }
