@@ -8,6 +8,11 @@
 npm start
 ```
 
+Для запуска тестового сервера используйте команду:
+```
+nodemon src/testServer/server.js
+```
+
 Для продакшн сборки:
 ```yaml
 npm run build
