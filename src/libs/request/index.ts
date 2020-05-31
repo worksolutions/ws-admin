@@ -41,7 +41,7 @@ export class RequestError extends Error {
   }
 }
 
-// eslint-disable-next-line max-params
+// eslint-disable-next-line max-params,complexity
 async function makeAndDecodeResponse(
   url: string,
   method: METHODS,

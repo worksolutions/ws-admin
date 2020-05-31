@@ -2,6 +2,7 @@ import { is } from "ramda";
 
 export type TryTakeErrorFieldType = string | (string | [string, string])[];
 
+// eslint-disable-next-line complexity
 export function decodeError(
   errors: { [name: string]: string },
   tryTakeErrorField: TryTakeErrorFieldType,
