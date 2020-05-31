@@ -1,8 +1,9 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
-import { assocPath, path, pipe } from "ramda";
+import { pipe } from "ramda";
 import { pureConnect } from "light-state-manager";
 import { Container } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
+import { Skeleton } from "@material-ui/lab";
 
 import withPerformance from "libs/performance/withPerformance";
 
@@ -13,10 +14,9 @@ import {
 import { ActionsInterface, AdminComponentInterface } from "../../types";
 import { buildActions } from "../../componentBuilder/buildActions";
 import calculateContextDependency from "../../HOC/Context/calculateContextDependency";
+import { buildDependsContext, useAppContext } from "../../context";
 
-import pageState from "state/page/state";
-
-export const loadComponent = (type: string, cb: (cmp) => void) => {
+const loadComponent = (type: string, cb: (cmp) => void) => {
   import(`commonComponents/${type}`).then(
     (module) => cb(module.default),
     console.error,
@@ -24,8 +24,6 @@ export const loadComponent = (type: string, cb: (cmp) => void) => {
 };
 
 interface AdminBlockInterface {
-  contextDependsParam: string[];
-  context: any;
   config: {
     type: string;
     permissions: {
@@ -38,27 +36,29 @@ interface AdminBlockInterface {
     config: any;
     name?: string;
   };
+  context: any;
+  contextDependsParam: string[];
   updateState: (data: any) => void;
 }
 const AdminBlock = ({ config, context, updateState }: AdminBlockInterface) => {
   const [Cmp, setCmp] = useState<FC<AdminComponentInterface>>();
-
-  const data = useDataSource(config.dataSource, {
-    context: context,
-    updatePageState: updateState,
-  });
-  const actions = buildActions(config.actions, {
-    context: context,
-    updatePageState: updateState,
-  });
 
   useEffect(() => {
     loadComponent(config.type, setCmp);
     // eslint-disable-next-line
   }, []);
 
+  const data = useDataSource(config.dataSource, {
+    context: context,
+    updateState,
+  });
+  const actions = buildActions(config.actions, {
+    context: context,
+    updateState,
+  });
+
   if (!Cmp) {
-    return null;
+    return <Skeleton variant="rect" width="100%" height="100%" />;
   }
   return (
     <Container>
@@ -71,25 +71,17 @@ const AdminBlock = ({ config, context, updateState }: AdminBlockInterface) => {
 
 export default pipe(
   () => AdminBlock,
+  withPerformance(["contextDependsParam", "updateState"]),
   (cmp) =>
     pureConnect(cmp, ({ contextDependsParam }) => {
-      const context = pageState.getState();
-      const updateState = useCallback(context._updatePageState, []);
-
-      const refererContext = contextDependsParam
-        ? contextDependsParam.reduce((acc, dependPropPath) => {
-            const dependPath = dependPropPath.split(".");
-            return assocPath(dependPath, path(dependPath, context), acc);
-          }, {} as object)
-        : {};
-
+      const { context, updateContext } = useAppContext();
+      const updateState = useCallback(updateContext, []);
+      const context1 = buildDependsContext(contextDependsParam, context);
       return {
+        context: context1,
         contextDependsParam,
-        context: refererContext,
         updateState,
       };
     }),
   calculateContextDependency,
-  withPerformance(["context", "contextDependsParam", "updateState"]),
-  React.memo,
 )();

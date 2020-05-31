@@ -73,7 +73,7 @@
                 "options": {
                   "data": "получилось???"
                 },
-                "context1": "test.name"
+                "context": "test.name"
               }
             }
           ]
@@ -189,7 +189,7 @@
           "dataSource": {
             "type": "api",
             "options": {
-              "url": "/api/admin/user/{{pageId}}"
+              "url": "/api/admin/user/{{page:#pageId}}"
             },
             "context": "page.user"
           },
@@ -221,7 +221,7 @@
                   "id": "{{id}}"
                 }
               },
-              "context": "page.user"
+              "context": "global:#page.user"
             }
           },
           "config": {
@@ -232,7 +232,7 @@
                 "config": {
                   "validations": ["text", "length > 3"]
                 },
-                "value": "{{page.user.name}}"
+                "value": "{{global:#page.user.name}}"
               },
               {
                 "title": "ФИО1:",
@@ -240,7 +240,7 @@
                 "config": {
                   "validations": ["text", "length > 3"]
                 },
-                "value": "{{page.user.name}}"
+                "value": "{{global:#page.user.name}}"
               },
               {
                 "title": "Изображение профиля:",

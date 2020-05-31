@@ -65,10 +65,10 @@ export const useDataSource = (
   dataSource,
   {
     context,
-    updatePageState,
+    updateState,
   }: {
     context: any;
-    updatePageState: ({ path: string, data: any }) => void;
+    updateState: ({ path: string, data: any }) => void;
   },
 ) => {
   const [data, setData] = useState();
@@ -76,7 +76,7 @@ export const useDataSource = (
   function onDataReceived(data: any) {
     setData(data);
     if (dataSource && dataSource.context) {
-      updatePageState({
+      updateState({
         path: dataSource.context,
         data,
       });

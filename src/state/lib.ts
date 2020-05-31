@@ -1,3 +1,6 @@
+import { Action } from "light-state-manager";
+import { assocPath } from "ramda";
+
 export function promisifyAPI<T>(
   api: () => Promise<T>,
   states: {
@@ -20,3 +23,19 @@ export function promisifyAPI<T>(
     );
   });
 }
+
+export interface UpdateStatePayload {
+  path: string;
+  data: any;
+}
+export const _updatePageState = new Action<any>().create(
+  {
+    save: (state, { path, data }: UpdateStatePayload) => {
+      const pathList = path ? path.split(".") : [];
+      return assocPath(pathList, data)(state);
+    },
+  },
+  (actions, payload: UpdateStatePayload) => {
+    actions.save(payload);
+  },
+);

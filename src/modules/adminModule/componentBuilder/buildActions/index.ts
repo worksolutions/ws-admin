@@ -26,10 +26,10 @@ export const buildActions = (
   actions: ActionsInterface,
   {
     context,
-    updatePageState,
+    updateState,
   }: {
     context: any;
-    updatePageState: ({ path: string, data: any }) => void;
+    updateState: ({ path: string, data: any }) => void;
   },
 ): {
   [key: string]: ActionInterface;
@@ -43,7 +43,7 @@ export const buildActions = (
     return (localContext) => {
       return action(localContext).then((data) => {
         if (value.context) {
-          updatePageState({
+          updateState({
             path: value.context,
             data,
           });
