@@ -13,12 +13,9 @@ export const getAdminConfig = new Action<State>().create(
     },
   },
   (actions) =>
-    promisifyAPI(
-      AppDataProvider.getMainConfig,
-      () => {},
-      actions.success,
-      () => {},
-    ),
+    promisifyAPI(AppDataProvider.getMainConfig, {
+      stateSuccess: actions.success,
+    }),
 );
 
 export interface SystemStateInterface {

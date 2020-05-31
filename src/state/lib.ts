@@ -1,9 +1,9 @@
 export function promisifyAPI<T>(
   api: () => Promise<T>,
   states: {
-    stateStart: () => any;
-    stateSuccess: (data: T) => any;
-    stateError: (data: any) => any;
+    stateStart?: () => any;
+    stateSuccess?: (data: T) => any;
+    stateError?: (data: any) => any;
   },
 ): Promise<T> {
   return new Promise((resolve, reject) => {

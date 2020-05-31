@@ -1,7 +1,5 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
-
-import { useToggle } from "libs/hooks";
 
 import pageState from "state/page/state";
 
@@ -11,15 +9,15 @@ export default function <P>(Cmp: FC<P>) {
       match: { params },
     } = props;
     const { _updatePageState } = pageState.getState();
-    const [toggleVal, toggle] = useToggle(false);
+    const [stateUpdated, setStateUpdated] = useState(false);
 
     useEffect(() => {
       _updatePageState({ path: null, data: params });
-      toggle();
+      setStateUpdated(true);
       // eslint-disable-next-line
     }, [params]);
 
-    if (!toggleVal) {
+    if (!stateUpdated) {
       return null;
     }
     return <Cmp {...(props as P)} />;

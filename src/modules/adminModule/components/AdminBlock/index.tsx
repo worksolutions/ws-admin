@@ -60,8 +60,6 @@ const AdminBlock = ({ config, context, updateState }: AdminBlockInterface) => {
   if (!Cmp) {
     return null;
   }
-  console.log("context", context);
-
   return (
     <Container>
       <Paper elevation={3}>

@@ -50,7 +50,6 @@ const List = ({ data, actions }: ListInterface) => {
         onRowDelete: (oldData) =>
           new Promise((resolve, reject) => {
             actions.delete(oldData).then(() => {
-              console.log("resolve");
               resolve();
               setState((prevState) => {
                 const data = [...prevState.data];
