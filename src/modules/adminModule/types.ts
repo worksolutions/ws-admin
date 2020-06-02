@@ -40,9 +40,9 @@ export interface AdminComponentInterface {
   data?: any;
   config?: any;
   context?: any;
-  actions?: {
+  actions: {
     [key: string]: ActionInterface;
-  };
+  } | null;
   blocks?: any[];
 }
 

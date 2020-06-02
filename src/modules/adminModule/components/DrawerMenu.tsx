@@ -1,11 +1,6 @@
 import React, { ReactNode } from "react";
 import clsx from "clsx";
-import {
-  makeStyles,
-  useTheme,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
+import { makeStyles, useTheme, Theme, createStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -67,10 +62,7 @@ interface PersistentDrawerLeftInterface {
     to: string;
   }[];
 }
-export default function PersistentDrawerLeft({
-  content,
-  data,
-}: PersistentDrawerLeftInterface) {
+export default function PersistentDrawerLeft({ content, data }: PersistentDrawerLeftInterface) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -98,11 +90,7 @@ export default function PersistentDrawerLeft({
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <Divider />

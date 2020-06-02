@@ -25,7 +25,7 @@ const List = ({ data, actions }: ListInterface) => {
       editable={{
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
-            actions.create(newData).then(() => {
+            actions!.create(newData).then(() => {
               resolve();
               setState((prevState) => {
                 const data = [...prevState.data];
@@ -49,7 +49,7 @@ const List = ({ data, actions }: ListInterface) => {
           }),
         onRowDelete: (oldData) =>
           new Promise((resolve, reject) => {
-            actions.delete(oldData).then(() => {
+            actions!.delete(oldData).then(() => {
               resolve();
               setState((prevState) => {
                 const data = [...prevState.data];

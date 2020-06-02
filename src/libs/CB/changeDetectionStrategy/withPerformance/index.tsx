@@ -1,6 +1,6 @@
 import React from "react";
 
-import performance from "../index";
+import performance from "../performance";
 
 /**
  * декоратор для глубокого сравнения объектов в props на функциональных компанентах. Использовать React.memo не нужно
@@ -9,7 +9,7 @@ import performance from "../index";
  * @example
  * withPerformance(["onClick"])(function() { return null; })
  */
-export default function withPerformance(ignorePropNames: string[] = []) {
+export function withPerformance(ignorePropNames: string[] = []) {
   return function <T>(Fc: T) {
     // @ts-ignore
     return performance(ignorePropNames)(

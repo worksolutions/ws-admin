@@ -1,11 +1,27 @@
-import axios, {
-  AxiosError,
-  AxiosRequestConfig,
-  CancelTokenSource,
-} from "axios";
+import axios, { AxiosError, AxiosRequestConfig, CancelTokenSource } from "axios";
+import { isNil } from "ramda";
 import Decoder from "jsonous";
+import { Service } from "typedi";
+import { errorLogger } from "./logger";
 
-import { errorLogger, logRequestEndSuccess, logRequestStart } from "./logger";
+export interface RequestConfigInterface {
+  contentType?: string;
+}
+
+export interface OptionsInterface {
+  urlParams?: { [name: string]: string | number };
+  cancelName?: string;
+  progressReceiver?: (progress: number) => void;
+}
+
+export interface RequestOptions {
+  body?: any;
+  options?: OptionsInterface;
+}
+
+type RequestCancelledType = "request_cancelled";
+
+export const REQUEST_CANCELLED: RequestCancelledType = "request_cancelled";
 
 export enum METHODS {
   POST = "post",
@@ -15,77 +31,83 @@ export enum METHODS {
   DELETE = "delete",
 }
 
-export interface RequestConfigInterface {
-  contentType?: string;
-  isFile?: boolean;
-}
+export class RequestError {
+  static emptyError = new RequestError();
 
-interface OptionsInterface {
-  urlParams?: { [name: string]: string };
-  cancelName?: string;
-  progressReceiver?: (progress: number) => void;
-}
+  constructor(public message: string = "", public statusCode = 0, public axiosError: AxiosError = null!) {}
 
-type RequestCancelledType = "request_cancelled";
-export const REQUEST_CANCELLED: RequestCancelledType = "request_cancelled";
-
-const cancellations: { [name: string]: CancelTokenSource } = {};
-
-export class RequestError extends Error {
-  constructor(
-    public message: string,
-    public statusCode: number,
-    public errors: Record<any, string> = {},
-  ) {
-    super(message);
+  getAny() {
+    if (this.message) return JSON.stringify(this.message);
+    return `HTTP ошибка: ${this.statusCode}`;
   }
 }
 
-function getErrorMessageFromResponceData(data): string {
-  return (
-    data.message || (data.errors && data.errors.length ? data.errors[0] : "")
-  );
-}
+type RequestData = AxiosRequestConfig & { url: string };
 
-// eslint-disable-next-line max-params,complexity
-async function makeAndDecodeResponse(
-  url: string,
-  method: METHODS,
-  body: any,
-  { cancelName, progressReceiver }: OptionsInterface,
-  { contentType, isFile }: RequestConfigInterface,
-) {
-  try {
-    const requestData: AxiosRequestConfig = {
+@Service({ global: true })
+export class RequestManager {
+  static baseURL = "";
+  static loggerEnabled = false;
+
+  static cancellations: { [name: string]: CancelTokenSource } = {};
+
+  static beforeSendMiddleware: ((config: RequestData) => void)[] = [];
+  static beforeErrorMiddleware: ((config: RequestData, error: AxiosError) => void)[] = [];
+
+  private static applyAllBeforeSendMiddleware(requestContext: RequestData) {
+    RequestManager.beforeSendMiddleware.forEach((func) => {
+      func(requestContext);
+    });
+  }
+
+  private static applyAllErrorMiddleware(requestContext: RequestData, error: AxiosError) {
+    RequestManager.beforeErrorMiddleware.forEach((func) => {
+      func(requestContext, error);
+    });
+  }
+
+  // eslint-disable-next-line max-params,complexity
+  private static async makeAndDecodeResponse(
+    url: string,
+    method: METHODS,
+    body: any,
+    requestOptions: OptionsInterface,
+    requestConfig: RequestConfigInterface,
+  ) {
+    const { urlParams, cancelName, progressReceiver } = requestOptions;
+    const { contentType } = requestConfig;
+
+    const requestData: RequestData = {
       url,
+      baseURL: RequestManager.baseURL,
       method,
-      headers: { accept: "application/json" },
-      ...(contentType ? { "content-type": contentType } : {}),
     };
 
     if (cancelName) {
-      const cancelForRequest = cancellations[cancelName];
+      const cancelForRequest = RequestManager.cancellations[cancelName];
       if (cancelForRequest) cancelForRequest.cancel(REQUEST_CANCELLED);
-      cancellations[cancelName] = axios.CancelToken.source();
-      requestData.cancelToken = cancellations[cancelName].token;
+      RequestManager.cancellations[cancelName] = axios.CancelToken.source();
+      requestData.cancelToken = RequestManager.cancellations[cancelName].token;
     }
 
-    if (isFile) {
-      const formData = new FormData();
-      for (const field in body) {
-        const value = body[field];
-        if (Array.isArray(value)) {
-          value.forEach((subField) => {
-            formData.append(`${field}[]`, subField);
-          });
-          continue;
-        }
-        formData.append(field, value);
-      }
-      body = formData;
+    requestData.headers = { accept: "application/json" };
+
+    if (contentType) {
+      requestData.headers = {
+        ...requestData.headers,
+        "content-type": contentType,
+      };
     }
 
     requestData[method === METHODS.GET ? "params" : "data"] = body;
+
+    if (urlParams) {
+      for (const i in urlParams) {
+        if (isNil(urlParams[i])) return [null, new RequestError(`Ошибка передачи параметра '${i}'`, -1, null!)];
+
+        requestData.url = requestData.url.replace(`{${i}}`, urlParams[i].toString());
+      }
+    }
 
     if (progressReceiver) {
       requestData.onUploadProgress = function ({ loaded, total }) {
@@ -93,129 +115,83 @@ async function makeAndDecodeResponse(
       };
     }
 
-    const { data, status } = await axios(requestData);
+    RequestManager.applyAllBeforeSendMiddleware(requestData);
 
-    if (cancelName && cancellations[cancelName]) {
-      delete cancellations[cancelName];
+    try {
+      const { data } = await axios(requestData);
+
+      if (cancelName && RequestManager.cancellations[cancelName]) {
+        RequestManager.cancellations[cancelName] = undefined!;
+      }
+
+      return [data, null];
+    } catch (_originalAxiosError) {
+      const axiosError: AxiosError = _originalAxiosError;
+      if (axiosError.message === REQUEST_CANCELLED) return [null, REQUEST_CANCELLED];
+
+      RequestManager.applyAllErrorMiddleware(requestData, _originalAxiosError);
+
+      if (!axiosError.response) return [null, new RequestError("Запрос сброшен", -1, axiosError)];
+      const { response } = axiosError;
+      if (!response.data) return [null, new RequestError("Не удалось получить ошибку", response.status, axiosError)];
+      return [null, new RequestError(response.data.message, response.status, axiosError)];
     }
-
-    if (data && data.success === false) {
-      return [
-        null,
-        new RequestError(getErrorMessageFromResponceData(data), status),
-      ];
-    }
-
-    return [data, null];
-  } catch (axiosError) {
-    if (axiosError.message === REQUEST_CANCELLED) {
-      return [null, REQUEST_CANCELLED];
-    }
-
-    if (!axiosError.response) {
-      return [null, new RequestError("Ошибка запроса", 0)];
-    }
-
-    const {
-      response: { data, status },
-    }: AxiosError = axiosError;
-    if (!data)
-      return [null, new RequestError("Не удалось получить ошибку", status)];
-
-    return [
-      null,
-      new RequestError(getErrorMessageFromResponceData(data), status),
-    ];
   }
-}
 
-// eslint-disable-next-line max-params
-async function makeRequest<T>(
-  url: string,
-  method: METHODS,
-  body: any,
-  options: OptionsInterface,
-  requestConfig: RequestConfigInterface,
-  serverDataDecoder: Decoder<T>,
-): Promise<T | void> {
-  const [result, error] = await makeAndDecodeResponse(
-    url,
-    method,
-    body,
-    options,
-    requestConfig,
-  );
+  private static errorLogger(requestData: object, error: any) {
+    if (!RequestManager.loggerEnabled) return;
+    errorLogger(requestData, error);
+  }
 
-  if (error) throw error;
+  // eslint-disable-next-line max-params
+  static async makeRequest<T>(
+    url: string,
+    method: METHODS,
+    body: any,
+    options: OptionsInterface,
+    requestConfig: RequestConfigInterface,
+    serverDataDecoder?: Decoder<T>,
+  ): Promise<T> {
+    const [result, error] = await RequestManager.makeAndDecodeResponse(url, method, body, options, requestConfig);
 
-  if (!serverDataDecoder) return;
+    if (error) throw error;
 
-  const [data, decoderError] = serverDataDecoder
-    .decodeAny(result && result.data)
-    .cata<[T, any]>({
+    if (!serverDataDecoder) return null!;
+
+    if (!result.data) return null!;
+
+    const [data, decoderError] = serverDataDecoder.decodeAny(result.data).cata<[T, any]>({
       Ok: (val) => [val, null],
-      Err: (err) => [null, err],
+      Err: (err) => [null!, err],
     });
 
-  if (!decoderError) {
+    if (decoderError) {
+      RequestManager.errorLogger({ url, method, body, options }, decoderError);
+      throw new RequestError(`Не удалось произвести парсинг ответа: ${decoderError}`, 0);
+    }
+
     return data;
   }
 
-  errorLogger(
-    {
-      url,
-      method,
-      body,
-      options,
-    },
-    decoderError,
-  );
-  throw new RequestError(
-    `Не удалось произвести парсинг ответа: ${decoderError}`,
-    0,
-  );
-}
-
-export interface RequestOptions {
-  body?: any;
-  options?: OptionsInterface;
-}
-
-export function createRequest<DecoderGenericType>(
-  url: string,
-  method: METHODS,
-  serverDataDecoder?: Decoder<DecoderGenericType>,
-  requestConfig?: RequestConfigInterface,
-): (data?: RequestOptions) => Promise<DecoderGenericType>;
-export function createRequest<DecoderGenericType>(
-  url: string,
-  method: METHODS,
-  serverDataDecoder?,
-  requestConfig?: RequestConfigInterface,
-): (data?: RequestOptions) => Promise<DecoderGenericType>;
-
-// eslint-disable-next-line max-params
-export function createRequest<DecoderGenericType>(
-  url: string,
-  method: METHODS,
-  serverDataDecoder?: Decoder<DecoderGenericType>,
-  requestConfig: RequestConfigInterface = {},
-) {
-  return function (
-    requestOptions: RequestOptions = {},
-  ): Promise<DecoderGenericType | void> {
-    logRequestStart(url, method, requestConfig, requestOptions);
-    const options = requestOptions.options || {};
-    return makeRequest(
-      url,
-      method,
-      requestOptions.body,
-      options,
-      requestConfig,
-      serverDataDecoder,
-    ).then((result) => {
-      logRequestEndSuccess(result);
-      return result;
-    });
-  };
+  // eslint-disable-next-line max-params
+  createRequest<DecoderGenericType>(
+    url: string,
+    method: METHODS,
+    serverDataDecoder?: Decoder<DecoderGenericType>,
+    requestConfig: RequestConfigInterface = {},
+  ) {
+    return function (requestOptions: RequestOptions = {}): Promise<DecoderGenericType> {
+      return RequestManager.makeRequest(
+        url,
+        method,
+        requestOptions.body,
+        requestOptions.options || {},
+        requestConfig,
+        serverDataDecoder,
+      ).catch((error: RequestError) => {
+        RequestManager.errorLogger(error, null);
+        throw error;
+      });
+    };
+  }
 }

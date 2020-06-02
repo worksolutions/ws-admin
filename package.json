@@ -6,8 +6,8 @@
     "start": "react-app-rewired start",
     "build": "NODE_ENV=production && react-app-rewired build",
     "test": "react-app-rewired test",
-    "format": "prettier --write --list-different \"./src/**/*.{ts,tsx,js,json,yml}\"",
-    "lint": "eslint ./src --ext .ts,.js,.jsx --fix"
+    "format": "prettier --write --list-different \"src/**/*.{ts,tsx,js,json,yml}\"",
+    "lint": "eslint src --ext .ts,.js,.jsx --fix"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.14",
@@ -16,8 +16,10 @@
     "axios": "^0.19.2",
     "http-proxy-middleware": "^1.0.4",
     "jsonous": "^5.0.1",
-    "light-state-manager": "^0.1.7",
+    "lodash": "^4.17.15",
     "material-table": "^1.57.2",
+    "mobx": "^5.15.4",
+    "mobx-react-lite": "^2.0.7",
     "moment": "^2.25.3",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
@@ -25,15 +27,18 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "styled-components": "4.3.2"
+    "reflect-metadata": "^0.1.13",
+    "styled-components": "4.3.2",
+    "typedi": "^0.8.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^24.9.1",
-    "@types/node": "^12.12.39",
-    "@types/ramda": "^0.27.5",
+    "@types/lodash": "^4.14.154",
+    "@types/node": "^12.12.42",
+    "@types/ramda": "^0.27.6",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@types/react-router": "^5.1.7",

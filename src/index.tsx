@@ -1,34 +1,34 @@
+import "reflect-metadata";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router";
-import { StoreContext } from "light-state-manager";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
 import { createBrowserHistory } from "history";
 
 import App from "./App";
 
-import systemState from "state/system/state";
-import globalState from "state/global/state";
-
-const AppWithContext = StoreContext.connectContexts(
-  [
-    [systemState, "system"],
-    [globalState, "global"],
-  ],
-  App,
-);
+import { RequestManager } from "libs/request";
 
 export const browserHistory = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
-    <ScopedCssBaseline>
-      <CssBaseline />
-      <Router history={browserHistory}>
-        <AppWithContext />
-      </Router>
-    </ScopedCssBaseline>
+    <Router history={browserHistory}>
+      <App />
+    </Router>
   </React.StrictMode>,
   document.getElementById("root"),
 );
+
+if (process.env.NODE_ENV === "development") {
+  RequestManager.loggerEnabled = true;
+}
+
+RequestManager.baseURL = "/api";
+
+RequestManager.beforeSendMiddleware.push((config) => {
+  if (!config.headers) config.headers = {};
+});
+
+RequestManager.beforeErrorMiddleware.push((_config, error) => {
+  if (error.response?.status === 401) browserHistory.replace("/auth");
+});

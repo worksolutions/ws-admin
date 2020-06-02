@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import React, { useEffect } from "react";
 import { AppBar, CircularProgress } from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -6,47 +7,44 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { Route, Switch } from "react-router";
-import { StoreContext } from "light-state-manager";
+import { Container } from "typedi";
+import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
 
 import { createAdminComponent } from "./modules/adminModule/componentBuilder";
 import DrawerMenu from "./modules/adminModule/components/DrawerMenu";
-import systemState from "./state/system/state";
 import AdminPage from "./modules/adminModule/components/AdminPage";
-import pageState from "./state/page/state";
 
-export default React.memo(function () {
-  const { appConfig, getAdminConfig } = systemState.getState();
+import { SystemState } from "./state/systemState";
+
+const systemState = Container.get(SystemState);
+
+function App() {
   const WrappedDrawerMenu = createAdminComponent(DrawerMenu, {});
-  const Page = StoreContext.connectContexts([[pageState, "page"]], AdminPage);
 
   useEffect(() => {
-    getAdminConfig();
+    systemState.loadConfig();
     // eslint-disable-next-line
   }, []);
 
-  if (!appConfig) {
+  const state = systemState.stateContainer.state;
+
+  if (!state.sideMenu) {
     return <CircularProgress />;
   }
 
   return (
     <WrappedDrawerMenu
-      dataSource={appConfig.sideMenu.dataSource}
-      content={(openMenu) => (
+      dataSource={state.sideMenu.dataSource}
+      content={(openMenu: any) => (
         <>
           <AppBar position="sticky">
             <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={openMenu}
-                edge="start"
-              >
+              <IconButton color="inherit" aria-label="open drawer" onClick={openMenu} edge="start">
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6">
-                {appConfig ? (
-                  appConfig.title
-                ) : (
+                {state.title || (
                   <Skeleton
                     variant="text"
                     width={700}
@@ -59,22 +57,21 @@ export default React.memo(function () {
               </Typography>
             </Toolbar>
           </AppBar>
-          {appConfig ? (
-            <Switch>
-              {appConfig.pages.map((page) => (
-                <Route
-                  key={page.pageUrl}
-                  exact
-                  path={page.pageUrl}
-                  render={(props) => <Page {...props} settings={page} />}
-                />
-              ))}
-            </Switch>
-          ) : (
-            <CircularProgress />
-          )}
+          <Switch>
+            {state.pages.map((page: any) => (
+              <Route
+                key={page.pageUrl}
+                exact
+                path={page.pageUrl}
+                // @ts-ignore
+                render={(props) => <AdminPage {...props} settings={page} />}
+              />
+            ))}
+          </Switch>
         </>
       )}
     />
   );
-});
+}
+
+export default React.memo(observer(App));

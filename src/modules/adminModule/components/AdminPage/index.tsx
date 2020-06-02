@@ -11,17 +11,16 @@ interface AdminPageInterface {
   settings: any;
   context: any;
 }
+
 const AdminPage = ({ settings }: AdminPageInterface & RouteComponentProps) => {
   useSetDocumentTitle(settings.title);
 
   return (
-    <>
-      <Container>
-        {settings.blocks.map((block, index) => (
-          <AdminBlock key={index} config={block} />
-        ))}
-      </Container>
-    </>
+    <Container>
+      {settings.blocks.map((block: any, index: number) => (
+        <AdminBlock key={index} config={block} />
+      ))}
+    </Container>
   );
 };
 

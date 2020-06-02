@@ -6,10 +6,8 @@ import { AdminComponentInterface } from "../modules/adminModule/types";
 import { insertContext } from "../modules/adminModule/context";
 
 const fieldsMap = {
-  Input: ({ value, title, onChange }) => (
-    <TextField value={value} title={title} onChange={onChange} />
-  ),
-  ImageViewer: ({ value, title }) => (
+  Input: ({ value, title, onChange }: any) => <TextField value={value} title={title} onChange={onChange} />,
+  ImageViewer: ({ value, title }: any) => (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <span>{title}</span>
       <img
@@ -41,19 +39,16 @@ function DetailView({
   return (
     <div>
       <List component="nav">
-        {config.fields.map((field) => {
+        {config.fields.map((field: any) => {
+          // @ts-ignore
           const render = fieldsMap[field.type];
           if (!render) return null;
-          return (
-            <ListItem key={field.title}>
-              {render(insertContext(field, context))}
-            </ListItem>
-          );
+          return <ListItem key={field.title}>{render(insertContext(field, context))}</ListItem>;
         })}
       </List>
       <Button
         onClick={() => {
-          actions.update(data);
+          actions!.update(data);
         }}
       >
         Обновить имя

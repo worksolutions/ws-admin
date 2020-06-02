@@ -1,38 +1,38 @@
 import { assocPath, hasPath, path, prop } from "ramda";
+import { Container } from "typedi";
 
 import { UpdateStatePayload } from "../types";
 
-import pageState from "state/page/state";
-import globalState from "state/global/state";
+import { PageState } from "state/pageState";
+import { GlobalState } from "state/globalState";
+
+const pageState = Container.get(PageState);
+const globalState = Container.get(GlobalState);
 
 export function useAppContext() {
-  const pageContext = pageState.getState();
-  const globalContext = globalState.getState();
   const updateContext = (rawPayload: UpdateStatePayload): void => {
     const { payload, stateType } = getUpdateStateInfoFromPayload(rawPayload);
+    const data = assocPath(payload.path.split("."), payload.data, {});
     switch (stateType) {
       case "page":
-        pageContext._updatePageState(payload);
+        pageState.stateContainer.mergeStates(data);
         break;
       case "global":
-        globalContext._updatePageState(payload);
+        globalState.stateContainer.mergeStates(data);
         break;
       default:
-        globalContext._updatePageState(payload);
+        globalState.stateContainer.mergeStates(data);
         break;
     }
   };
 
   return {
-    context: {
-      page: pageContext,
-      global: globalContext,
-    },
     updateContext,
+    context: { page: pageState.stateContainer.state, global: globalState.stateContainer.state },
   };
 }
 
-export function insertContext(data: any, context) {
+export function insertContext(data: any, context: any) {
   if (typeof data === "object") {
     return JSON.parse(insertContextData(JSON.stringify(data), context));
   }
@@ -42,6 +42,15 @@ export function insertContext(data: any, context) {
   return data;
 }
 
+function pickContextByParams(dependsParams: string[], context: object) {
+  return dependsParams
+    ? dependsParams.reduce((acc, dependPropPath) => {
+        const dependPath = dependPropPath.split(".");
+        return assocPath(dependPath, path(dependPath, context), acc);
+      }, {} as object)
+    : {};
+}
+
 export function buildDependsContext(
   contextDependsParam: string[],
   context: {
@@ -49,14 +58,6 @@ export function buildDependsContext(
     page: object;
   },
 ): object {
-  function pickContextByParams(dependsParams: string[], context: object) {
-    return dependsParams
-      ? dependsParams.reduce((acc, dependPropPath) => {
-          const dependPath = dependPropPath.split(".");
-          return assocPath(dependPath, path(dependPath, context), acc);
-        }, {} as object)
-      : {};
-  }
   return Object.fromEntries(
     Object.entries(context).map(([type, context]) => {
       const dependsParams = contextDependsParam
@@ -109,8 +110,9 @@ const getUpdateStateInfoFromPayload = (
 };
 
 function insertContextData(text: string, context: object): string {
-  return text.replace(/{{(.+?)}}/gm, (match, p1) => {
+  return text.replace(/{{(.+?)}}/gm, (match: any, p1) => {
     const { type, path: pathWithoutType } = getStateTypeAndPathByParam(p1);
+    // @ts-ignore
     const typeContext = context[type];
     const arrPath = pathWithoutType.split(".");
     return hasPath(arrPath, typeContext) ? path(arrPath, typeContext) : match;

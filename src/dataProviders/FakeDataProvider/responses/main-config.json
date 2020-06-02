@@ -140,7 +140,7 @@
               },
               "type": "api:request",
               "options": {
-                "url": "/api/admin/user/delete",
+                "url": "/admin/user/delete",
                 "method": "delete",
                 "params": {
                   "id": "{{id}}"
@@ -154,7 +154,7 @@
               },
               "type": "api:request",
               "options": {
-                "url": "/api/admin/user/create",
+                "url": "/admin/user/create",
                 "method": "post",
                 "params": {
                   "id": "{{name}}"
@@ -189,9 +189,9 @@
           "dataSource": {
             "type": "api",
             "options": {
-              "url": "/api/admin/user/{{page:#pageId}}"
+              "url": "/admin/user/{{page:#pageId}}"
             },
-            "context": "page.user"
+            "context": "global:#page.user"
           },
           "actions": {
             "delete": {
@@ -201,7 +201,7 @@
               },
               "type": "api:request",
               "options": {
-                "url": "/api/admin/user/delete",
+                "url": "/admin/user/delete",
                 "method": "get",
                 "params": {
                   "id": "{{page.user.id}}"
@@ -215,7 +215,7 @@
               },
               "type": "api:request",
               "options": {
-                "url": "/api/admin/user/update",
+                "url": "/admin/user/update",
                 "method": "post",
                 "params": {
                   "id": "{{id}}"
@@ -259,7 +259,7 @@
                   "alias": "dpAllUsers",
                   "type": "api",
                   "options": {
-                    "url": "/api/admin/users"
+                    "url": "/admin/users"
                   }
                 },
                 "config": {

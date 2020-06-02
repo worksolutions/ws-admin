@@ -1,24 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import debounce from "lodash/debounce";
-import queryString from "query-string";
-import { once, is } from "ramda";
+import { once } from "ramda";
 
-export function useToggle(initial: boolean): [boolean, (data?) => void] {
-  const [toggle, setToggle] = useState(initial);
-  return [
-    toggle,
-    (value: boolean) => {
-      if (!is(Boolean, value)) {
-        return setToggle(!toggle);
-      }
-      setToggle(value);
-    },
-  ];
-}
-
-export function useBoolean(
-  initial: boolean | (() => boolean),
-): [boolean, () => void, () => void] {
+export function useBoolean(initial: boolean | (() => boolean)): [boolean, () => void, () => void] {
   const [state, setState] = useState(initial);
   return [state, () => setState(true), () => setState(false)];
 }
@@ -79,9 +63,7 @@ export function usePromiseProcessing<T, ARG>(
 }
 
 export const useOnce = (cb: (data?: any) => any, delay = 0) => {
-  const [func] = useState(() =>
-    once(delay ? (data?: any) => setTimeout(() => cb(data), delay) : cb),
-  );
+  const [func] = useState(() => once(delay ? (data?: any) => setTimeout(() => cb(data), delay) : cb));
   return func;
 };
 
@@ -101,7 +83,7 @@ export function useDebouncedInput<T>(
   const debounceRef = useRef<ReturnType<typeof debounce>>();
   useEffect(() => {
     debounceRef.current = debounce(onChange, debounceTime);
-    return () => debounceRef.current.cancel();
+    return () => debounceRef.current!.cancel();
   }, [debounceTime, onChange]);
 
   React.useEffect(() => setInputValue(value), [value]);
@@ -110,41 +92,14 @@ export function useDebouncedInput<T>(
     inputValue,
     clear: () => {
       setInputValue("");
-      debounceRef.current("");
+      debounceRef.current!("");
     },
-    onInputChange: (value, additionalData?: T) => {
+    onInputChange: (value: string, additionalData?: T) => {
       setInputValue(value);
-      if (value.length >= charCountThreshold || value.length === 0)
-        debounceRef.current(value, additionalData);
+      if (value.length >= charCountThreshold || value.length === 0) debounceRef.current!(value, additionalData);
     },
   };
 }
-
-export const useTabRouter = <TABS, RESULT extends TABS[keyof TABS]>(
-  query: string,
-  initialTab: string,
-  tabs: TABS,
-): {
-  currentTab: string;
-  TabComponent: RESULT;
-  setCurrentTab: (tab: string) => void;
-} => {
-  const [currentTab, setCurrentTab] = useState<string>("");
-  const searchParams = queryString.parse(query);
-  useEffect(() => {
-    if (!searchParams.tab) {
-      setCurrentTab(initialTab);
-      return;
-    }
-    setCurrentTab(searchParams.tab as string);
-  }, [initialTab, searchParams.tab]);
-
-  return {
-    currentTab,
-    setCurrentTab,
-    TabComponent: tabs[currentTab] || (() => null),
-  };
-};
 
 export const useSetDocumentTitle = (title: string) => {
   useEffect(() => {
@@ -152,10 +107,7 @@ export const useSetDocumentTitle = (title: string) => {
   }, [title]);
 };
 
-export const useEffectSkipFirst = (
-  callback: React.EffectCallback,
-  dependencies: any[],
-) => {
+export const useEffectSkipFirst = (callback: React.EffectCallback, dependencies: any[]) => {
   const wasChanged = useRef(false);
 
   useEffect(function () {

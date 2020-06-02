@@ -1,26 +1,19 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { pipe } from "ramda";
-import { pureConnect } from "light-state-manager";
 import { Container } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import { Skeleton } from "@material-ui/lab";
+import { observer } from "mobx-react-lite";
 
-import withPerformance from "libs/performance/withPerformance";
-
-import {
-  DataSourceInterface,
-  useDataSource,
-} from "../../HOC/DataSource/DataSourceHOC";
+import { DataSourceInterface, useDataSource } from "../../HOC/DataSource/DataSourceHOC";
 import { ActionsInterface, AdminComponentInterface } from "../../types";
 import { buildActions } from "../../componentBuilder/buildActions";
 import calculateContextDependency from "../../HOC/Context/calculateContextDependency";
 import { buildDependsContext, useAppContext } from "../../context";
+import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 
-const loadComponent = (type: string, cb: (cmp) => void) => {
-  import(`commonComponents/${type}`).then(
-    (module) => cb(module.default),
-    console.error,
-  );
+const loadComponent = (type: string, cb: (cmp: any) => void) => {
+  import(`commonComponents/${type}`).then((module) => cb(module.default), console.error);
 };
 
 interface AdminBlockInterface {
@@ -52,6 +45,7 @@ const AdminBlock = ({ config, context, updateState }: AdminBlockInterface) => {
     context: context,
     updateState,
   });
+
   const actions = buildActions(config.actions, {
     context: context,
     updateState,
@@ -60,6 +54,7 @@ const AdminBlock = ({ config, context, updateState }: AdminBlockInterface) => {
   if (!Cmp) {
     return <Skeleton variant="rect" width="100%" height="100%" />;
   }
+
   return (
     <Container>
       <Paper elevation={3}>
@@ -72,16 +67,19 @@ const AdminBlock = ({ config, context, updateState }: AdminBlockInterface) => {
 export default pipe(
   () => AdminBlock,
   withPerformance(["contextDependsParam", "updateState"]),
-  (cmp) =>
-    pureConnect(cmp, ({ contextDependsParam }) => {
-      const { context, updateContext } = useAppContext();
-      const updateState = useCallback(updateContext, []);
-      const context1 = buildDependsContext(contextDependsParam, context);
-      return {
-        context: context1,
-        contextDependsParam,
-        updateState,
-      };
-    }),
+  (Component) => (props: any) => {
+    const { context, updateContext } = useAppContext();
+    const updateState = useCallback(updateContext, []);
+    const context1 = buildDependsContext(props.contextDependsParam, context);
+    return (
+      <Component
+        {...props}
+        context={context1}
+        contextDependsParam={props.contextDependsParam}
+        updateState={updateState}
+      />
+    );
+  },
+  observer,
   calculateContextDependency,
 )();

@@ -48,27 +48,26 @@ export default function <P>(Cmp: FC<P & AdminComponentInterface>, state: any) {
         fromContextDataSource(dataSource, state).then(setData);
         break;
       default:
-        console.error(
-          `Указан неизвестный тип источника данных. [${dataSource.type}]`,
-        );
+        console.error(`Указан неизвестный тип источника данных. [${dataSource.type}]`);
         break;
     }
 
     if (data === undefined) {
       return null;
     }
+    // @ts-ignore
     return <Cmp {...(props as P)} data={data} />;
   };
 }
 
 export const useDataSource = (
-  dataSource,
+  dataSource: any,
   {
     context,
     updateState,
   }: {
     context: any;
-    updateState: ({ path: string, data: any }) => void;
+    updateState: (data: { path: string; data: any }) => void;
   },
 ) => {
   const [data, setData] = useState();
@@ -93,9 +92,7 @@ export const useDataSource = (
         apiRequestDataSource(dataSource, context).then(onDataReceived);
         break;
       default:
-        console.error(
-          `Указан неизвестный тип источника данных. [${dataSource.type}]`,
-        );
+        console.error(`Указан неизвестный тип источника данных. [${dataSource.type}]`);
         break;
     }
     // eslint-disable-next-line

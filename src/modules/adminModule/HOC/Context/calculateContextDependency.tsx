@@ -3,11 +3,12 @@ import { compose, filter, map, uniq } from "ramda";
 
 const getContextParams = compose(
   uniq,
+  // @ts-ignore
   map((el) => el[1]),
   filter((el: [string, string]) => !!el[1]),
   filter(Boolean),
   Array.from,
-  (json) => json.matchAll(/{{(.+?)}}/gm),
+  (json: any) => json.matchAll(/{{(.+?)}}/gm),
   // @ts-ignore
   JSON.stringify,
 );
