@@ -4,9 +4,9 @@ import ReactDOM from "react-dom";
 import { Router } from "react-router";
 import { createBrowserHistory } from "history";
 
-import App from "./App";
-
 import { RequestManager } from "libs/request";
+
+import App from "./App";
 
 export const browserHistory = createBrowserHistory();
 

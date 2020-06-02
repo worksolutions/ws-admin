@@ -5,12 +5,13 @@ import Paper from "@material-ui/core/Paper";
 import { Skeleton } from "@material-ui/lab";
 import { observer } from "mobx-react-lite";
 
+import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
+
 import { DataSourceInterface, useDataSource } from "../../HOC/DataSource/DataSourceHOC";
 import { ActionsInterface, AdminComponentInterface } from "../../types";
 import { buildActions } from "../../componentBuilder/buildActions";
 import calculateContextDependency from "../../HOC/Context/calculateContextDependency";
 import { buildDependsContext, useAppContext } from "../../context";
-import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 
 const loadComponent = (type: string, cb: (cmp: any) => void) => {
   import(`commonComponents/${type}`).then((module) => cb(module.default), console.error);

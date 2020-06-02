@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, CancelTokenSource } from "axios"
 import { isNil } from "ramda";
 import Decoder from "jsonous";
 import { Service } from "typedi";
+
 import { errorLogger } from "./logger";
 
 export interface RequestConfigInterface {

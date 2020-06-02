@@ -9,13 +9,12 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { Route, Switch } from "react-router";
 import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
-import { toJS } from "mobx";
 
-import { createAdminComponent } from "./modules/adminModule/componentBuilder";
-import DrawerMenu from "./modules/adminModule/components/DrawerMenu";
-import AdminPage from "./modules/adminModule/components/AdminPage";
+import { createAdminComponent } from "modules/componentBuilder";
+import DrawerMenu from "modules/components/DrawerMenu";
+import AdminPage from "modules/components/AdminPage";
 
-import { SystemState } from "./state/systemState";
+import { SystemState } from "state/systemState";
 
 const systemState = Container.get(SystemState);
 

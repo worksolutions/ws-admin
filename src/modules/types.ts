@@ -1,4 +1,4 @@
-import { METHODS } from "../../libs/request";
+import { METHODS } from "libs/request";
 
 export enum ActionHandlerType {
   REDIRECT = "redirect",
