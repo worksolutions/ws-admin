@@ -8,6 +8,8 @@ const list = {
   "arrow-down": require("./icons/arrow-down.svg"),
   "arrow-left": require("./icons/arrow-left.svg"),
   "arrow-right": require("./icons/arrow-right.svg"),
+  "cancel-big": require("./icons/cancel-big.svg"),
+  "cancel-small": require("./icons/cancel-small.svg"),
 };
 
 export type Icons = keyof typeof list;

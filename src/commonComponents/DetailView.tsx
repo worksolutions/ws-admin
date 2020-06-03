@@ -2,8 +2,8 @@ import React from "react";
 import { TextField, ListItem, Button } from "@material-ui/core";
 import List from "@material-ui/core/List";
 
-import { AdminComponentInterface } from "modules/types";
-import { insertContext } from "modules/context";
+import { AdminComponentInterface } from "modules/admin/types";
+import { insertContext } from "modules/admin/context";
 
 const fieldsMap = {
   Input: ({ value, title, onChange }: any) => <TextField value={value} title={title} onChange={onChange} />,

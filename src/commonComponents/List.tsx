@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MaterialTable from "material-table";
 
-import { AdminComponentInterface } from "modules/types";
+import { AdminComponentInterface } from "modules/admin/types";
 
 interface ListInterface extends AdminComponentInterface {
   // name: string;

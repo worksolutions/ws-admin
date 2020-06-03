@@ -2,15 +2,14 @@ import React from "react";
 
 import Wrapper from "primitives/Wrapper";
 
-import { cb } from "libs/CB";
-import { flex, fullHeight, fullWidth, position } from "libs/styles";
+import { flex, fullHeight, fullWidth } from "libs/styles";
 
 import PrimaryMenuSidebar from "./PrimaryMenuSidebar";
 import SecondaryMenuSidebar from "./SecondaryMenuSidebar";
 
-export default cb({ useStateBuilder: () => ({}) }, function () {
+export default React.memo(function ({ children }: { children: React.ReactNode }) {
   return (
-    <Wrapper styles={[flex, fullWidth, fullHeight, position("relative")]}>
+    <Wrapper styles={[flex, fullWidth, fullHeight]}>
       <PrimaryMenuSidebar
         logo="/logo.svg"
         primaryItems={[
@@ -25,6 +24,7 @@ export default cb({ useStateBuilder: () => ({}) }, function () {
         ]}
       />
       <SecondaryMenuSidebar opened={true} title="Title 123" items={[]} onChangeOpened={console.log} />
+      {children}
     </Wrapper>
   );
 });
