@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action, computed, observable } from "mobx";
 import { Service } from "typedi";
 import set from "lodash/set";
 import merge from "lodash/merge";
@@ -7,6 +7,10 @@ import { path } from "ramda";
 @Service({ transient: true })
 export class StateContainer {
   @observable state: Record<string, any> = {};
+
+  @computed get empty() {
+    return Object.keys(this.state).length === 0;
+  }
 
   path(pathValue: (string | number)[]) {
     return path(pathValue, this.state);

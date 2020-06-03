@@ -9,6 +9,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { Route, Switch } from "react-router";
 import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
+import Layout from "layout";
 
 import { createAdminComponent } from "modules/componentBuilder";
 import DrawerMenu from "modules/components/DrawerMenu";
@@ -23,14 +24,15 @@ function App() {
 
   useEffect(() => {
     systemState.loadConfig();
-    // eslint-disable-next-line
   }, []);
 
-  const state = systemState.stateContainer.state;
+  return <Layout></Layout>;
 
-  if (!state.sideMenu) {
+  if (systemState.stateContainer.empty) {
     return <CircularProgress />;
   }
+
+  const state = systemState.stateContainer.state;
 
   return (
     <WrappedDrawerMenu

@@ -43,7 +43,7 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": 0,
     "react/display-name": 0,
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": 0,
     "@typescript-eslint/ban-ts-ignore": 0,
     "@typescript-eslint/no-var-requires": 0,
     "@typescript-eslint/no-object-literal-type-assertion": 0,

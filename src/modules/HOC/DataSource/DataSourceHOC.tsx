@@ -74,7 +74,7 @@ export const useDataSource = (
 
   function onDataReceived(data: any) {
     setData(data);
-    if (dataSource && dataSource.context) {
+    if (dataSource?.context) {
       updateState({
         path: dataSource.context,
         data,
@@ -95,8 +95,7 @@ export const useDataSource = (
         console.error(`Указан неизвестный тип источника данных. [${dataSource.type}]`);
         break;
     }
-    // eslint-disable-next-line
-  }, []);
+  }, [context, dataSource, onDataReceived]);
 
   return data;
 };

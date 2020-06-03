@@ -6,6 +6,7 @@ import { createBrowserHistory } from "history";
 
 import { RequestManager } from "libs/request";
 
+import "./style/index.css";
 import App from "./App";
 
 export const browserHistory = createBrowserHistory();
