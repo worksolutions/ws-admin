@@ -16,7 +16,7 @@ export function backgroundColor(backgroundColor: Colors) {
 
 export function backgroundImage(value: string) {
   return css`
-    background-image: ${value};
+    background-image: url("${value}");
   `;
 }
 
@@ -29,5 +29,10 @@ export function backgroundRepeat(value: string) {
 export function backgroundSize(value: string) {
   return css`
     background-size: ${value};
+  `;
+}
+export function backgroundPosition(value: string) {
+  return css`
+    background-position: ${value};
   `;
 }

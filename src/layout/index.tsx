@@ -12,6 +12,7 @@ export default cb({ useStateBuilder: () => ({}) }, function () {
   return (
     <Wrapper styles={[flex, fullWidth, fullHeight, position("relative")]}>
       <PrimaryMenuSidebar
+        logo="/logo.svg"
         primaryItems={[
           { href: "/a", selected: true, type: "button", icon: "arrow-up" },
           { href: "/a", selected: false, type: "button", icon: "arrow-up", hint: "test" },

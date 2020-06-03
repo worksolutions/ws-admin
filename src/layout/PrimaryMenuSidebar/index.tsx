@@ -26,6 +26,10 @@ import {
   focus,
   disableOutline,
   border,
+  backgroundImage,
+  backgroundSize,
+  backgroundPosition,
+  fullWidth,
 } from "libs/styles";
 
 import SuggestInterface from "types/SuggestInterface";
@@ -80,32 +84,30 @@ type SidebarItemInterface = BaseIconButtonInterface &
   );
 
 export interface PrimaryMenuSidebarInterface {
+  logo?: string;
   primaryItems: SidebarItemInterface[];
   secondaryItems: SidebarItemInterface[];
 }
 
-function PrimaryMenuSidebar({ primaryItems, secondaryItems }: PrimaryMenuSidebarInterface) {
+function PrimaryMenuSidebar({ logo, primaryItems, secondaryItems }: PrimaryMenuSidebarInterface) {
   return (
-    <Wrapper
-      styles={[
-        position("fixed"),
-        backgroundColor("blue/10"),
-        fullHeight,
-        width(56),
-        flex,
-        flexColumn,
-        padding("28px 8px 20px 8px"),
-      ]}
-    >
-      <Wrapper styles={[flex, flexColumn, flexValue(1)]}>
-        {primaryItems.map((item, key) => (
-          <IconLink key={key} styles={marginBottom(8)} {...item} />
-        ))}
-      </Wrapper>
-      <Wrapper styles={[flex, flexColumn]}>
-        {secondaryItems.map((item, key) => (
-          <IconLink key={key} styles={marginBottom(8)} {...item} />
-        ))}
+    <Wrapper styles={[backgroundColor("blue/10"), position("fixed"), fullHeight, width(56), flex, flexColumn]}>
+      {logo && (
+        <Wrapper
+          styles={[backgroundImage(logo), backgroundSize("cover"), backgroundPosition("center"), width(56), height(56)]}
+        />
+      )}
+      <Wrapper styles={[flexValue(1), fullWidth, flex, flexColumn, padding("16px 8px 20px 8px")]}>
+        <Wrapper styles={[flex, flexColumn, flexValue(1)]}>
+          {primaryItems.map((item, key) => (
+            <IconLink key={key} styles={marginBottom(8)} {...item} />
+          ))}
+        </Wrapper>
+        <Wrapper styles={[flex, flexColumn]}>
+          {secondaryItems.map((item, key) => (
+            <IconLink key={key} styles={marginBottom(8)} {...item} />
+          ))}
+        </Wrapper>
       </Wrapper>
     </Wrapper>
   );
