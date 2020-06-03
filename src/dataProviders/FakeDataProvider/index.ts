@@ -1,4 +1,4 @@
-import mainConfig from "./responses/main-config.json";
+import mainConfig from "./responses/main-config";
 
 export const getMainConfig = () =>
   new Promise((resolve) => {

@@ -9,6 +9,11 @@ import { isString } from "libs/is";
 
 export const identityValueDecoder = new Decoder(ok);
 
+export const valueDecoder = <T>(inputValue: T) =>
+  new Decoder<T>(function (value) {
+    return value === inputValue ? ok<string, T>(value) : err(`Пришло: "${value}"; Ожидалось "${inputValue}"`);
+  });
+
 export const fieldWithDefaultDecoder = <A>(key: string, decoder: Decoder<A>, defaultValue: A | null = null) =>
   new Decoder((value: Record<string, any>) => {
     if (isNil(value[key])) {

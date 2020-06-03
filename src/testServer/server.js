@@ -1,5 +1,5 @@
 const express = require("express");
-const mainConfig = require("../dataProviders/FakeDataProvider/responses/main-config.json");
+const mainConfig = require("../dataProviders/FakeDataProvider/responses/main-config");
 
 const app = express();
 const port = 8080;

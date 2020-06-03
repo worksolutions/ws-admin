@@ -32,13 +32,11 @@ export function cb<
   const { useStateBuilder, computed = {} as any, changeDetectionStrategy = memoStrategy, defaultProps } = config;
 
   const RealComponent: React.FC<Props> = function RealComponent(innerProps: Props) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const state = useStateBuilder ? useStateBuilder(innerProps) : ({} as StateConfig);
     const computedFields: any = {};
 
     Object.keys(computed).forEach((key) => {
       const [computedFunction, deps] = computed[key](innerProps, state);
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       computedFields[key] = React.useMemo(computedFunction, deps);
     });
 
@@ -48,9 +46,7 @@ export function cb<
     });
   };
 
-  // @ts-ignore
   const Comp = changeDetectionStrategy(config.observer ? observer(RealComponent) : RealComponent);
-  // const Comp = changeDetectionStrategy(RealComponent);
 
   Comp.defaultProps = defaultProps;
 

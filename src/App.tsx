@@ -16,30 +16,37 @@ import Spinner from "primitives/Spinner";
 import AdminPage from "modules/admin/components/AdminPage";
 
 import ToastReceiver from "./modules/ToastReceiver";
-import globalEventBus from "./modules/globalEventBus";
+import { useSetDocumentTitle } from "./libs/hooks";
 
 import { SystemState } from "state/systemState";
 
 const systemState = Container.get(SystemState);
 
 function App() {
-  useEffect(() => {
-    systemState.loadConfig();
-  }, []);
+  useEffect(systemState.loadConfig, []);
 
-  return (
-    <Layout>
-      <Spinner color="blue/02" />
-      <button onClick={() => globalEventBus.emit("ADD_TOAST", { text: Date.now().toString() })}>run</button>
-      <ToastReceiver />
-    </Layout>
-  );
+  useSetDocumentTitle(systemState.stateContainer.state.title || "Административная панель");
 
   if (systemState.stateContainer.empty) {
     return <Spinner color="blue/10" size={132} />;
   }
 
   const state = systemState.stateContainer.state;
+
+  return (
+    <Layout logo={state.logo} primarySidebarDataSource={state.sideMenu.primary.dataSource}>
+      {state.pages.map((page: any) => (
+        <Route
+          key={page.pageUrl}
+          exact
+          path={page.pageUrl}
+          // @ts-ignore
+          render={(props) => <AdminPage {...props} settings={page} />}
+        />
+      ))}
+      <ToastReceiver />
+    </Layout>
+  );
 
   // return (
   //   <WrappedDrawerMenu

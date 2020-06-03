@@ -5,8 +5,8 @@ import merge from "lodash/merge";
 import { path } from "ramda";
 
 @Service({ transient: true })
-export class StateContainer {
-  @observable state: Record<string, any> = {};
+export class StateContainer<T = Record<string, any>> {
+  @observable state: T = {} as T;
 
   @computed get empty() {
     return Object.keys(this.state).length === 0;
@@ -18,7 +18,7 @@ export class StateContainer {
 
   @action
   patchState(path: (string | number)[], value: any) {
-    set(this.state, path, value);
+    set(this.state as any, path, value);
   }
 
   @action.bound
@@ -27,12 +27,12 @@ export class StateContainer {
   }
 
   @action.bound
-  setState(state: object) {
+  setState(state: T) {
     this.state = state;
   }
 
   @action.bound
   clearState() {
-    this.state = {};
+    this.state = {} as T;
   }
 }
