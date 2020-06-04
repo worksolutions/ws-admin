@@ -1,8 +1,6 @@
 import { action, observable } from "mobx";
 import { Inject, Service } from "typedi";
 
-import { Icons } from "primitives/Icon";
-
 import { METHODS, RequestManager } from "libs/request";
 import { identityValueDecoder } from "libs/request/defaultDecoders";
 import { promisifyAPI } from "libs/promisifyAPI";
@@ -10,9 +8,18 @@ import { promisifyAPI } from "libs/promisifyAPI";
 import { StateContainer } from "../stateContainer";
 import { LoadingContainer } from "../loadingContainer";
 
-import { ContainsDataSourceInterface, DataSourceInterface } from "types/DataSource";
+import { AnyDataSource, ContainsDataSourceInterface } from "types/DataSource";
 
-export type PrimarySideMenuDataSourceInterface = DataSourceInterface<{ to: string; hint: string; icon: Icons }[]>;
+export interface BlockInterface {
+  type: string;
+  dataSource?: AnyDataSource;
+}
+
+export interface PageInterface {
+  pageUrl: string;
+  title: string;
+  blocks: BlockInterface[];
+}
 
 @Service({ global: true })
 export class SystemState {
@@ -24,11 +31,8 @@ export class SystemState {
     title: string;
     roles: string[];
     logo: string;
-    sideMenu: {
-      primary: ContainsDataSourceInterface<PrimarySideMenuDataSourceInterface>;
-      secondary: ContainsDataSourceInterface<any>;
-    };
-    pages: any[];
+    sideMenu: ContainsDataSourceInterface<AnyDataSource>;
+    pages: PageInterface[];
   }>;
 
   @observable

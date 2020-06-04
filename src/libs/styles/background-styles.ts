@@ -31,8 +31,15 @@ export function backgroundSize(value: string) {
     background-size: ${value};
   `;
 }
+
 export function backgroundPosition(value: string) {
   return css`
     background-position: ${value};
+  `;
+}
+
+export function fillColor(color: Colors) {
+  return css`
+    fill: ${getColor(color)};
   `;
 }

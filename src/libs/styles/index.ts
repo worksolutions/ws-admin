@@ -113,14 +113,6 @@ export const fontWeight = memoizeWith(identity, function (value: string | number
     font-weight: ${value};`;
 });
 
-export const noWrapText = css`
-  white-space: nowrap;
-`;
-
-export const wrapTextNormal = css`
-  white-space: normal;
-`;
-
 export const capitalizeFirstLetter = css`
   display: block;
   &::first-letter {
@@ -202,4 +194,11 @@ export const stylesForSelector = (selector: string | number, styles: any) => css
   ${selector} {
     ${styles};
   }
+`;
+
+export const textDots = css`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
 `;

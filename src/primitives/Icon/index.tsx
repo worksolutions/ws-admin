@@ -10,6 +10,15 @@ const list = {
   "arrow-right": require("./icons/arrow-right.svg"),
   "cancel-big": require("./icons/cancel-big.svg"),
   "cancel-small": require("./icons/cancel-small.svg"),
+  "account-multiple-outline": require("./icons/account-multiple-outline.svg"),
+  "bullseye-arrow": require("./icons/bullseye-arrow.svg"),
+  cart: require("./icons/cart.svg"),
+  "grid-plus-outline": require("./icons/grid-plus-outline.svg"),
+  "star-outline": require("./icons/star-outline.svg"),
+  website: require("./icons/website.svg"),
+  "16-triangle-right": require("./icons/16-triangle-right.svg"),
+  "16-small-circle": require("./icons/16-small-circle.svg"),
+  "folder-outline": require("./icons/folder-outline.svg"),
 };
 
 export type Icons = keyof typeof list;
@@ -22,6 +31,7 @@ interface StyledSVGInterface {
 
 interface SVGInterface extends StyledSVGInterface {
   iconName: Icons;
+  className?: string;
   color?: Colors;
 }
 
@@ -32,7 +42,7 @@ const StyledSVG = styled.svg<StyledSVGInterface>`
 `;
 
 const SVG = React.forwardRef(function (
-  { iconName, width, height, styles, color = "gray-blue/05" }: SVGInterface,
+  { className, iconName, width, height, styles, color = "gray-blue/05" }: SVGInterface,
   refProp: any,
 ) {
   if (!iconName) return null;
@@ -50,6 +60,7 @@ const SVG = React.forwardRef(function (
     <StyledSVG
       // @ts-ignore
       css={styles}
+      className={className}
       width={width}
       height={height}
       viewBox={viewBox}

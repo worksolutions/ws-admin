@@ -35,7 +35,7 @@ const ToastReceiver = cb(
   },
   function ToastReceiver() {
     return (
-      <Wrapper styles={[position("fixed"), left(40), bottom(40)]}>
+      <Wrapper styles={[position("fixed"), left(80), bottom(40)]}>
         {toastReceiverData.toasts.map(({ id, toast: { text, cancelButton } }, key) => (
           <Wrapper
             key={key}
@@ -50,11 +50,7 @@ const ToastReceiver = cb(
             ]}
           >
             <Typography color="gray-blue/09">{text}</Typography>
-            {cancelButton && (
-              <Typography color="gray-blue/09" type="body1-semi-bold">
-                {cancelButton.text}
-              </Typography>
-            )}
+            {cancelButton && <Typography color="gray-blue/09">{cancelButton.text}</Typography>}
             <button onClick={() => toastReceiverData.removeToast(id)}>x</button>
           </Wrapper>
         ))}

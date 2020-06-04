@@ -1,22 +1,30 @@
 import React, { ReactNode, Ref } from "react";
 import styled from "styled-components";
 
-import { color, Colors, fontSize, fontWeight, letterSpacing, lineHeight } from "libs/styles";
+import { color, Colors, textDots, fontSize, fontWeight, letterSpacing, lineHeight } from "libs/styles";
 
 import { StyledComponentsAS } from "types/StyledComponentsAS";
 
 const TypographyWrapper = styled.span``;
 
 export const TypographyTypes = {
+  h1: [fontSize(28), lineHeight(32), fontWeight("bold")],
+  h2: [fontSize(20), lineHeight(24), fontWeight("bold"), letterSpacing(0.15)],
+  h3: [fontSize(16), lineHeight(20), fontWeight("bold"), letterSpacing(0.5)],
   "subtitle1-regular": [fontSize(16), lineHeight(28), letterSpacing(0.15)],
   "subtitle2-medium": [fontWeight(500), fontSize(14), lineHeight(24), letterSpacing(0.1)],
-  "body1-regular": [fontSize(16), lineHeight(24), letterSpacing(0.5)],
-  "body1-semi-bold": [fontWeight(600), fontSize(16), lineHeight(24), letterSpacing(0.5)],
-  "body2-regular": [fontSize(14), lineHeight(20), letterSpacing(0.25)],
-  "body2-semi-bold": [fontWeight(600), fontSize(14), lineHeight(24), letterSpacing(0.25)],
+  "body-regular": [fontSize(14), lineHeight(20), letterSpacing(0.25)],
+  "body-semi-bold": [] as any[],
   "caption-regular": [fontSize(12), lineHeight(16), letterSpacing("0.004em")],
-  "caption-semi-bold": [fontWeight(600), fontSize(12), lineHeight(16), letterSpacing("0.004em")],
+  "caption-semi-bold": [] as any[],
+  "overline-regular": [fontSize(10), lineHeight(12), letterSpacing(0.25)],
+  "overline-semi-bold": [] as any[],
+  button: [fontWeight(500), fontSize(14), lineHeight(24), letterSpacing(0.25)],
 };
+
+TypographyTypes["body-semi-bold"] = [...TypographyTypes["body-regular"], fontWeight(600)];
+TypographyTypes["caption-semi-bold"] = [...TypographyTypes["caption-regular"], fontWeight(600)];
+TypographyTypes["overline-semi-bold"] = [...TypographyTypes["overline-regular"], fontWeight("bold")];
 
 export interface TypographyInterface {
   className?: string;
@@ -24,16 +32,20 @@ export interface TypographyInterface {
   type?: keyof typeof TypographyTypes;
   color?: Colors;
   styles?: any;
+  dots?: boolean;
   children: ReactNode;
 }
 
 const Typography = React.forwardRef(
-  ({ as, className, styles, children, type, color: colorProp }: TypographyInterface, ref: Ref<HTMLSpanElement>) => (
+  (
+    { as, className, styles, children, type, color: colorProp, dots: dotsProp }: TypographyInterface,
+    ref: Ref<HTMLSpanElement>,
+  ) => (
     <TypographyWrapper
       className={className}
       ref={ref}
       as={as}
-      css={[type ? TypographyTypes[type] : null, color(colorProp || "gray-blue/09"), styles]}
+      css={[type ? TypographyTypes[type] : null, color(colorProp || "gray-blue/09"), dotsProp && textDots, styles]}
     >
       {children}
     </TypographyWrapper>
@@ -41,7 +53,7 @@ const Typography = React.forwardRef(
 );
 
 Typography.defaultProps = {
-  type: "body2-regular",
+  type: "body-regular",
 };
 
 export default React.memo(Typography);

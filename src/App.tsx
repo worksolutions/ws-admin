@@ -1,22 +1,17 @@
 import "reflect-metadata";
 import React, { useEffect } from "react";
-import { AppBar, CircularProgress } from "@material-ui/core";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import Typography from "@material-ui/core/Typography";
-import Skeleton from "@material-ui/lab/Skeleton";
-import { Route, Switch } from "react-router";
+import { Route } from "react-router";
 import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
 import Layout from "layout";
 
 import Spinner from "primitives/Spinner";
 
-import AdminPage from "modules/admin/components/AdminPage";
+import { useSetDocumentTitle } from "libs/hooks";
 
-import ToastReceiver from "./modules/ToastReceiver";
-import { useSetDocumentTitle } from "./libs/hooks";
+import Page from "modules/page";
+import ToastReceiver from "modules/ToastReceiver";
+import usePageContextSynchronizer from "modules/context/usePageContextSynchronizer";
 
 import { SystemState } from "state/systemState";
 
@@ -24,8 +19,8 @@ const systemState = Container.get(SystemState);
 
 function App() {
   useEffect(systemState.loadConfig, []);
-
   useSetDocumentTitle(systemState.stateContainer.state.title || "Административная панель");
+  usePageContextSynchronizer();
 
   if (systemState.stateContainer.empty) {
     return <Spinner color="blue/10" size={132} />;
@@ -34,15 +29,9 @@ function App() {
   const state = systemState.stateContainer.state;
 
   return (
-    <Layout logo={state.logo} primarySidebarDataSource={state.sideMenu.primary.dataSource}>
-      {state.pages.map((page: any) => (
-        <Route
-          key={page.pageUrl}
-          exact
-          path={page.pageUrl}
-          // @ts-ignore
-          render={(props) => <AdminPage {...props} settings={page} />}
-        />
+    <Layout logo={state.logo} sidebarDataSource={state.sideMenu.dataSource}>
+      {state.pages.map((page) => (
+        <Route key={page.pageUrl} exact path={page.pageUrl} render={() => <Page page={page} />} />
       ))}
       <ToastReceiver />
     </Layout>

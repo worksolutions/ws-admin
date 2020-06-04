@@ -8,66 +8,54 @@ module.exports = {
     deny: ["guest"],
   },
   sideMenu: {
-    primary: {
-      dataSource: {
-        type: "list",
-        options: [
-          {
-            to: "/list",
-            hint: "Список",
-            icon: "arrow-left",
-          },
-          {
-            to: "/deep",
-            hint: "Вложенность",
-            icon: "arrow-right",
-          },
-          {
-            to: "/detail/1",
-            hint: "Детальная",
-            icon: "cancel-big",
-          },
-        ],
-      },
-    },
-    secondary: {
-      dataSource: {
-        type: "list",
-        options: {
-          data: [
-            {
-              title: "Список",
-              code: "testList",
-              permissions: {
-                allow: ["*"],
-                deny: ["guest"],
-              },
-              to: "/list",
-            },
-            {
-              title: "Вложенность",
-              code: "inDeep",
-              permissions: {
-                allow: ["*"],
-                deny: ["guest"],
-              },
-              to: "/deep",
-            },
-            {
-              title: "Детальная страница",
-              code: "detail",
-              permissions: {
-                allow: ["admin"],
-                deny: ["*"],
-              },
-              to: "/detail/1",
-            },
-          ],
+    dataSource: {
+      type: "list",
+      options: [
+        {
+          code: "content",
+          name: "Контент",
+          icon: "grid-plus-outline",
         },
-      },
+        {
+          code: "site",
+          name: "Сайт",
+          icon: "website",
+        },
+        {
+          code: "marketing",
+          name: "Маркетинг",
+          icon: "bullseye-arrow",
+        },
+        {
+          code: "stores",
+          name: "Магазин",
+          icon: "cart",
+        },
+        {
+          code: "clients",
+          name: "Клиенты",
+          icon: "account-multiple-outline",
+        },
+      ],
     },
   },
   pages: [
+    {
+      pageUrl: "/content",
+      title: "Контент",
+      blocks: [
+        {
+          type: "SecondarySideMenu",
+          dataSource: {
+            type: "api:request",
+            options: {
+              url: "/admin/secondary-menu-config/content",
+              method: "get",
+            },
+          },
+        },
+      ],
+    },
     // {
     //   pageUrl: "/deep",
     //   title: "Тестирование блоков",

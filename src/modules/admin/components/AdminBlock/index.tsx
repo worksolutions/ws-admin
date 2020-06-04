@@ -1,17 +1,16 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
-import { pipe } from "ramda";
+import { compose, pipe } from "ramda";
 import { Container } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import { Skeleton } from "@material-ui/lab";
 import { observer } from "mobx-react-lite";
 
-import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
-
-import { DataSourceInterface, useDataSource } from "../../HOC/DataSource/DataSourceHOC";
 import { ActionsInterface, AdminComponentInterface } from "../../types";
 import { buildActions } from "../../componentBuilder/buildActions";
 import calculateContextDependency from "../../HOC/Context/calculateContextDependency";
 import { buildDependsContext, useAppContext } from "../../context";
+
+import { DataSourceInterface } from "types/DataSource";
 
 const loadComponent = (type: string, cb: (cmp: any) => void) => {
   import(`commonComponents/${type}`).then((module) => cb(module.default), console.error);
@@ -42,11 +41,11 @@ const AdminBlock = ({ config, context, updateState }: AdminBlockInterface) => {
     // eslint-disable-next-line
   }, []);
 
-  const data = useDataSource(config.dataSource, {
-    context: context,
-    updateState,
-  });
-
+  // const data = useDataSource(config.dataSource, {
+  //   context: context,
+  //   updateState,
+  // });
+  const data = {};
   const actions = buildActions(config.actions, {
     context: context,
     updateState,
@@ -65,12 +64,11 @@ const AdminBlock = ({ config, context, updateState }: AdminBlockInterface) => {
   );
 };
 
-export default pipe(
-  () => AdminBlock,
-  withPerformance(["contextDependsParam", "updateState"]),
+export default compose(
+  calculateContextDependency,
+  observer,
   (Component) => (props: any) => {
-    const { context, updateContext } = useAppContext();
-    const updateState = useCallback(updateContext, []);
+    const { context, updateState } = useAppContext();
     const context1 = buildDependsContext(props.contextDependsParam, context);
     return (
       <Component
@@ -81,6 +79,6 @@ export default pipe(
       />
     );
   },
-  observer,
-  calculateContextDependency,
+  // withPerformance(["contextDependsParam", "updateState"]),
+  () => AdminBlock,
 )();

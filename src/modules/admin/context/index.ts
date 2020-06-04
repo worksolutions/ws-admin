@@ -1,5 +1,6 @@
 import { assocPath, hasPath, path, prop } from "ramda";
 import { Container } from "typedi";
+import { useCallback } from "react";
 
 import { UpdateStatePayload } from "../types";
 
@@ -27,7 +28,7 @@ export function useAppContext() {
   };
 
   return {
-    updateContext,
+    updateState: useCallback(updateContext, []),
     context: { page: pageState.stateContainer.state, global: globalState.stateContainer.state },
   };
 }

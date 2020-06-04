@@ -101,9 +101,13 @@ export function useDebouncedInput<T>(
   };
 }
 
-export const useSetDocumentTitle = (title: string) => {
+export const useSetDocumentTitle = (title: string, timeout = 0) => {
   useEffect(() => {
-    document.title = title;
+    if (timeout === 0) {
+      document.title = title;
+      return;
+    }
+    setTimeout(() => (document.title = title), timeout);
   }, [title]);
 };
 

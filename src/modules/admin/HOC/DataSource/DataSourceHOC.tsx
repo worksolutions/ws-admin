@@ -1,35 +1,10 @@
-import React, { FC, useEffect, useState } from "react";
-
-import { METHODS } from "libs/request";
+import React, { FC, useState } from "react";
 
 import { AdminComponentInterface } from "../../types";
-
-import listDataSource from "./list/listDataSource";
-import apiRequestDataSource from "./list/apiRequestDataSource";
-import fromContextDataSource from "./list/fromContextDataSource";
-
-export enum DataSourceType {
-  LIST = "list",
-  API_REQUEST = "api",
-  CONTEXT = "context",
-}
-
-type DataSourceOptions = {
-  [DataSourceType.LIST]: { data: any[] };
-  [DataSourceType.CONTEXT]: { key: string };
-  [DataSourceType.API_REQUEST]: {
-    url: string;
-    method?: METHODS;
-    params?: {
-      [key: string]: string | number;
-    };
-  };
-};
-
-export interface DataSourceInterface<T extends DataSourceType> {
-  type: T;
-  options: DataSourceOptions[T];
-}
+import { DataSourceInterface, DataSourceType } from "../../../../types/DataSource";
+import listDataSource from "../../../context/dataSource/sources/listDataSource";
+import apiRequestDataSource from "../../../context/dataSource/sources/apiRequestDataSource";
+import fromContextDataSource from "../../../context/dataSource/sources/fromContextDataSource";
 
 export default function <P>(Cmp: FC<P & AdminComponentInterface>, state: any) {
   return function (props: P & { dataSource: DataSourceInterface<any> }) {
@@ -59,43 +34,3 @@ export default function <P>(Cmp: FC<P & AdminComponentInterface>, state: any) {
     return <Cmp {...(props as P)} data={data} />;
   };
 }
-
-export const useDataSource = (
-  dataSource: any,
-  {
-    context,
-    updateState,
-  }: {
-    context: any;
-    updateState: (data: { path: string; data: any }) => void;
-  },
-) => {
-  const [data, setData] = useState();
-
-  function onDataReceived(data: any) {
-    setData(data);
-    if (dataSource?.context) {
-      updateState({
-        path: dataSource.context,
-        data,
-      });
-    }
-  }
-
-  useEffect(() => {
-    if (!dataSource) return undefined;
-    switch (dataSource.type) {
-      case DataSourceType.LIST:
-        listDataSource(dataSource).then(onDataReceived);
-        break;
-      case DataSourceType.API_REQUEST:
-        apiRequestDataSource(dataSource, context).then(onDataReceived);
-        break;
-      default:
-        console.error(`Указан неизвестный тип источника данных. [${dataSource.type}]`);
-        break;
-    }
-  }, [context, dataSource, onDataReceived]);
-
-  return data;
-};

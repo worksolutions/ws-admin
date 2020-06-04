@@ -1,50 +1,65 @@
 import React from "react";
 import { useLocation, matchPath } from "react-router";
+import { assoc } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
+import { Icons } from "primitives/Icon";
 
-import { flex, fullHeight, fullWidth } from "libs/styles";
+import { flex, fullHeight, fullWidth, marginLeft, width } from "libs/styles";
+import { cb } from "libs/CB";
 
-import PrimaryMenuSidebar from "./PrimaryMenuSidebar";
-import SecondaryMenuSidebar from "./SecondaryMenuSidebar";
+import { useDataSource } from "../modules/context/dataSource/useDataSource";
 
-import { PrimarySideMenuDataSourceInterface } from "state/systemState";
+import MenuSidebar, { sidebarWidth } from "./MenuSidebar";
 
-export default React.memo(function ({
-  children,
-  logo,
-  primarySidebarDataSource,
-}: {
-  children: React.ReactNode;
-  logo: string;
-  primarySidebarDataSource: PrimarySideMenuDataSourceInterface;
-}) {
-  const { pathname } = useLocation();
-  return (
-    <Wrapper styles={[flex, fullWidth, fullHeight]}>
-      <PrimaryMenuSidebar
-        logo={logo}
-        primaryItems={primarySidebarDataSource.options.map((element) => {
-          const selected = !!matchPath(pathname, {
-            path: element.to,
-            exact: true,
-          });
-          return {
+import { AnyDataSource } from "types/DataSource";
+
+export default cb(
+  {
+    observer: true,
+    useStateBuilder(props: { children: React.ReactNode; logo: string; sidebarDataSource: AnyDataSource }) {
+      const { pathname } = useLocation();
+      const [menuElements, setMenuElements] = React.useState<
+        { code: string; name: string; icon: Icons; selected: boolean; href: string }[]
+      >([]);
+
+      const data: any = useDataSource(props.sidebarDataSource);
+      React.useEffect(() => {
+        if (!data) return;
+        setMenuElements(
+          data.map((item: any) => {
+            const href = "/" + item.code;
+            const selected = !!matchPath(pathname, { path: href });
+            return { ...item, href, selected };
+          }),
+        );
+      }, [data, pathname]);
+
+      return { menuElements };
+    },
+  },
+  function ({ children, logo }, { state: { menuElements } }) {
+    return (
+      <Wrapper styles={[flex, fullWidth, fullHeight]}>
+        <MenuSidebar
+          logo={logo}
+          primaryItems={menuElements.map((element) => ({
             type: "button",
-            selected,
-            href: element.to,
-            hint: element.hint,
+            href: element.href,
+            selected: element.selected,
+            hint: element.name,
             icon: element.icon,
-          };
-        })}
-        secondaryItems={[
-          { href: "/a", selected: false, type: "button", icon: "arrow-up" },
-          { href: "/a", selected: false, type: "button", icon: "arrow-up" },
-          { href: "/a", selected: false, type: "button", icon: "arrow-up" },
-        ]}
-      />
-      <SecondaryMenuSidebar opened={true} title="Title 123" items={[]} onChangeOpened={console.log} />
-      {children}
-    </Wrapper>
-  );
-});
+          }))}
+          secondaryItems={[
+            { href: "/a", selected: false, type: "button", icon: "arrow-up" },
+            { href: "/a", selected: false, type: "button", icon: "arrow-up" },
+            { href: "/a", selected: false, type: "button", icon: "arrow-up" },
+          ]}
+        />
+        <Wrapper styles={[fullHeight, marginLeft(sidebarWidth), width(`calc(100% - ${sidebarWidth})`)]}>
+          {children}
+        </Wrapper>
+      </Wrapper>
+    );
+  },
+);

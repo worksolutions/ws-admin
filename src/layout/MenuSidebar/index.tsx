@@ -4,7 +4,6 @@ import Wrapper from "primitives/Wrapper";
 import Icon, { Icons } from "primitives/Icon";
 import LinkWrapper from "primitives/LinkWrapper";
 import Hint from "primitives/Popper/Hint";
-import { PopperConfigInterface } from "primitives/Popper/usePopper";
 
 import {
   ai,
@@ -30,6 +29,7 @@ import {
   backgroundSize,
   backgroundPosition,
   fullWidth,
+  minHeight,
 } from "libs/styles";
 
 import SuggestInterface from "types/SuggestInterface";
@@ -42,11 +42,9 @@ interface BaseIconButtonInterface {
   styles?: any;
 }
 
-const popperConfig: PopperConfigInterface = {};
-
 const IconLink = React.memo(function ({ icon, selected, href, hint, styles }: BaseIconButtonInterface) {
   return (
-    <Hint text={hint} popperConfig={popperConfig}>
+    <Hint text={hint}>
       {(initParent) => (
         <LinkWrapper
           ref={initParent}
@@ -83,18 +81,28 @@ type SidebarItemInterface = BaseIconButtonInterface &
       }
   );
 
-export interface PrimaryMenuSidebarInterface {
+export interface MenuSidebarInterface {
   logo?: string;
   primaryItems: SidebarItemInterface[];
   secondaryItems: SidebarItemInterface[];
 }
 
-function PrimaryMenuSidebar({ logo, primaryItems, secondaryItems }: PrimaryMenuSidebarInterface) {
+export const sidebarWidth = 56;
+
+function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterface) {
   return (
-    <Wrapper styles={[backgroundColor("blue/10"), position("fixed"), fullHeight, width(56), flex, flexColumn]}>
+    <Wrapper
+      styles={[backgroundColor("blue/10"), position("fixed"), fullHeight, width(sidebarWidth), flex, flexColumn]}
+    >
       {logo && (
         <Wrapper
-          styles={[backgroundImage(logo), backgroundSize("cover"), backgroundPosition("center"), width(56), height(56)]}
+          styles={[
+            backgroundImage(logo),
+            backgroundSize("cover"),
+            backgroundPosition("center"),
+            width(56),
+            minHeight(56),
+          ]}
         />
       )}
       <Wrapper styles={[flexValue(1), fullWidth, flex, flexColumn, padding("16px 8px 20px 8px")]}>
@@ -113,4 +121,4 @@ function PrimaryMenuSidebar({ logo, primaryItems, secondaryItems }: PrimaryMenuS
   );
 }
 
-export default React.memo(PrimaryMenuSidebar);
+export default React.memo(MenuSidebar);
