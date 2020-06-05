@@ -4,7 +4,7 @@ import { useLocation, matchPath } from "react-router";
 import Wrapper from "primitives/Wrapper";
 import { Icons } from "primitives/Icon";
 
-import { fullHeight, marginLeft, width } from "libs/styles";
+import { flex, fullHeight, marginLeft, width } from "libs/styles";
 import { cb } from "libs/CB";
 
 import { useDataSource } from "../modules/context/dataSource/useDataSource";
@@ -55,7 +55,7 @@ export default cb(
             { href: "/a", selected: false, type: "button", icon: "arrow-up" },
           ]}
         />
-        <Wrapper styles={[fullHeight, marginLeft(sidebarWidth), width(`calc(100% - ${sidebarWidth}px)`)]}>
+        <Wrapper styles={[flex, fullHeight, marginLeft(sidebarWidth), width(`calc(100% - ${sidebarWidth}px)`)]}>
           {children}
         </Wrapper>
       </>

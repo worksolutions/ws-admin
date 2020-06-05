@@ -22,57 +22,60 @@ app.get("/api/admin/config", (_req, res) => res.json(success(mainConfig)));
 
 app.get("/api/admin/secondary-menu-config/:id", (req, res) => {
   res.json(
-    success([
-      {
-        name: "Структура сайта для раздела " + req.params.id,
-        icon: "arrow-left",
-        to: "/content/structure",
-        subElements: [],
-      },
-      {
-        name: "SEO настройки",
-        to: "/content/seo",
-        subElements: [],
-      },
-      {
-        name: "Каталог товаров",
-        icon: "arrow-up",
-        to: "/content/catalog",
-        subElements: [
-          {
-            name: "Элементы",
-            to: "/content/catalog/elements",
-          },
-          {
-            name: "Подарки",
-            icon: "arrow-up",
-            to: "/content/catalog/gifts",
-            subElements: [
-              {
-                name: "500 - 1000 руб",
-                to: "/content/catalog/gifts/500-1000",
-                subElements: [
-                  {
-                    name: "Элементы",
-                    to: "/content/catalog/gifts/500-1000/elements",
-                  },
-                ],
-              },
-              {
-                name: "До 500 руб.",
-                to: "/content/catalog/gifts/0-500",
-                subElements: [
-                  {
-                    name: "Элементы с большим названием",
-                    to: "/content/catalog/gifts/0-500/elements",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ]),
+    success({
+      title: "Контент",
+      items: [
+        {
+          name: "Структура сайта для раздела " + req.params.id,
+          icon: "arrow-left",
+          to: "/content/structure",
+          subElements: [],
+        },
+        {
+          name: "SEO настройки",
+          to: "/content/seo",
+          subElements: [],
+        },
+        {
+          name: "Каталог товаров",
+          icon: "arrow-up",
+          to: "/content/catalog",
+          subElements: [
+            {
+              name: "Элементы",
+              to: "/content/catalog/elements",
+            },
+            {
+              name: "Подарки",
+              icon: "arrow-up",
+              to: "/content/catalog/gifts",
+              subElements: [
+                {
+                  name: "500 - 1000 руб",
+                  to: "/content/catalog/gifts/500-1000",
+                  subElements: [
+                    {
+                      name: "Элементы",
+                      to: "/content/catalog/gifts/500-1000/elements",
+                    },
+                  ],
+                },
+                {
+                  name: "До 500 руб.",
+                  to: "/content/catalog/gifts/0-500",
+                  subElements: [
+                    {
+                      name: "Элементы с большим названием",
+                      to: "/content/catalog/gifts/0-500/elements",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }),
   );
 });
 

@@ -1,5 +1,6 @@
 import { is, memoizeWith } from "ramda";
 import { css } from "styled-components";
+import { CSSProperties } from "react";
 
 import { identity } from "./identity";
 import { Colors, getColor } from "./colors-style";
@@ -89,9 +90,10 @@ export const pointer = css`
   cursor: pointer;
 `;
 
-export const defaultCursor = css`
-  cursor: default;
-`;
+export const cursor = memoizeWith(identity, function (value: CSSProperties["cursor"]) {
+  return css`
+    cursor: ${value};`;
+});
 
 export const lineHeight = memoizeWith(identity, function (value: number) {
   return css`
