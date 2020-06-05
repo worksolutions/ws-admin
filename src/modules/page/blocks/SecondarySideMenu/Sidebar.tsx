@@ -37,7 +37,13 @@ function SecondaryMenuSidebar({ title, items }: SecondaryMenuSidebarInterface) {
         styles={[overflow("hidden"), minHeight("100vh"), maxHeight("100vh"), fullWidth, padding("16px 8px 0px 8px")]}
       >
         <Wrapper styles={[padding("0 8px 8px 8px")]}>
-          <Input placeholder="Найти раздел" size={InputSize.MEDIUM} value={search} onChange={setSearch} />
+          <Input
+            size={InputSize.MEDIUM}
+            iconLeft="search-big"
+            placeholder="Найти раздел"
+            value={search}
+            onChange={setSearch}
+          />
           <Wrapper styles={[flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN), marginTop(12)]}>
             <Typography type="h1">{title}</Typography>
           </Wrapper>

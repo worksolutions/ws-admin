@@ -1,7 +1,7 @@
 import React, { ReactNode, Ref } from "react";
 import styled from "styled-components";
 
-import { color, Colors, textDots, fontSize, fontWeight, letterSpacing, lineHeight } from "libs/styles";
+import { color, Colors, textDots, fontSize, fontWeight, letterSpacing, lineHeight, display } from "libs/styles";
 
 import { StyledComponentsAS } from "types/StyledComponentsAS";
 
@@ -45,7 +45,13 @@ const Typography = React.forwardRef(
       className={className}
       ref={ref}
       as={as}
-      css={[type ? TypographyTypes[type] : null, color(colorProp || "gray-blue/09"), dotsProp && textDots, styles]}
+      css={[
+        display("inline-block"),
+        type ? TypographyTypes[type] : null,
+        color(colorProp || "gray-blue/09"),
+        dotsProp && textDots,
+        styles,
+      ]}
     >
       {children}
     </TypographyWrapper>
