@@ -10,3 +10,7 @@
 html {
     line-height: 0;
 }
+
+body {
+    overflow: auto;
+}

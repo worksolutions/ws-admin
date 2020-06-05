@@ -63,7 +63,7 @@ app.get("/api/admin/secondary-menu-config/:id", (req, res) => {
                 to: "/content/catalog/gifts/0-500",
                 subElements: [
                   {
-                    name: "Элементы",
+                    name: "Элементы с большим названием",
                     to: "/content/catalog/gifts/0-500/elements",
                   },
                 ],

@@ -1,11 +1,10 @@
 import React from "react";
 import { useLocation, matchPath } from "react-router";
-import { assoc } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 import { Icons } from "primitives/Icon";
 
-import { flex, fullHeight, fullWidth, marginLeft, width } from "libs/styles";
+import { fullHeight, marginLeft, width } from "libs/styles";
 import { cb } from "libs/CB";
 
 import { useDataSource } from "../modules/context/dataSource/useDataSource";
@@ -40,7 +39,7 @@ export default cb(
   },
   function ({ children, logo }, { state: { menuElements } }) {
     return (
-      <Wrapper styles={[flex, fullWidth, fullHeight]}>
+      <>
         <MenuSidebar
           logo={logo}
           primaryItems={menuElements.map((element) => ({
@@ -56,10 +55,10 @@ export default cb(
             { href: "/a", selected: false, type: "button", icon: "arrow-up" },
           ]}
         />
-        <Wrapper styles={[fullHeight, marginLeft(sidebarWidth), width(`calc(100% - ${sidebarWidth})`)]}>
+        <Wrapper styles={[fullHeight, marginLeft(sidebarWidth), width(`calc(100% - ${sidebarWidth}px)`)]}>
           {children}
         </Wrapper>
-      </Wrapper>
+      </>
     );
   },
 );

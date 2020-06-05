@@ -7,6 +7,11 @@ export function useBoolean(initial: boolean | (() => boolean)): [boolean, () => 
   return [state, () => setState(true), () => setState(false)];
 }
 
+export function useToggle(initial: boolean | (() => boolean)): [boolean, () => void] {
+  const [state, setState] = useState(initial);
+  return [state, () => setState(!state)];
+}
+
 export function usePromiseProcessing<T, ARG>(
   promiseFunc: (arg: ARG) => Promise<T>,
   config: {
@@ -120,6 +125,13 @@ export const useEffectSkipFirst = (callback: React.EffectCallback, dependencies:
       return;
     }
     wasChanged.current = true;
-    // eslint-disable-next-line
   }, dependencies);
 };
+
+export function usePrevious<T>(value: T) {
+  const ref = useRef<T>(value);
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
