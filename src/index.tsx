@@ -12,11 +12,9 @@ import App from "./App";
 export const browserHistory = createBrowserHistory();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Router history={browserHistory}>
-      <App />
-    </Router>
-  </React.StrictMode>,
+  <Router history={browserHistory}>
+    <App />
+  </Router>,
   document.getElementById("root"),
 );
 

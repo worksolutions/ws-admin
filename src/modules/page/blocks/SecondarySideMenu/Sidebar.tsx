@@ -3,6 +3,7 @@ import React from "react";
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 import Resizer from "primitives/Resizer";
+import Input, { InputSize } from "primitives/Input";
 
 import {
   ai,
@@ -29,13 +30,14 @@ export interface SecondaryMenuSidebarInterface {
 }
 
 function SecondaryMenuSidebar({ title, items }: SecondaryMenuSidebarInterface) {
+  const [search, setSearch] = React.useState("");
   return (
     <Resizer initialWidth={272} styles={backgroundColor("gray-blue/01")}>
       <Wrapper
         styles={[overflow("hidden"), minHeight("100vh"), maxHeight("100vh"), fullWidth, padding("16px 8px 0px 8px")]}
       >
         <Wrapper styles={[padding("0 8px 8px 8px")]}>
-          <input />
+          <Input placeholder="Найти раздел" size={InputSize.MEDIUM} value={search} onChange={setSearch} />
           <Wrapper styles={[flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN), marginTop(12)]}>
             <Typography type="h1">{title}</Typography>
           </Wrapper>

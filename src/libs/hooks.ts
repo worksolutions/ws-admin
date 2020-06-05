@@ -77,19 +77,23 @@ export function useForceUpdate() {
   return useCallback(() => updateState({}), []);
 }
 
-// eslint-disable-next-line max-params
+export function useDebounce(debounceTime: number, callback: (...args: any[]) => void) {
+  const debounceRef = useRef<ReturnType<typeof debounce>>(null!);
+  useEffect(() => {
+    debounceRef.current = debounce(callback, debounceTime);
+    return () => debounceRef.current.cancel();
+  }, [callback]);
+
+  return { run: (...args: any) => debounceRef.current(...args), debounceRef };
+}
+
 export function useDebouncedInput<T>(
   value: string,
-  onChange: (value: string, additionalData?: T) => void,
   debounceTime: number,
-  charCountThreshold = 3,
+  onChange: (value: string, additionalData?: T) => void,
 ) {
   const [inputValue, setInputValue] = useState(value);
-  const debounceRef = useRef<ReturnType<typeof debounce>>();
-  useEffect(() => {
-    debounceRef.current = debounce(onChange, debounceTime);
-    return () => debounceRef.current!.cancel();
-  }, [debounceTime, onChange]);
+  const { run } = useDebounce(debounceTime, onChange);
 
   React.useEffect(() => setInputValue(value), [value]);
 
@@ -97,11 +101,11 @@ export function useDebouncedInput<T>(
     inputValue,
     clear: () => {
       setInputValue("");
-      debounceRef.current!("");
+      run("");
     },
     onInputChange: (value: string, additionalData?: T) => {
       setInputValue(value);
-      if (value.length >= charCountThreshold || value.length === 0) debounceRef.current!(value, additionalData);
+      run(value, additionalData);
     },
   };
 }
