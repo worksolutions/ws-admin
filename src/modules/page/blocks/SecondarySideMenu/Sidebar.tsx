@@ -4,6 +4,7 @@ import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 import Resizer from "primitives/Resizer";
 import Input, { InputSize } from "primitives/Input";
+import Button, { ButtonSize } from "primitives/Button";
 
 import {
   ai,
@@ -44,6 +45,18 @@ function SecondaryMenuSidebar({ title, items }: SecondaryMenuSidebarInterface) {
             value={search}
             onChange={setSearch}
           />
+          <Button size={ButtonSize.MEDIUM} onClick={console.log}>
+            test
+          </Button>
+          <Button size={ButtonSize.MEDIUM} iconLeft="search-big" onClick={console.log}>
+            test
+          </Button>
+          <Button size={ButtonSize.MEDIUM} iconRight="search-big" onClick={console.log}>
+            test
+          </Button>
+          <Button size={ButtonSize.MEDIUM} iconLeft="search-big" onClick={console.log} iconRight="search-big">
+            test
+          </Button>
           <Wrapper styles={[flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN), marginTop(12)]}>
             <Typography type="h1">{title}</Typography>
           </Wrapper>

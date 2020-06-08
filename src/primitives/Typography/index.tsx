@@ -19,7 +19,7 @@ export const TypographyTypes = {
   "caption-semi-bold": [] as any[],
   "overline-regular": [fontSize(10), lineHeight(12), letterSpacing(0.25)],
   "overline-semi-bold": [] as any[],
-  button: [fontWeight(500), fontSize(14), lineHeight(24), letterSpacing(0.25)],
+  button: [fontWeight(500), fontSize(14), lineHeight(20), letterSpacing(0.25)],
 };
 
 TypographyTypes["body-semi-bold"] = [...TypographyTypes["body-regular"], fontWeight(600)];

@@ -30,6 +30,7 @@ import {
   backgroundPosition,
   fullWidth,
   minHeight,
+  zIndex,
 } from "libs/styles";
 
 import SuggestInterface from "types/SuggestInterface";
@@ -92,7 +93,15 @@ export const sidebarWidth = 56;
 function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterface) {
   return (
     <Wrapper
-      styles={[backgroundColor("blue/10"), position("fixed"), fullHeight, width(sidebarWidth), flex, flexColumn]}
+      styles={[
+        backgroundColor("blue/10"),
+        position("fixed"),
+        fullHeight,
+        width(sidebarWidth),
+        flex,
+        flexColumn,
+        zIndex(1),
+      ]}
     >
       {logo && (
         <Wrapper

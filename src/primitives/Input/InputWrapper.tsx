@@ -133,7 +133,7 @@ function InputWrapper({
           color("gray-blue/09"),
           child(color("gray-blue/04"), "::placeholder"),
           stylesOnIcons.base,
-          hover([borderColor("gray-blue/04")]),
+          hover([borderColor("gray-blue/04")]), // todo вынести в родителя
           focus([border(2, "blue/05"), stylesOnIcons.focused]),
         ])}
         {leftIconElement}
