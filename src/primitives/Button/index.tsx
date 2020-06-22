@@ -3,19 +3,22 @@ import React from "react";
 import Wrapper from "primitives/Wrapper";
 
 import ButtonWrapper, { BaseButtonWrapperInterface } from "./ButtonWrapper";
+import { ButtonType } from "./types";
 
 interface ButtonInterface extends BaseButtonWrapperInterface {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClick: () => void;
 }
 
 function Button({ children, onClick, ...buttonWrapperProps }: ButtonInterface) {
+  const isIconButton = buttonWrapperProps.type === ButtonType.ICON;
   return (
     <ButtonWrapper {...buttonWrapperProps}>
-      {(styles, icons) => (
+      {(styles, iconLeft, iconRight) => (
         <Wrapper as="button" styles={styles} onClick={onClick}>
-          {children}
-          {icons}
+          {iconLeft}
+          {!isIconButton && children}
+          {iconRight}
         </Wrapper>
       )}
     </ButtonWrapper>
@@ -24,4 +27,4 @@ function Button({ children, onClick, ...buttonWrapperProps }: ButtonInterface) {
 
 export default React.memo(Button);
 
-export { ButtonType, ButtonSize } from "./ButtonWrapper";
+export { ButtonType, ButtonSize } from "./types";

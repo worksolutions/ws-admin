@@ -1,10 +1,24 @@
 import React from "react";
-import { useSpring, to, animated } from "react-spring";
+import { animated, to, useSpring } from "react-spring";
 import { useGesture } from "react-with-gesture";
 
 import Wrapper from "primitives/Wrapper";
+import Button, { ButtonSize, ButtonType } from "primitives/Button";
 
-import { backgroundColor, position, width, top, bottom, cursor, flex, fullHeight, marginLeft, left } from "libs/styles";
+import {
+  backgroundColor,
+  bottom,
+  boxShadow,
+  createAlphaColor,
+  cursor,
+  flex,
+  fullHeight,
+  left,
+  marginLeft,
+  position,
+  top,
+  width,
+} from "libs/styles";
 
 import BackdropDisabler from "../BackdropDisabler";
 
@@ -60,8 +74,20 @@ function Resizer({ initialWidth, children, styles, minWidthToAutoClose = 72 }: R
           <Wrapper as={animated.div} styles={[backgroundColor("gray-blue/02"), width(1), fullHeight, marginLeft(4)]} />
         </Wrapper>
         {styleParams.childOpacity === 0 && (
-          <Wrapper styles={[position("absolute"), left(0), top("50%")]}>
-            <button onClick={showClosed}>123</button>
+          <Wrapper styles={[position("absolute"), left(8), top("50%")]}>
+            <Button
+              outerStyles={[
+                boxShadow(
+                  [0, 4, 8, createAlphaColor("black", 10)],
+                  [0, 16, 24, createAlphaColor("black", 10)],
+                  [0, 24, 32, createAlphaColor("black", 10)],
+                ),
+              ]}
+              type={ButtonType.ICON}
+              size={ButtonSize.LARGE}
+              iconLeft="arrow-right"
+              onClick={showClosed}
+            />
           </Wrapper>
         )}
       </Wrapper>

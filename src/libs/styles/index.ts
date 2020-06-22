@@ -3,7 +3,7 @@ import { css } from "styled-components";
 import { CSSProperties } from "react";
 
 import { identity } from "./identity";
-import { Colors, getColor } from "./colors-style";
+import { AlphaColor, Colors, getColor, GradientColor } from "./colors-style";
 
 export const stringOrPixels = (value: number | string) => (is(String, value) ? value : `${value}px`);
 
@@ -17,16 +17,20 @@ export const disableOutline = css`
   outline: none;
 `;
 
-type BoxShadow = [number | string, number | string, number | string, Colors];
+type BoxShadow = [number | string, number | string, number | string, Colors | GradientColor | AlphaColor];
+
+function makeShadow([offsetX, offsetY, blurRadius, color]: BoxShadow) {
+  return `${stringOrPixels(offsetX)} ${stringOrPixels(offsetY)} ${stringOrPixels(blurRadius)} ${getColor(color)}`;
+}
 
 export const boxShadow = memoizeWith(
-  ([offsetX, offsetY, blurRadius, color]) => `${offsetX}_${offsetY}_${blurRadius}_${color}`,
-  function ([offsetX, offsetY, blurRadius, color]: BoxShadow) {
+  (...shadows) => JSON.stringify(shadows),
+  function (...shadows: BoxShadow[]) {
     return css`
-      box-shadow: ${stringOrPixels(offsetX)} ${stringOrPixels(offsetY)} ${stringOrPixels(blurRadius)} ${getColor(color)};
+      box-shadow: ${shadows.map(makeShadow).join(", ")};
     `;
   },
-) as (config: BoxShadow) => any;
+) as (...config: BoxShadow[]) => any;
 
 export const transform = memoizeWith(identity, function (transform: string) {
   return css`

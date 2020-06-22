@@ -2,105 +2,16 @@ import React from "react";
 
 import { TypographyTypes } from "primitives/Typography";
 import Icon, { Icons } from "primitives/Icon";
-import Wrapper from "primitives/Wrapper";
 
-import {
-  padding,
-  backgroundColor,
-  border,
-  borderRadius,
-  hover,
-  transition,
-  focus,
-  disableOutline,
-  color,
-  position,
-  top,
-  left,
-  transform,
-  right,
-  createLinearGradientColor,
-  display,
-  fillColor,
-  child,
-  pointer,
-} from "libs/styles";
+import { borderRadius, disableOutline, focus, hover, transition } from "libs/styles";
 
-export enum ButtonSize {
-  LARGE,
-  MEDIUM,
-}
+import { stylesForSize, stylesForType } from "./styles";
+import { ButtonSize, ButtonType } from "./types";
 
-export enum ButtonType {
-  PRIMARY,
-  ICON,
-}
-
-const stylesForSize = {
-  [ButtonSize.LARGE]: {
-    withIconLeft: {
-      base: [padding("8px 20px 8px 48px")],
-      focused: [padding("7px 19px 7px 47px")],
-    },
-    withIconRight: {
-      base: [padding("8px 48px 8px 20px")],
-      focused: [padding("7px 47px 7px 19px")],
-    },
-    withIcons: {
-      base: [padding("8px 48px 8px 48px")],
-      focused: [padding("7px 47px 7px 47px")],
-    },
-    withoutIcons: {
-      base: [padding("8px 20px")],
-      focused: [padding("7px 19px")],
-    },
-  },
-  [ButtonSize.MEDIUM]: {
-    withIconLeft: {
-      base: [padding("4px 16px 4px 48px")],
-      focused: [padding("3px 15px 3px 47px")],
-    },
-    withIconRight: {
-      base: [padding("4px 48px 4px 16px")],
-      focused: [padding("3px 47px 3px 15px")],
-    },
-    withIcons: {
-      base: [padding("4px 48px 4px 48px")],
-      focused: [padding("3px 47px 3px 47px")],
-    },
-    withoutIcons: {
-      base: [padding("4px 16px")],
-      focused: [padding("3px 15px")],
-    },
-  },
-};
-
-const stylesForType = {
-  [ButtonType.PRIMARY]: {
-    default: [
-      pointer,
-      backgroundColor("blue/05"),
-      border(1, "blue/07"),
-      color("white"),
-      child(fillColor("white"), ".icon use"),
-    ],
-    hover: [backgroundColor("blue/04")],
-    focused: [backgroundColor(createLinearGradientColor("blue/04", "blue/05", "180deg")), border(2, "blue/09")],
-  },
-  [ButtonType.ICON]: {
-    default: [
-      pointer,
-      backgroundColor("blue/05"),
-      border(1, "blue/07"),
-      color("white"),
-      child(fillColor("white"), ".icon use"),
-    ],
-    hover: [backgroundColor("blue/04")],
-    focused: [backgroundColor(createLinearGradientColor("blue/04", "blue/05", "180deg")), border(2, "blue/09")],
-  },
-};
-
-function getStylesNameOnIcons(hasLeftIcon: boolean, hasRightIcon: boolean): keyof typeof stylesForSize["0"] {
+function getStylesNameOnIcons(
+  hasLeftIcon: boolean,
+  hasRightIcon: boolean,
+): keyof typeof stylesForSize["0"]["defaultStyles"] {
   if (hasLeftIcon && hasRightIcon) return "withIcons";
   if (hasLeftIcon) return "withIconLeft";
   if (hasRightIcon) return "withIconRight";
@@ -114,10 +25,11 @@ export interface BaseButtonWrapperInterface {
   spinner?: boolean;
   size?: ButtonSize;
   type?: ButtonType;
+  outerStyles?: any;
 }
 
 interface ButtonWrapperInterface extends BaseButtonWrapperInterface {
-  children: (styles: any, icons: JSX.Element) => JSX.Element;
+  children: (styles: any, iconLeft: React.ReactNode, iconRight: React.ReactNode) => JSX.Element;
 }
 
 function ButtonWrapper({
@@ -126,44 +38,32 @@ function ButtonWrapper({
   type = ButtonType.PRIMARY,
   iconLeft,
   iconRight,
+  outerStyles,
 }: ButtonWrapperInterface) {
-  const stylesOnIcons = stylesForSize[size][getStylesNameOnIcons(!!iconLeft, !!iconRight)];
+  const isIconButton = type === ButtonType.ICON;
+  const { defaultStyles, overrideTypeStyles } = stylesForSize[size];
+  const stylesOnIcons = defaultStyles[getStylesNameOnIcons(!!iconLeft, isIconButton ? false : !!iconRight)];
   const stylesOnType = stylesForType[type];
+  const stylesOnTypeOverride = overrideTypeStyles[type];
 
-  const leftIconElement = iconLeft && (
-    <Icon
-      className="icon"
-      styles={[position("absolute"), top("50%"), left(18), transform("translateY(-50%)")]}
-      iconName={iconLeft}
-    />
-  );
+  const leftIconElement = iconLeft && <Icon className="icon icon-left" iconName={iconLeft} />;
+  const rightIconElement = !isIconButton && iconRight && <Icon className="icon icon-right" iconName={iconRight} />;
 
-  const rightIconElement = iconRight && (
-    <Icon
-      className="icon"
-      styles={[position("absolute"), top("50%"), right(18), transform("translateY(-50%)")]}
-      iconName={iconRight}
-    />
-  );
-
-  return (
-    <Wrapper styles={[position("relative"), display("inline-block"), hover([stylesOnType.hover], "button")]}>
-      {children(
-        [
-          transition("all 0.2s"),
-          TypographyTypes["button"],
-          borderRadius(4),
-          disableOutline,
-          stylesOnType.default,
-          stylesOnIcons.base,
-          focus([stylesOnType.focused, stylesOnIcons.focused]),
-        ],
-        <>
-          {leftIconElement}
-          {rightIconElement}
-        </>,
-      )}
-    </Wrapper>
+  return children(
+    [
+      transition("all 200ms"),
+      TypographyTypes["button"],
+      borderRadius(4),
+      disableOutline,
+      stylesOnType.default,
+      stylesOnIcons.default,
+      stylesOnTypeOverride?.default,
+      hover(stylesOnType.hover),
+      focus([stylesOnType.focused, stylesOnIcons.focused, stylesOnTypeOverride?.focused]),
+      outerStyles,
+    ],
+    leftIconElement,
+    rightIconElement,
   );
 }
 

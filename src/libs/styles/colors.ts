@@ -69,7 +69,7 @@ export const colors = {
   "gray/08": "#4F4F50",
   "gray/09": "#3C3C3D",
   "gray/10": "#272728",
-  white: "white",
-  black: "black",
+  white: "#FFFFFF",
+  black: "#000000",
   transparent: "transparent",
 };

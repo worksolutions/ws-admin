@@ -1,6 +1,6 @@
 import { css } from "styled-components";
 
-import { Colors, getColor, GradientColor } from "./colors-style";
+import { AlphaColor, Colors, getColor, GradientColor } from "./colors-style";
 
 export function background(background: string) {
   return css`
@@ -8,7 +8,7 @@ export function background(background: string) {
   `;
 }
 
-export function backgroundColor(backgroundColor: Colors | GradientColor) {
+export function backgroundColor(backgroundColor: Colors | GradientColor | AlphaColor) {
   return css`
     background-color: ${getColor(backgroundColor)};
   `;

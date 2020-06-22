@@ -72,6 +72,18 @@ export const padding = memoizeWith(identity, function (padding: string | number)
     padding: ${stringOrPixels(padding)};`;
 });
 
+export const verticalPadding = memoizeWith(identity, function (padding: string | number) {
+  return css`
+    padding-top: ${stringOrPixels(padding)};
+    padding-bottom: ${stringOrPixels(padding)};`;
+});
+
+export const horizontalPadding = memoizeWith(identity, function (padding: string | number) {
+  return css`
+    padding-left: ${stringOrPixels(padding)};
+    padding-right: ${stringOrPixels(padding)};`;
+});
+
 export const paddingLeft = memoizeWith(identity, function (paddingLeft: number) {
   return css`
     padding-left: ${paddingLeft}px;`;
