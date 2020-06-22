@@ -208,3 +208,7 @@ export const textDots = css`
   white-space: nowrap;
   display: block;
 `;
+
+export const disableDecoration = css`
+  text-decoration: none;
+`;

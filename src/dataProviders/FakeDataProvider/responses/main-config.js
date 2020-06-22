@@ -41,7 +41,7 @@ module.exports = {
   },
   pages: [
     {
-      pageUrl: "/content",
+      pageUrl: "/content*",
       title: "Контент",
       blocks: [
         {
