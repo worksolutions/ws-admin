@@ -212,3 +212,7 @@ export const textDots = css`
 export const disableDecoration = css`
   text-decoration: none;
 `;
+
+export const visibility = (value: "hidden" | "visible") => css`
+  visibility: ${value};
+`;

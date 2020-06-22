@@ -54,6 +54,21 @@ module.exports = {
             },
           },
         },
+        {
+          type: "Column",
+          blocks: [
+            {
+              type: "BackgroundTasks",
+              dataSource: {
+                type: "api:request",
+                options: {
+                  url: "/admin/background-tasks",
+                  method: "get",
+                },
+              },
+            },
+          ],
+        },
       ],
     },
     // {

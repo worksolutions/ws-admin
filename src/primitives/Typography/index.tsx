@@ -15,14 +15,14 @@ export const TypographyTypes = {
   "body-semi-bold": [] as any[],
   "caption-regular": [fontSize(12), lineHeight(16), letterSpacing(0.25)],
   "caption-semi-bold": [] as any[],
-  "overline-regular": [fontSize(10), lineHeight(12), letterSpacing(0.25)],
-  "overline-semi-bold": [] as any[],
+  "overline-medium": [fontWeight(500), fontSize(10), lineHeight(12), letterSpacing(0.25)],
+  "overline-bold": [] as any[],
   button: [fontWeight(600), fontSize(14), lineHeight(24), letterSpacing(0.15)],
 };
 
 TypographyTypes["body-semi-bold"] = [...TypographyTypes["body-regular"], fontWeight(600)];
 TypographyTypes["caption-semi-bold"] = [...TypographyTypes["caption-regular"], fontWeight(600)];
-TypographyTypes["overline-semi-bold"] = [...TypographyTypes["overline-regular"], fontWeight("bold")];
+TypographyTypes["overline-bold"] = [...TypographyTypes["overline-medium"], fontWeight("bold")];
 
 export interface TypographyInterface {
   className?: string;

@@ -79,6 +79,38 @@ app.get("/api/admin/secondary-menu-config/:id", (req, res) => {
   );
 });
 
+app.get("/api/admin/background-tasks", (req, res) => {
+  res.json(
+    success([
+      {
+        name: "Импорт 1",
+        status: "ACTIVE",
+        text: "Импортировано 20 / 1933",
+        percent: 0.6103,
+      },
+      {
+        name: "Импорт 2",
+        status: "COMPLETE",
+      },
+      {
+        name: "Импорт 3",
+        status: "ERROR",
+        message: "Ошибка получения _id в базе данных",
+      },
+      {
+        name: "Импорт 3",
+        status: "ERROR",
+        message: "Ошибка получения _id в базе данных",
+      },
+      {
+        name: "Импорт 3",
+        status: "ERROR",
+        message: "Ошибка получения _id в базе данных",
+      },
+    ]),
+  );
+});
+
 app.get("/api/admin/user/1", (_req, res) =>
   res.json(
     success({

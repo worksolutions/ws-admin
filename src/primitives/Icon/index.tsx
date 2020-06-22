@@ -20,6 +20,8 @@ const list = {
   "16-small-circle": require("./icons/16-small-circle.svg"),
   "folder-outline": require("./icons/folder-outline.svg"),
   "search-big": require("./icons/search-big.svg"),
+  alert: require("./icons/alert.svg"),
+  check: require("./icons/check.svg"),
 };
 
 export type Icons = keyof typeof list;
