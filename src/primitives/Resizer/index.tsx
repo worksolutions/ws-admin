@@ -30,6 +30,9 @@ interface ResizerInterface {
 }
 
 const minResizerWidth = 24;
+const buttonShowClosedContentWidth = 32;
+
+const buttonShowClosedContentLeft = minResizerWidth - buttonShowClosedContentWidth / 2;
 
 function calculateStyleParams(
   down: boolean,
@@ -55,7 +58,7 @@ function Resizer({ initialWidth, children, styles, minWidthToAutoClose = 72 }: R
     setCurrentWidth(child.childOpacity === 1 ? newWidth : minResizerWidth);
   }, [down]);
 
-  function showClosed() {
+  function showClosedContent() {
     setCurrentWidth(initialWidth);
   }
 
@@ -73,8 +76,8 @@ function Resizer({ initialWidth, children, styles, minWidthToAutoClose = 72 }: R
         >
           <Wrapper as={animated.div} styles={[backgroundColor("gray-blue/02"), width(1), fullHeight, marginLeft(4)]} />
         </Wrapper>
-        {styleParams.childOpacity === 0 && (
-          <Wrapper styles={[position("absolute"), left(8), top("50%")]}>
+        {styleParams.childOpacity === 0 && !down && (
+          <Wrapper styles={[position("absolute"), left(buttonShowClosedContentLeft), top("50%")]}>
             <Button
               outerStyles={[
                 boxShadow(
@@ -84,9 +87,9 @@ function Resizer({ initialWidth, children, styles, minWidthToAutoClose = 72 }: R
                 ),
               ]}
               type={ButtonType.ICON}
-              size={ButtonSize.LARGE}
+              size={ButtonSize.MEDIUM}
               iconLeft="arrow-right"
-              onClick={showClosed}
+              onClick={showClosedContent}
             />
           </Wrapper>
         )}
