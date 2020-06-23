@@ -41,6 +41,21 @@ module.exports = {
   },
   pages: [
     {
+      pageUrl: "/",
+      blocks: [
+        {
+          type: "BackgroundTasks",
+          dataSource: {
+            type: "api:request",
+            options: {
+              url: "/admin/background-tasks",
+              method: "get",
+            },
+          },
+        },
+      ],
+    },
+    {
       pageUrl: "/content*",
       title: "Контент",
       blocks: [

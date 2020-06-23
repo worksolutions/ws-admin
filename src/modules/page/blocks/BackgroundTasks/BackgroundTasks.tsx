@@ -10,6 +10,7 @@ import {
   borderRadius,
   child,
   flex,
+  flexValue,
   height,
   hover,
   margin,
@@ -35,6 +36,7 @@ function BackgroundTasks({ tasks }: BackgroundTasksInterface) {
   return (
     <Wrapper
       styles={[
+        flexValue(1),
         margin("16px 24px"),
         padding("8px 0 8px 8px"),
         borderRadius(8),

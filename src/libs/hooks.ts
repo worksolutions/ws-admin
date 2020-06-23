@@ -112,6 +112,7 @@ export function useDebouncedInput<T>(
 
 export const useSetDocumentTitle = (title: string, timeout = 0) => {
   useEffect(() => {
+    if (!title) return;
     if (timeout === 0) {
       document.title = title;
       return;
