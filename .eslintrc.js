@@ -32,7 +32,7 @@ module.exports = {
     },
   ],
   rules: {
-    complexity: ["warn", 5],
+    complexity: ["warn", 15],
     "max-lines": ["error", 300],
     "max-params": ["error", 3],
     "no-useless-constructor": 0,
@@ -53,5 +53,7 @@ module.exports = {
     "react/prop-types": 0,
     "@typescript-eslint/adjacent-overload-signatures": 0,
     "@typescript-eslint/no-empty-function": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/no-unused-vars": 0,
   },
 };

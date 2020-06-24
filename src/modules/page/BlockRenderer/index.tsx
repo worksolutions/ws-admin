@@ -6,21 +6,18 @@ import { loadBlockComponent } from "../libs";
 
 import { BlockInterface } from "state/systemState";
 
-interface BlockRenderInterface {
-  block: BlockInterface;
-}
+function BlockRenderer(props: BlockInterface) {
+  const [BlockComponent, setBlockComponent] = useState<FC<BlockInterface>>();
 
-function BlockRenderer({ block }: BlockRenderInterface) {
-  const [BlockComponent, setBlockComponent] = useState<FC<BlockRenderInterface>>();
   useEffect(() => {
-    loadBlockComponent(block.type, setBlockComponent);
+    loadBlockComponent(props.type, setBlockComponent);
   }, []);
 
   if (!BlockComponent) {
     return <Spinner size={78} />;
   }
 
-  return <BlockComponent block={block} />;
+  return <BlockComponent {...props} />;
 }
 
 export default React.memo(BlockRenderer);

@@ -8,9 +8,9 @@ import Sidebar from "./Sidebar";
 
 import { BlockInterface } from "state/systemState";
 
-function SecondarySideMenu({ block }: { block: BlockInterface }) {
-  const data = useDataSource(block.dataSource!);
-  if (!data) return <Spinner size={72} />;
+function SecondarySideMenu({ dataSource }: BlockInterface) {
+  const data = useDataSource(dataSource!);
+  if (!data) return <Spinner color="gray-blue/09" size={72} />;
   return <Sidebar opened={true} title={data.title} onChangeOpened={console.log} items={data.items} />;
 }
 

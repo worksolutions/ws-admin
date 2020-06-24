@@ -1,37 +1,6 @@
 import { assocPath, hasPath, path, prop } from "ramda";
-import { Container } from "typedi";
-import { useCallback } from "react";
 
-import { UpdateStatePayload } from "../types";
-
-import { PageState } from "state/pageState";
-import { GlobalState } from "state/globalState";
-
-const pageState = Container.get(PageState);
-const globalState = Container.get(GlobalState);
-
-export function useAppContext() {
-  const updateContext = (rawPayload: UpdateStatePayload): void => {
-    const { payload, stateType } = getUpdateStateInfoFromPayload(rawPayload);
-    const data = assocPath(payload.path.split("."), payload.data, {});
-    switch (stateType) {
-      case "page":
-        pageState.stateContainer.mergeStates(data);
-        break;
-      case "global":
-        globalState.stateContainer.mergeStates(data);
-        break;
-      default:
-        globalState.stateContainer.mergeStates(data);
-        break;
-    }
-  };
-
-  return {
-    updateState: useCallback(updateContext, []),
-    context: { page: pageState.stateContainer.state, global: globalState.stateContainer.state },
-  };
-}
+import { ContextTypeAndPath, getContextTypeAndPathByParam } from "../../context/contextParamParser";
 
 export function insertContext(data: any, context: any) {
   if (typeof data === "object") {
@@ -53,66 +22,23 @@ function pickContextByParams(dependsParams: string[], context: object) {
 }
 
 export function buildDependsContext(
-  contextDependsParam: string[],
+  contextDependsParam: ContextTypeAndPath[],
   context: {
     global: object;
     page: object;
   },
-): object {
-  return Object.fromEntries(
-    Object.entries(context).map(([type, context]) => {
-      const dependsParams = contextDependsParam
-        .map(getStateTypeAndPathByParam)
-        .filter((info) => info.type === type)
-        .map(prop("path"));
-      return [type, pickContextByParams(dependsParams, context)];
-    }),
-  );
-}
+) {
+  const result = Object.entries(context).map(([contextType, context]) => {
+    const dependsParams = contextDependsParam.filter((info) => info.type === contextType).map(prop("path"));
+    return [contextType, pickContextByParams(dependsParams, context)];
+  });
 
-function getStateTypeAndPathByParam(
-  param: string,
-): {
-  type: string;
-  path: string;
-} {
-  if (!param.includes(":#")) {
-    return {
-      type: "",
-      path: param,
-    };
-  }
-  const [type, path] = param.split(":#");
-  return {
-    type,
-    path,
-  };
+  return Object.fromEntries(result);
 }
-
-const getUpdateStateInfoFromPayload = (
-  payload: UpdateStatePayload,
-): {
-  payload: UpdateStatePayload;
-  stateType: string;
-} => {
-  const { type, path } = getStateTypeAndPathByParam(payload.path);
-  return type
-    ? {
-        stateType: type,
-        payload: {
-          ...payload,
-          path,
-        },
-      }
-    : {
-        stateType: "",
-        payload,
-      };
-};
 
 function insertContextData(text: string, context: object): string {
   return text.replace(/{{(.+?)}}/gm, (match: any, p1) => {
-    const { type, path: pathWithoutType } = getStateTypeAndPathByParam(p1);
+    const { type, path: pathWithoutType } = getContextTypeAndPathByParam(p1);
     // @ts-ignore
     const typeContext = context[type];
     const arrPath = pathWithoutType.split(".");

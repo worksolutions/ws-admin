@@ -11,9 +11,9 @@ const requestManager = Container.get(RequestManager);
 
 export default function apiRequestDataSource(
   dataSource: DataSourceInterface<DataSourceType.API_REQUEST>,
-  state: any,
+  context: any,
 ): Promise<any> {
   const { method, params, url } = dataSource.options;
-  const makeRequest = requestManager.createRequest(insertContext(url, state), method, identityValueDecoder);
-  return makeRequest({ body: insertContext(params, state) }).catch(console.error);
+  const makeRequest = requestManager.createRequest(insertContext(url, context), method, identityValueDecoder);
+  return makeRequest({ body: insertContext(params, context) }).catch(console.error);
 }

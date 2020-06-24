@@ -5,6 +5,7 @@ import { animated, useSpring } from "react-spring";
 import Wrapper from "primitives/Wrapper";
 import Icon from "primitives/Icon";
 import Typography from "primitives/Typography";
+import { TypographyLink } from "primitives/Typography/TypographyLink";
 
 import { usePrevious, useToggle } from "libs/hooks";
 import {
@@ -28,8 +29,6 @@ import {
   transition,
 } from "libs/styles";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
-
-import { TypographyLink } from "../../../../primitives/Typography/TypographyLink";
 
 import { SidebarItemInterface } from "./types";
 import { useTreeElementIsActive } from "./libs";

@@ -19,8 +19,8 @@ import {
   padding,
 } from "libs/styles";
 
-import { RecursiveTreeElement } from "./RecursiveTreeElement";
 import { SidebarItemInterface } from "./types";
+import { RecursiveTreeElement } from "./RecursiveTreeElement";
 
 export interface SecondaryMenuSidebarInterface {
   title: string;

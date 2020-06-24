@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
+import { isNil } from "ramda";
 
-import calculateConfigPartDependencies from "../calculateConfigPartDependencies";
-import { buildDependsContext, useAppContext } from "../../admin/context";
+import { useAppContext } from "../hooks/useAppContext";
 
-import listDataSource from "./sources/listDataSource";
-import fromContextDataSource from "./sources/fromContextDataSource";
-import apiRequestDataSource from "./sources/apiRequestDataSource";
+import { runContextDataSourceFetcher } from "./sourceFetchers/context";
+import { runListDataSourceFetcher } from "./sourceFetchers/list";
+import { runApiRequestDataSourceFetcher } from "./sourceFetchers/apiRequest";
 
-import { AnyDataSource, DataSourceType } from "types/DataSource";
+import { AnyDataSource } from "types/DataSource";
 
-export const useDataSource = (dataSource: AnyDataSource) => {
+export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
+  if (!dataSource) return;
+
   const { context, updateState } = useAppContext();
-  const contextDependencies = calculateConfigPartDependencies(dataSource);
-  const newContext = buildDependsContext(contextDependencies, context);
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<RESULT>();
 
   function onDataReceived(data: any) {
+    if (isNil(data)) return;
     setData(data);
     if (dataSource.context) {
       updateState({
@@ -25,22 +26,13 @@ export const useDataSource = (dataSource: AnyDataSource) => {
     }
   }
 
-  useEffect(() => {
-    if (!dataSource) return;
-    switch (dataSource.type) {
-      case DataSourceType.LIST:
-        listDataSource(dataSource).then(onDataReceived);
-        break;
-      case DataSourceType.API_REQUEST:
-        apiRequestDataSource(dataSource, newContext).then(onDataReceived);
-        break;
-      case DataSourceType.CONTEXT:
-        fromContextDataSource(dataSource, newContext).then(setData);
-      default:
-        console.error(`Указан неизвестный тип источника данных. [${dataSource.type}]`);
-        break;
-    }
-  }, [dataSource]);
+  function runDataSourceFetcher() {
+    runListDataSourceFetcher(dataSource, onDataReceived);
+    runContextDataSourceFetcher(dataSource, context, onDataReceived);
+    runApiRequestDataSourceFetcher(dataSource, context, onDataReceived);
+  }
+
+  useEffect(runDataSourceFetcher, []);
 
   return data;
-};
+}

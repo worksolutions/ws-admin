@@ -67,6 +67,7 @@ module.exports = {
               url: "/admin/secondary-menu-config/content",
               method: "get",
             },
+            context: "menu.secondary-menu-items",
           },
         },
         {
@@ -82,7 +83,31 @@ module.exports = {
                 },
               },
             },
+            {
+              type: "CurrentPageBreadcrumbs",
+              dataSource: {
+                type: "context",
+                options: {
+                  key: "{{menu.secondary-menu-items}}",
+                },
+              },
+            },
           ],
+        },
+      ],
+    },
+    {
+      pageUrl: "/test*",
+      title: "Тест",
+      blocks: [
+        {
+          type: "CurrentPageBreadcrumbs",
+          dataSource: {
+            type: "context",
+            options: {
+              key: "{{menu.secondary-menu-items}}",
+            },
+          },
         },
       ],
     },

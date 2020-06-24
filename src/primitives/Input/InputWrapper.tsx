@@ -92,6 +92,20 @@ interface InputWrapperInterface extends BaseInputWrapperInterface {
   children: (styles: any) => JSX.Element;
 }
 
+function Title({ title }: Record<"title", string | undefined>) {
+  if (!title) return null;
+  return <Typography styles={[marginBottom(8)]}>{title}</Typography>;
+}
+
+function Tooltip({ tip }: Record<"tip", string | undefined>) {
+  if (!tip) return null;
+  return (
+    <Typography type="caption-regular" color="gray-blue/07" styles={[marginTop(4)]}>
+      {tip}
+    </Typography>
+  );
+}
+
 function InputWrapper({
   outerStyles,
   children,
@@ -120,7 +134,7 @@ function InputWrapper({
 
   return (
     <Wrapper styles={[fullWidthProp && fullWidth, outerStyles]}>
-      {title && <Typography styles={[marginBottom(8)]}>{title}</Typography>}
+      <Title title={title} />
       <Wrapper styles={[fullWidth, backgroundColor("gray-blue/01"), position("relative")]}>
         {children([
           TypographyTypes["body-regular"],
@@ -139,11 +153,7 @@ function InputWrapper({
         {leftIconElement}
         {rightIconElement}
       </Wrapper>
-      {tip && (
-        <Typography type="caption-regular" color="gray-blue/07" styles={[marginTop(4)]}>
-          {tip}
-        </Typography>
-      )}
+      <Tooltip tip={tip} />
     </Wrapper>
   );
 }

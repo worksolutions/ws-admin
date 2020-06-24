@@ -8,7 +8,8 @@ import { observer } from "mobx-react-lite";
 import { ActionsInterface, AdminComponentInterface } from "../../types";
 import { buildActions } from "../../componentBuilder/buildActions";
 import calculateContextDependency from "../../HOC/Context/calculateContextDependency";
-import { buildDependsContext, useAppContext } from "../../context";
+import { buildDependsContext } from "../../context";
+import { useAppContext } from "../../../context/hooks/useAppContext";
 
 import { DataSourceInterface } from "types/DataSource";
 

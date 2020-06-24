@@ -15,7 +15,7 @@ function Page({ page: { title, blocks } }: PageModuleInterface) {
   return (
     <>
       {blocks.map((block, key) => (
-        <BlockRenderer key={key} block={block} />
+        <BlockRenderer key={key} {...block} />
       ))}
     </>
   );

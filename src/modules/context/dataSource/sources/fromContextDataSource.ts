@@ -1,10 +1,14 @@
-import { path } from "ramda";
+import { isNil, path } from "ramda";
+
+import { getConfigPartDependencies } from "../../hooks/useConfigPartDependencies";
 
 import { DataSourceInterface, DataSourceType } from "types/DataSource";
 
 export default function fromContextDataSource(
   dataSource: DataSourceInterface<DataSourceType.CONTEXT>,
-  state: any,
+  context: any,
 ): Promise<any> {
-  return Promise.resolve(path(dataSource.options.key.split("."), state));
+  const [dependency] = getConfigPartDependencies(dataSource);
+  const value = path([dependency.type, ...dependency.path.split(".")], context);
+  return Promise.resolve(isNil(value) ? null : value);
 }

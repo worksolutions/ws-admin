@@ -8,15 +8,11 @@ import BlockRenderer from "../../BlockRenderer";
 
 import { BlockInterface } from "state/systemState";
 
-interface ColumnInterface {
-  block: { blocks: BlockInterface[] };
-}
-
-function Column({ block }: ColumnInterface) {
+function Column({ blocks }: { blocks: BlockInterface[] }) {
   return (
     <Wrapper styles={[flex, flexColumn, ai(Aligns.STRETCH), flexValue(1)]}>
-      {block.blocks.map((item, key) => (
-        <BlockRenderer key={key} block={item} />
+      {blocks.map((item, key) => (
+        <BlockRenderer key={key} {...item} />
       ))}
     </Wrapper>
   );

@@ -1,3 +1,4 @@
+// eslint-disable-next-line complexity
 export default function isEqual(objA: any, objB: any) {
   if (Object.is(objA, objB)) return true;
 

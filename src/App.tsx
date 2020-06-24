@@ -11,7 +11,7 @@ import { useSetDocumentTitle } from "libs/hooks";
 
 import Page from "modules/page";
 import ToastReceiver from "modules/ToastReceiver";
-import usePageContextSynchronizer from "modules/context/usePageContextSynchronizer";
+import usePageContextSynchronizer from "modules/context/hooks/usePageContextSynchronizer";
 
 import { SystemState } from "state/systemState";
 

@@ -45,8 +45,3 @@ export interface AdminComponentInterface {
   } | null;
   blocks?: any[];
 }
-
-export interface UpdateStatePayload {
-  path: string;
-  data: any;
-}
