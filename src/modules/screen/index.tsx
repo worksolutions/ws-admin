@@ -4,13 +4,13 @@ import { useSetDocumentTitle } from "libs/hooks";
 
 import BlockRenderer from "./BlockRenderer";
 
-import { PageInterface } from "state/systemState";
+import { ScreenInterface } from "state/systemState";
 
-interface PageModuleInterface {
-  page: PageInterface;
+interface ScreenModuleInterface {
+  screen: ScreenInterface;
 }
 
-function Page({ page: { title, blocks } }: PageModuleInterface) {
+function Screen({ screen: { title, blocks } }: ScreenModuleInterface) {
   useSetDocumentTitle(title, 1);
   return (
     <>
@@ -21,4 +21,4 @@ function Page({ page: { title, blocks } }: PageModuleInterface) {
   );
 }
 
-export default React.memo(Page);
+export default React.memo(Screen);

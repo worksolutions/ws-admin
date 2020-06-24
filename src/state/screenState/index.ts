@@ -4,7 +4,7 @@ import { observable } from "mobx";
 import { StateContainer } from "../stateContainer";
 
 @Service({ global: true })
-export class PageState {
+export class ScreenState {
   @observable
   @Inject(() => StateContainer)
   stateContainer!: StateContainer;

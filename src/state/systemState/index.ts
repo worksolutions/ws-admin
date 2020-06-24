@@ -15,8 +15,8 @@ export interface BlockInterface {
   dataSource?: AnyDataSource;
 }
 
-export interface PageInterface {
-  pageUrl: string;
+export interface ScreenInterface {
+  reference: string;
   title: string;
   blocks: BlockInterface[];
 }
@@ -32,7 +32,7 @@ export class SystemState {
     roles: string[];
     logo: string;
     sideMenu: ContainsDataSourceInterface<AnyDataSource>;
-    pages: PageInterface[];
+    screens: ScreenInterface[];
   }>;
 
   @observable

@@ -39,8 +39,8 @@ sideMenu:
             deny:
               - "*"
           to: "/detail/1"
-pages:
-  - pageUrl: "/deep"
+screens:
+  - reference: "/deep"
     title: Тестирование блоков
     blocks:
       - name: TestBlock1
@@ -63,7 +63,7 @@ pages:
               options:
                 data: получилось???
               context1: test.name
-  - pageUrl: "/list"
+  - reference: "/list"
     title: Тестирование административной панели WS
     blocks:
       - type: List
@@ -140,7 +140,7 @@ pages:
         config:
           pagination:
             countOnPage: 20
-  - pageUrl: "/detail/:pageId"
+  - reference: "/detail/:pageId"
     title: Детальная страница пользователя
     blocks:
       - type: DetailView

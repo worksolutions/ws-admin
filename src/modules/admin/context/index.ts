@@ -4,10 +4,10 @@ import { useCallback } from "react";
 
 import { UpdateStatePayload } from "../types";
 
-import { PageState } from "state/pageState";
+import { ScreenState } from "state/screenState";
 import { GlobalState } from "state/globalState";
 
-const pageState = Container.get(PageState);
+const screenState = Container.get(ScreenState);
 const globalState = Container.get(GlobalState);
 
 export function useAppContext() {
@@ -15,8 +15,8 @@ export function useAppContext() {
     const { payload, stateType } = getUpdateStateInfoFromPayload(rawPayload);
     const data = assocPath(payload.path.split("."), payload.data, {});
     switch (stateType) {
-      case "page":
-        pageState.stateContainer.mergeStates(data);
+      case "screen":
+        screenState.stateContainer.mergeStates(data);
         break;
       case "global":
         globalState.stateContainer.mergeStates(data);
@@ -29,7 +29,7 @@ export function useAppContext() {
 
   return {
     updateState: useCallback(updateContext, []),
-    context: { page: pageState.stateContainer.state, global: globalState.stateContainer.state },
+    context: { screen: screenState.stateContainer.state, global: globalState.stateContainer.state },
   };
 }
 
@@ -56,7 +56,7 @@ export function buildDependsContext(
   contextDependsParam: string[],
   context: {
     global: object;
-    page: object;
+    screen: object;
   },
 ): object {
   return Object.fromEntries(

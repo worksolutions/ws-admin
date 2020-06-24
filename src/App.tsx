@@ -9,7 +9,7 @@ import Spinner from "primitives/Spinner";
 
 import { useSetDocumentTitle } from "libs/hooks";
 
-import Page from "modules/page";
+import Screen from "modules/screen";
 import ToastReceiver from "modules/ToastReceiver";
 import usePageContextSynchronizer from "modules/context/usePageContextSynchronizer";
 
@@ -30,8 +30,8 @@ function App() {
 
   return (
     <Layout logo={state.logo} sidebarDataSource={state.sideMenu.dataSource}>
-      {state.pages.map((page) => (
-        <Route key={page.pageUrl} exact path={page.pageUrl} render={() => <Page page={page} />} />
+      {state.screens.map((screen) => (
+        <Route key={screen.reference} exact path={screen.reference} render={() => <Screen screen={screen} />} />
       ))}
       <ToastReceiver />
     </Layout>
@@ -62,13 +62,13 @@ function App() {
   //           </Toolbar>
   //         </AppBar>
   //         <Switch>
-  //           {state.pages.map((page: any) => (
+  //           {state.pages.map((screen: any) => (
   //             <Route
-  //               key={page.pageUrl}
+  //               key={screen.pageUrl}
   //               exact
-  //               path={page.pageUrl}
+  //               path={screen.pageUrl}
   //               // @ts-ignore
-  //               render={(props) => <AdminPage {...props} settings={page} />}
+  //               render={(props) => <AdminPage {...props} settings={screen} />}
   //             />
   //           ))}
   //         </Switch>

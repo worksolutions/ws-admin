@@ -39,9 +39,9 @@ module.exports = {
       ],
     },
   },
-  pages: [
+  screens: [
     {
-      pageUrl: "/content*",
+      reference: "/content*",
       title: "Контент",
       blocks: [
         {

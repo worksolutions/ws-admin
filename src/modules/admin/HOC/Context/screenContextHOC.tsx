@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { Container } from "typedi";
 
-import { PageState } from "state/pageState";
+import { ScreenState } from "state/screenState";
 
-const pageState = Container.get(PageState);
+const screenState = Container.get(ScreenState);
 
 export default function <P>(Cmp: FC<P>) {
   return function (props: P & RouteComponentProps) {
@@ -14,7 +14,7 @@ export default function <P>(Cmp: FC<P>) {
     const [stateUpdated, setStateUpdated] = useState(false);
 
     useEffect(() => {
-      pageState.stateContainer.mergeStates(params);
+      screenState.stateContainer.mergeStates(params);
       setStateUpdated(true);
     }, [params]);
 
