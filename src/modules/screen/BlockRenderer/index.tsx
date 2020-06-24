@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 
 import Spinner from "primitives/Spinner";
 
-import { loadBlockComponent } from "../libs";
+import { loadBlockComponent } from "./libs";
 
 import { BlockInterface } from "state/systemState";
 

@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import { Container } from "typedi";
 
-import { PageState } from "state/pageState";
+import { ScreenState } from "state/screenState";
 
-const pageState = Container.get(PageState);
+const screenState = Container.get(ScreenState);
 
 export default function () {
   const params = useParams();
   useEffect(() => {
-    pageState.stateContainer.mergeStates(params);
+    screenState.stateContainer.mergeStates(params);
   }, [params]);
 }

@@ -1,6 +1,6 @@
 import { isNil, path } from "ramda";
 
-import { getConfigPartDependencies } from "../../hooks/useConfigPartDependencies";
+import { getConfigPartDependencies } from "../../configPartDependencies";
 
 import { DataSourceInterface, DataSourceType } from "types/DataSource";
 

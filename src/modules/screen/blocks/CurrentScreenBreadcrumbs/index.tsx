@@ -10,10 +10,10 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import { BlockInterface } from "state/systemState";
 
-function CurrentPageBreadcrumbs({ dataSource }: BlockInterface) {
+function CurrentScreenBreadcrumbs({ dataSource }: BlockInterface) {
   const data = useDataSource(dataSource!);
   if (!data) return <Spinner color="gray-blue/08" size={36} />;
   return <Wrapper styles={[flex, flexColumn, ai(Aligns.STRETCH), flexValue(1)]}>breadcrumbs</Wrapper>;
 }
 
-export default React.memo(observer(CurrentPageBreadcrumbs));
+export default React.memo(observer(CurrentScreenBreadcrumbs));

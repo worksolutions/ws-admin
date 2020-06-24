@@ -15,13 +15,10 @@ import {
   hover,
   margin,
   opacity,
-  overflow,
   overflowX,
-  overflowY,
   padding,
   transition,
   visibility,
-  width,
 } from "libs/styles";
 
 import Task from "./Task";

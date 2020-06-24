@@ -5,7 +5,7 @@ import { Container } from "@material-ui/core";
 import { useSetDocumentTitle } from "libs/hooks";
 
 import AdminBlock from "../AdminBlock";
-import pageContextHOC from "../../HOC/Context/pageContextHOC";
+import screenContextHOC from "../../HOC/Context/screenContextHOC";
 
 interface AdminPageInterface {
   settings: any;
@@ -24,4 +24,4 @@ const AdminPage = ({ settings }: AdminPageInterface & RouteComponentProps) => {
   );
 };
 
-export default React.memo(withRouter(pageContextHOC(AdminPage)));
+export default React.memo(withRouter(screenContextHOC(AdminPage)));

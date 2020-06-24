@@ -39,9 +39,9 @@ module.exports = {
       ],
     },
   },
-  pages: [
+  screens: [
     {
-      pageUrl: "/",
+      reference: "/",
       blocks: [
         {
           type: "BackgroundTasks",
@@ -56,7 +56,7 @@ module.exports = {
       ],
     },
     {
-      pageUrl: "/content*",
+      reference: "/content*",
       title: "Контент",
       blocks: [
         {
@@ -84,7 +84,7 @@ module.exports = {
               },
             },
             {
-              type: "CurrentPageBreadcrumbs",
+              type: "CurrentScreenBreadcrumbs",
               dataSource: {
                 type: "context",
                 options: {
@@ -97,11 +97,11 @@ module.exports = {
       ],
     },
     {
-      pageUrl: "/test*",
+      reference: "/test*",
       title: "Тест",
       blocks: [
         {
-          type: "CurrentPageBreadcrumbs",
+          type: "CurrentScreenBreadcrumbs",
           dataSource: {
             type: "context",
             options: {

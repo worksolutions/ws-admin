@@ -25,7 +25,7 @@ export function buildDependsContext(
   contextDependsParam: ContextTypeAndPath[],
   context: {
     global: object;
-    page: object;
+    screen: object;
   },
 ) {
   const result = Object.entries(context).map(([contextType, context]) => {

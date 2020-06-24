@@ -1,7 +1,7 @@
 import React from "react";
 import { compose, filter, map, uniq } from "ramda";
 
-import { getContextTypeAndPathByParam } from "../contextParamParser";
+import { getContextTypeAndPathByParam } from "./contextParamParser";
 
 const getContextParams = compose(
   uniq,
@@ -14,9 +14,4 @@ const getContextParams = compose(
 
 export function getConfigPartDependencies(config: any) {
   return (getContextParams(config) || []).map(getContextTypeAndPathByParam);
-}
-
-export default function useConfigPartDependencies(config: any) {
-  const [dependencies] = React.useState(() => getConfigPartDependencies(config));
-  return dependencies;
 }

@@ -62,7 +62,7 @@ sideMenu:
           deny:
           - "*"
         to: "/detail/1"
-pages:
+screens:
 - pageUrl: "/deep"
   title: Тестирование блоков
   blocks:
@@ -171,7 +171,7 @@ pages:
       type: api
       options:
         url: "/api/admin/user/{{pageId}}"
-      context: page.user
+      context: screen.user
     actions:
       delete:
         permissions:
@@ -184,7 +184,7 @@ pages:
           url: "/api/admin/user/delete"
           method: get
           params:
-            id: "{{page.user.id}}"
+            id: "{{screen.user.id}}"
       update:
         permissions:
           allow:
@@ -205,7 +205,7 @@ pages:
           validations:
           - text
           - length > 3
-        value: "{{page.user.name}}"
+        value: "{{screen.user.name}}"
       - title: 'ФИО1:'
         type: Input
         config:
