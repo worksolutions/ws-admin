@@ -19,7 +19,8 @@ import {
   padding,
 } from "libs/styles";
 
-import { SidebarItemInterface } from "./types";
+import { SidebarItemInterface } from "../types";
+
 import { RecursiveTreeElement } from "./RecursiveTreeElement";
 
 export interface SecondaryMenuSidebarInterface {

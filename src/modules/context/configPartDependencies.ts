@@ -1,4 +1,3 @@
-import React from "react";
 import { compose, filter, map, uniq } from "ramda";
 
 import { getContextTypeAndPathByParam } from "./contextParamParser";

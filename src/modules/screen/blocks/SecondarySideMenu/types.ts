@@ -6,3 +6,8 @@ export interface SidebarItemInterface {
   icon?: Icons;
   subElements?: SidebarItemInterface[];
 }
+
+export interface SecondaryMenuDataSourceInterface {
+  title: string;
+  items: SidebarItemInterface[];
+}

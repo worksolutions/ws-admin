@@ -30,7 +30,8 @@ import {
 } from "libs/styles";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 
-import { SidebarItemInterface } from "./types";
+import { SidebarItemInterface } from "../types";
+
 import { useTreeElementIsActive } from "./libs";
 
 const oneLevelPaddingLeft = 32;

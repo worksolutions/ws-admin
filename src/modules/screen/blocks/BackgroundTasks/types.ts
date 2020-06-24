@@ -21,3 +21,5 @@ export type BackgroundTaskInterface = {
 } & BackgroundTaskActiveInterface &
   BackgroundTaskCompleteInterface &
   BackgroundTaskErrorInterface;
+
+export type BackgroundTasksDataSourceInterface = BackgroundTaskInterface[];
