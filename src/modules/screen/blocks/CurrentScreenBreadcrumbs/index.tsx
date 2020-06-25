@@ -26,9 +26,9 @@ function CurrentScreenBreadcrumbs({ dataSource }: BlockInterface) {
     <Wrapper styles={[flex, ai(Aligns.STRETCH), flexValue(1)]}>
       TODO!
       <Element to="/" name="Главная" hasNext />
-      <Element to={data.to} name={data.title} hasNext={breadcrumbsWay.length !== 0} />
-      {breadcrumbsWay.map(({ to, name, icon }, index) => (
-        <Element key={to} to={to} name={name} icon={icon} hasNext={index !== lastBreadcrumbsWayIndex} />
+      <Element to={data.reference} name={data.title} hasNext={breadcrumbsWay.length !== 0} />
+      {breadcrumbsWay.map(({ reference, name, icon }, index) => (
+        <Element key={reference} to={reference} name={name} icon={icon} hasNext={index !== lastBreadcrumbsWayIndex} />
       ))}
     </Wrapper>
   );

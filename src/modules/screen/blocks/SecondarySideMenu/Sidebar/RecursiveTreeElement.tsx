@@ -101,7 +101,7 @@ const TreeElement = withPerformance(["toggle"])(function ({
     return <Wrapper {...resultProps} onClick={toggle} />;
   }
 
-  return <TypographyLink to={item.to} {...resultProps} />;
+  return <TypographyLink to={item.reference} {...resultProps} />;
 });
 
 export const RecursiveTreeElement = React.memo(function ({ item, level }: RecursiveTreeElementInterface) {
@@ -119,7 +119,7 @@ export const RecursiveTreeElement = React.memo(function ({ item, level }: Recurs
 
   const nextLevel = level + 1;
 
-  const active = !item.subElements && useTreeElementIsActive(item.to);
+  const active = !item.subElements && useTreeElementIsActive(item.reference);
 
   return (
     <>
@@ -128,7 +128,7 @@ export const RecursiveTreeElement = React.memo(function ({ item, level }: Recurs
         <animated.div style={{ height: opened && previous === opened ? "auto" : height, overflow: "hidden" }}>
           <animated.div ref={measureRef}>
             {item.subElements.map((element) => (
-              <RecursiveTreeElement key={element.to} level={nextLevel} item={element} />
+              <RecursiveTreeElement key={element.reference} level={nextLevel} item={element} />
             ))}
           </animated.div>
         </animated.div>

@@ -23,50 +23,50 @@ app.get("/api/admin/config", (_req, res) => res.json(success(mainConfig)));
 app.get("/api/admin/secondary-menu-config/:id", (req, res) => {
   const data = success({
     title: "Контент",
-    to: "/content",
+    reference: "/content",
     items: [
       {
         name: "Структура сайта для раздела " + req.params.id,
         icon: "arrow-left",
-        to: "/content/structure",
+        reference: "/content/structure",
         subElements: [],
       },
       {
         name: "SEO настройки",
-        to: "/content/seo",
+        reference: "/content/seo",
         subElements: [],
       },
       {
         name: "Каталог товаров",
         icon: "arrow-up",
-        to: "/content/catalog",
+        reference: "/content/catalog",
         subElements: [
           {
             name: "Элементы",
-            to: "/content/catalog/elements",
+            reference: "/content/catalog/elements",
           },
           {
             name: "Подарки",
             icon: "arrow-up",
-            to: "/content/catalog/gifts",
+            reference: "/content/catalog/gifts",
             subElements: [
               {
                 name: "500 - 1000 руб",
-                to: "/content/catalog/gifts/500-1000",
+                reference: "/content/catalog/gifts/500-1000",
                 subElements: [
                   {
                     name: "Элементы",
-                    to: "/content/catalog/gifts/500-1000/elements",
+                    reference: "/content/catalog/gifts/500-1000/elements",
                   },
                 ],
               },
               {
                 name: "До 500 руб.",
-                to: "/content/catalog/gifts/0-500",
+                reference: "/content/catalog/gifts/0-500",
                 subElements: [
                   {
                     name: "Элементы с большим названием",
-                    to: "/content/catalog/gifts/0-500/elements",
+                    reference: "/content/catalog/gifts/0-500/elements",
                   },
                 ],
               },

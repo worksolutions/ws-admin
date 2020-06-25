@@ -4,7 +4,7 @@ import { matchPath, useLocation } from "react-router";
 import { SidebarItemInterface } from "../SecondarySideMenu/types";
 
 function findPath(pathname: string, items: SidebarItemInterface[]): SidebarItemInterface[] {
-  const found = items.find((item) => matchPath(pathname, { path: item.to }));
+  const found = items.find((item) => matchPath(pathname, { path: item.reference }));
   if (!found) return [];
   if (!found.subElements) return [found];
   return [found, ...findPath(pathname, found.subElements)];
