@@ -22,7 +22,7 @@ export default cb(
         { code: string; name: string; icon: Icons; selected: boolean; href: string }[]
       >([]);
 
-      const data: any = useDataSource(props.sidebarDataSource);
+      const { data } = useDataSource(props.sidebarDataSource);
       React.useEffect(() => {
         if (!data) return;
         setMenuElements(

@@ -1,13 +1,16 @@
 import apiRequestDataSource from "../sources/apiRequestDataSource";
-import { AppContextInterface } from "../../hooks/useAppContext";
+import { AppContextStateInterface } from "../../hooks/useAppContext";
 
 import { AnyDataSource, DataSourceType } from "types/DataSource";
 
 export function runApiRequestDataSourceFetcher(
   dataSource: AnyDataSource,
-  context: AppContextInterface,
-  onDataReceived: (data: any) => void,
+  context: AppContextStateInterface,
+  {
+    onDataReceived,
+    onReceiveDataError,
+  }: { onDataReceived: (data: any) => void; onReceiveDataError: (data: any) => void },
 ) {
   if (dataSource.type !== DataSourceType.API_REQUEST) return;
-  apiRequestDataSource(dataSource, context).then(onDataReceived);
+  apiRequestDataSource(dataSource, context).then(onDataReceived).catch(onReceiveDataError);
 }

@@ -2,22 +2,17 @@ import { Inject, Service } from "typedi";
 import { observable } from "mobx";
 
 import { StateContainer } from "../stateContainer";
-import { LoadingContainer } from "../loadingContainer";
 
-class User {
-  login = "";
-  permissions: string[] = [];
+export interface GlobalStateCommonPartInterface {
+  currentUser: {
+    email: string;
+    name: string;
+  };
 }
 
 @Service({ global: true })
 export class GlobalState {
   @observable
   @Inject(() => StateContainer)
-  stateContainer!: StateContainer;
-
-  @observable
-  @Inject(() => LoadingContainer)
-  loadingState!: LoadingContainer;
-
-  @observable currentUser: User = new User();
+  stateContainer!: StateContainer<GlobalStateCommonPartInterface>;
 }

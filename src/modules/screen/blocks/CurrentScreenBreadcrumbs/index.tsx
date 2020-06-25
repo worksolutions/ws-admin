@@ -17,7 +17,7 @@ import { useBreadcrumbsWay } from "./hooks";
 import { BlockInterface } from "state/systemState";
 
 function CurrentScreenBreadcrumbs({ dataSource }: BlockInterface) {
-  const data = useDataSource<SecondaryMenuDataSourceInterface>(dataSource!);
+  const { data } = useDataSource<SecondaryMenuDataSourceInterface>(dataSource!);
   const breadcrumbsWay = useBreadcrumbsWay(data?.items || []);
   if (!data) return <Spinner color="gray-blue/08" size={36} />;
   const lastBreadcrumbsWayIndex = breadcrumbsWay.length - 1;

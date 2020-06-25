@@ -33,14 +33,11 @@ export enum METHODS {
 }
 
 export class RequestError {
-  static emptyError = new RequestError();
-
-  constructor(public message: string = "", public statusCode = 0, public axiosError: AxiosError = null!) {}
-
-  getAny() {
-    if (this.message) return JSON.stringify(this.message);
-    return `HTTP ошибка: ${this.statusCode}`;
-  }
+  constructor(
+    public error: { message: string; errors: Record<string, string> },
+    public statusCode = 0,
+    public axiosError: AxiosError = null!,
+  ) {}
 }
 
 type RequestData = AxiosRequestConfig & { url: string };
@@ -104,7 +101,18 @@ export class RequestManager {
 
     if (urlParams) {
       for (const i in urlParams) {
-        if (isNil(urlParams[i])) return [null, new RequestError(`Ошибка передачи параметра '${i}'`, -1, null!)];
+        if (isNil(urlParams[i]))
+          return [
+            null,
+            new RequestError(
+              {
+                message: `Ошибка передачи параметра '${i}'`,
+                errors: {},
+              },
+              -1,
+              null!,
+            ),
+          ];
 
         requestData.url = requestData.url.replace(`{${i}}`, urlParams[i].toString());
       }
@@ -132,10 +140,27 @@ export class RequestManager {
 
       RequestManager.applyAllErrorMiddleware(requestData, _originalAxiosError);
 
-      if (!axiosError.response) return [null, new RequestError("Запрос сброшен", -1, axiosError)];
+      if (!axiosError.response)
+        return [null, new RequestError({ message: "Запрос сброшен", errors: {} }, -1, axiosError)];
+
       const { response } = axiosError;
-      if (!response.data) return [null, new RequestError("Не удалось получить ошибку", response.status, axiosError)];
-      return [null, new RequestError(response.data.message, response.status, axiosError)];
+      if (!response.data)
+        return [
+          null,
+          new RequestError({ message: "Не удалось получить ошибку", errors: {} }, response.status, axiosError),
+        ];
+
+      return [
+        null,
+        new RequestError(
+          {
+            message: response.data.message,
+            errors: response.data.errors,
+          },
+          response.status,
+          axiosError,
+        ),
+      ];
     }
   }
 
@@ -168,7 +193,13 @@ export class RequestManager {
 
     if (decoderError) {
       RequestManager.errorLogger({ url, method, body, options }, decoderError);
-      throw new RequestError(`Не удалось произвести парсинг ответа: ${decoderError}`, 0);
+      throw new RequestError(
+        {
+          message: `Не удалось произвести парсинг ответа: ${decoderError}`,
+          errors: {},
+        },
+        0,
+      );
     }
 
     return data;

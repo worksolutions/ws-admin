@@ -1,7 +1,7 @@
 import { observe } from "mobx";
 import { isNil } from "ramda";
 
-import { AppContextInterface } from "../../hooks/useAppContext";
+import { AppContextStateInterface } from "../../hooks/useAppContext";
 import fromContextDataSource from "../sources/fromContextDataSource";
 
 import { AnyDataSource, DataSourceType } from "types/DataSource";
@@ -10,7 +10,7 @@ const disposeAllHandlers = (disposers: (() => void)[]) => disposers.forEach((fun
 
 export function runContextDataSourceFetcher(
   dataSource: AnyDataSource,
-  context: AppContextInterface,
+  context: AppContextStateInterface,
   onDataReceived: (data: any) => void,
 ) {
   if (dataSource.type !== DataSourceType.CONTEXT) return;

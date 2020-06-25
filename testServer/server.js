@@ -1,8 +1,17 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 const mainConfig = require("../src/dataProviders/FakeDataProvider/responses/main-config");
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use((req, res, next) => {
+  setTimeout(next, 300);
+});
+
 const port = 8080;
 
 function success(data) {
@@ -11,10 +20,11 @@ function success(data) {
     data,
   };
 }
-function error(msg) {
+function error(msg, errors = {}) {
   return {
     success: false,
     message: msg,
+    errors,
   };
 }
 
@@ -110,6 +120,38 @@ app.get("/api/admin/background-tasks", (req, res) => {
         message: "Ошибка получения _id в базе данных",
       },
     ]),
+  );
+});
+
+app.get("/api/admin/user", (req, res) => {
+  if (req.cookies.token !== "Bearer test-token") {
+    return res.status(401).json(error("Нужно авторизоваться"));
+  }
+
+  res.json(
+    success({
+      name: "Пользователь 1",
+      email: "test@gmail.com",
+    }),
+  );
+});
+
+app.post("/api/admin/user/auth", ({ body }, res) => {
+  if (body.email !== "test@gmail.com") {
+    res.status(401).json(error(null, { email: "Пользователь не найден" }));
+    return;
+  }
+  if (body.password !== "1234") {
+    res.status(401).json(error(null, { password: "Не верный пароль" }));
+    return;
+  }
+
+  return res.json(
+    success({
+      name: "Пользователь 1",
+      email: "test@gmail.com",
+      token: "Bearer test-token",
+    }),
   );
 });
 

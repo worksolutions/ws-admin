@@ -1,12 +1,7 @@
 /* eslint-disable */
 module.exports = {
   title: "Тестирование административной панели WS",
-  roles: ["admin", "guest", "user", "content-manager"],
   logo: "/logo.svg",
-  permissions: {
-    allow: ["*"],
-    deny: ["guest"],
-  },
   sideMenu: {
     dataSource: {
       type: "list",
@@ -37,6 +32,33 @@ module.exports = {
           icon: "account-multiple-outline",
         },
       ],
+    },
+  },
+  user: {
+    dataSource: {
+      type: "api:request",
+      options: {
+        url: "/admin/user",
+        method: "get",
+      },
+    },
+    actions: {
+      authenticate: {
+        type: "api:request",
+        options: {
+          url: "/admin/user/auth",
+          method: "post",
+          params: {
+            id: "{{id}}",
+          },
+        },
+      },
+      resetPassword: {
+        type: "redirect",
+        options: {
+          reference: "/auth/reset-password",
+        },
+      },
     },
   },
   screens: [

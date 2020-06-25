@@ -7,6 +7,7 @@ import { promisifyAPI } from "libs/promisifyAPI";
 
 import { StateContainer } from "../stateContainer";
 import { LoadingContainer } from "../loadingContainer";
+import { AnyAction, ContainsActions } from "../../types/Actions";
 
 import { AnyDataSource, ContainsDataSourceInterface } from "types/DataSource";
 
@@ -33,6 +34,11 @@ export class SystemState {
     logo: string;
     sideMenu: ContainsDataSourceInterface<AnyDataSource>;
     screens: ScreenInterface[];
+    user: ContainsDataSourceInterface<AnyDataSource> &
+      ContainsActions<{
+        authenticate: AnyAction;
+        resetPassword: AnyAction;
+      }>;
   }>;
 
   @observable

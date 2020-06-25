@@ -8,4 +8,5 @@ export default new EventEmitter<{
       onClick: () => void;
     };
   };
+  SET_REQUEST_MANAGER_ERROR_INTERCEPTOR_ENABLED: boolean;
 }>();

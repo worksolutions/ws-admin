@@ -1,9 +1,16 @@
 import { Service } from "typedi";
 import { action, observable } from "mobx";
 
+type ErrorInterface = Record<string, string | null>;
+
 @Service({ transient: true })
 export class LoadingContainer {
-  @observable loading = false;
+  @observable loading!: boolean;
+  @observable errors: ErrorInterface = {};
+
+  constructor(loading = false) {
+    this.loading = loading;
+  }
 
   @action.bound
   private promisifyStateSuccess(arg: any) {
@@ -30,5 +37,31 @@ export class LoadingContainer {
   @action.bound
   stopLoading() {
     this.loading = false;
+  }
+
+  @action.bound
+  setFullErrors(message: string, errors: ErrorInterface) {
+    this.setErrors(errors);
+    this.setError("defaultMessage", message);
+  }
+
+  @action.bound
+  setError(name: string, value: string | null) {
+    this.errors[name] = value;
+  }
+
+  @action.bound
+  setErrors(errors: ErrorInterface) {
+    this.errors = errors;
+  }
+
+  @action.bound
+  clearErrors() {
+    this.errors = {};
+  }
+
+  @action.bound
+  hasAnyError() {
+    return Object.keys(this.errors).length !== 0;
   }
 }

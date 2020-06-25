@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { isNil } from "ramda";
+import { useLocalStore } from "mobx-react-lite";
+
+import { RequestError } from "libs/request";
 
 import { useAppContext } from "../hooks/useAppContext";
 
@@ -7,17 +10,34 @@ import { runContextDataSourceFetcher } from "./sourceFetchers/context";
 import { runListDataSourceFetcher } from "./sourceFetchers/list";
 import { runApiRequestDataSourceFetcher } from "./sourceFetchers/apiRequest";
 
+import { LoadingContainer } from "state/loadingContainer";
+
 import { AnyDataSource } from "types/DataSource";
 
+interface DataInterface<RESULT = any> {
+  data: RESULT | null;
+  loadingContainer: LoadingContainer;
+}
+
 export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
-  if (!dataSource) return;
+  const localStore = useLocalStore<DataInterface<RESULT>>(() => ({
+    data: null,
+    loadingContainer: new LoadingContainer(true),
+    clean() {
+      this.data = null;
+    },
+  }));
+
+  if (!dataSource) return localStore;
 
   const { context, updateState } = useAppContext();
-  const [data, setData] = useState<RESULT>();
 
   function onDataReceived(data: any) {
+    localStore.data = data;
+    localStore.loadingContainer.startLoading();
+    localStore.loadingContainer.clearErrors();
+
     if (isNil(data)) return;
-    setData(data);
     if (dataSource.context) {
       updateState({
         path: dataSource.context,
@@ -26,13 +46,27 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
     }
   }
 
+  function onApiRequestReceiveDataError(requestError: RequestError) {
+    localStore.data = null;
+    localStore.loadingContainer.stopLoading();
+    localStore.loadingContainer.setFullErrors(requestError.error.message, requestError.error.errors);
+    if (!dataSource.context) return;
+    updateState({
+      path: dataSource.context + "_error",
+      data: requestError.error.message,
+    });
+  }
+
   function runDataSourceFetcher() {
     runListDataSourceFetcher(dataSource, onDataReceived);
     runContextDataSourceFetcher(dataSource, context, onDataReceived);
-    runApiRequestDataSourceFetcher(dataSource, context, onDataReceived);
+    runApiRequestDataSourceFetcher(dataSource, context, {
+      onDataReceived,
+      onReceiveDataError: onApiRequestReceiveDataError,
+    });
   }
 
   useEffect(runDataSourceFetcher, []);
 
-  return data;
+  return localStore;
 }

@@ -6,6 +6,12 @@ import { path } from "ramda";
 
 @Service({ transient: true })
 export class StateContainer<T = Record<string, any>> {
+  static nullable() {
+    const container = new StateContainer();
+    container.setState(null!);
+    return container;
+  }
+
   @observable state: T = {} as T;
 
   @computed get empty() {

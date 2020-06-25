@@ -12,6 +12,7 @@ import { useSetDocumentTitle } from "libs/hooks";
 import Screen from "modules/screen";
 import ToastReceiver from "modules/ToastReceiver";
 import useScreenContextSynchronizer from "modules/context/hooks/useScreenContextSynchronizer";
+import AuthModule from "modules/auth";
 
 import { SystemState } from "state/systemState";
 
@@ -29,12 +30,14 @@ function App() {
   const state = systemState.stateContainer.state;
 
   return (
-    <Layout logo={state.logo} sidebarDataSource={state.sideMenu.dataSource}>
-      {state.screens.map((screen) => (
-        <Route key={screen.reference} exact path={screen.reference} render={() => <Screen screen={screen} />} />
-      ))}
-      <ToastReceiver />
-    </Layout>
+    <AuthModule>
+      <Layout logo={state.logo} sidebarDataSource={state.sideMenu.dataSource}>
+        {state.screens.map((screen) => (
+          <Route key={screen.reference} exact path={screen.reference} render={() => <Screen screen={screen} />} />
+        ))}
+        <ToastReceiver />
+      </Layout>
+    </AuthModule>
   );
 
   // return (

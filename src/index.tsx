@@ -2,14 +2,14 @@ import "reflect-metadata";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router";
-import { createBrowserHistory } from "history";
 
 import { RequestManager } from "libs/request";
 
 import "./style/index.css";
 import App from "./App";
+import { browserHistory } from "./common";
 
-export const browserHistory = createBrowserHistory();
+// import globalEventBus from "./modules/globalEventBus";
 
 ReactDOM.render(
   <Router history={browserHistory}>
@@ -28,6 +28,13 @@ RequestManager.beforeSendMiddleware.push((config) => {
   if (!config.headers) config.headers = {};
 });
 
-RequestManager.beforeErrorMiddleware.push((_config, error) => {
-  if (error.response?.status === 401) browserHistory.replace("/auth");
-});
+// let errorHandlerEnabled = false;
+//
+// globalEventBus.on("SET_REQUEST_MANAGER_ERROR_INTERCEPTOR_ENABLED", (enabled) => {
+//   errorHandlerEnabled = enabled;
+// });
+
+// RequestManager.beforeErrorMiddleware.push((_config, error) => {
+//   if (!errorHandlerEnabled) return;
+//   if (error.response?.status === 401) browserHistory.replace("/auth");
+// });

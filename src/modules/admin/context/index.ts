@@ -1,12 +1,14 @@
-import { assocPath, hasPath, path, prop } from "ramda";
+import { assocPath, hasPath, path, prop, is } from "ramda";
 
 import { ContextTypeAndPath, getContextTypeAndPathByParam } from "../../context/contextParamParser";
 
+// import { AppContextInterface } from "../../context/hooks/useAppContext";
+
 export function insertContext(data: any, context: any) {
-  if (typeof data === "object") {
+  if (is(Object, data)) {
     return JSON.parse(insertContextData(JSON.stringify(data), context));
   }
-  if (typeof data === "string") {
+  if (is(String, data)) {
     return insertContextData(data, context);
   }
   return data;

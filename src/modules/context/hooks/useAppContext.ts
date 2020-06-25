@@ -38,10 +38,9 @@ export function useAppContext() {
   };
 }
 
-export interface AppContextInterface {
-  screen: Record<string, any>;
-  global: Record<string, any>;
-}
+export type AppContextInterface = ReturnType<typeof useAppContext>;
+
+export type AppContextStateInterface = AppContextInterface["context"];
 
 const getUpdateStateInfoFromPayload = (payload: UpdateStatePayload) => {
   const { type, path } = getContextTypeAndPathByParam(payload.path);
