@@ -9,5 +9,6 @@ export interface SidebarItemInterface {
 
 export interface SecondaryMenuDataSourceInterface {
   title: string;
+  to: string;
   items: SidebarItemInterface[];
 }

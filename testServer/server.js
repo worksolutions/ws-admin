@@ -23,6 +23,7 @@ app.get("/api/admin/config", (_req, res) => res.json(success(mainConfig)));
 app.get("/api/admin/secondary-menu-config/:id", (req, res) => {
   const data = success({
     title: "Контент",
+    to: "/content",
     items: [
       {
         name: "Структура сайта для раздела " + req.params.id,
