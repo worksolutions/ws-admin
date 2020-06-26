@@ -46,7 +46,7 @@ function SecondaryMenuSidebar({ title, items }: SecondaryMenuSidebarInterface) {
             onChange={setSearch}
           />
           <Wrapper styles={[flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN), marginTop(12)]}>
-            <Typography type="h1">{title}</Typography>
+            <Typography type="h1-bold">{title}</Typography>
           </Wrapper>
         </Wrapper>
         {items.map((item, key) => (

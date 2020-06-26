@@ -184,9 +184,9 @@ export class RequestManager {
 
     if (!serverDataDecoder) return null!;
 
-    if (!result.data) return null!;
+    if (!result) return null!;
 
-    const [data, decoderError] = serverDataDecoder.decodeAny(result.data).cata<[T, any]>({
+    const [data, decoderError] = serverDataDecoder.decodeAny(result).cata<[T, any]>({
       Ok: (val) => [val, null],
       Err: (err) => [null!, err],
     });

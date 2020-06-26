@@ -10,6 +10,12 @@ export function border(size: number, color: Colors, mode = "solid") {
   `;
 }
 
+export function borderWidth(size: number) {
+  return css`
+    border-width: ${size}px;
+  `;
+}
+
 export function borderColor(color: Colors) {
   return css`
     border-color: ${getColor(color)};

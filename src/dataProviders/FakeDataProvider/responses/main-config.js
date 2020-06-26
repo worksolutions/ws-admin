@@ -34,23 +34,26 @@ module.exports = {
       ],
     },
   },
-  user: {
+  userAuthenticate: {
     dataSource: {
       type: "api:request",
       options: {
-        url: "/admin/user",
+        url: "/users/profile",
         method: "get",
       },
+    },
+    setTokenCookieFromFrontend: {
+      dataSourceTokenField: "accessToken",
+      cookieName: "accessToken",
+      headerName: "authorization",
+      tokenType: "jwt",
     },
     actions: {
       authenticate: {
         type: "api:request",
         options: {
-          url: "/admin/user/auth",
+          url: "/login",
           method: "post",
-          params: {
-            id: "{{id}}",
-          },
         },
       },
       resetPassword: {
@@ -60,6 +63,10 @@ module.exports = {
         },
       },
     },
+    topImage: "/ws-logo-mono-color.svg",
+    rightImage: "/right-auth-image.png",
+    title: "Work Solutions",
+    successRedirectTo: "/articles",
   },
   screens: [
     {

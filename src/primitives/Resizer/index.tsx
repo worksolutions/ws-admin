@@ -79,7 +79,7 @@ function Resizer({ initialWidth, children, styles, minWidthToAutoClose = 72 }: R
         {styleParams.childOpacity === 0 && !down && (
           <Wrapper styles={[position("absolute"), left(buttonShowClosedContentLeft), top("50%")]}>
             <Button
-              outerStyles={[
+              styles={[
                 boxShadow(
                   [0, 4, 8, createAlphaColor("black", 10)],
                   [0, 16, 24, createAlphaColor("black", 10)],

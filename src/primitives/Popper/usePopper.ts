@@ -47,12 +47,15 @@ export default function usePopper(data?: PopperConfigInterface) {
     return destroy;
   }, [parent, child]);
 
-  return (forObject: "parent" | "child") => (ref: HTMLElement) => {
-    if (!ref) return;
-    if (forObject === "child") {
-      setChild(ref);
-      return;
-    }
-    setParent(ref);
+  return {
+    instance,
+    initPopper: (forObject: "parent" | "child") => (ref: HTMLElement) => {
+      if (!ref) return;
+      if (forObject === "child") {
+        setChild(ref);
+        return;
+      }
+      setParent(ref);
+    },
   };
 }

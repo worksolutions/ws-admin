@@ -3,7 +3,7 @@ import React from "react";
 import { TypographyTypes } from "primitives/Typography";
 import Icon, { Icons } from "primitives/Icon";
 
-import { borderRadius, disableOutline, focus, hover, transition } from "libs/styles";
+import { Aligns, borderRadius, disableOutline, focus, hover, inlineFlex, jc, pointer, transition } from "libs/styles";
 
 import { stylesForSize, stylesForType } from "./styles";
 import { ButtonSize, ButtonType } from "./types";
@@ -19,13 +19,15 @@ function getStylesNameOnIcons(
 }
 
 export interface BaseButtonWrapperInterface {
+  loading?: boolean;
+  loadingText?: string;
   iconLeft?: Icons;
   iconRight?: Icons;
   disabled?: boolean;
   spinner?: boolean;
   size?: ButtonSize;
   type?: ButtonType;
-  outerStyles?: any;
+  styles?: any;
 }
 
 interface ButtonWrapperInterface extends BaseButtonWrapperInterface {
@@ -38,7 +40,8 @@ function ButtonWrapper({
   type = ButtonType.PRIMARY,
   iconLeft,
   iconRight,
-  outerStyles,
+  styles,
+  loading,
 }: ButtonWrapperInterface) {
   const isIconButton = type === ButtonType.ICON;
   const { defaultStyles, overrideTypeStyles } = stylesForSize[size];
@@ -48,19 +51,25 @@ function ButtonWrapper({
 
   const leftIconElement = iconLeft && <Icon className="icon icon-left" iconName={iconLeft} />;
   const rightIconElement = !isIconButton && iconRight && <Icon className="icon icon-right" iconName={iconRight} />;
+  const isActive = !loading;
 
   return children(
     [
+      inlineFlex,
+      jc(Aligns.CENTER),
       transition("all 200ms"),
       TypographyTypes["button"],
-      borderRadius(4),
+      borderRadius(6),
       disableOutline,
       stylesOnType.default,
       stylesOnIcons.default,
       stylesOnTypeOverride?.default,
-      hover(stylesOnType.hover),
-      focus([stylesOnType.focused, stylesOnIcons.focused, stylesOnTypeOverride?.focused]),
-      outerStyles,
+      isActive && [
+        pointer,
+        hover(stylesOnType.hover),
+        focus([stylesOnType.focused, stylesOnIcons.focused, stylesOnTypeOverride?.focused]),
+      ],
+      styles,
     ],
     leftIconElement,
     rightIconElement,

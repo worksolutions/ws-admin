@@ -6,6 +6,7 @@ import {
   borderColor,
   child,
   color,
+  Colors,
   createLinearGradientColor,
   fillColor,
   inlineFlex,
@@ -21,9 +22,7 @@ import { ButtonSize, ButtonType } from "./types";
 export const stylesForType = {
   [ButtonType.PRIMARY]: {
     default: [
-      inlineFlex,
       ai(Aligns.CENTER),
-      pointer,
       backgroundColor("blue/05"),
       border(1, "blue/07"),
       color("white"),
@@ -31,17 +30,13 @@ export const stylesForType = {
     ],
     hover: [backgroundColor("blue/04")],
     focused: [backgroundColor(createLinearGradientColor("blue/04", "blue/05", "180deg")), border(2, "blue/09")],
+    spinnerColor: "white" as Colors,
   },
   [ButtonType.ICON]: {
-    default: [
-      inlineFlex,
-      pointer,
-      backgroundColor("white"),
-      border(1, "white"),
-      child(fillColor("gray-blue/07"), ".icon use"),
-    ],
+    default: [backgroundColor("white"), border(1, "white"), child(fillColor("gray-blue/07"), ".icon use")],
     hover: [backgroundColor("gray-blue/01"), borderColor("gray-blue/01")],
     focused: [backgroundColor("white"), border(2, "blue/09")],
+    spinnerColor: "gray/09" as Colors,
   },
 };
 

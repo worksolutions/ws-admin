@@ -50,9 +50,11 @@ export class LoadingContainer {
     this.errors[name] = value;
   }
 
+  getError = (name: string) => this.errors[name];
+
   @action.bound
   setErrors(errors: ErrorInterface) {
-    this.errors = errors;
+    this.errors = errors || {};
   }
 
   @action.bound
@@ -60,8 +62,5 @@ export class LoadingContainer {
     this.errors = {};
   }
 
-  @action.bound
-  hasAnyError() {
-    return Object.keys(this.errors).length !== 0;
-  }
+  hasAnyError = () => Object.keys(this.errors).length !== 0;
 }

@@ -8,6 +8,7 @@ import "./style.css";
 interface SpinnerInterface {
   size?: number;
   color?: Colors;
+  className?: string;
 }
 
 const StyledSpinner = styled.div.attrs({ className: "loader" })<Required<SpinnerInterface>>`
@@ -21,7 +22,7 @@ const StyledSpinner = styled.div.attrs({ className: "loader" })<Required<Spinner
 `;
 
 const Spinner = function (props: SpinnerInterface) {
-  return <StyledSpinner {...(props as Required<SpinnerInterface>)} />;
+  return <StyledSpinner {...(props as any)} />;
 };
 
 Spinner.defaultProps = {

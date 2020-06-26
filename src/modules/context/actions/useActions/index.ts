@@ -35,10 +35,11 @@ const connectActionFunctionAndAppContext = (
           if (inputData.context) appContext.updateState({ path: inputData.context, data: actionOutputData });
           return actionOutputData;
         })
-        .catch(({ error }: RequestError) => {
+        .catch((requestError: RequestError) => {
+          const { error } = requestError;
           loadingContainer.setFullErrors(error.message, error.errors);
           loadingContainer.setLoading(false);
-          throw error;
+          throw requestError;
         });
     },
   };

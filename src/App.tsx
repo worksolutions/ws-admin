@@ -30,14 +30,16 @@ function App() {
   const state = systemState.stateContainer.state;
 
   return (
-    <AuthModule>
-      <Layout logo={state.logo} sidebarDataSource={state.sideMenu.dataSource}>
-        {state.screens.map((screen) => (
-          <Route key={screen.reference} exact path={screen.reference} render={() => <Screen screen={screen} />} />
-        ))}
-        <ToastReceiver />
-      </Layout>
-    </AuthModule>
+    <>
+      <AuthModule>
+        <Layout logo={state.logo} sidebarDataSource={state.sideMenu.dataSource}>
+          {state.screens.map((screen) => (
+            <Route key={screen.reference} exact path={screen.reference} render={() => <Screen screen={screen} />} />
+          ))}
+        </Layout>
+      </AuthModule>
+      <ToastReceiver />
+    </>
   );
 
   // return (

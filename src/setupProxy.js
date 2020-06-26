@@ -1,18 +1,19 @@
+const cookieParser = require("cookie-parser");
 const proxy = require("http-proxy-middleware");
 
-const isDev = process.env.NODE_ENV === "development";
+const mainConfig = require("./dataProviders/FakeDataProvider/responses/main-config");
 
-const port = process.env.SERVER_PORT ? process.env.SERVER_PORT : "8080";
+const apiHost = process.env.API_HOST || "http://localhost";
 
-module.exports = function (app) {
-  if (isDev) {
-    app.use(
-      proxy.createProxyMiddleware("/api", {
-        target: `http://localhost:${port}`,
-      }),
-    );
-    return;
-  }
+module.exports = (app) => {
+  app.use(cookieParser());
 
-  throw new Error("The setupProxy.js dont work on production mode.");
+  app.get("/api/admin/config", (_req, res) => res.json(mainConfig));
+
+  app.use(
+    proxy.createProxyMiddleware("/api", {
+      target: apiHost,
+      changeOrigin: true,
+    }),
+  );
 };

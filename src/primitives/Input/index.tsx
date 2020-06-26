@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Ref } from "react";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -14,12 +14,16 @@ interface InputInterface extends BaseInputWrapperInterface {
   onChange: (value: string) => void;
 }
 
-function Input({ value, onChange, placeholder, debounce = 100, ...inputWrapperProps }: InputInterface) {
+const Input = React.forwardRef(function (
+  { value, onChange, placeholder, debounce = 100, ...inputWrapperProps }: InputInterface,
+  ref: Ref<HTMLInputElement>,
+) {
   const { onInputChange, inputValue } = useDebouncedInput(value, debounce, onChange);
   return (
     <InputWrapper {...inputWrapperProps}>
       {(inputStyles) => (
         <Wrapper
+          ref={ref}
           as="input"
           styles={inputStyles}
           value={inputValue}
@@ -29,7 +33,7 @@ function Input({ value, onChange, placeholder, debounce = 100, ...inputWrapperPr
       )}
     </InputWrapper>
   );
-}
+});
 
 export default React.memo(Input);
 

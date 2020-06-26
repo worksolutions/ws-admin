@@ -34,7 +34,7 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
 
   function onDataReceived(data: any) {
     localStore.data = data;
-    localStore.loadingContainer.startLoading();
+    localStore.loadingContainer.stopLoading();
     localStore.loadingContainer.clearErrors();
 
     if (isNil(data)) return;

@@ -2,6 +2,8 @@ import React from "react";
 
 import Wrapper from "primitives/Wrapper";
 
+import Spinner from "../Spinner";
+
 import ButtonWrapper, { BaseButtonWrapperInterface } from "./ButtonWrapper";
 import { ButtonType } from "./types";
 
@@ -15,9 +17,9 @@ function Button({ children, onClick, ...buttonWrapperProps }: ButtonInterface) {
   return (
     <ButtonWrapper {...buttonWrapperProps}>
       {(styles, iconLeft, iconRight) => (
-        <Wrapper as="button" styles={styles} onClick={onClick}>
+        <Wrapper as="button" styles={styles} onClick={buttonWrapperProps.loading ? undefined : onClick}>
           {iconLeft}
-          {!isIconButton && children}
+          {!isIconButton && (buttonWrapperProps.loading ? buttonWrapperProps.loadingText || children : children)}
           {iconRight}
         </Wrapper>
       )}
