@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -171,4 +172,4 @@ Hint.defaultProps = {
   showDelay: 200,
 };
 
-export default React.memo(Hint);
+export default React.memo(observer(Hint));

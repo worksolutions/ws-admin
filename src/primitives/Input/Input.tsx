@@ -25,6 +25,7 @@ const Input = React.forwardRef(function (
         <Wrapper
           ref={ref}
           as="input"
+          disabled={inputWrapperProps.disabled}
           styles={inputStyles}
           value={inputValue}
           placeholder={placeholder}

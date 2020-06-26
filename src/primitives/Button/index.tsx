@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Ref } from "react";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -12,12 +12,15 @@ interface ButtonInterface extends BaseButtonWrapperInterface {
   onClick: () => void;
 }
 
-function Button({ children, onClick, ...buttonWrapperProps }: ButtonInterface) {
+const Button = React.forwardRef(function (
+  { children, onClick, ...buttonWrapperProps }: ButtonInterface,
+  ref: Ref<HTMLButtonElement>,
+) {
   const isIconButton = buttonWrapperProps.type === ButtonType.ICON;
   return (
     <ButtonWrapper {...buttonWrapperProps}>
       {(styles, iconLeft, iconRight) => (
-        <Wrapper as="button" styles={styles} onClick={buttonWrapperProps.loading ? undefined : onClick}>
+        <Wrapper ref={ref} as="button" styles={styles} onClick={buttonWrapperProps.loading ? undefined : onClick}>
           {iconLeft}
           {!isIconButton && (buttonWrapperProps.loading ? buttonWrapperProps.loadingText || children : children)}
           {iconRight}
@@ -25,7 +28,7 @@ function Button({ children, onClick, ...buttonWrapperProps }: ButtonInterface) {
       )}
     </ButtonWrapper>
   );
-}
+});
 
 export default React.memo(Button);
 

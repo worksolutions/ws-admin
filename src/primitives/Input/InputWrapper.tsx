@@ -27,6 +27,7 @@ import {
   Colors,
   borderWidth,
 } from "libs/styles";
+import { isString } from "libs/is";
 
 export enum InputSize {
   MEDIUM,
@@ -37,6 +38,7 @@ enum InputVariant {
   DEFAULT,
   ERROR,
   SUCCESS,
+  DISABLED,
 }
 
 const stylesForSize = {
@@ -78,21 +80,33 @@ const stylesForSize = {
   },
 };
 
-const colorsByVariant: Record<InputVariant, { background: Colors; border: Colors; tip: Colors }> = {
+const colorsByVariant: Record<
+  InputVariant,
+  { background: Colors; border: Colors; tip: Colors; placeholder: Colors }
+> = {
   [InputVariant.DEFAULT]: {
     background: "gray-blue/01",
     border: "gray-blue/02",
     tip: "gray-blue/07",
+    placeholder: "gray-blue/04",
   },
   [InputVariant.ERROR]: {
     background: "red/01",
     border: "red/05",
     tip: "red/07",
+    placeholder: "gray-blue/04",
   },
   [InputVariant.SUCCESS]: {
     background: "gray-blue/01",
     border: "green/05",
     tip: "green/07",
+    placeholder: "gray-blue/04",
+  },
+  [InputVariant.DISABLED]: {
+    background: "gray-blue/01",
+    border: "transparent",
+    tip: "gray-blue/07",
+    placeholder: "gray-blue/03",
   },
 };
 
@@ -107,7 +121,7 @@ export interface BaseInputWrapperInterface {
   outerStyles?: any;
   fullWidth?: boolean;
   iconLeft?: Icons;
-  iconRight?: Icons;
+  iconRight?: Icons | JSX.Element;
   disabled?: boolean;
   title?: string;
   tip?: string;
@@ -116,7 +130,8 @@ export interface BaseInputWrapperInterface {
   success?: boolean;
 }
 
-function getInputVariant(error?: boolean, success?: boolean) {
+function getInputVariant(error?: boolean, success?: boolean, disabled?: boolean) {
+  if (disabled) return InputVariant.DISABLED;
   if (error) return InputVariant.ERROR;
   if (success) return InputVariant.SUCCESS;
   return InputVariant.DEFAULT;
@@ -136,6 +151,8 @@ function Tip({ tip, color }: { tip: string | undefined; color: Colors }) {
   );
 }
 
+export const _defaultIconStyles = [position("absolute"), top("50%"), transform("translateY(-50%)")];
+
 function InputWrapper({
   outerStyles,
   children,
@@ -147,32 +164,28 @@ function InputWrapper({
   iconRight,
   error,
   success,
+  disabled,
 }: BaseInputWrapperInterface & {
   children: (styles: any) => JSX.Element;
 }) {
   const styles = stylesForSize[size][getStylesNameOnIcons(!!iconLeft, !!iconRight)];
   const leftIconElement = iconLeft && (
-    <Icon
-      styles={[position("absolute"), top("50%"), left(8), transform("translateY(-50%)")]}
-      color="gray-blue/05"
-      iconName={iconLeft}
-    />
+    <Icon styles={[_defaultIconStyles, left(8)]} color="gray-blue/05" iconName={iconLeft} />
   );
-  const rightIconElement = iconRight && (
-    <Icon
-      styles={[position("absolute"), top("50%"), right(8), transform("translateY(-50%)")]}
-      color="gray-blue/07"
-      iconName={iconRight}
-    />
+  const rightIconElement = isString(iconRight) ? (
+    <Icon styles={[_defaultIconStyles, right(8)]} color="gray-blue/07" iconName={iconRight} />
+  ) : (
+    iconRight
   );
-  const variant = getInputVariant(error, success);
+
+  const variant = getInputVariant(error, success, disabled);
 
   const colors = colorsByVariant[variant];
 
   return (
     <Wrapper styles={[fullWidthProp && fullWidth, outerStyles]}>
       <Title title={title} />
-      <Wrapper styles={[fullWidth, backgroundColor(colors.background), position("relative")]}>
+      <Wrapper styles={[fullWidth, backgroundColor(colors.background), borderRadius(6), position("relative")]}>
         {children([
           TypographyTypes["body-regular"],
           transition("all 0.2s"),
@@ -182,7 +195,7 @@ function InputWrapper({
           disableOutline,
           backgroundColor("transparent"),
           color("gray-blue/09"),
-          child(color("gray-blue/04"), "::placeholder"),
+          child(color(colors.placeholder), "::placeholder"),
           styles.base,
           variant === InputVariant.DEFAULT
             ? [hover([borderColor("gray-blue/04")]), focus([border(2, "blue/05"), styles.focused])]

@@ -66,8 +66,8 @@ module.exports = {
     topImage: "/ws-logo-mono-color.svg",
     rightImage: "/right-auth-image.png",
     title: "Work Solutions",
-    successRedirectTo: "/articles",
   },
+  mainReference: "/articles",
   screens: [
     {
       reference: "/",

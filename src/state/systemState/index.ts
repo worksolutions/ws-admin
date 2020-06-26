@@ -48,6 +48,7 @@ export class SystemState {
     logo: string;
     sideMenu: ContainsDataSourceInterface<AnyDataSource>;
     screens: ScreenInterface[];
+    mainReference: string;
     userAuthenticate: {
       topImage: string;
       rightImage: string;

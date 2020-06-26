@@ -22,6 +22,8 @@ const list = {
   "search-big": require("./icons/search-big.svg"),
   alert: require("./icons/alert.svg"),
   check: require("./icons/check.svg"),
+  "eye-on": require("./icons/eye-on.svg"),
+  "eye-off": require("./icons/eye-off.svg"),
 };
 
 export type Icons = keyof typeof list;

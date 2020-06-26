@@ -26,11 +26,9 @@ function AuthModule({ children }: { children: ReactNode }) {
   );
 
   useEffectSkipFirst(() => {
-    if (!loadingContainer.hasAnyError()) {
-      browserHistory.replace("/");
-      return;
+    if (loadingContainer.hasAnyError()) {
+      browserHistory.replace("/auth");
     }
-    browserHistory.replace("/auth");
   }, [loadingContainer.errors]);
 
   useEffectSkipFirst(() => {}, [data]);

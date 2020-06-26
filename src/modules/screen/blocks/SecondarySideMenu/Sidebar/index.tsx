@@ -3,7 +3,7 @@ import React from "react";
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 import Resizer from "primitives/Resizer";
-import Input, { InputSize } from "primitives/Input";
+import Input, { InputSize } from "primitives/Input/Input";
 
 import {
   ai,

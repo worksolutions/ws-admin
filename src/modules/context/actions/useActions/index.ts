@@ -37,7 +37,8 @@ const connectActionFunctionAndAppContext = (
         })
         .catch((requestError: RequestError) => {
           const { error } = requestError;
-          loadingContainer.setFullErrors(error.message, error.errors);
+          loadingContainer.setErrors(error.errors);
+          loadingContainer.setDefaultError(error.message);
           loadingContainer.setLoading(false);
           throw requestError;
         });

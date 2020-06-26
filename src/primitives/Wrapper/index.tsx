@@ -5,7 +5,7 @@ import { StyledComponentsAS } from "types/StyledComponentsAS";
 
 const StyledWrapper = styled.div``;
 
-interface WrapperInterface {
+export interface WrapperInterface {
   className?: string;
   styles?: any;
   as?: StyledComponentsAS;
@@ -13,13 +13,13 @@ interface WrapperInterface {
   [name: string]: any;
 }
 
-export default React.memo(
-  forwardRef(function (props: WrapperInterface, ref) {
-    const { styles, as, className, children, ...otherProps } = props;
-    return (
-      <StyledWrapper ref={ref} className={className} css={styles} as={as} {...otherProps}>
-        {children}
-      </StyledWrapper>
-    );
-  }),
-);
+const Wrapper = forwardRef(function (props: WrapperInterface, ref) {
+  const { styles, as, className, children, ...otherProps } = props;
+  return (
+    <StyledWrapper ref={ref} className={className} css={styles} as={as} {...otherProps}>
+      {children}
+    </StyledWrapper>
+  );
+});
+
+export default React.memo(Wrapper);

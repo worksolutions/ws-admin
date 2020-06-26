@@ -49,7 +49,8 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
   function onApiRequestReceiveDataError(requestError: RequestError) {
     localStore.data = null;
     localStore.loadingContainer.stopLoading();
-    localStore.loadingContainer.setFullErrors(requestError.error.message, requestError.error.errors);
+    localStore.loadingContainer.setErrors(requestError.error.errors);
+    localStore.loadingContainer.setDefaultError(requestError.error.message);
     if (!dataSource.context) return;
     updateState({
       path: dataSource.context + "_error",

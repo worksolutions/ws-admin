@@ -40,17 +40,18 @@ export class LoadingContainer {
   }
 
   @action.bound
-  setFullErrors(message: string, errors: ErrorInterface) {
-    this.setErrors(errors);
-    this.setError("defaultMessage", message);
-  }
-
-  @action.bound
   setError(name: string, value: string | null) {
     this.errors[name] = value;
   }
 
   getError = (name: string) => this.errors[name];
+
+  @action.bound
+  setDefaultError(message: string) {
+    this.setError("defaultMessage", message);
+  }
+
+  getDefaultError = () => this.getError("defaultMessage");
 
   @action.bound
   setErrors(errors: ErrorInterface) {

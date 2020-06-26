@@ -33,11 +33,27 @@ export enum METHODS {
 }
 
 export class RequestError {
+  static isRequestError(data: any): data is RequestError {
+    return data instanceof RequestError;
+  }
+
   constructor(
     public error: { message: string; errors: Record<string, string> },
     public statusCode = 0,
     public axiosError: AxiosError = null!,
   ) {}
+
+  hasAnyErrors() {
+    return Object.keys(this.error.errors).length !== 0;
+  }
+
+  getErrors() {
+    return this.error.errors;
+  }
+
+  getMessage() {
+    return this.error.message;
+  }
 }
 
 type RequestData = AxiosRequestConfig & { url: string };
