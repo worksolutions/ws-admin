@@ -31,6 +31,8 @@ import {
   fullWidth,
   minHeight,
   zIndex,
+  boxShadow,
+  createAlphaColor,
 } from "libs/styles";
 
 import SuggestInterface from "types/SuggestInterface";
@@ -45,7 +47,7 @@ interface BaseIconButtonInterface {
 
 const IconLink = React.memo(function ({ icon, selected, href, hint, styles }: BaseIconButtonInterface) {
   return (
-    <Hint text={hint}>
+    <Hint text={hint} margin={16}>
       {(initParent) => (
         <LinkWrapper
           ref={initParent}
@@ -59,12 +61,16 @@ const IconLink = React.memo(function ({ icon, selected, href, hint, styles }: Ba
             jc(Aligns.CENTER),
             transition("background-color 0.2s"),
             disableOutline,
-            focus([border(2, "blue/01")]),
-            selected ? backgroundColor("blue/05") : hover(backgroundColor("blue/09")),
+            selected
+              ? [
+                  backgroundColor("blue/05"),
+                  boxShadow([0, 2, 6, createAlphaColor("black", 10)], [0, 8, 16, createAlphaColor("black", 20)]),
+                ]
+              : hover(backgroundColor("gray-blue/01")),
             styles,
           ]}
         >
-          <Icon iconName={icon} color={selected ? "white" : "blue/02"} />
+          <Icon iconName={icon} color={selected ? "white" : "blue/09"} />
         </LinkWrapper>
       )}
     </Hint>
@@ -94,7 +100,8 @@ function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterfac
   return (
     <Wrapper
       styles={[
-        backgroundColor("blue/10"),
+        backgroundColor("white"),
+        boxShadow([0, 2, 6, createAlphaColor("black", 10)], [0, 8, 16, createAlphaColor("black", 20)]),
         position("fixed"),
         fullHeight,
         width(sidebarWidth),
