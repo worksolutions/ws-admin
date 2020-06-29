@@ -35,7 +35,8 @@ interface StyledSVGInterface {
 }
 
 interface SVGInterface extends StyledSVGInterface {
-  iconName: Icons;
+  iconName?: Icons;
+  customIcon?: any;
   className?: string;
   color?: Colors;
 }
@@ -47,11 +48,10 @@ const StyledSVG = styled.svg<StyledSVGInterface>`
 `;
 
 const SVG = React.forwardRef(function (
-  { className, iconName, width, height, styles, color = "gray-blue/05" }: SVGInterface,
+  { className, iconName, width, height, styles, color = "gray-blue/05", customIcon }: SVGInterface,
   refProp: any,
 ) {
-  if (!iconName) return null;
-  const { symbol, viewBox } = list[iconName];
+  const { symbol, viewBox } = iconName ? list[iconName] : customIcon;
   const [ref, setRef] = React.useState<SVGSVGElement | null>();
 
   const fillColor = getColor(color);

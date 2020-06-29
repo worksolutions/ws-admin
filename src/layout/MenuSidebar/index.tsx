@@ -111,15 +111,17 @@ function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterfac
       ]}
     >
       {logo && (
-        <Wrapper
-          styles={[
-            backgroundImage(logo),
-            backgroundSize("cover"),
-            backgroundPosition("center"),
-            width(56),
-            minHeight(56),
-          ]}
-        />
+        <Wrapper styles={[backgroundColor("blue/05"), width(56), minHeight(56), padding(8)]}>
+          <Wrapper
+            styles={[
+              backgroundImage(logo),
+              backgroundSize("cover"),
+              backgroundPosition("center"),
+              fullWidth,
+              fullHeight,
+            ]}
+          />
+        </Wrapper>
       )}
       <Wrapper styles={[flexValue(1), fullWidth, flex, flexColumn, padding("16px 8px 20px 8px")]}>
         <Wrapper styles={[flex, flexColumn, flexValue(1)]}>

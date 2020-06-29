@@ -5,6 +5,8 @@ import Icon, { Icons } from "primitives/Icon";
 
 import { Aligns, borderRadius, disableOutline, focus, hover, inlineFlex, jc, pointer, transition } from "libs/styles";
 
+import Spinner from "../Spinner";
+
 import { stylesForSize, stylesForType } from "./styles";
 import { ButtonSize, ButtonType } from "./types";
 
@@ -45,12 +47,13 @@ function ButtonWrapper({
 }: ButtonWrapperInterface) {
   const isIconButton = type === ButtonType.ICON;
   const { defaultStyles, overrideTypeStyles } = stylesForSize[size];
-  const stylesOnIcons = defaultStyles[getStylesNameOnIcons(!!iconLeft, isIconButton ? false : !!iconRight)];
+  const stylesOnIcons = defaultStyles[getStylesNameOnIcons(!!iconLeft, isIconButton ? false : !!iconRight || loading!)];
   const stylesOnType = stylesForType[type];
   const stylesOnTypeOverride = overrideTypeStyles[type];
 
   const leftIconElement = iconLeft && <Icon className="icon icon-left" iconName={iconLeft} />;
-  const rightIconElement = !isIconButton && iconRight && <Icon className="icon icon-right" iconName={iconRight} />;
+  const rightIconElement = !isIconButton && loading ? <Spinner className="icon icon-right" /> : iconRight;
+
   const isActive = !loading;
 
   return children(

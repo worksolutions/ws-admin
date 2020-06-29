@@ -216,3 +216,7 @@ export const disableDecoration = css`
 export const visibility = (value: "hidden" | "visible") => css`
   visibility: ${value};
 `;
+
+export const content = (value: string) => css`
+  content: "${value}";
+`;
