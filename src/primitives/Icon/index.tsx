@@ -24,6 +24,7 @@ const list = {
   check: require("./icons/check.svg"),
   "eye-on": require("./icons/eye-on.svg"),
   "eye-off": require("./icons/eye-off.svg"),
+  "16-triangle-down-alt": require("./icons/16-triangle-down-alt.svg"),
 };
 
 export type Icons = keyof typeof list;

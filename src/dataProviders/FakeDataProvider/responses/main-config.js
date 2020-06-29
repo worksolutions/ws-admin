@@ -7,30 +7,35 @@ module.exports = {
       type: "list",
       options: [
         {
-          code: "content",
-          name: "Контент",
+          code: "categories",
+          name: "Категории",
           icon: "grid-plus-outline",
         },
-        {
-          code: "site",
-          name: "Сайт",
-          icon: "website",
-        },
-        {
-          code: "marketing",
-          name: "Маркетинг",
-          icon: "bullseye-arrow",
-        },
-        {
-          code: "stores",
-          name: "Магазин",
-          icon: "cart",
-        },
-        {
-          code: "clients",
-          name: "Клиенты",
-          icon: "account-multiple-outline",
-        },
+        // {
+        //   code: "content",
+        //   name: "Контент",
+        //   icon: "grid-plus-outline",
+        // },
+        // {
+        //   code: "site",
+        //   name: "Сайт",
+        //   icon: "website",
+        // },
+        // {
+        //   code: "marketing",
+        //   name: "Маркетинг",
+        //   icon: "bullseye-arrow",
+        // },
+        // {
+        //   code: "stores",
+        //   name: "Магазин",
+        //   icon: "cart",
+        // },
+        // {
+        //   code: "clients",
+        //   name: "Клиенты",
+        //   icon: "account-multiple-outline",
+        // },
       ],
     },
   },
@@ -71,75 +76,112 @@ module.exports = {
   screens: [
     {
       reference: "/",
-      blocks: [
-        {
-          type: "BackgroundTasks",
-          dataSource: {
-            type: "api:request",
-            options: {
-              url: "/admin/background-tasks",
-              method: "get",
-            },
-          },
-        },
-      ],
+      blocks: [],
     },
     {
-      reference: "/content*",
-      title: "Контент",
+      reference: "/categories*",
+      title: "Категории",
       blocks: [
         {
-          type: "SecondarySideMenu",
+          type: "TableView",
           dataSource: {
-            type: "api:request",
+            type: "list",
             options: {
-              url: "/admin/secondary-menu-config/content",
-              method: "get",
-            },
-            context: "menu.secondary-menu-items",
-          },
-        },
-        {
-          type: "Column",
-          blocks: [
-            {
-              type: "BackgroundTasks",
-              dataSource: {
-                type: "api:request",
-                options: {
-                  url: "/admin/background-tasks",
-                  method: "get",
+              selectable: true,
+              columns: [
+                { title: "ID", field: "id", sortable: true },
+                { title: "Имя", field: "firstName" },
+                {
+                  title: "Фамилия",
+                  field: "lastName",
                 },
-              },
-            },
-            {
-              type: "CurrentScreenBreadcrumbs",
-              dataSource: {
-                type: "context",
-                options: {
-                  key: "{{menu.secondary-menu-items}}",
+                {
+                  title: "Возраст",
+                  field: "age",
+                  type: "NUMBER",
                 },
-              },
-            },
-          ],
-        },
-      ],
-    },
-    {
-      reference: "/test*",
-      title: "Тест",
-      blocks: [
-        {
-          type: "CurrentScreenBreadcrumbs",
-          dataSource: {
-            type: "context",
-            options: {
-              key: "{{menu.secondary-menu-items}}",
+              ],
+              data: [
+                {
+                  id: {
+                    reference: "https://yandex.ru",
+                    value: "11141",
+                  },
+                  firstName: "Mehmet",
+                  lastName: "Baran",
+                  age: 34,
+                },
+                {
+                  id: {
+                    reference: "/auth",
+                    value: "11142",
+                  },
+                  firstName: "Дара",
+                  lastName: "Мара",
+                  age: 35,
+                },
+              ],
             },
           },
         },
       ],
     },
+    // {
+    //   reference: "/content*",
+    //   title: "Контент",
+    //   blocks: [
+    //     {
+    //       type: "SecondarySideMenu",
+    //       dataSource: {
+    //         type: "api:request",
+    //         options: {
+    //           url: "/admin/secondary-menu-config/content",
+    //           method: "get",
+    //         },
+    //         context: "menu.secondary-menu-items",
+    //       },
+    //     },
+    //     {
+    //       type: "Column",
+    //       blocks: [
+    //         {
+    //           type: "BackgroundTasks",
+    //           dataSource: {
+    //             type: "api:request",
+    //             options: {
+    //               url: "/admin/background-tasks",
+    //               method: "get",
+    //             },
+    //           },
+    //         },
+    //         {
+    //           type: "CurrentScreenBreadcrumbs",
+    //           dataSource: {
+    //             type: "context",
+    //             options: {
+    //               key: "{{menu.secondary-menu-items}}",
+    //             },
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // },
+    // {
+    //   reference: "/test*",
+    //   title: "Тест",
+    //   blocks: [
+    //     {
+    //       type: "CurrentScreenBreadcrumbs",
+    //       dataSource: {
+    //         type: "context",
+    //         options: {
+    //           key: "{{menu.secondary-menu-items}}",
+    //         },
+    //       },
+    //     },
+    //   ],
+    // },
     // {
     //   pageUrl: "/deep",
     //   title: "Тестирование блоков",

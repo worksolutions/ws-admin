@@ -2,13 +2,17 @@ import React, { Ref } from "react";
 import { Link, LinkProps } from "react-router-dom";
 import styled from "styled-components";
 
+import { getColor } from "libs/styles";
+
 import Typography, { TypographyInterface } from "./index";
 
 type TypographyLinkInterface = TypographyInterface & Omit<LinkProps, "to"> & { to: string; native?: boolean };
 
 const StyledLink = styled(
   React.forwardRef((props: TypographyLinkInterface, ref: Ref<HTMLAnchorElement>) => <Link {...props} ref={ref} />),
-)``;
+)`
+  color: ${getColor("blue/06")};
+`;
 
 function makeTypographyLinkAsProp(
   link: string,

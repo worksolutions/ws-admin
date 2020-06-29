@@ -34,7 +34,6 @@ function BackgroundTasks({ tasks }: BackgroundTasksInterface) {
     <Wrapper
       styles={[
         flexValue(1),
-        margin("16px 24px"),
         padding("8px 0 8px 8px"),
         borderRadius(8),
         border(1, "gray-blue/02"),

@@ -23,9 +23,6 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
   const localStore = useLocalStore<DataInterface<RESULT>>(() => ({
     data: null,
     loadingContainer: new LoadingContainer(true),
-    clean() {
-      this.data = null;
-    },
   }));
 
   if (!dataSource) return localStore;
