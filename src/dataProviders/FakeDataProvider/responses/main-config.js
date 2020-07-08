@@ -84,12 +84,30 @@ module.exports = {
       blocks: [
         {
           type: "TableView",
+          options: {
+            tableViewDefaultSizes: {
+              minWidth: 100,
+              width: 300,
+              maxWidth: 400,
+            },
+          },
+          // dataSource: {
+          //   type: "api:request",
+          //   options: {
+          //     url: "/categories",
+          //     method: "get",
+          //     params: {
+          //       page: "1",
+          //       perPage: "10",
+          //     },
+          //   },
+          // },
           dataSource: {
             type: "list",
             options: {
               selectable: true,
               columns: [
-                { title: "ID", field: "id", sortable: true },
+                { title: "ID", field: "id", sortable: true, width: 100 },
                 { title: "Имя", field: "firstName" },
                 {
                   title: "Фамилия",

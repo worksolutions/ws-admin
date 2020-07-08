@@ -3,19 +3,27 @@ import { Row } from "react-table";
 
 import Wrapper from "primitives/Wrapper";
 
-import { padding } from "libs/styles";
+import { borderRight, padding } from "libs/styles";
 
-export default React.memo(function ({ row }: { row: Row<any> }) {
+export default function ({ row, resizingColumnIndex }: { row: Row<any>; resizingColumnIndex: number }) {
   return (
     <Wrapper as="tr" {...row.getRowProps()}>
-      {row.cells.map((cell) => {
+      {row.cells.map((cell, index) => {
         const { key, ...props } = cell.getCellProps();
         return (
-          <Wrapper as="td" key={key} {...props} styles={[padding("10px 16px")]}>
+          <Wrapper
+            as="td"
+            key={key}
+            {...props}
+            styles={[
+              padding("10px 16px"),
+              borderRight(1, resizingColumnIndex === index ? "gray-blue/02" : "transparent"),
+            ]}
+          >
             {cell.render("Cell")}
           </Wrapper>
         );
       })}
     </Wrapper>
   );
-});
+}

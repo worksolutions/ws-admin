@@ -1,4 +1,5 @@
 import React from "react";
+import { complement, filter, isNil } from "ramda";
 import { Column } from "react-table";
 
 import { TypographyLink } from "primitives/Typography/TypographyLink";
@@ -10,9 +11,16 @@ import { getLinkIsNative } from "libs/linkIsNative";
 import { TableSortingType, TableViewDataSource } from "./types";
 
 function prepareColumn(column: TableViewDataSource["columns"][0]) {
+  const sizes = filter(complement(isNil), {
+    width: column.width,
+    minWidth: column.minWidth,
+    maxWidth: column.maxWidth,
+  });
+
   return {
     Header: { sortable: column.sortable, title: column.title },
     accessor: column.field,
+    ...sizes,
     Cell: ({ value }) => {
       if (isObject(value)) {
         const native = getLinkIsNative(value.reference);

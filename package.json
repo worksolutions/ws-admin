@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "NODE_ENV=production && react-app-rewired build",
+    "build": "NODE_ENV=production react-app-rewired build",
+    "serve-production-test": "NODE_ENV=production node src/setupProxy.js",
     "test": "react-app-rewired test",
     "format": "prettier --write --list-different \"src/**/*.{ts,tsx,js,json,yml}\"",
     "lint": "eslint src --ext .ts,.js,.jsx --fix",
@@ -59,6 +60,7 @@
     "@typescript-eslint/parser": "2.24.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
     "dotenv-webpack": "^1.8.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.3.0",

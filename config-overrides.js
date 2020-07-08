@@ -11,7 +11,6 @@ module.exports = function override(config, env) {
     plugins: [
       new Dotenv({
         path: "./.env",
-        safe: true,
       }),
     ],
   });

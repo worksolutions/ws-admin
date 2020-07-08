@@ -1,19 +1,13 @@
-const cookieParser = require("cookie-parser");
-const proxy = require("http-proxy-middleware");
-
-const mainConfig = require("./dataProviders/FakeDataProvider/responses/main-config");
-
-const apiHost = process.env.API_HOST || "http://localhost";
+const server = require("../testServer/server");
 
 module.exports = (app) => {
-  app.use(cookieParser());
-
-  app.get("/api/admin/config", (_req, res) => res.json(mainConfig));
-
-  app.use(
-    proxy.createProxyMiddleware("/api", {
-      target: apiHost,
-      changeOrigin: true,
-    }),
-  );
+  server(app);
 };
+
+if (process.env.NODE_ENV === "production") {
+  const express = require("express");
+  const app = express();
+  app.use(express.static(__dirname + "/../build"));
+  server(app);
+  app.listen(8080, () => console.log("listen at 8080"));
+}
