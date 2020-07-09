@@ -1,8 +1,7 @@
-const express = require("express");
-const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const proxy = require("http-proxy-middleware");
 const dotenv = require("dotenv");
+const axios = require("axios");
+const ramda = require("ramda");
 
 dotenv.config({ path: __dirname + "/../.env" });
 
@@ -16,82 +15,51 @@ function error(msg, errors = {}) {
   };
 }
 
+function prepareUrl(url) {
+  return url.startsWith("http") ? url : process.env.DEV_API_HOST + url;
+}
+
+function makeProxy({ url, expressMethodHandlerName }, app, modifyResponse) {
+  app[expressMethodHandlerName](url, async (req, res) => {
+    try {
+      const response = await axios(url, {
+        method: req.method,
+        baseURL: process.env.DEV_API_HOST,
+        headers: ramda.omit(["host"], req.headers),
+      });
+      if (modifyResponse) {
+        const result = await modifyResponse(response.data, response.status);
+        if (!ramda.isNil(result)) {
+          response.data = result;
+        }
+      }
+      res.status(response.status).send(response.data);
+    } catch (e) {
+      const { response } = e;
+      if (!response) {
+        console.log(e);
+        res.status(500).json(error("proxy - internal server error"));
+        return;
+      }
+      res.status(response.status).send(response.data);
+    }
+  });
+}
+
 module.exports = (app) => {
   app.use(cookieParser());
-  app.use((req, res, next) => {
-    setTimeout(next, 200);
-  });
+  app.use((req, res, next) => setTimeout(next, 200));
 
   app.get("/api/admin/config", (_req, res) => res.json(mainConfig));
 
-  app.use(
-    proxy.createProxyMiddleware("/api", {
-      target: process.env.DEV_API_HOST,
-      changeOrigin: true,
-      logLevel: "debug",
-    }),
-  );
-
-  app.get("/api/admin/secondary-menu-config/:id", (req, res) => {
-    const data = {
-      title: "Контент",
-      reference: "/content",
-      items: [
-        {
-          name: "Структура сайта для раздела " + req.params.id,
-          icon: "arrow-left",
-          reference: "/content/structure",
-          subElements: [],
-        },
-        {
-          name: "SEO настройки",
-          reference: "/content/seo",
-          subElements: [],
-        },
-        {
-          name: "Каталог товаров",
-          icon: "arrow-up",
-          reference: "/content/catalog",
-          subElements: [
-            {
-              name: "Элементы",
-              reference: "/content/catalog/elements",
-            },
-            {
-              name: "Подарки",
-              icon: "arrow-up",
-              reference: "/content/catalog/gifts",
-              subElements: [
-                {
-                  name: "500 - 1000 руб",
-                  reference: "/content/catalog/gifts/500-1000",
-                  subElements: [
-                    {
-                      name: "Элементы",
-                      reference: "/content/catalog/gifts/500-1000/elements",
-                    },
-                  ],
-                },
-                {
-                  name: "До 500 руб.",
-                  reference: "/content/catalog/gifts/0-500",
-                  subElements: [
-                    {
-                      name: "Элементы с большим названием",
-                      reference: "/content/catalog/gifts/0-500/elements",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-    setTimeout(() => {
-      res.json(data);
-    }, 200);
+  makeProxy({ url: "/api/users/profile", expressMethodHandlerName: "get" }, app, ({ user }) => {
+    if (!user.image) return;
+    user.avatar = prepareUrl(user.image.path);
+    user.name = `${user.name} ${user.surname} (${user.position})`;
+    return user;
   });
+
+  makeProxy({ url: "/api", expressMethodHandlerName: "use" }, app);
 
   app.get("/api/admin/background-tasks", (req, res) => {
     res.json([

@@ -5,6 +5,7 @@ import { StateContainer } from "../stateContainer";
 
 export interface GlobalStateCommonPartInterface {
   currentUser: {
+    avatar: string;
     email: string;
     name: string;
   };

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { isNil } from "ramda";
 import { useLocalStore } from "mobx-react-lite";
+import { toJS } from "mobx";
 
 import { RequestError } from "libs/request";
 
 import { useAppContext } from "../hooks/useAppContext";
 
 import { runContextDataSourceFetcher } from "./sourceFetchers/context";
-import { runListDataSourceFetcher } from "./sourceFetchers/list";
+import { runStaticListDataSourceFetcher } from "./sourceFetchers/static";
 import { runApiRequestDataSourceFetcher } from "./sourceFetchers/apiRequest";
 
 import { LoadingContainer } from "state/loadingContainer";
@@ -35,6 +36,7 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
     localStore.loadingContainer.clearErrors();
 
     if (isNil(data)) return;
+
     if (dataSource.context) {
       updateState({
         path: dataSource.context,
@@ -56,7 +58,7 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
   }
 
   function runDataSourceFetcher() {
-    runListDataSourceFetcher(dataSource, onDataReceived);
+    runStaticListDataSourceFetcher(dataSource, onDataReceived);
     runContextDataSourceFetcher(dataSource, context, onDataReceived);
     runApiRequestDataSourceFetcher(dataSource, context, {
       onDataReceived,

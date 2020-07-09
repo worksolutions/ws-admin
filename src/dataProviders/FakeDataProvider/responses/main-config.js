@@ -4,38 +4,18 @@ module.exports = {
   logo: "/logo.svg",
   sideMenu: {
     dataSource: {
-      type: "list",
+      type: "static",
       options: [
         {
-          code: "categories",
-          name: "Категории",
+          code: "content",
+          name: "Контент",
           icon: "grid-plus-outline",
         },
-        // {
-        //   code: "content",
-        //   name: "Контент",
-        //   icon: "grid-plus-outline",
-        // },
-        // {
-        //   code: "site",
-        //   name: "Сайт",
-        //   icon: "website",
-        // },
-        // {
-        //   code: "marketing",
-        //   name: "Маркетинг",
-        //   icon: "bullseye-arrow",
-        // },
-        // {
-        //   code: "stores",
-        //   name: "Магазин",
-        //   icon: "cart",
-        // },
-        // {
-        //   code: "clients",
-        //   name: "Клиенты",
-        //   icon: "account-multiple-outline",
-        // },
+        {
+          code: "categories",
+          name: "Пользователь",
+          icon: "account-multiple-outline",
+        },
       ],
     },
   },
@@ -72,16 +52,41 @@ module.exports = {
     rightImage: "/right-auth-image.png",
     title: "Work Solutions",
   },
-  mainReference: "/articles",
+  mainReference: "/content/articles",
   screens: [
     {
       reference: "/",
       blocks: [],
     },
     {
-      reference: "/categories*",
-      title: "Категории",
+      reference: "/content*",
+      title: "Управление контентом",
       blocks: [
+        {
+          type: "SecondarySideMenu",
+          dataSource: {
+            type: "static",
+            options: {
+              title: "Контент",
+              reference: "/content",
+              items: [
+                {
+                  name: "Статьи",
+                  icon: "content-multiple",
+                  reference: "/content/articles",
+                  subElements: [],
+                },
+                {
+                  name: "Категории",
+                  icon: "book-open",
+                  reference: "/content/categories",
+                  subElements: [],
+                },
+              ],
+            },
+            context: "menu.secondary-menu-items",
+          },
+        },
         {
           type: "TableView",
           options: {
@@ -103,7 +108,7 @@ module.exports = {
           //   },
           // },
           dataSource: {
-            type: "list",
+            type: "static",
             options: {
               selectable: true,
               columns: [

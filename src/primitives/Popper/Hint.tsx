@@ -19,6 +19,7 @@ import {
   opacity,
   padding,
   transition,
+  whiteSpace,
 } from "libs/styles";
 
 import usePopper, { PopperConfigInterface } from "./usePopper";
@@ -29,6 +30,7 @@ export enum HintType {
 }
 
 interface HintInterface {
+  force?: boolean;
   text?: string | null;
   type?: HintType;
   inline?: boolean;
@@ -80,6 +82,7 @@ function getMarginForPlacement(placement: string, marginProp: number) {
 }
 
 function Hint({
+  force,
   children,
   showDelay,
   popperConfig,
@@ -142,17 +145,17 @@ function Hint({
   const themeStyles = styledForType[type];
 
   const hint =
-    wasRendered && !!text ? (
+    force || (wasRendered && !!text) ? (
       <Wrapper
         ref={initPopper("child")}
         styles={[
-          opacity(opened ? 1 : 0),
+          opacity(force || opened ? 1 : 0),
           transition(`opacity ${hideAnimationDelay}ms`),
           placementStyle,
           themeStyles.container,
         ]}
       >
-        <Typography type="caption-regular" color={themeStyles.text.color}>
+        <Typography type="caption-regular" color={themeStyles.text.color} styles={[whiteSpace("nowrap")]}>
           {text}
         </Typography>
       </Wrapper>

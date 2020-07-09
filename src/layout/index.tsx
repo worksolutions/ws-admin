@@ -1,17 +1,22 @@
 import React from "react";
 import { matchPath, useLocation } from "react-router";
+import { Container } from "typedi";
 
 import Wrapper from "primitives/Wrapper";
 import { Icons } from "primitives/Icon";
 
-import { ai, Aligns, flex, fullHeight, marginLeft, width } from "libs/styles";
+import { ai, Aligns, border, borderRadius, createAlphaColor, flex, fullHeight, marginLeft, width } from "libs/styles";
 import { cb } from "libs/CB";
 
 import { useDataSource } from "../modules/context/dataSource/useDataSource";
 
 import MenuSidebar, { sidebarWidth } from "./MenuSidebar";
 
+import { GlobalState } from "state/globalState";
+
 import { AnyDataSource } from "types/DataSource";
+
+const globalState = Container.get(GlobalState);
 
 export default cb(
   {
@@ -38,6 +43,7 @@ export default cb(
     },
   },
   function ({ children, logo }, { state: { menuElements } }) {
+    const currentUser = globalState.stateContainer.state.currentUser;
     return (
       <>
         <MenuSidebar
@@ -50,9 +56,19 @@ export default cb(
             icon: element.icon,
           }))}
           secondaryItems={[
-            { href: "/a", selected: false, type: "button", icon: "arrow-up" },
-            { href: "/a", selected: false, type: "button", icon: "arrow-up" },
-            { href: "/a", selected: false, type: "button", icon: "arrow-up" },
+            currentUser
+              ? {
+                  href: "/user",
+                  selected: false,
+                  type: "button",
+                  icon: "user",
+                  hint: globalState.stateContainer.state.currentUser.name,
+                  iconStyles: [borderRadius("100%"), border(1, createAlphaColor("black", 20))],
+                  customIcon: globalState.stateContainer.state.currentUser.avatar,
+                }
+              : null,
+            { href: "/logout", selected: false, type: "button", hint: "Выйти из системы", icon: "log-out" },
+            { href: "/settings", selected: false, type: "button", icon: "settings" },
           ]}
         />
         <Wrapper
@@ -64,7 +80,7 @@ export default cb(
             ai(Aligns.START),
           ]}
         >
-          {children}
+          {currentUser && children}
         </Wrapper>
       </>
     );

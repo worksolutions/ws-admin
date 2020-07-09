@@ -1,17 +1,18 @@
 import { METHODS } from "libs/request";
 
 export enum DataSourceType {
-  LIST = "list",
+  STATIC = "static",
   API_REQUEST = "api:request",
   CONTEXT = "context",
 }
 
 type DataSourceOptions = {
-  [DataSourceType.LIST]: any;
+  [DataSourceType.STATIC]: any;
   [DataSourceType.CONTEXT]: { key: string };
   [DataSourceType.API_REQUEST]: {
     url: string;
     method: METHODS;
+    responseDataConverter?: string;
     params?: {
       [key: string]: string | number;
     };
@@ -31,4 +32,4 @@ export type ContainsDataSourceInterface<DataSource> = {
 export type AnyDataSource =
   | DataSourceInterface<DataSourceType.API_REQUEST>
   | DataSourceInterface<DataSourceType.CONTEXT>
-  | DataSourceInterface<DataSourceType.LIST>;
+  | DataSourceInterface<DataSourceType.STATIC>;

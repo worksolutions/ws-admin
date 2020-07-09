@@ -1,5 +1,5 @@
 import { DataSourceInterface, DataSourceType } from "types/DataSource";
 
-export default function listDataSource(dataSource: DataSourceInterface<DataSourceType.LIST>): Promise<any> {
+export default function staticDataSource(dataSource: DataSourceInterface<DataSourceType.STATIC>): Promise<any> {
   return Promise.resolve(dataSource.options);
 }

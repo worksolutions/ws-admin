@@ -21,6 +21,8 @@ import {
   fullWidth,
   height,
   hover,
+  lastChild,
+  marginBottom,
   marginLeft,
   marginRight,
   padding,
@@ -50,13 +52,17 @@ const TreeElement = withPerformance(["toggle"])(function ({
   opened,
   toggle,
 }: RecursiveTreeElementInterface & { active: boolean; opened: boolean; toggle: () => void }) {
+  const hasSubElements = item.subElements?.length !== 0;
+
   const resultProps = {
     styles: [
       height(40),
       pointer,
-      padding("8px 10px"),
+      padding("4px 8px"),
       fullWidth,
-      borderRadius(4),
+      borderRadius(6),
+      marginBottom(4),
+      lastChild(marginBottom(0), "&"),
       transition(`all ${defaultDuration}ms`),
       flex,
       ai(Aligns.CENTER),
@@ -74,15 +80,17 @@ const TreeElement = withPerformance(["toggle"])(function ({
     ],
     children: (
       <>
-        <Icon
-          className="item-icon"
-          color="gray-blue/07"
-          width={16}
-          height={16}
-          styles={[marginRight(4), marginLeft(oneLevelPaddingLeft * level), opened && transform("rotateZ(90deg)")]}
-          iconName={item.subElements ? "16-triangle-right" : "16-small-circle"}
-        />
-        {(item.icon || item.subElements) && (
+        {hasSubElements && (
+          <Icon
+            className="item-icon"
+            color="gray-blue/07"
+            width={16}
+            height={16}
+            styles={[marginRight(4), marginLeft(oneLevelPaddingLeft * level), opened && transform("rotateZ(90deg)")]}
+            iconName="16-triangle-right"
+          />
+        )}
+        {(item.icon || hasSubElements) && (
           <Icon
             className="item-icon"
             color="blue/09"
@@ -97,7 +105,7 @@ const TreeElement = withPerformance(["toggle"])(function ({
     ),
   };
 
-  if (item.subElements) {
+  if (hasSubElements) {
     return <Wrapper {...resultProps} onClick={toggle} />;
   }
 
@@ -124,10 +132,10 @@ export const RecursiveTreeElement = React.memo(function ({ item, level }: Recurs
   return (
     <>
       <TreeElement active={active} opened={opened} level={level} item={item} toggle={toggle} />
-      {item.subElements && (
+      {item.subElements?.length !== 0 && (
         <animated.div style={{ height: opened && previous === opened ? "auto" : height, overflow: "hidden" }}>
           <animated.div ref={measureRef}>
-            {item.subElements.map((element) => (
+            {item.subElements!.map((element) => (
               <RecursiveTreeElement key={element.reference} level={nextLevel} item={element} />
             ))}
           </animated.div>
