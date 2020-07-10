@@ -1,11 +1,11 @@
 import { action, observable } from "mobx";
 import { Inject, Service } from "typedi";
-import Cookie from "js-cookie";
 
 import { METHODS, RequestManager } from "libs/request";
 import { identityValueDecoder } from "libs/request/defaultDecoders";
 import { promisifyAPI } from "libs/promisifyAPI";
-import { path } from "libs/path";
+
+import { AuthTokenSaveStrategy } from "modules/auth/authTokenSaver";
 
 import { StateContainer } from "../stateContainer";
 import { LoadingContainer } from "../loadingContainer";
@@ -24,18 +24,6 @@ export interface ScreenInterface {
   blocks: BlockInterface[];
 }
 
-interface SetTokenCookieFromFrontendInterface {
-  dataSourceTokenField: string;
-  cookieName: string;
-  headerName?: string;
-  tokenType: "string" | "jwt";
-}
-
-const prepareTokenByType = {
-  string: (token: string) => token,
-  jwt: (token: string) => `Bearer ${token}`,
-};
-
 @Service({ global: true })
 export class SystemState {
   @Inject(() => RequestManager) private requestManager!: RequestManager;
@@ -53,7 +41,7 @@ export class SystemState {
       topImage: string;
       rightImage: string;
       title: string;
-      setTokenCookieFromFrontend?: SetTokenCookieFromFrontendInterface;
+      authTokenSaveStrategy?: AuthTokenSaveStrategy;
     } & ContainsDataSourceInterface<AnyDataSource> &
       ContainsActions<{
         authenticate: AnyAction;
@@ -67,15 +55,9 @@ export class SystemState {
 
   @action.bound
   loadConfig() {
-    promisifyAPI(
+    return promisifyAPI(
       this.requestManager.createRequest("/admin/config", METHODS.GET, identityValueDecoder),
       this.loadingContainer.promisifyAPI,
     ).then(this.stateContainer.setState);
-  }
-
-  @action.bound
-  setTokenCookieFromFrontend(jsCookieOptions: SetTokenCookieFromFrontendInterface, responseData: Record<string, any>) {
-    const token = path(jsCookieOptions.dataSourceTokenField, responseData);
-    Cookie.set(jsCookieOptions.cookieName, prepareTokenByType[jsCookieOptions.tokenType](token));
   }
 }

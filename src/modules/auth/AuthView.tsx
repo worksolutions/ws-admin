@@ -38,6 +38,8 @@ import { useAppContext } from "../context/hooks/useAppContext";
 import { RequestError } from "../../libs/request";
 import globalEventBus from "../globalEventBus";
 
+import { AuthTokenSaver } from "./authTokenSaver";
+
 import { SystemState } from "state/systemState";
 
 const systemState = Container.get(SystemState);
@@ -60,8 +62,8 @@ function AuthView() {
 
     try {
       const data = await authenticate.run({ email, password });
-      if (userAuthenticate.setTokenCookieFromFrontend) {
-        systemState.setTokenCookieFromFrontend(userAuthenticate.setTokenCookieFromFrontend, data);
+      if (userAuthenticate.authTokenSaveStrategy) {
+        new AuthTokenSaver(userAuthenticate.authTokenSaveStrategy).runAuthenticationTokenPipeline(data);
       }
       systemState.loadConfig();
       browserHistory.replace(mainReference);

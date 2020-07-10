@@ -20,29 +20,39 @@ function prepareUrl(url) {
 }
 
 function makeProxy({ url, expressMethodHandlerName }, app, modifyResponse) {
-  app[expressMethodHandlerName](url, async (req, res) => {
-    try {
-      const response = await axios(url, {
-        method: req.method,
-        baseURL: process.env.DEV_API_HOST,
-        headers: ramda.omit(["host"], req.headers),
-      });
-      if (modifyResponse) {
-        const result = await modifyResponse(response.data, response.status);
-        if (!ramda.isNil(result)) {
-          response.data = result;
+  app[expressMethodHandlerName](url, (req, res) => {
+    let chunks = "";
+    req.on("data", (chunk) => {
+      chunks += chunk;
+    });
+    req.on("end", async () => {
+      try {
+        const response = await axios(req.originalUrl, {
+          method: req.method,
+          baseURL: process.env.DEV_API_HOST,
+          data: chunks,
+          headers: {
+            ...ramda.omit(["host"], req.headers),
+            origin: process.env.DEV_API_HOST,
+          },
+        });
+        if (modifyResponse) {
+          const result = await modifyResponse(response.data, response.status);
+          if (!ramda.isNil(result)) {
+            response.data = result;
+          }
         }
+        res.status(response.status).send(response.data);
+      } catch (e) {
+        const { response } = e;
+        if (!response) {
+          console.log(e);
+          res.status(500).json(error("proxy - internal server error"));
+          return;
+        }
+        res.status(response.status).send(response.data);
       }
-      res.status(response.status).send(response.data);
-    } catch (e) {
-      const { response } = e;
-      if (!response) {
-        console.log(e);
-        res.status(500).json(error("proxy - internal server error"));
-        return;
-      }
-      res.status(response.status).send(response.data);
-    }
+    });
   });
 }
 

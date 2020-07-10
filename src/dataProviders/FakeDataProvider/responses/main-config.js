@@ -27,11 +27,15 @@ module.exports = {
         method: "get",
       },
     },
-    setTokenCookieFromFrontend: {
+    authTokenSaveStrategy: {
       dataSourceTokenField: "accessToken",
-      cookieName: "accessToken",
-      headerName: "authorization",
-      tokenType: "jwt",
+      defaultPipe: [
+        { type: "send-cookie-to-header", options: { cookieName: "accessToken", headerName: "authorization" } },
+      ],
+      authenticationPipe: [
+        { type: "modify-token", options: { tokenType: "jwt" } },
+        { type: "set-cookie", options: { cookieName: "accessToken" } },
+      ],
     },
     actions: {
       authenticate: {
