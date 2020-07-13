@@ -1,7 +1,7 @@
 import { isNil, path } from "ramda";
 
-import { getConfigPartDependencies } from "../../configPartDependencies";
-import { AppContextStateInterface } from "../../hooks/useAppContext";
+import { getConfigPartDependencies } from "modules/context/configPartDependencies";
+import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
 
 import { DataSourceInterface, DataSourceType } from "types/DataSource";
 

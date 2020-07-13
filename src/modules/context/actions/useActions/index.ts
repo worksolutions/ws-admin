@@ -2,7 +2,7 @@ import { useLocalStore } from "mobx-react-lite";
 
 import { RequestError } from "libs/request";
 
-import { AppContextInterface } from "../../hooks/useAppContext";
+import { AppContextInterface } from "modules/context/hooks/useAppContext";
 
 import apiRequestAction from "./actions/apiRequest";
 import redirectAction from "./actions/redirect";

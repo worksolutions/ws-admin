@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { isNil } from "ramda";
 import { useLocalStore } from "mobx-react-lite";
-import { toJS } from "mobx";
 
 import { RequestError } from "libs/request";
 

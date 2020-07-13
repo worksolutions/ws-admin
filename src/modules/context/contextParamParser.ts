@@ -11,8 +11,3 @@ export function getContextTypeAndPathByParam(param: string) {
     path,
   };
 }
-
-export interface ContextTypeAndPath {
-  type: string;
-  path: string;
-}

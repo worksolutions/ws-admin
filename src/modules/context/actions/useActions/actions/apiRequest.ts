@@ -3,8 +3,9 @@ import { Container } from "typedi";
 import { RequestManager } from "libs/request";
 import { identityValueDecoder } from "libs/request/defaultDecoders";
 
-import { insertContext } from "../../../../admin/context";
-import { AppContextStateInterface } from "../../../hooks/useAppContext";
+import { insertContext } from "modules/context/insertContext";
+import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
+
 import { ActionInputDataInterface } from "../types";
 
 import { ActionOptions, ActionType } from "types/Actions";

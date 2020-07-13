@@ -53,46 +53,6 @@ function App() {
       <ToastReceiver />
     </>
   );
-
-  // return (
-  //   <WrappedDrawerMenu
-  //     dataSource={state.sideMenu.dataSource}
-  //     content={(openMenu: any) => (
-  //       <>
-  //         <AppBar position="sticky">
-  //           <Toolbar>
-  //             <IconButton color="inherit" aria-label="open drawer" onClick={openMenu} edge="start">
-  //               <MenuIcon />
-  //             </IconButton>
-  //             <Typography variant="h6">
-  //               {state.title || (
-  //                 <Skeleton
-  //                   variant="text"
-  //                   width={700}
-  //                   height={50}
-  //                   style={{
-  //                     backgroundColor: "rgba(255, 255, 255, .3)",
-  //                   }}
-  //                 />
-  //               )}
-  //             </Typography>
-  //           </Toolbar>
-  //         </AppBar>
-  //         <Switch>
-  //           {state.pages.map((screen: any) => (
-  //             <Route
-  //               key={screen.pageUrl}
-  //               exact
-  //               path={screen.pageUrl}
-  //               // @ts-ignore
-  //               render={(props) => <AdminPage {...props} settings={screen} />}
-  //             />
-  //           ))}
-  //         </Switch>
-  //       </>
-  //     )}
-  //   />
-  // );
 }
 
 export default React.memo(observer(App));

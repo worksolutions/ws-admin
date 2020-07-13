@@ -1,5 +1,6 @@
+import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
+
 import apiRequestDataSource from "../sources/apiRequestDataSource";
-import { AppContextStateInterface } from "../../hooks/useAppContext";
 
 import { AnyDataSource, DataSourceType } from "types/DataSource";
 

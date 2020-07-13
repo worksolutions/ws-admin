@@ -1,8 +1,9 @@
 import { browserHistory } from "common";
 
-import { AppContextStateInterface } from "../../../hooks/useAppContext";
+import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
+import { insertContext } from "modules/context/insertContext";
+
 import { ActionInputDataInterface } from "../types";
-import { insertContext } from "../../../../admin/context";
 
 import { ActionOptions, ActionType } from "types/Actions";
 

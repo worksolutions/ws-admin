@@ -1,7 +1,8 @@
 import { observe } from "mobx";
 import { isNil } from "ramda";
 
-import { AppContextStateInterface } from "../../hooks/useAppContext";
+import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
+
 import fromContextDataSource from "../sources/fromContextDataSource";
 
 import { AnyDataSource, DataSourceType } from "types/DataSource";
