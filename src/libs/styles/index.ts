@@ -17,10 +17,18 @@ export const disableOutline = css`
   outline: none;
 `;
 
-type BoxShadow = [number | string, number | string, number | string, Colors | GradientColor | AlphaColor];
+type BoxShadow = [
+  number | string,
+  number | string,
+  number | string,
+  number | string,
+  Colors | GradientColor | AlphaColor,
+];
 
-function makeShadow([offsetX, offsetY, blurRadius, color]: BoxShadow) {
-  return `${stringOrPixels(offsetX)} ${stringOrPixels(offsetY)} ${stringOrPixels(blurRadius)} ${getColor(color)}`;
+function makeShadow([offsetX, offsetY, blurRadius, spread, color]: BoxShadow) {
+  return `${stringOrPixels(offsetX)} ${stringOrPixels(offsetY)} ${stringOrPixels(blurRadius)} ${stringOrPixels(
+    spread,
+  )} ${getColor(color)}`;
 }
 
 export const boxShadow = memoizeWith(
@@ -153,6 +161,13 @@ export const focus = function (styles: any, childSelector = "") {
     }
   `;
 };
+export const active = function (styles: any, childSelector = "") {
+  return css`
+    :active ${childSelector} {
+      ${styles}
+    }
+  `;
+};
 
 export const mediaScreen = function (mediaQueries: string, values: string[]) {
   return css`
@@ -172,7 +187,7 @@ export const textAlign = memoizeWith(identity, function (value: "left" | "right"
     text-align: ${value};`;
 });
 
-export const nthChild = (selector: string | number, styles: any, preSelector = "&") => css`
+export const nthChild = (selector: string | number, styles: any, preSelector = "& > *") => css`
   ${preSelector}:nth-child(${selector}) {
     ${styles};
   }

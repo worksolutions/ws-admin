@@ -1,11 +1,11 @@
 export function getContextTypeAndPathByParam(param: string) {
-  if (!param.includes(":#")) {
+  if (!param.includes(":")) {
     return {
       type: "global",
       path: param,
     };
   }
-  const [type, path] = param.split(":#");
+  const [type, path] = param.split(":");
   return {
     type,
     path,

@@ -3,18 +3,26 @@ import React from "react";
 import { TypographyTypes } from "primitives/Typography";
 import Icon, { Icons } from "primitives/Icon";
 
-import { Aligns, borderRadius, disableOutline, focus, hover, inlineFlex, jc, pointer, transition } from "libs/styles";
+import {
+  active,
+  Aligns,
+  borderRadius,
+  disableOutline,
+  focus,
+  hover,
+  inlineFlex,
+  jc,
+  pointer,
+  transition,
+} from "libs/styles";
 
 import Spinner from "../Spinner";
 
-import { stylesForSize, stylesForType } from "./styles";
+import { buttonStylesMap } from "./styles";
 import { ButtonSize, ButtonType } from "./types";
 
-function getStylesNameOnIcons(
-  hasLeftIcon: boolean,
-  hasRightIcon: boolean,
-): keyof typeof stylesForSize["0"]["defaultStyles"] {
-  if (hasLeftIcon && hasRightIcon) return "withIcons";
+function getStylesNameOnIcons(hasLeftIcon: boolean, hasRightIcon: boolean): keyof typeof buttonStylesMap["0"]["0"] {
+  if (hasLeftIcon && hasRightIcon) return "withTwoIcons";
   if (hasLeftIcon) return "withIconLeft";
   if (hasRightIcon) return "withIconRight";
   return "withoutIcons";
@@ -46,13 +54,24 @@ function ButtonWrapper({
   loading,
 }: ButtonWrapperInterface) {
   const isIconButton = type === ButtonType.ICON;
-  const { defaultStyles, overrideTypeStyles } = stylesForSize[size];
-  const stylesOnIcons = defaultStyles[getStylesNameOnIcons(!!iconLeft, isIconButton ? false : !!iconRight || loading!)];
-  const stylesOnType = stylesForType[type];
-  const stylesOnTypeOverride = overrideTypeStyles[type];
+  const buttonStyles = buttonStylesMap[size][type];
+
+  const [icons] = React.useState(() => {
+    return {
+      iconLeft: isIconButton ? iconLeft || iconRight : loading ? <Spinner className="icon icon-left" /> : iconLeft,
+      iconRight: isIconButton ? null : iconRight,
+    };
+  });
+
+  const resultStyles = buttonStyles[getStylesNameOnIcons(!!icons.iconLeft, !!icons.iconRight)];
 
   const leftIconElement = iconLeft && <Icon className="icon icon-left" iconName={iconLeft} />;
-  const rightIconElement = !isIconButton && loading ? <Spinner className="icon icon-right" /> : iconRight;
+
+  const rightIconElement = isIconButton ? null : loading ? (
+    <Spinner className="icon icon-right" />
+  ) : (
+    <Icon className="icon icon-right" iconName={iconRight} />
+  );
 
   const isActive = !loading;
 
@@ -64,14 +83,8 @@ function ButtonWrapper({
       TypographyTypes["button"],
       borderRadius(6),
       disableOutline,
-      stylesOnType.default,
-      stylesOnIcons.default,
-      stylesOnTypeOverride?.default,
-      isActive && [
-        pointer,
-        hover(stylesOnType.hover),
-        focus([stylesOnType.focused, stylesOnIcons.focused, stylesOnTypeOverride?.focused]),
-      ],
+      resultStyles.default,
+      isActive && [pointer, hover(resultStyles.hover), focus(resultStyles.focused), active(resultStyles.active)],
       styles,
     ],
     leftIconElement,

@@ -12,7 +12,7 @@ import { BlockInterface } from "state/systemState";
 
 function SecondarySideMenu({ dataSource }: BlockInterface) {
   const { data, loadingContainer } = useDataSource<SecondaryMenuDataSourceInterface>(dataSource!);
-  if (loadingContainer.loading) return <Spinner color="gray-blue/09" size={72} />;
+  if (loadingContainer.loading) return <Spinner size={72} />;
   return <Sidebar opened={true} title={data!.title} onChangeOpened={console.log} items={data!.items} />;
 }
 

@@ -21,7 +21,7 @@ const systemState = Container.get(SystemState);
 function AuthModule({ children }: { children: ReactNode }) {
   const state = systemState.stateContainer.state;
 
-  const { data, loadingContainer } = useDataSource<GlobalStateCommonPartInterface>(
+  const { loadingContainer, reload } = useDataSource<GlobalStateCommonPartInterface>(
     assoc("context", "currentUser", state.userAuthenticate.dataSource!),
   );
 
@@ -31,13 +31,11 @@ function AuthModule({ children }: { children: ReactNode }) {
     }
   }, [loadingContainer.errors]);
 
-  useEffectSkipFirst(() => {}, [data]);
-
-  if (loadingContainer.loading) return <Spinner color="gray-blue/08" size={36} />;
+  if (loadingContainer.loading) return <Spinner size={36} />;
 
   return (
     <Switch>
-      <Route exact path="/auth" render={() => <AuthView />} />
+      <Route exact path="/auth" render={() => <AuthView reloadProfile={reload} />} />
       {children}
     </Switch>
   );

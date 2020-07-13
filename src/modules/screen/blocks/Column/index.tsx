@@ -2,16 +2,16 @@ import React from "react";
 
 import Wrapper from "primitives/Wrapper";
 
-import { ai, Aligns, flex, flexColumn, flexValue } from "libs/styles";
+import { flex, flexColumn } from "libs/styles";
 
 import BlockRenderer from "../../BlockRenderer";
 
 import { BlockInterface } from "state/systemState";
 
-function Column({ blocks }: { blocks: BlockInterface[] }) {
+function Column({ options }: BlockInterface<BlockInterface[]>) {
   return (
-    <Wrapper styles={[flex, flexColumn, ai(Aligns.STRETCH), flexValue(1)]}>
-      {blocks.map((item, key) => (
+    <Wrapper styles={[flex, flexColumn]}>
+      {options!.map((item, key) => (
         <BlockRenderer key={key} {...item} />
       ))}
     </Wrapper>

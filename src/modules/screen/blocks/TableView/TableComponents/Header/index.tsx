@@ -1,11 +1,15 @@
 import React from "react";
+import { HeaderGroup, UseResizeColumnsColumnProps } from "react-table";
 
 import Wrapper from "primitives/Wrapper";
 
 import { UseSortingType } from "../../libs";
-import { HeaderGroupInterface } from "../../types";
 
 import HeaderColumn from "./HeaderColumn";
+
+export type HeaderGroupInterface = { headers: (UseResizeColumnsColumnProps<any> & HeaderGroup<any>)[] } & HeaderGroup<
+  any
+>;
 
 export default React.memo(function ({
   trHeaderGroup,

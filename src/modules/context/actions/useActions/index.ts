@@ -1,35 +1,44 @@
 import { useLocalStore } from "mobx-react-lite";
 
+import { RequestError } from "libs/request";
+
 import { AppContextInterface } from "../../hooks/useAppContext";
-import { LoadingContainer } from "../../../../state/loadingContainer";
-import { RequestError } from "../../../../libs/request";
 
 import apiRequestAction from "./actions/apiRequest";
 import redirectAction from "./actions/redirect";
+import { ActionInputDataInterface } from "./types";
+
+import { LoadingContainer } from "state/loadingContainer";
 
 import { ActionInterface, ActionType, AnyAction } from "types/Actions";
 
-type InputData = Record<string, string | number>;
-
 const actionFunctionsByActionType = {
   [ActionType.API_REQUEST]: (appContext: AppContextInterface, { options }: ActionInterface<ActionType.API_REQUEST>) => (
-    inputData: InputData,
-  ) => apiRequestAction({ ...options, body: { ...options.body, ...inputData } }, appContext.context),
-  [ActionType.REDIRECT]: (_appContext: AppContextInterface, { options }: ActionInterface<ActionType.REDIRECT>) => () =>
-    redirectAction(options),
+    inputData: ActionInputDataInterface,
+  ) => {
+    return apiRequestAction(appContext.context, options, inputData);
+  },
+
+  [ActionType.REDIRECT]: (appContext: AppContextInterface, { options }: ActionInterface<ActionType.REDIRECT>) => (
+    inputData: ActionInputDataInterface,
+  ) => {
+    return redirectAction(appContext.context, options, inputData);
+  },
 };
 
 const connectActionFunctionAndAppContext = (
-  actionFunction: (inputData: InputData) => Promise<any>,
+  actionFunction: (inputData: ActionInputDataInterface) => Promise<any>,
   appContext: AppContextInterface,
 ) => {
   const loadingContainer = new LoadingContainer();
   return {
     loadingContainer,
     run: (inputData: any) => {
+      inputData = inputData || {};
       loadingContainer.clearErrors();
       loadingContainer.setLoading(true);
-      return actionFunction(inputData || {})
+
+      return actionFunction(inputData)
         .then((actionOutputData) => {
           loadingContainer.setLoading(false);
           if (inputData.context) appContext.updateState({ path: inputData.context, data: actionOutputData });
@@ -49,7 +58,10 @@ const connectActionFunctionAndAppContext = (
 export function useActions<T extends Record<string, AnyAction>>(
   actions: T,
   appContext: AppContextInterface,
-): Record<keyof T, { run: (inputData?: InputData) => Promise<any>; loadingContainer: LoadingContainer }> {
+): Record<
+  keyof T,
+  { run: (inputData?: ActionInputDataInterface) => Promise<any>; loadingContainer: LoadingContainer }
+> {
   return useLocalStore(() => {
     if (!actions) return {};
 

@@ -9,8 +9,6 @@ import {
   Aligns,
   backgroundColor,
   borderRadius,
-  boxShadow,
-  createAlphaColor,
   disableOutline,
   flex,
   height,
@@ -53,12 +51,7 @@ export const IconLink = React.memo(function ({
             jc(Aligns.CENTER),
             transition("background-color 0.2s"),
             disableOutline,
-            selected
-              ? [
-                  backgroundColor("blue/05"),
-                  boxShadow([0, 2, 6, createAlphaColor("black", 10)], [0, 8, 16, createAlphaColor("black", 20)]),
-                ]
-              : hover(backgroundColor("gray-blue/01")),
+            selected ? [backgroundColor("blue/05")] : hover(backgroundColor("gray-blue/01")),
             styles,
           ]}
         >

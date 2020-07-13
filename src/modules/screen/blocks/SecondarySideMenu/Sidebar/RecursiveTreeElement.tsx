@@ -1,6 +1,7 @@
 import React from "react";
-import useMeasure from "react-use-measure";
 import { animated, useSpring } from "react-spring";
+import { duration200 } from "layout/durations";
+import { useMeasure } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
 import Icon from "primitives/Icon";
@@ -19,7 +20,6 @@ import {
   fillColor,
   flex,
   fullWidth,
-  height,
   hover,
   lastChild,
   marginBottom,
@@ -38,8 +38,6 @@ import { useTreeElementIsActive } from "./libs";
 
 const oneLevelPaddingLeft = 32;
 
-const defaultDuration = 200;
-
 interface RecursiveTreeElementInterface {
   level: number;
   item: SidebarItemInterface;
@@ -56,27 +54,23 @@ const TreeElement = withPerformance(["toggle"])(function ({
 
   const resultProps = {
     styles: [
-      height(40),
       pointer,
       padding("4px 8px"),
       fullWidth,
       borderRadius(6),
       marginBottom(4),
       lastChild(marginBottom(0), "&"),
-      transition(`all ${defaultDuration}ms`),
+      transition(`background-color ${duration200}ms`),
       flex,
       ai(Aligns.CENTER),
-      child([transition(`all ${defaultDuration}ms`)], ".item-icon, .item-icon use"),
-      hover(backgroundColor("gray-blue/04")),
-      hover(fillColor("white"), ".item-icon use"),
-      hover(color("white"), ".item-text"),
-      active && [
-        backgroundColor("gray-blue/04"),
-        child(fillColor("white"), ".item-icon use"),
-        child(color("white"), ".item-text"),
-      ],
-
       disableDecoration,
+      active
+        ? [
+            backgroundColor("gray-blue/04"),
+            child(fillColor("white"), ".item-icon use"),
+            child(color("white"), ".item-text"),
+          ]
+        : [hover(backgroundColor("gray-blue/02"))],
     ],
     children: (
       <>
@@ -98,7 +92,7 @@ const TreeElement = withPerformance(["toggle"])(function ({
             iconName={item.icon || "folder-outline"}
           />
         )}
-        <Typography dots styles={transition(`all ${defaultDuration}ms`)} className="item-text" color="gray-blue/09">
+        <Typography dots styles={transition(`all ${duration200}ms`)} className="item-text" color="gray-blue/09">
           {item.name}
         </Typography>
       </>
@@ -118,7 +112,7 @@ export const RecursiveTreeElement = React.memo(function ({ item, level }: Recurs
   const [measureRef, bound] = useMeasure();
 
   const { height } = useSpring({
-    config: { duration: defaultDuration },
+    config: { duration: duration200 },
     from: { height: 0 },
     to: {
       height: opened ? bound.height : 0,
@@ -127,14 +121,14 @@ export const RecursiveTreeElement = React.memo(function ({ item, level }: Recurs
 
   const nextLevel = level + 1;
 
-  const active = !item.subElements && useTreeElementIsActive(item.reference);
+  const active = useTreeElementIsActive(item.reference);
 
   return (
     <>
       <TreeElement active={active} opened={opened} level={level} item={item} toggle={toggle} />
       {item.subElements?.length !== 0 && (
         <animated.div style={{ height: opened && previous === opened ? "auto" : height, overflow: "hidden" }}>
-          <animated.div ref={measureRef}>
+          <animated.div ref={measureRef as any}>
             {item.subElements!.map((element) => (
               <RecursiveTreeElement key={element.reference} level={nextLevel} item={element} />
             ))}

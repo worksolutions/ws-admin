@@ -2,18 +2,14 @@ import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTable, useResizeColumns, useBlockLayout } from "react-table";
 
-import { HeaderGroupInterface, TableViewDataSource, TableViewOptionsInterface } from "./types";
+import { TableViewDataSource } from "./types";
 import TableComponent from "./TableComponents/Table";
 import BodyComponent from "./TableComponents/Body";
-import HeaderComponent from "./TableComponents/Header";
+import HeaderComponent, { HeaderGroupInterface } from "./TableComponents/Header";
 import RowComponent from "./TableComponents/Row";
 import { useColumns, useSorting } from "./libs";
 
-interface TableInterface extends TableViewDataSource {
-  options?: TableViewOptionsInterface;
-}
-
-function Table({ columns, data, options }: TableInterface) {
+function Table({ columns, data, tableViewDefaultSizes }: TableViewDataSource) {
   const preparedColumns = useColumns(columns);
   const sorting = useSorting();
   const [resizeColumnIndex, setResizeColumnIndex] = useState(-1);
@@ -21,7 +17,7 @@ function Table({ columns, data, options }: TableInterface) {
     {
       columns: preparedColumns,
       data,
-      defaultColumn: options?.tableViewDefaultSizes,
+      defaultColumn: tableViewDefaultSizes,
     },
     useBlockLayout,
     useResizeColumns,

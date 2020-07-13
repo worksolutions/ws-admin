@@ -18,12 +18,14 @@ import { AnyDataSource } from "types/DataSource";
 interface DataInterface<RESULT = any> {
   data: RESULT | null;
   loadingContainer: LoadingContainer;
+  reload: () => void;
 }
 
 export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
   const localStore = useLocalStore<DataInterface<RESULT>>(() => ({
     data: null,
     loadingContainer: new LoadingContainer(true),
+    reload: runDataSourceFetcher,
   }));
 
   if (!dataSource) return localStore;

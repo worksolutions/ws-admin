@@ -28,8 +28,10 @@ import {
 } from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
 
-import { HeaderGroupInterface, TableSortingType } from "../../types";
+import { TableSortingType } from "../../types";
 import { UseSortingType } from "../../libs";
+
+import { HeaderGroupInterface } from "./index";
 
 function HeaderColumn({
   headerColumn,

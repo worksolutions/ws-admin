@@ -1,111 +1,225 @@
 import {
-  ai,
-  Aligns,
   backgroundColor,
-  border,
-  borderColor,
+  borderWidth,
+  boxShadow,
   child,
   color,
-  Colors,
-  createLinearGradientColor,
+  display,
   fillColor,
-  inlineFlex,
-  margin,
+  horizontalPadding,
   marginLeft,
   marginRight,
   padding,
-  pointer,
+  paddingLeft,
+  paddingRight,
 } from "libs/styles";
 
 import { ButtonSize, ButtonType } from "./types";
 
-export const stylesForType = {
-  [ButtonType.PRIMARY]: {
-    default: [
-      ai(Aligns.CENTER),
-      backgroundColor("blue/05"),
-      border(1, "blue/07"),
-      color("white"),
-      child(fillColor("white"), ".icon use"),
-    ],
-    hover: [backgroundColor("blue/04")],
-    focused: [backgroundColor(createLinearGradientColor("blue/04", "blue/05", "180deg")), border(2, "blue/09")],
-    spinnerColor: "white" as Colors,
-  },
-  [ButtonType.ICON]: {
-    default: [backgroundColor("white"), border(1, "white"), child(fillColor("gray-blue/07"), ".icon use")],
-    hover: [backgroundColor("gray-blue/01"), borderColor("gray-blue/01")],
-    focused: [backgroundColor("white"), border(2, "blue/09")],
-    spinnerColor: "gray/09" as Colors,
-  },
-};
-
 type DefaultStylesElementType = {
   default: any;
+  hover: any;
   focused: any;
+  active: any;
 };
 
-export const stylesForSize: Record<
+const primaryStyle = [
+  borderWidth(0),
+  color("white"),
+  backgroundColor("blue/05"),
+  child(marginRight(8), ".icon-left"),
+  child(marginLeft(8), ".icon-right"),
+  child(fillColor("white"), ".icon use"),
+];
+const primaryHover = [backgroundColor("blue/06")];
+const primaryFocus = [boxShadow([0, 0, 0, 2, "blue/04"])];
+const primaryActive = [backgroundColor("blue/07")];
+
+const iconStyle = [backgroundColor("transparent"), borderWidth(0), child(fillColor("gray-blue/07"), ".icon use")];
+const iconHover = [backgroundColor("gray-blue/01")];
+const iconHoverForSmall = [child(fillColor("gray-blue/05"), ".icon use")];
+const iconFocus = [boxShadow([0, 0, 0, 2, "blue/04"])];
+const iconActive = [backgroundColor("gray-blue/02")];
+
+const defaultLargeStyles = [padding("8px 20px")];
+const defaultMediumStyles = [padding("4px 16px")];
+const defaultSmallStyles = [padding("0 8px")];
+
+const iconLargeStyles = [padding(8)];
+const iconMediumStyles = [padding(4)];
+const iconSmallStyles = [padding(0)];
+
+export const buttonStylesMap: Record<
   ButtonSize,
-  {
-    defaultStyles: {
+  Record<
+    ButtonType,
+    {
       withIconLeft: DefaultStylesElementType;
       withIconRight: DefaultStylesElementType;
-      withIcons: DefaultStylesElementType;
       withoutIcons: DefaultStylesElementType;
-    };
-    overrideTypeStyles: Partial<Record<ButtonType, Partial<DefaultStylesElementType>>>;
-  }
+      withTwoIcons: DefaultStylesElementType;
+    }
+  >
 > = {
   [ButtonSize.LARGE]: {
-    defaultStyles: {
+    [ButtonType.PRIMARY]: {
+      withoutIcons: {
+        default: [primaryStyle, defaultLargeStyles],
+        hover: primaryHover,
+        focused: primaryFocus,
+        active: primaryActive,
+      },
       withIconLeft: {
-        default: [padding("7px 19px 7px 15px"), child(marginRight(8), ".icon-left")],
-        focused: [padding("6px 18px 6px 14px")],
+        default: [primaryStyle, defaultLargeStyles, paddingLeft(16)],
+        hover: primaryHover,
+        focused: primaryFocus,
+        active: primaryActive,
       },
       withIconRight: {
-        default: [padding("7px 15px 7px 19px"), child(marginLeft(8), ".icon-right")],
-        focused: [padding("6px 14px 6px 18px")],
+        default: [primaryStyle, defaultLargeStyles, paddingRight(16)],
+        hover: primaryHover,
+        focused: primaryFocus,
+        active: primaryActive,
       },
-      withIcons: {
-        default: [padding("7px 15px"), child(marginRight(8), ".icon-left"), child(marginLeft(8), ".icon-right")],
-        focused: [padding("6px 14px")],
-      },
-      withoutIcons: {
-        default: [padding("7px 19px")],
-        focused: [padding("6px 18px")],
+      withTwoIcons: {
+        default: [primaryStyle, defaultLargeStyles, horizontalPadding(16)],
+        hover: primaryHover,
+        focused: primaryFocus,
+        active: primaryActive,
       },
     },
-    overrideTypeStyles: {
-      [ButtonType.ICON]: {
-        default: [padding("7px"), child(margin(0), ".icon")],
-        focused: [padding("6px")],
+    [ButtonType.ICON]: {
+      withoutIcons: {
+        default: [iconStyle, iconLargeStyles],
+        hover: iconHover,
+        focused: iconFocus,
+        active: iconActive,
+      },
+      withIconLeft: {
+        default: [iconStyle, iconLargeStyles],
+        hover: iconHover,
+        focused: iconFocus,
+        active: iconActive,
+      },
+      withIconRight: {
+        default: [iconStyle, iconLargeStyles],
+        hover: iconHover,
+        focused: iconFocus,
+        active: iconActive,
+      },
+      withTwoIcons: {
+        default: [iconStyle, iconLargeStyles],
+        hover: iconHover,
+        focused: iconFocus,
+        active: iconActive,
       },
     },
   },
   [ButtonSize.MEDIUM]: {
-    defaultStyles: {
+    [ButtonType.PRIMARY]: {
+      withoutIcons: {
+        default: [primaryStyle, defaultMediumStyles],
+        hover: primaryHover,
+        focused: primaryFocus,
+        active: primaryActive,
+      },
       withIconLeft: {
-        default: [padding("3px 15px 3px 11px"), child(marginRight(8), ".icon-left")],
-        focused: [padding("2px 14px 2px 10px")],
+        default: [primaryStyle, defaultMediumStyles, paddingLeft(12)],
+        hover: primaryHover,
+        focused: primaryFocus,
+        active: primaryActive,
       },
       withIconRight: {
-        default: [padding("3px 11px 3px 15px"), child(marginLeft(8), ".icon-right")],
-        focused: [padding("2px 10px 2px 14px")],
+        default: [primaryStyle, defaultMediumStyles, paddingRight(12)],
+        hover: primaryHover,
+        focused: primaryFocus,
+        active: primaryActive,
       },
-      withIcons: {
-        default: [padding("3px 11px"), child(marginRight(8), ".icon-left"), child(marginLeft(8), ".icon-right")],
-        focused: [padding("2px 10px")],
-      },
-      withoutIcons: {
-        default: [padding("3px 15px")],
-        focused: [padding("2px 14px")],
+      withTwoIcons: {
+        default: [primaryStyle, defaultMediumStyles, horizontalPadding(12)],
+        hover: primaryHover,
+        focused: primaryFocus,
+        active: primaryActive,
       },
     },
-    overrideTypeStyles: {
-      [ButtonType.ICON]: {
-        default: [padding("3px"), child(margin(0), ".icon")],
-        focused: [padding("2px")],
+    [ButtonType.ICON]: {
+      withoutIcons: {
+        default: [iconStyle, iconMediumStyles],
+        hover: iconHover,
+        focused: iconFocus,
+        active: iconActive,
+      },
+      withIconLeft: {
+        default: [iconStyle, iconMediumStyles],
+        hover: iconHover,
+        focused: iconFocus,
+        active: iconActive,
+      },
+      withIconRight: {
+        default: [iconStyle, iconMediumStyles],
+        hover: iconHover,
+        focused: iconFocus,
+        active: iconActive,
+      },
+      withTwoIcons: {
+        default: [iconStyle, iconMediumStyles],
+        hover: iconHover,
+        focused: iconFocus,
+        active: iconActive,
+      },
+    },
+  },
+  [ButtonSize.SMALL]: {
+    [ButtonType.PRIMARY]: {
+      withoutIcons: {
+        default: [primaryStyle, defaultSmallStyles],
+        hover: primaryHover,
+        focused: primaryFocus,
+        active: primaryActive,
+      },
+      withIconLeft: {
+        default: [display("none")],
+        hover: [],
+        focused: [],
+        active: [],
+      },
+      withIconRight: {
+        default: [display("none")],
+        hover: [],
+        focused: [],
+        active: [],
+      },
+      withTwoIcons: {
+        default: [display("none")],
+        hover: [],
+        focused: [],
+        active: [],
+      },
+    },
+    [ButtonType.ICON]: {
+      withoutIcons: {
+        default: [iconStyle, iconSmallStyles],
+        hover: iconHoverForSmall,
+        focused: iconFocus,
+        active: iconActive,
+      },
+      withIconLeft: {
+        default: [iconStyle, iconSmallStyles],
+        hover: iconHoverForSmall,
+        focused: iconFocus,
+        active: iconActive,
+      },
+      withIconRight: {
+        default: [iconStyle, iconSmallStyles],
+        hover: iconHoverForSmall,
+        focused: iconFocus,
+        active: iconActive,
+      },
+      withTwoIcons: {
+        default: [iconStyle, iconMediumStyles],
+        hover: iconHoverForSmall,
+        focused: iconFocus,
+        active: iconActive,
       },
     },
   },

@@ -13,10 +13,10 @@ import { LoadingContainer } from "../loadingContainer";
 import { AnyAction, ContainsActions } from "types/Actions";
 import { AnyDataSource, ContainsDataSourceInterface } from "types/DataSource";
 
-export interface BlockInterface {
-  type: string;
+export type BlockInterface<O extends Record<string, any> = {}, A extends string = string> = {
   dataSource?: AnyDataSource;
-}
+  options?: O;
+} & Partial<ContainsActions<Record<A, AnyAction>>>;
 
 export interface ScreenInterface {
   reference: string;

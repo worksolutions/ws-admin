@@ -59,8 +59,9 @@ module.exports = {
   mainReference: "/content/articles",
   screens: [
     {
-      reference: "/",
-      blocks: [],
+      reference: "/test*",
+      title: "Тестовая страница",
+      blocks: [{ type: "Test" }],
     },
     {
       reference: "/content*",
@@ -92,63 +93,115 @@ module.exports = {
           },
         },
         {
-          type: "TableView",
+          type: "Wrapper",
           options: {
-            tableViewDefaultSizes: {
-              minWidth: 100,
-              width: 300,
-              maxWidth: 400,
-            },
-          },
-          // dataSource: {
-          //   type: "api:request",
-          //   options: {
-          //     url: "/categories",
-          //     method: "get",
-          //     params: {
-          //       page: "1",
-          //       perPage: "10",
-          //     },
-          //   },
-          // },
-          dataSource: {
-            type: "static",
-            options: {
-              selectable: true,
-              columns: [
-                { title: "ID", field: "id", sortable: true, width: 100 },
-                { title: "Имя", field: "firstName" },
-                {
-                  title: "Фамилия",
-                  field: "lastName",
-                },
-                {
-                  title: "Возраст",
-                  field: "age",
-                  type: "NUMBER",
-                },
-              ],
-              data: [
-                {
-                  id: {
-                    reference: "https://yandex.ru",
-                    value: "11141",
+            padding: 24,
+            fullWidth: true,
+            blocks: [
+              {
+                type: "Column",
+                options: [
+                  {
+                    type: "Wrapper",
+                    options: {
+                      margin: "0 0 24px 0",
+                      blocks: [
+                        {
+                          type: "Heading",
+                          options: {
+                            value: "Статьи",
+                            actionBlockElements: [
+                              {
+                                type: "Actions/Button",
+                                options: { name: "Написать статью", icon: "edit-small" },
+                                actions: {
+                                  click: {
+                                    type: "redirect",
+                                    options: {
+                                      reference: "/test",
+                                    },
+                                  },
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
                   },
-                  firstName: "Mehmet",
-                  lastName: "Baran",
-                  age: 34,
-                },
-                {
-                  id: {
-                    reference: "/auth",
-                    value: "11142",
+                  {
+                    type: "FormattedDataView",
+                    options: {
+                      id: "articles-list",
+                      tableView: {
+                        dataSource: {
+                          type: "static",
+                          options: {
+                            tableViewDefaultSizes: {
+                              minWidth: 100,
+                              width: 300,
+                              maxWidth: 400,
+                            },
+                            selectable: true,
+                            columns: [
+                              { title: "ID", field: "id", sortable: true, width: 100 },
+                              { title: "Имя", field: "firstName" },
+                              {
+                                title: "Фамилия",
+                                field: "lastName",
+                              },
+                              {
+                                title: "Возраст",
+                                field: "age",
+                                type: "NUMBER",
+                              },
+                            ],
+                            data: [
+                              {
+                                id: {
+                                  reference: "https://yandex.ru",
+                                  value: "11141",
+                                },
+                                firstName: "Mehmet",
+                                lastName: "Baran",
+                                age: 34,
+                              },
+                              {
+                                id: {
+                                  reference: "/auth",
+                                  value: "11142",
+                                },
+                                firstName: "Дара",
+                                lastName: "Мара",
+                                age: 35,
+                              },
+                            ],
+                          },
+                        },
+                      },
+                      cardsView: {
+                        dataSource: {
+                          type: "api:request",
+                          options: {
+                            url: "/articles/cards",
+                            method: "get",
+                            params: { page: 1, perPage: 10, orderDirection: "desc", orderField: "id" },
+                          },
+                        },
+                        actions: {
+                          cardClick: {
+                            type: "redirect",
+                            options: {
+                              reference: "/content/articles/{{local:id}}",
+                            },
+                          },
+                        },
+                      },
+                    },
                   },
-                  firstName: "Дара",
-                  lastName: "Мара",
-                  age: 35,
-                },
-              ],
-            },
+                ],
+              },
+            ],
           },
         },
       ],

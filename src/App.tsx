@@ -3,8 +3,6 @@ import React, { useEffect } from "react";
 import { Route, Switch } from "react-router";
 import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
-import Layout from "layout";
-import RedirectToMainReference from "InitialRedirect";
 
 import Spinner from "primitives/Spinner";
 
@@ -15,6 +13,9 @@ import ToastReceiver from "modules/ToastReceiver";
 import useScreenContextSynchronizer from "modules/context/hooks/useScreenContextSynchronizer";
 import AuthModule from "modules/auth";
 import { AuthTokenSaver } from "modules/auth/authTokenSaver";
+
+import Layout from "./layout";
+import RedirectToMainReference from "./InitialRedirect";
 
 import { SystemState } from "state/systemState";
 
@@ -32,7 +33,7 @@ function App() {
   useScreenContextSynchronizer();
 
   if (systemState.stateContainer.empty) {
-    return <Spinner color="blue/10" size={132} />;
+    return <Spinner size={132} />;
   }
 
   const state = systemState.stateContainer.state;

@@ -2,11 +2,11 @@ import React, { Ref } from "react";
 import { useToggle } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
-import Icon from "primitives/Icon";
+import Button, { ButtonSize, ButtonType } from "primitives/Button";
 
 import eventValue from "libs/decorators/eventValue";
 import { useDebouncedInput } from "libs/hooks";
-import { backgroundColor, borderNone, disableOutline, lineHeight, padding, pointer, right } from "libs/styles";
+import { right } from "libs/styles";
 
 import InputWrapper, { _defaultIconStyles, BaseInputWrapperInterface } from "./InputWrapper";
 
@@ -27,22 +27,13 @@ const Password = React.forwardRef(function (
     <InputWrapper
       {...inputWrapperProps}
       iconRight={
-        <Wrapper
-          as="button"
-          styles={[
-            _defaultIconStyles,
-            padding(0),
-            right(8),
-            pointer,
-            borderNone,
-            backgroundColor("transparent"),
-            disableOutline,
-            lineHeight(0),
-          ]}
+        <Button
+          styles={[_defaultIconStyles, right(8)]}
+          size={ButtonSize.SMALL}
+          type={ButtonType.ICON}
+          iconLeft={showPassword ? "eye-on" : "eye-off"}
           onClick={toggleShowPassword}
-        >
-          <Icon iconName={showPassword ? "eye-on" : "eye-off"} />
-        </Wrapper>
+        />
       }
     >
       {(inputStyles) => (

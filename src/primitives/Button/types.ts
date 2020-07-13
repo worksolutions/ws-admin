@@ -1,6 +1,7 @@
 export enum ButtonSize {
   LARGE,
   MEDIUM,
+  SMALL,
 }
 
 export enum ButtonType {

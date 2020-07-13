@@ -10,6 +10,7 @@ function BlockRenderer(props: BlockInterface) {
   const [BlockComponent, setBlockComponent] = useState<FC<BlockInterface>>();
 
   useEffect(() => {
+    // @ts-ignore
     loadBlockComponent(props.type, setBlockComponent);
   }, []);
 

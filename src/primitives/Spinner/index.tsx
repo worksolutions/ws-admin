@@ -27,7 +27,7 @@ const Spinner = function (props: SpinnerInterface) {
 
 Spinner.defaultProps = {
   size: 20,
-  color: "white",
+  color: "gray-blue/09",
 };
 
 export default React.memo(Spinner);

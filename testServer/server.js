@@ -1,60 +1,13 @@
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
-const axios = require("axios");
-const ramda = require("ramda");
+const moment = require("moment");
+moment.locale("ru");
 
 dotenv.config({ path: __dirname + "/../.env" });
 
+const { error, prepareUrl, makeProxy } = require("./libs");
+
 const mainConfig = require("../src/dataProviders/FakeDataProvider/responses/main-config");
-
-function error(msg, errors = {}) {
-  return {
-    success: false,
-    message: msg,
-    errors,
-  };
-}
-
-function prepareUrl(url) {
-  return url.startsWith("http") ? url : process.env.DEV_API_HOST + url;
-}
-
-function makeProxy({ url, expressMethodHandlerName }, app, modifyResponse) {
-  app[expressMethodHandlerName](url, (req, res) => {
-    let chunks = "";
-    req.on("data", (chunk) => {
-      chunks += chunk;
-    });
-    req.on("end", async () => {
-      try {
-        const response = await axios(req.originalUrl, {
-          method: req.method,
-          baseURL: process.env.DEV_API_HOST,
-          data: chunks,
-          headers: {
-            ...ramda.omit(["host"], req.headers),
-            origin: process.env.DEV_API_HOST,
-          },
-        });
-        if (modifyResponse) {
-          const result = await modifyResponse(response.data, response.status);
-          if (!ramda.isNil(result)) {
-            response.data = result;
-          }
-        }
-        res.status(response.status).send(response.data);
-      } catch (e) {
-        const { response } = e;
-        if (!response) {
-          console.log(e);
-          res.status(500).json(error("proxy - internal server error"));
-          return;
-        }
-        res.status(response.status).send(response.data);
-      }
-    });
-  });
-}
 
 module.exports = (app) => {
   app.use(cookieParser());
@@ -62,14 +15,40 @@ module.exports = (app) => {
 
   app.get("/api/admin/config", (_req, res) => res.json(mainConfig));
 
-  makeProxy({ url: "/api/users/profile", expressMethodHandlerName: "get" }, app, ({ user }) => {
+  makeProxy({ handleUrl: "/api/users/profile", expressMethodHandlerName: "get" }, app, ({ user }) => {
     if (!user.image) return;
     user.avatar = prepareUrl(user.image.path);
     user.name = `${user.name} ${user.surname} (${user.position})`;
     return user;
   });
 
-  makeProxy({ url: "/api", expressMethodHandlerName: "use" }, app);
+  makeProxy(
+    { realServerUrl: "/api/articles", expressMethodHandlerName: "get", handleUrl: "/api/articles/cards" },
+    app,
+    ({ data, meta }) => {
+      return {
+        imageConfig: {
+          aspectRatio: 1.6,
+        },
+        list: data.map((article) => {
+          const isPublished = article.status === 1;
+          const result = { title: article.title, id: article.id };
+          if (isPublished) {
+            result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
+            result.statuses = [{ iconName: "ellipse", color: "green/05" }];
+          } else {
+            result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
+            result.statuses = [{ iconName: "ellipse", color: "orange/05" }];
+          }
+          result.image = article.announceImage ? prepareUrl(article.announceImage.path) : null;
+          return result;
+        }),
+        pagination: { pages: meta.last_page },
+      };
+    },
+  );
+
+  makeProxy({ handleUrl: "/api", expressMethodHandlerName: "use" }, app);
 
   app.get("/api/admin/background-tasks", (req, res) => {
     res.json([

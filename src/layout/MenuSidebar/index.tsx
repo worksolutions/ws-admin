@@ -1,15 +1,13 @@
 import React from "react";
+import { elevation16 } from "style/shadows";
 
 import Wrapper from "primitives/Wrapper";
-import { Icons } from "primitives/Icon";
 
 import {
   backgroundColor,
   backgroundImage,
   backgroundPosition,
   backgroundSize,
-  boxShadow,
-  createAlphaColor,
   flex,
   flexColumn,
   flexValue,
@@ -51,7 +49,7 @@ function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterfac
     <Wrapper
       styles={[
         backgroundColor("white"),
-        boxShadow([0, 2, 6, createAlphaColor("black", 10)], [0, 8, 16, createAlphaColor("black", 20)]),
+        elevation16,
         position("fixed"),
         fullHeight,
         width(sidebarWidth),

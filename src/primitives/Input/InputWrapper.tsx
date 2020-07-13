@@ -26,6 +26,7 @@ import {
   right,
   Colors,
   borderWidth,
+  boxShadow,
 } from "libs/styles";
 import { isString } from "libs/is";
 
@@ -43,68 +44,44 @@ enum InputVariant {
 
 const stylesForSize = {
   [InputSize.LARGE]: {
-    withIconLeft: {
-      base: [padding("10px 12px 10px 40px")],
-      focused: [padding("9px 11px 9px 39px")],
-    },
-    withIconRight: {
-      base: [padding("10px 40px 10px 12px")],
-      focused: [padding("9px 39px 9px 11px")],
-    },
-    withIcons: {
-      base: [padding("10px 40px 10px 40px")],
-      focused: [padding("9px 39px 9px 39px")],
-    },
-    withoutIcons: {
-      base: [padding("10px 12px")],
-      focused: [padding("9px 11px")],
-    },
+    withIconLeft: padding("10px 12px 10px 40px"),
+    withIconRight: padding("10px 40px 10px 12px"),
+    withIcons: padding("10px 40px 10px 40px"),
+    withoutIcons: padding("10px 12px"),
   },
   [InputSize.MEDIUM]: {
-    withIconLeft: {
-      base: [padding("6px 12px 6px 40px")],
-      focused: [padding("5px 11px 5px 39px")],
-    },
-    withIconRight: {
-      base: [padding("6px 40px 6px 12px")],
-      focused: [padding("5px 39px 5px 11px")],
-    },
-    withIcons: {
-      base: [padding("6px 40px 6px 40px")],
-      focused: [padding("5px 39px 5px 39px")],
-    },
-    withoutIcons: {
-      base: [padding("6px 12px")],
-      focused: [padding("5px 11px")],
-    },
+    withIconLeft: padding("6px 12px 6px 40px"),
+    withIconRight: padding("6px 40px 6px 12px"),
+    withIcons: padding("6px 40px 6px 40px"),
+    withoutIcons: padding("6px 12px"),
   },
 };
 
 const colorsByVariant: Record<
   InputVariant,
-  { background: Colors; border: Colors; tip: Colors; placeholder: Colors }
+  { background: Colors; shadowColor: Colors; tip: Colors; placeholder: Colors }
 > = {
   [InputVariant.DEFAULT]: {
     background: "gray-blue/01",
-    border: "gray-blue/02",
+    shadowColor: "gray-blue/02",
     tip: "gray-blue/07",
     placeholder: "gray-blue/04",
   },
   [InputVariant.ERROR]: {
     background: "red/01",
-    border: "red/05",
+    shadowColor: "red/05",
     tip: "red/07",
     placeholder: "gray-blue/04",
   },
   [InputVariant.SUCCESS]: {
-    background: "gray-blue/01",
-    border: "green/05",
+    background: "green/01",
+    shadowColor: "green/05",
     tip: "green/07",
     placeholder: "gray-blue/04",
   },
   [InputVariant.DISABLED]: {
     background: "gray-blue/01",
-    border: "transparent",
+    shadowColor: "transparent",
     tip: "gray-blue/07",
     placeholder: "gray-blue/03",
   },
@@ -169,6 +146,7 @@ function InputWrapper({
   children: (styles: any) => JSX.Element;
 }) {
   const styles = stylesForSize[size][getStylesNameOnIcons(!!iconLeft, !!iconRight)];
+
   const leftIconElement = iconLeft && (
     <Icon styles={[_defaultIconStyles, left(8)]} color="gray-blue/05" iconName={iconLeft} />
   );
@@ -189,17 +167,19 @@ function InputWrapper({
         {children([
           TypographyTypes["body-regular"],
           transition("all 0.2s"),
-          border(1, colors.border),
+          borderWidth(0),
+          boxShadow([0, 0, 0, 1, colors.shadowColor]),
           borderRadius(6),
           fullWidth,
           disableOutline,
           backgroundColor("transparent"),
           color("gray-blue/09"),
-          child(color(colors.placeholder), "::placeholder"),
-          styles.base,
+          child([color(colors.placeholder), transition("all 0.2s")], "::placeholder"),
+          styles,
           variant === InputVariant.DEFAULT
-            ? [hover([borderColor("gray-blue/04")]), focus([border(2, "blue/05"), styles.focused])]
-            : [styles.focused, borderWidth(2)],
+            ? [hover(boxShadow([0, 0, 0, 1, "gray-blue/04"]))]
+            : [boxShadow([0, 0, 0, 2, colors.shadowColor])],
+          focus([boxShadow([0, 0, 0, 2, "blue/05"]), child(color("gray-blue/03"), "::placeholder")]),
         ])}
         {leftIconElement}
         {rightIconElement}

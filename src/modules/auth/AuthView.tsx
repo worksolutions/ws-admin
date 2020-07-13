@@ -11,6 +11,7 @@ import Hint, { HintType } from "primitives/Popper/Hint";
 import Password from "primitives/Input/Password";
 import Form from "primitives/Form";
 
+import { RequestError } from "libs/request";
 import {
   ai,
   Aligns,
@@ -33,9 +34,9 @@ import {
   width,
 } from "libs/styles";
 
-import { useActions } from "../context/actions/useActions";
-import { useAppContext } from "../context/hooks/useAppContext";
-import { RequestError } from "../../libs/request";
+import { useActions } from "modules/context/actions/useActions";
+import { useAppContext } from "modules/context/hooks/useAppContext";
+
 import globalEventBus from "../globalEventBus";
 
 import { AuthTokenSaver } from "./authTokenSaver";
@@ -44,7 +45,7 @@ import { SystemState } from "state/systemState";
 
 const systemState = Container.get(SystemState);
 
-function AuthView() {
+function AuthView({ reloadProfile }: { reloadProfile: () => void }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const appContext = useAppContext();
@@ -65,7 +66,8 @@ function AuthView() {
       if (userAuthenticate.authTokenSaveStrategy) {
         new AuthTokenSaver(userAuthenticate.authTokenSaveStrategy).runAuthenticationTokenPipeline(data);
       }
-      systemState.loadConfig();
+      await systemState.loadConfig();
+      reloadProfile();
       browserHistory.replace(mainReference);
     } catch (e) {
       if (RequestError.isRequestError(e)) {

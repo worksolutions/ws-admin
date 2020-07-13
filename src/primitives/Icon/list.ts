@@ -25,4 +25,11 @@ export const list = {
   user: require("./icons/user.svg"),
   "book-open": require("./icons/book-open.svg"),
   "content-multiple": require("./icons/content-multiple.svg"),
+  "kebab-horizontal": require("./icons/kebab-horizontal.svg"),
+  "density-high": require("./icons/density-high.svg"),
+  dashboard: require("./icons/dashboard.svg"),
+  "edit-small": require("./icons/edit-small.svg"),
+  ellipse: require("./icons/ellipse.svg"),
+  circle: require("./icons/ellipse.svg"),
+  "no-image": require("./icons/no-image.svg"),
 };

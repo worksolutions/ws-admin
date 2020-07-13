@@ -56,9 +56,9 @@ const styledForType = {
       backgroundColor("white"),
       borderRadius(4),
       boxShadow(
-        [0, 0, 2, createAlphaColor("black", 15)],
-        [0, 4, 8, createAlphaColor("black", 20)],
-        [0, 0, 2, "gray-blue/02"],
+        [0, 0, 2, 0, createAlphaColor("black", 15)],
+        [0, 4, 8, 0, createAlphaColor("black", 20)],
+        [0, 0, 2, 0, "gray-blue/02"],
       ),
     ],
     text: {

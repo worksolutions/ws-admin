@@ -2,8 +2,6 @@ import React, { Ref } from "react";
 
 import Wrapper from "primitives/Wrapper";
 
-import Spinner from "../Spinner";
-
 import ButtonWrapper, { BaseButtonWrapperInterface } from "./ButtonWrapper";
 import { ButtonType } from "./types";
 

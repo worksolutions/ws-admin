@@ -13,6 +13,7 @@ export type ActionOptions = {
   };
   [ActionType.REDIRECT]: {
     reference: string;
+    useReplace?: boolean;
   };
 };
 
