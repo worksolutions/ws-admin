@@ -5,9 +5,11 @@ const appMiddleware = require("./app-middleware");
 
 const app = express();
 
+app.use(express.static(path.join(process.cwd(), "build")));
+
 appMiddleware(app);
 
-app.use(express.static(path.join(process.cwd(), "build")));
+app.use("*", express.static(path.join(process.cwd(), "build")));
 
 const port = 80;
 
