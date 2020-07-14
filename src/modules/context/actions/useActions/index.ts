@@ -27,31 +27,36 @@ const actionFunctionsByActionType = {
 };
 
 const connectActionFunctionAndAppContext = (
+  actionType: ActionType,
   actionFunction: (inputData: ActionInputDataInterface) => Promise<any>,
   appContext: AppContextInterface,
 ) => {
   const loadingContainer = new LoadingContainer();
+  const run = (inputData: any) => {
+    inputData = inputData || {};
+    loadingContainer.clearErrors();
+    loadingContainer.setLoading(true);
+
+    return actionFunction(inputData)
+      .then((actionOutputData) => {
+        loadingContainer.setLoading(false);
+        if (inputData.context) appContext.updateState({ path: inputData.context, data: actionOutputData });
+        return actionOutputData;
+      })
+      .catch((requestError: RequestError) => {
+        const { error } = requestError;
+        loadingContainer.setErrors(error.errors);
+        loadingContainer.setDefaultError(error.message);
+        loadingContainer.setLoading(false);
+        throw requestError;
+      });
+  };
+
+  run.type = actionType;
+
   return {
     loadingContainer,
-    run: (inputData: any) => {
-      inputData = inputData || {};
-      loadingContainer.clearErrors();
-      loadingContainer.setLoading(true);
-
-      return actionFunction(inputData)
-        .then((actionOutputData) => {
-          loadingContainer.setLoading(false);
-          if (inputData.context) appContext.updateState({ path: inputData.context, data: actionOutputData });
-          return actionOutputData;
-        })
-        .catch((requestError: RequestError) => {
-          const { error } = requestError;
-          loadingContainer.setErrors(error.errors);
-          loadingContainer.setDefaultError(error.message);
-          loadingContainer.setLoading(false);
-          throw requestError;
-        });
-    },
+    run,
   };
 };
 
@@ -69,6 +74,7 @@ export function useActions<T extends Record<string, AnyAction>>(
 
     Object.entries(actions).forEach(([actionName, action]) => {
       result[actionName] = connectActionFunctionAndAppContext(
+        action.type,
         actionFunctionsByActionType[action.type](appContext, action as any), // TODO - избавиться от any
         appContext,
       ) as any;

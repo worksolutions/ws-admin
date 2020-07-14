@@ -3,18 +3,12 @@ import { observer } from "mobx-react-lite";
 
 import Card from "primitives/Card";
 import LayoutGrid from "primitives/LayoutGrid";
-import { CardInterface } from "primitives/Card/types";
-import Wrapper from "primitives/Wrapper";
 
 import { ai, Aligns, padding } from "libs/styles";
 
 import { CardsViewDataSource } from "./types";
 
-function CardsView({
-  list,
-  imageConfig,
-  onCardClick,
-}: CardsViewDataSource & { onCardClick: (card: Record<string, any>) => void }) {
+function CardsView({ list, imageConfig }: CardsViewDataSource & { onCardClick: (card: Record<string, any>) => void }) {
   return (
     <LayoutGrid
       marginBottom={16}
@@ -24,18 +18,18 @@ function CardsView({
     >
       {list.map((card) => {
         const { id, statuses, actions, heading, title, image } = card;
+
         return (
-          <Wrapper key={id} onClick={() => onCardClick(card)}>
-            <Card
-              statuses={statuses}
-              actions={actions}
-              heading={heading}
-              title={title}
-              image={image}
-              imageConfig={imageConfig}
-              id={id}
-            />
-          </Wrapper>
+          <Card
+            key={id}
+            statuses={statuses}
+            actions={actions}
+            heading={heading}
+            title={title}
+            image={image}
+            imageConfig={imageConfig}
+            id={id}
+          />
         );
       })}
     </LayoutGrid>

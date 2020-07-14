@@ -1,7 +1,6 @@
 const rewireSvgLoader = require("react-app-rewire-external-svg-loader");
 const ramda = require("ramda");
 const Dotenv = require("dotenv-webpack");
-const webpack = require("webpack");
 const rewireStyledComponents = require("react-app-rewire-styled-components");
 const dotenv = require("dotenv");
 
@@ -12,14 +11,7 @@ module.exports = function override(config, env) {
   config = rewireSvgLoader(config, env);
 
   config = ramda.mergeDeepWith(ramda.concat, config, {
-    plugins: [
-      new Dotenv({
-        path: "./.env",
-      }),
-      new webpack.EnvironmentPlugin({
-        DEV_API_HOST: process.env.DEV_API_HOST,
-      }),
-    ],
+    plugins: [new Dotenv({ path: "./.env" })],
   });
 
   return config;

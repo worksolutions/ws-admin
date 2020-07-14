@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "NODE_ENV=production react-app-rewired build",
-    "serve-production-test": "NODE_ENV=production node src/setupProxy.js",
+    "serve-production-proxy": "NODE_ENV=production node testServer/index.js",
     "test": "react-app-rewired test",
     "format": "prettier --write --list-different \"src/**/*.{ts,tsx,js,json,yml}\"",
     "lint": "eslint src --ext .ts,.js,.jsx --fix",

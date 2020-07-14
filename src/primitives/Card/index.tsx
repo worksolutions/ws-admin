@@ -26,7 +26,6 @@ import { CardImageConfig, CardInterface } from "./types";
 import Heading from "./Heading";
 
 interface CardComponentInterface extends CardInterface {
-  outerStyles?: any;
   link?: string;
   imageConfig: CardImageConfig;
 }
@@ -53,7 +52,15 @@ function Image({ src, height: heightProp, width: widthProp }: { src?: string; wi
   );
 }
 
-function Card({ heading, statuses, actions, title, imageConfig, image }: CardComponentInterface) {
+function Card({
+  heading,
+  statuses,
+  actions,
+  title,
+  imageConfig,
+  image,
+  ...other
+}: CardComponentInterface & Record<string, any>) {
   const hasTopRow = heading || statuses?.length !== 0 || actions?.length !== 0;
 
   const [measureRef, bounds] = useMeasure();
@@ -62,7 +69,8 @@ function Card({ heading, statuses, actions, title, imageConfig, image }: CardCom
     <Wrapper
       ref={measureRef}
       className="card"
-      styles={[border(1, "gray-blue/02"), borderRadius(8), overflow("hidden"), flex, flexColumn]}
+      {...other}
+      styles={[border(1, "gray-blue/02"), borderRadius(8), overflow("hidden"), flex, flexColumn, other.styles]}
     >
       <Wrapper styles={[padding("12px 16px 16px 16px"), flexValue(1)]}>
         {hasTopRow && <Heading actions={actions || []} statuses={statuses || []} title={heading!} />}

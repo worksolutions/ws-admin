@@ -13,7 +13,6 @@ export default function redirect(
   inputData: ActionInputDataInterface,
 ): Promise<any> {
   const { reference, useReplace } = actionOptions;
-  console.log(insertContext(reference, { ...appContext, local: inputData }));
   browserHistory[useReplace ? "replace" : "push"](insertContext(reference, { ...appContext, local: inputData }));
   return Promise.resolve(null);
 }
