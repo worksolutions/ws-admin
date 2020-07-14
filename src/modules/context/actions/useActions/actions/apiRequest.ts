@@ -18,6 +18,10 @@ export default function apiRequest(
   inputData: ActionInputDataInterface,
 ): Promise<any> {
   const { method, body, url } = actionOptions;
-  const makeRequest = requestManager.createRequest(insertContext(url, appContext), method, identityValueDecoder);
-  return makeRequest({ body: insertContext({ ...body, ...inputData }, { ...appContext, local: inputData }) });
+  const makeRequest = requestManager.createRequest(
+    insertContext(url, appContext, inputData),
+    method,
+    identityValueDecoder,
+  );
+  return makeRequest({ body: insertContext({ ...body, ...inputData }, appContext, inputData) });
 }

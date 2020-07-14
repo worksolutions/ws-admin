@@ -12,17 +12,13 @@ import {
   boxShadow,
   Colors,
   createAlphaColor,
-  marginBottom,
-  marginLeft,
-  marginRight,
-  marginTop,
   opacity,
   padding,
   transition,
   whiteSpace,
 } from "libs/styles";
 
-import usePopper, { PopperConfigInterface } from "./usePopper";
+import usePopper, { getPopperMarginStyleForPlacement, PopperConfigInterface } from "./usePopper";
 
 export enum HintType {
   white,
@@ -67,20 +63,6 @@ const styledForType = {
   },
 };
 
-const makeMargin = (margin: number) => margin.toString() + "px !important";
-
-const marginForPlacement: Record<string, (number: number) => any> = {
-  left: (number) => marginRight(makeMargin(number)),
-  right: (number) => marginLeft(makeMargin(number)),
-  top: (number) => marginBottom(makeMargin(number)),
-  bottom: (number) => marginTop(makeMargin(number)),
-};
-
-function getMarginForPlacement(placement: string, marginProp: number) {
-  if (placement in marginForPlacement) return marginForPlacement[placement](marginProp);
-  return null;
-}
-
 function Hint({
   force,
   children,
@@ -90,19 +72,12 @@ function Hint({
   inline,
   showOnHover = true,
   type = HintType.black,
-  margin: marginProp = 8,
+  margin: marginProp,
 }: HintInterface) {
-  const { initPopper, instance } = usePopper(popperConfig);
+  const { initPopper, placement } = usePopper(popperConfig);
   const [opened, open, close] = useBoolean(() => !showOnHover);
   const [wasRendered, enableWasRendered, disableWasRendered] = useBoolean(() => !showOnHover);
   const [element, setElement] = useState<HTMLElement>();
-  const [placementStyle, setPlacementStyle] = useState<any>();
-  useEffect(() => {
-    if (!instance) return;
-    setTimeout(() => {
-      setPlacementStyle(getMarginForPlacement(instance.state.placement, marginProp));
-    }, 0);
-  }, [instance]);
 
   const initParent = (ref: HTMLElement | null) => {
     if (!ref) return;
@@ -151,7 +126,7 @@ function Hint({
         styles={[
           opacity(force || opened ? 1 : 0),
           transition(`opacity ${hideAnimationDelay}ms`),
-          placementStyle,
+          getPopperMarginStyleForPlacement(placement, marginProp!),
           themeStyles.container,
         ]}
       >
@@ -173,6 +148,7 @@ function Hint({
 
 Hint.defaultProps = {
   showDelay: 200,
+  margin: 8,
 };
 
 export default React.memo(observer(Hint));

@@ -13,6 +13,7 @@ import {
   inlineFlex,
   jc,
   pointer,
+  position,
   transition,
 } from "libs/styles";
 
@@ -77,6 +78,7 @@ function ButtonWrapper({
 
   return children(
     [
+      position("relative"),
       inlineFlex,
       jc(Aligns.CENTER),
       transition("all 200ms"),

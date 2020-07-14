@@ -32,4 +32,6 @@ export const list = {
   ellipse: require("./icons/ellipse.svg"),
   circle: require("./icons/ellipse.svg"),
   "no-image": require("./icons/no-image.svg"),
+  edit: require("./icons/edit.svg"),
+  "bolt-alt": require("./icons/bolt-alt.svg"),
 };

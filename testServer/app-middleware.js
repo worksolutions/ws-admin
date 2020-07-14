@@ -27,18 +27,23 @@ module.exports = (app) => {
     app,
     ({ data, meta }) => {
       return {
-        imageConfig: {
-          aspectRatio: 1.6,
-        },
         list: data.map((article) => {
           const isPublished = article.status === 1;
-          const result = { title: article.title, id: article.id };
+
+          const result = {
+            title: article.title,
+            id: article.id,
+            actions: [{ name: "Редактировать", iconName: "edit", iconColor: "gray-blue/05" }],
+          };
+
           if (isPublished) {
             result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
             result.statuses = [{ iconName: "ellipse", color: "green/05" }];
+            result.actions.push({ name: "Снять с публикации", iconName: "bolt-alt", iconColor: "orange/05" });
           } else {
             result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
             result.statuses = [{ iconName: "ellipse", color: "orange/05" }];
+            result.actions.push({ name: "Опубликовать", iconName: "bolt-alt", iconColor: "green/05" });
           }
           result.image = article.announceImage ? prepareUrl(article.announceImage.path) : null;
           return result;

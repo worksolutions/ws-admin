@@ -3,21 +3,21 @@ import React from "react";
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 import Icon, { Icons } from "primitives/Icon";
-import Button, { ButtonSize, ButtonType } from "primitives/Button";
+import MenuButton, { MenuButtonOpenMode } from "primitives/MenuButton";
 
-import { ai, Aligns, Colors, flex, flexValue, jc, marginBottom } from "libs/styles";
+import { ai, Aligns, Colors, flex, flexValue, jc, marginBottom, padding, whiteSpace } from "libs/styles";
+
+import List from "../List";
 
 import { CardActionInterface, CardStatusInterface } from "./types";
 
-function Heading({
-  title,
-  actions,
-  statuses,
-}: {
+interface HeadingInterface {
   title: string;
   statuses: CardStatusInterface[];
   actions: CardActionInterface[];
-}) {
+}
+
+function Heading({ title, actions, statuses }: HeadingInterface) {
   return (
     <Wrapper styles={[flex, flexValue(1), ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN), marginBottom(4)]}>
       <Wrapper styles={[flex, flexValue(1), ai(Aligns.CENTER)]}>
@@ -31,9 +31,19 @@ function Heading({
         ))}
       </Wrapper>
       {actions.length !== 0 && (
-        <>
-          <Button iconLeft="kebab-horizontal" type={ButtonType.ICON} size={ButtonSize.SMALL} onClick={console.log} />
-        </>
+        <MenuButton openMode={MenuButtonOpenMode.HOVER}>
+          {(close) => (
+            <List
+              styles={padding("4px 8px")}
+              titleStyles={whiteSpace("nowrap")}
+              items={actions.map((action) => ({
+                title: action.name,
+                leftContent: action.iconName ? <Icon iconName={action.iconName} color={action.iconColor} /> : null,
+              }))}
+              onClick={close}
+            />
+          )}
+        </MenuButton>
       )}
     </Wrapper>
   );

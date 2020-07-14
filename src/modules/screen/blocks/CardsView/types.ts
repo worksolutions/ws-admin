@@ -4,6 +4,5 @@ import { Pagination } from "types/Pagination";
 
 export interface CardsViewDataSource {
   pagination: Pagination;
-  imageConfig: CardImageConfig;
   list: CardInterface[];
 }

@@ -91,7 +91,7 @@ const Resizer = React.forwardRef(function (
           <Wrapper
             as={animated.div}
             styles={[
-              transition(`background-color ${duration200}ms`),
+              transition(`background-color ${duration200}`),
               backgroundColor("gray-blue/02"),
               width(1),
               fullHeight,

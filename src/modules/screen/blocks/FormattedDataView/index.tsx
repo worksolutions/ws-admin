@@ -8,7 +8,7 @@ import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { ai, Aligns, border, borderRadius, flex, flexValue, position, right } from "libs/styles";
 
 import TableViewBlock from "../TableView";
-import CardsViewBlock from "../CardsView";
+import CardsViewBlock, { CardsViewBlockInterface } from "../CardsView";
 
 import { BlockInterface } from "state/systemState";
 
@@ -21,7 +21,7 @@ function FormattedDataView({
 }: BlockInterface<{
   id: string;
   tableView: ContainsDataSourceInterface<AnyDataSource>;
-  cardsView: ContainsDataSourceInterface<AnyDataSource>;
+  cardsView: CardsViewBlockInterface;
 }>) {
   const [data, set] = useLocalStorage(options!.id, initialValue);
 

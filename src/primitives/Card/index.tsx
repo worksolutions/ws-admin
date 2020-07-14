@@ -18,6 +18,7 @@ import {
   fullWidth,
   height,
   jc,
+  maxHeight,
   overflow,
   padding,
 } from "libs/styles";
@@ -45,6 +46,8 @@ function Image({ src, height: heightProp, width: widthProp }: { src?: string; wi
         ai(Aligns.CENTER),
         jc(Aligns.CENTER),
         height(heightProp),
+        overflow("hidden"),
+        borderRadius("0 0 8px 8px"),
       ]}
     >
       {image}
@@ -70,12 +73,17 @@ function Card({
       ref={measureRef}
       className="card"
       {...other}
-      styles={[border(1, "gray-blue/02"), borderRadius(8), overflow("hidden"), flex, flexColumn, other.styles]}
+      styles={[border(1, "gray-blue/02"), borderRadius(8), flex, flexColumn, other.styles]}
     >
       <Wrapper styles={[padding("12px 16px 16px 16px"), flexValue(1)]}>
         {hasTopRow && <Heading actions={actions || []} statuses={statuses || []} title={heading!} />}
         {title && (
-          <Typography type="h3-bold" color="gray-blue/07">
+          <Typography
+            className="card-title"
+            type="h3-bold"
+            color="gray-blue/09"
+            styles={[fullWidth, maxHeight(100), overflow("hidden")]}
+          >
             {title}
           </Typography>
         )}

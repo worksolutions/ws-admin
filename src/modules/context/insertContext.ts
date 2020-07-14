@@ -2,12 +2,13 @@ import { hasPath, path, is } from "ramda";
 
 import { getContextTypeAndPathByParam } from "./contextParamParser";
 
-export function insertContext(data: any, context: any) {
+export function insertContext(data: any, appContext: any, localContext = {}) {
+  const resultContext = Object.assign({}, appContext, { local: localContext });
   if (is(Object, data)) {
-    return JSON.parse(insertContextData(JSON.stringify(data), context));
+    return JSON.parse(insertContextData(JSON.stringify(data), resultContext));
   }
   if (is(String, data)) {
-    return insertContextData(data, context);
+    return insertContextData(data, resultContext);
   }
   return data;
 }

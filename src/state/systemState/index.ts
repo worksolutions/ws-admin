@@ -18,12 +18,6 @@ export type BlockInterface<O extends Record<string, any> = {}, A extends string 
   options?: O;
 } & Partial<ContainsActions<Record<A, AnyAction>>>;
 
-export interface ScreenInterface {
-  reference: string;
-  title: string;
-  blocks: BlockInterface[];
-}
-
 @Service({ global: true })
 export class SystemState {
   @Inject(() => RequestManager) private requestManager!: RequestManager;
@@ -35,7 +29,7 @@ export class SystemState {
     roles: string[];
     logo: string;
     sideMenu: ContainsDataSourceInterface<AnyDataSource>;
-    screens: ScreenInterface[];
+    mainBlock: BlockInterface;
     mainReference: string;
     userAuthenticate: {
       topImage: string;
