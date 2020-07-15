@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Colors, getColor } from "libs/styles";
+import { borderLeftColor, Colors, getColor } from "libs/styles";
 
 import "./style.css";
 
@@ -31,3 +31,5 @@ Spinner.defaultProps = {
 };
 
 export default React.memo(Spinner);
+
+export const makeSpinnerColorStyle = (color: Colors) => borderLeftColor(color);

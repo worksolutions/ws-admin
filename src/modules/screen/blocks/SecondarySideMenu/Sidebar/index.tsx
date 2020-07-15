@@ -28,18 +28,22 @@ import { RecursiveTreeElement } from "./RecursiveTreeElement";
 
 export interface SecondaryMenuSidebarInterface {
   title: string;
-  opened: boolean;
   items: SidebarItemInterface[];
-  onChangeOpened: (opened: boolean) => void;
+  id?: string;
 }
 
-function SecondaryMenuSidebar({ title, items }: SecondaryMenuSidebarInterface) {
+function SecondaryMenuSidebar({ title, items, id }: SecondaryMenuSidebarInterface) {
   const [search, setSearch] = React.useState("");
   const [measureRef, bounds] = useMeasure();
 
   return (
     <>
-      <Resizer ref={measureRef as any} initialWidth={272} styles={[backgroundColor("gray-blue/01"), position("fixed")]}>
+      <Resizer
+        ref={measureRef as any}
+        localStorageKey={id}
+        initialWidth={272}
+        styles={[backgroundColor("gray-blue/01"), position("fixed")]}
+      >
         <Wrapper
           styles={[overflow("hidden"), minHeight("100vh"), maxHeight("100vh"), fullWidth, padding("16px 8px 0px 8px")]}
         >

@@ -59,20 +59,16 @@ function ButtonWrapper({
 
   const [icons] = React.useState(() => {
     return {
-      iconLeft: isIconButton ? iconLeft || iconRight : loading ? <Spinner className="icon icon-left" /> : iconLeft,
+      iconLeft: isIconButton ? iconLeft || iconRight : iconLeft,
       iconRight: isIconButton ? null : iconRight,
     };
   });
 
   const resultStyles = buttonStyles[getStylesNameOnIcons(!!icons.iconLeft, !!icons.iconRight)];
 
-  const leftIconElement = iconLeft && <Icon className="icon icon-left" iconName={iconLeft} />;
+  const leftIconElement = icons.iconLeft && <Icon className="icon icon-left" iconName={iconLeft} />;
 
-  const rightIconElement = isIconButton ? null : loading ? (
-    <Spinner className="icon icon-right" />
-  ) : (
-    <Icon className="icon icon-right" iconName={iconRight} />
-  );
+  const rightIconElement = loading ? <Spinner className="icon icon-right" /> : icons.iconRight;
 
   const isActive = !loading;
 

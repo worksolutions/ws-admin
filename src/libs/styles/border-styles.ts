@@ -50,6 +50,12 @@ export function borderRight(size: number, color: Colors | AlphaColor) {
   `;
 }
 
+export function borderLeftColor(color: Colors | AlphaColor) {
+  return css`
+    border-left-color: ${getColor(color)};
+  `;
+}
+
 export const borderRadius = memoizeWith(identity, function (borderRadius: number | string) {
   return css`
     border-radius: ${stringOrPixels(borderRadius)};`;

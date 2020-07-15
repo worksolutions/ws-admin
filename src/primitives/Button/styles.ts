@@ -14,6 +14,8 @@ import {
   paddingRight,
 } from "libs/styles";
 
+import { makeSpinnerColorStyle } from "../Spinner";
+
 import { ButtonSize, ButtonType } from "./types";
 
 type DefaultStylesElementType = {
@@ -30,12 +32,18 @@ const primaryStyle = [
   child(marginRight(8), ".icon-left"),
   child(marginLeft(8), ".icon-right"),
   child(fillColor("white"), ".icon use"),
+  child(makeSpinnerColorStyle("white"), ".loader"),
 ];
 const primaryHover = [backgroundColor("blue/06")];
 const primaryFocus = [boxShadow([0, 0, 0, 2, "blue/04"])];
 const primaryActive = [backgroundColor("blue/07")];
 
-const iconStyle = [backgroundColor("transparent"), borderWidth(0), child(fillColor("gray-blue/07"), ".icon use")];
+const iconStyle = [
+  backgroundColor("transparent"),
+  borderWidth(0),
+  child(fillColor("gray-blue/07"), ".icon use"),
+  child(makeSpinnerColorStyle("gray-blue/07"), ".loader"),
+];
 const iconHover = [backgroundColor("gray-blue/01")];
 const iconHoverForSmall = [child(fillColor("gray-blue/05"), ".icon use")];
 const iconFocus = [boxShadow([0, 0, 0, 2, "blue/04"])];

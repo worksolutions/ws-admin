@@ -10,5 +10,6 @@ export interface SidebarItemInterface {
 export interface SecondaryMenuDataSourceInterface {
   title: string;
   reference: string;
+  id?: string;
   items: SidebarItemInterface[];
 }

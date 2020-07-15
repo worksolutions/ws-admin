@@ -81,6 +81,7 @@ module.exports = {
                 dataSource: {
                   type: "static",
                   options: {
+                    id: "secondary-menu",
                     title: "Контент",
                     reference: "/content",
                     items: [

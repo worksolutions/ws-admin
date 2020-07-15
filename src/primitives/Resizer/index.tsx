@@ -3,6 +3,7 @@ import { animated, to, useSpring } from "react-spring";
 import { useGesture } from "react-with-gesture";
 import { elevation8 } from "style/shadows";
 import { duration200 } from "layout/durations";
+import { useLocalStorage } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -30,6 +31,7 @@ interface ResizerInterface {
   children: JSX.Element;
   minWidthToAutoClose?: number;
   styles?: any;
+  localStorageKey?: string;
 }
 
 const minResizerWidth = 24;
@@ -49,18 +51,20 @@ function calculateStyleParams(
 }
 
 const Resizer = React.forwardRef(function (
-  { initialWidth, children, styles, minWidthToAutoClose = 72 }: ResizerInterface,
+  { initialWidth, children, styles, minWidthToAutoClose = 72, localStorageKey }: ResizerInterface,
   ref: Ref<HTMLElement>,
 ) {
-  const [currentWidth, setCurrentWidth] = React.useState(initialWidth);
+  const [currentWidth, setCurrentWidth] = localStorageKey
+    ? useLocalStorage(localStorageKey, initialWidth)
+    : React.useState(initialWidth);
   const [bind, { delta, down }] = useGesture();
 
-  const styleParams = calculateStyleParams(down, { currentWidth, delta, minWidthToAutoClose }).child;
+  const styleParams = calculateStyleParams(down, { currentWidth: currentWidth!, delta, minWidthToAutoClose }).child;
   const { childWidth, childOpacity } = useSpring(styleParams);
 
   React.useEffect(() => {
     if (down) return;
-    const { newWidth, child } = calculateStyleParams(true, { currentWidth, delta, minWidthToAutoClose });
+    const { newWidth, child } = calculateStyleParams(true, { currentWidth: currentWidth!, delta, minWidthToAutoClose });
     setCurrentWidth(child.childOpacity === 1 ? newWidth : minResizerWidth);
   }, [down]);
 
