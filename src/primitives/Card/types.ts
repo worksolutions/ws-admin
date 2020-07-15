@@ -11,6 +11,8 @@ export type CardActionInterface = {
   name: string;
   iconName?: Icons;
   iconColor?: Colors;
+  loading?: boolean;
+  handler: () => Promise<void>;
 };
 
 export interface CardInterface {

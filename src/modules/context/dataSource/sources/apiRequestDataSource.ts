@@ -14,7 +14,7 @@ export default function apiRequestDataSource(
   dataSource: DataSourceInterface<DataSourceType.API_REQUEST>,
   context: AppContextStateInterface,
 ): Promise<any> {
-  const { method, params, url } = dataSource.options;
-  const makeRequest = requestManager.createRequest(insertContext(url, context), method, identityValueDecoder);
+  const { method, params, reference } = dataSource.options;
+  const makeRequest = requestManager.createRequest(insertContext(reference, context), method, identityValueDecoder);
   return makeRequest({ body: insertContext(params, context) });
 }

@@ -17,9 +17,9 @@ export default function apiRequest(
   actionOptions: ActionOptions[ActionType.API_REQUEST],
   inputData: ActionInputDataInterface,
 ): Promise<any> {
-  const { method, body, url } = actionOptions;
+  const { method, body, reference } = actionOptions;
   const makeRequest = requestManager.createRequest(
-    insertContext(url, appContext, inputData),
+    insertContext(reference, appContext, inputData),
     method,
     identityValueDecoder,
   );

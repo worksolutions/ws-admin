@@ -29,23 +29,37 @@ module.exports = (app) => {
       return {
         list: data.map((article) => {
           const isPublished = article.status === 1;
+          const action = {
+            type: "redirect",
+            options: {
+              reference: "/user/{{local:id}}/edit",
+            },
+          };
 
           const result = {
             title: article.title,
             id: article.id,
-            actions: [{ name: "Редактировать", iconName: "edit", iconColor: "gray-blue/05" }],
+            image: article.announceImage ? prepareUrl(article.announceImage.path) : null,
+            actions: [
+              {
+                name: "Редактировать",
+                iconName: "edit",
+                iconColor: "gray-blue/05",
+                action,
+              },
+            ],
           };
 
           if (isPublished) {
             result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
             result.statuses = [{ iconName: "ellipse", color: "green/05" }];
-            result.actions.push({ name: "Снять с публикации", iconName: "bolt-alt", iconColor: "orange/05" });
+            result.actions.push({ name: "Снять с публикации", iconName: "bolt-alt", iconColor: "orange/05", action });
           } else {
             result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
             result.statuses = [{ iconName: "ellipse", color: "orange/05" }];
-            result.actions.push({ name: "Опубликовать", iconName: "bolt-alt", iconColor: "green/05" });
+            result.actions.push({ name: "Опубликовать", iconName: "bolt-alt", iconColor: "green/05", action });
           }
-          result.image = article.announceImage ? prepareUrl(article.announceImage.path) : null;
+
           return result;
         }),
         pagination: { pages: meta.last_page },

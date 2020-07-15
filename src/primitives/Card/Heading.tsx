@@ -15,9 +15,10 @@ interface HeadingInterface {
   title: string;
   statuses: CardStatusInterface[];
   actions: CardActionInterface[];
+  onActionClick: (index: number) => Promise<void>;
 }
 
-function Heading({ title, actions, statuses }: HeadingInterface) {
+function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) {
   return (
     <Wrapper styles={[flex, flexValue(1), ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN), marginBottom(4)]}>
       <Wrapper styles={[flex, flexValue(1), ai(Aligns.CENTER)]}>
@@ -38,9 +39,13 @@ function Heading({ title, actions, statuses }: HeadingInterface) {
               titleStyles={whiteSpace("nowrap")}
               items={actions.map((action) => ({
                 title: action.name,
+                disabled: action.loading,
                 leftContent: action.iconName ? <Icon iconName={action.iconName} color={action.iconColor} /> : null,
               }))}
-              onClick={close}
+              onClick={async (index) => {
+                await onActionClick(index);
+                close();
+              }}
             />
           )}
         </MenuButton>

@@ -7,13 +7,14 @@ export enum ActionType {
 
 export type ActionOptions = {
   [ActionType.API_REQUEST]: {
-    url: string;
+    reference: string;
     method: METHODS;
     body?: Record<string, number | string>;
   };
   [ActionType.REDIRECT]: {
     reference: string;
     useReplace?: boolean;
+    delay?: number;
   };
 };
 

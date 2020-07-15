@@ -39,6 +39,7 @@ interface ListInterface {
     heading?: string | number;
     subtitle?: string | number;
     title: string | number;
+    disabled?: boolean;
     rightContent?: JSX.Element | null;
   }[];
   onClick?: (index: number) => void;
@@ -47,36 +48,37 @@ interface ListInterface {
 function List({ outerStyles, styles, titleStyles, items, onClick }: ListInterface) {
   return (
     <Wrapper styles={[flex, flexColumn, outerStyles, firstChild(marginTop(4))]}>
-      {items.map(({ title, heading, leftContent, rightContent, subtitle }, key) => (
-        <Wrapper
-          key={key}
-          as="button"
-          styles={[
-            pointer,
-            backgroundColor("transparent"),
-            disableOutline,
-            borderNone,
-            margin("0 4px 4px 4px"),
-            minHeight(40),
-            flex,
-            ai(Aligns.CENTER),
-            borderRadius(4),
-            transition(`all ${duration200}`),
-            hover(backgroundColor("gray-blue/01")),
-            focus(boxShadow([0, 0, 0, 2, "blue/04"])),
-            styles,
-          ]}
-          onClick={() => onClick && onClick(key)}
-        >
-          {leftContent}
-          <Wrapper styles={[marginLeft(12), marginRight(12), flexValue(1), textAlign("left")]}>
-            {heading && <Typography type="caption-regular">{heading}</Typography>}
-            <Typography styles={titleStyles}>{title}</Typography>
-            {subtitle && <Typography type="caption-regular">{subtitle}</Typography>}
+      {items.map(({ title, heading, leftContent, rightContent, subtitle, disabled }, key) => {
+        const enabled = !disabled;
+        return (
+          <Wrapper
+            key={key}
+            as="button"
+            styles={[
+              backgroundColor("transparent"),
+              disableOutline,
+              borderNone,
+              margin("0 4px 4px 4px"),
+              minHeight(40),
+              flex,
+              ai(Aligns.CENTER),
+              borderRadius(4),
+              transition(`all ${duration200}`),
+              enabled && [pointer, hover(backgroundColor("gray-blue/01")), focus(boxShadow([0, 0, 0, 2, "blue/04"]))],
+              styles,
+            ]}
+            onClick={() => onClick && enabled && onClick(key)}
+          >
+            {leftContent}
+            <Wrapper styles={[marginLeft(12), marginRight(12), flexValue(1), textAlign("left")]}>
+              {heading && <Typography type="caption-regular">{heading}</Typography>}
+              <Typography styles={titleStyles}>{title}</Typography>
+              {subtitle && <Typography type="caption-regular">{subtitle}</Typography>}
+            </Wrapper>
+            {rightContent}
           </Wrapper>
-          {rightContent}
-        </Wrapper>
-      ))}
+        );
+      })}
     </Wrapper>
   );
 }

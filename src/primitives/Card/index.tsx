@@ -55,15 +55,8 @@ function Image({ src, height: heightProp, width: widthProp }: { src?: string; wi
   );
 }
 
-function Card({
-  heading,
-  statuses,
-  actions,
-  title,
-  imageConfig,
-  image,
-  ...other
-}: CardComponentInterface & Record<string, any>) {
+function Card(card: CardComponentInterface & Record<string, any>) {
+  const { heading, statuses, actions, title, imageConfig, image, ...other } = card;
   const hasTopRow = heading || statuses?.length !== 0 || actions?.length !== 0;
 
   const [measureRef, bounds] = useMeasure();
@@ -76,7 +69,14 @@ function Card({
       styles={[border(1, "gray-blue/02"), borderRadius(8), flex, flexColumn, other.styles]}
     >
       <Wrapper styles={[padding("12px 16px 16px 16px"), flexValue(1)]}>
-        {hasTopRow && <Heading actions={actions || []} statuses={statuses || []} title={heading!} />}
+        {hasTopRow && (
+          <Heading
+            actions={actions || []}
+            statuses={statuses || []}
+            title={heading!}
+            onActionClick={(index) => actions![index].handler()}
+          />
+        )}
         {title && (
           <Typography
             className="card-title"
