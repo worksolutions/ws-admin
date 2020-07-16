@@ -1,5 +1,6 @@
 import React from "react";
 import { useMeasure } from "react-use";
+import { duration200 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -12,15 +13,19 @@ import {
   border,
   borderRadius,
   borderTop,
+  child,
   flex,
   flexColumn,
   flexValue,
   fullWidth,
   height,
+  hover,
   jc,
   maxHeight,
+  opacity,
   overflow,
   padding,
+  transition,
 } from "libs/styles";
 
 import { CardImageConfig, CardInterface } from "./types";
@@ -66,7 +71,15 @@ function Card(card: CardComponentInterface & Record<string, any>) {
       ref={measureRef}
       className="card"
       {...other}
-      styles={[border(1, "gray-blue/02"), borderRadius(8), flex, flexColumn, other.styles]}
+      styles={[
+        border(1, "gray-blue/02"),
+        borderRadius(8),
+        flex,
+        flexColumn,
+        hover(child([opacity(1)], ".card-actions")),
+        child([transition(duration200), opacity(0)], ".card-actions"),
+        other.styles,
+      ]}
     >
       <Wrapper styles={[padding("12px 16px 16px 16px"), flexValue(1)]}>
         {hasTopRow && (

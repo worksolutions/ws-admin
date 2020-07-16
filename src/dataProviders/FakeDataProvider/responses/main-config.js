@@ -150,7 +150,16 @@ module.exports = {
                         ],
                       },
                       {
+                        type: "ContextInitializer",
+                        id: "articles-context",
+                        options: [
+                          { path: "screen:articles.search.value", value: "" },
+                          { path: "screen:articles.sorting.value", value: { id: "published_at", direction: "asc" } },
+                        ],
+                      },
+                      {
                         type: "FormattedDataView",
+                        waitForId: "articles-context",
                         options: {
                           id: "articles-list",
                           tableView: {
@@ -205,7 +214,13 @@ module.exports = {
                               options: {
                                 reference: "/articles/cards",
                                 method: "get",
-                                params: { page: 1, perPage: 10, orderDirection: "desc", orderField: "id" },
+                                params: {
+                                  title: "{{screen:articles.search.value}}",
+                                  page: 1,
+                                  perPage: 10,
+                                  orderDirection: "{{screen:articles.sorting.value.direction}}",
+                                  orderField: "{{screen:articles.sorting.value.id}}",
+                                },
                               },
                             },
                             options: {
@@ -218,10 +233,47 @@ module.exports = {
                           controlPanel: {
                             blocks: [
                               {
-                                type: "Input",
+                                type: "Actions/Input",
                                 options: {
-                                  context: "screen:articles.search",
+                                  placeholder: "Найти",
+                                  iconLeft: "search-big",
+                                  debounce: 600,
+                                  initialValue: "{{screen:articles.search.value}}",
                                 },
+                                actions: {
+                                  change: {
+                                    type: "none",
+                                    context: "screen:articles.search",
+                                  },
+                                },
+                              },
+                              {
+                                type: "Wrapper",
+                                options: {
+                                  margin: "0 0 0 8px",
+                                },
+                                blocks: [
+                                  {
+                                    type: "Actions/Sorting",
+                                    options: {
+                                      title: "Сортировать:",
+                                      items: [
+                                        { title: "по дате создания", id: "id", hasDirection: true },
+                                        { title: "по дате публикации", id: "published_at", hasDirection: true },
+                                      ],
+                                      initialValue: "{{{screen:articles.sorting.value}}}",
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "none",
+                                        context: "screen:articles.sorting",
+                                      },
+                                    },
+                                  },
+                                ],
+                              },
+                              {
+                                type: "FillEmptySpace",
                               },
                             ],
                           },

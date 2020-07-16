@@ -6,6 +6,7 @@ import { AppContextInterface } from "modules/context/hooks/useAppContext";
 
 import apiRequestAction from "./actions/apiRequest";
 import redirectAction from "./actions/redirect";
+import noneAction from "./actions/none";
 import { ActionInputDataInterface } from "./types";
 
 import { LoadingContainer } from "state/loadingContainer";
@@ -24,10 +25,16 @@ const actionFunctionsByActionType = {
   ) => {
     return redirectAction(appContext.context, options, inputData);
   },
+
+  [ActionType.NONE]: (appContext: AppContextInterface, { options }: ActionInterface<ActionType.REDIRECT>) => (
+    inputData: ActionInputDataInterface,
+  ) => {
+    return noneAction(appContext.context, options, inputData);
+  },
 };
 
 const connectActionFunctionAndAppContext = (
-  actionType: ActionType,
+  action: AnyAction,
   actionFunction: (inputData: ActionInputDataInterface) => Promise<any>,
   appContext: AppContextInterface,
 ) => {
@@ -40,6 +47,7 @@ const connectActionFunctionAndAppContext = (
     return actionFunction(inputData)
       .then((actionOutputData) => {
         loadingContainer.setLoading(false);
+        if (action.context) appContext.updateState({ path: action.context, data: actionOutputData });
         if (inputData.context) appContext.updateState({ path: inputData.context, data: actionOutputData });
         return actionOutputData;
       })
@@ -52,7 +60,7 @@ const connectActionFunctionAndAppContext = (
       });
   };
 
-  run.type = actionType;
+  run.type = action.type;
 
   return {
     loadingContainer,
@@ -71,10 +79,9 @@ export function useActions<T extends Record<string, AnyAction>>(
     if (!actions) return {};
 
     const result: any = {};
-
     Object.entries(actions).forEach(([actionName, action]) => {
       result[actionName] = connectActionFunctionAndAppContext(
-        action.type,
+        action,
         actionFunctionsByActionType[action.type](appContext, action as any), // TODO - избавиться от any
         appContext,
       ) as any;

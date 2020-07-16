@@ -16,6 +16,6 @@ export default async function redirect(
 ): Promise<any> {
   const { reference, useReplace } = actionOptions;
   await asyncTimeout(actionOptions.delay || 0);
-  browserHistory[useReplace ? "replace" : "push"](insertContext(reference, appContext, inputData));
+  browserHistory[useReplace ? "replace" : "push"](insertContext(reference, appContext, inputData).value);
   return Promise.resolve(null);
 }

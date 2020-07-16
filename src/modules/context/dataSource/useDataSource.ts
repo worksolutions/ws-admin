@@ -1,10 +1,13 @@
 import { useEffect } from "react";
-import { isNil } from "ramda";
+import { isNil, last } from "ramda";
 import { useLocalStore } from "mobx-react-lite";
+import { Lambda, observe } from "mobx";
 
 import { RequestError } from "libs/request";
+import { path } from "libs/path";
 
 import { useAppContext } from "../hooks/useAppContext";
+import { InsertContextResult } from "../insertContext";
 
 import { runContextDataSourceFetcher } from "./sourceFetchers/context";
 import { runStaticListDataSourceFetcher } from "./sourceFetchers/static";
@@ -26,8 +29,6 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
     loadingContainer: new LoadingContainer(true),
     reload: runDataSourceFetcher,
   }));
-
-  if (!dataSource) return localStore;
 
   const { context, updateState } = useAppContext();
 
@@ -58,16 +59,37 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
     });
   }
 
-  function runDataSourceFetcher() {
-    runStaticListDataSourceFetcher(dataSource, onDataReceived);
-    runContextDataSourceFetcher(dataSource, context, onDataReceived);
-    runApiRequestDataSourceFetcher(dataSource, context, {
+  function runApiRequestLogic() {
+    return runApiRequestDataSourceFetcher(dataSource, context, {
       onDataReceived,
       onReceiveDataError: onApiRequestReceiveDataError,
     });
   }
 
+  function runDataSourceFetcher() {
+    if (!dataSource) return () => {};
+    runStaticListDataSourceFetcher(dataSource, onDataReceived);
+    runContextDataSourceFetcher(dataSource, context, onDataReceived);
+
+    const apiRequestResult = runApiRequestLogic();
+    const allDisposers: Lambda[] = [];
+    if (apiRequestResult?.bodyWithContext.value) {
+      allDisposers.push(
+        ...makeOnDependencyChangeUpdater(apiRequestResult.bodyWithContext, context, runApiRequestLogic),
+        ...makeOnDependencyChangeUpdater(apiRequestResult.referenceWithContext, context, runApiRequestLogic),
+      );
+    }
+
+    return () => allDisposers.forEach((disposer) => disposer());
+  }
+
   useEffect(runDataSourceFetcher, []);
 
   return localStore;
+}
+
+function makeOnDependencyChangeUpdater(insertContextResult: InsertContextResult, context: any, onUpdate: () => void) {
+  return insertContextResult.dependencies.map((dependency) =>
+    observe(path([dependency.contextType, ...dependency.path.slice(0, -1)], context), last(dependency.path), onUpdate),
+  );
 }

@@ -20,6 +20,7 @@ export enum MenuButtonOpenMode {
 }
 
 interface MenuButtonInterface {
+  className?: string;
   openMode?: MenuButtonOpenMode;
   buttonIcon?: Icons;
   children: (close: () => void) => ReactNode;
@@ -28,6 +29,7 @@ interface MenuButtonInterface {
 const ComponentForOpenMode: Record<
   MenuButtonOpenMode,
   (props: {
+    className?: string;
     opened: boolean;
     open: () => void;
     close: () => void;
@@ -35,11 +37,11 @@ const ComponentForOpenMode: Record<
     getOpenedContent: () => ReactNode;
   }) => JSX.Element
 > = {
-  [MenuButtonOpenMode.CLICK]: ({ opened, open, close, getButton, getOpenedContent }) => {
+  [MenuButtonOpenMode.CLICK]: ({ className, opened, open, close, getButton, getOpenedContent }) => {
     return (
       <HandleClickOutside enabled={opened} onClickOutside={close}>
         {(ref) => (
-          <Wrapper ref={ref} styles={[position("relative")]}>
+          <Wrapper className={className} ref={ref} styles={[position("relative")]}>
             {getButton({ onClick: () => (opened ? close() : open()) })}
             {getOpenedContent()}
           </Wrapper>
@@ -47,7 +49,7 @@ const ComponentForOpenMode: Record<
       </HandleClickOutside>
     );
   },
-  [MenuButtonOpenMode.HOVER]: ({ open, close, getButton, getOpenedContent }) => {
+  [MenuButtonOpenMode.HOVER]: ({ className, open, close, getButton, getOpenedContent }) => {
     const [hoverable, hovered] = useHover(() => {
       return <div>{getButton({ children: getOpenedContent() })}</div>;
     });
@@ -60,11 +62,15 @@ const ComponentForOpenMode: Record<
       close();
     }, [hovered]);
 
-    return <Wrapper styles={[position("relative")]}>{hoverable}</Wrapper>;
+    return (
+      <Wrapper className={className} styles={[position("relative")]}>
+        {hoverable}
+      </Wrapper>
+    );
   },
 };
 
-function MenuButton({ buttonIcon, children, openMode }: MenuButtonInterface) {
+function MenuButton({ buttonIcon, className, children, openMode }: MenuButtonInterface) {
   const [opened, open, close] = useBoolean(false);
 
   const spring = useSpring({
@@ -77,6 +83,7 @@ function MenuButton({ buttonIcon, children, openMode }: MenuButtonInterface) {
 
   return (
     <Component
+      className={className}
       opened={opened}
       open={open}
       close={close}

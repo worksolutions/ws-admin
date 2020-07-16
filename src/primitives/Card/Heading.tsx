@@ -32,7 +32,7 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
         ))}
       </Wrapper>
       {actions.length !== 0 && (
-        <MenuButton openMode={MenuButtonOpenMode.HOVER}>
+        <MenuButton className="card-actions" openMode={MenuButtonOpenMode.HOVER}>
           {(close) => (
             <List
               styles={padding("4px 8px")}

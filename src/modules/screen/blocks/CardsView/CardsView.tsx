@@ -39,7 +39,7 @@ function CardsView({
         return (
           <LinkWrapper
             key={card.id}
-            to={insertContext(clickRedirectToReference, appContext.context, card)}
+            to={insertContext(clickRedirectToReference, appContext.context, card).value}
             styles={[
               disableDecoration,
               child([

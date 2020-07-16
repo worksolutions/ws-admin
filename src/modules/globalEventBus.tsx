@@ -9,4 +9,8 @@ export default new EventEmitter<{
     };
   };
   SET_REQUEST_MANAGER_ERROR_INTERCEPTOR_ENABLED: boolean;
+  BLOCK_WAS_RENDERED: {
+    id: string;
+    rendered: boolean;
+  };
 }>();

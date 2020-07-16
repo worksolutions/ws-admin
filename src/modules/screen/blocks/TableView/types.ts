@@ -4,11 +4,6 @@ export enum TableViewDataType {
   DATE = "DATE",
 }
 
-export enum TableSortingType {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
 interface TableViewSizes {
   minWidth?: number;
   width?: number;

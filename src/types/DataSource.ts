@@ -13,6 +13,7 @@ type DataSourceOptions = {
     reference: string;
     method: METHODS;
     responseDataConverter?: string;
+    removeEmptyString?: boolean;
     params?: {
       [key: string]: string | number;
     };

@@ -19,9 +19,9 @@ export default function apiRequest(
 ): Promise<any> {
   const { method, body, reference } = actionOptions;
   const makeRequest = requestManager.createRequest(
-    insertContext(reference, appContext, inputData),
+    insertContext(reference, appContext, inputData).value,
     method,
     identityValueDecoder,
   );
-  return makeRequest({ body: insertContext({ ...body, ...inputData }, appContext, inputData) });
+  return makeRequest({ body: insertContext({ ...body, ...inputData }, appContext, inputData).value });
 }

@@ -34,6 +34,10 @@ export interface BaseButtonWrapperInterface {
   loadingText?: string;
   iconLeft?: Icons;
   iconRight?: Icons;
+  iconLeftWidth?: number;
+  iconLeftHeight?: number;
+  iconRightWidth?: number;
+  iconRightHeight?: number;
   disabled?: boolean;
   spinner?: boolean;
   size?: ButtonSize;
@@ -53,22 +57,48 @@ function ButtonWrapper({
   iconRight,
   styles,
   loading,
+  iconLeftWidth,
+  iconLeftHeight,
+  iconRightWidth,
+  iconRightHeight,
 }: ButtonWrapperInterface) {
   const isIconButton = type === ButtonType.ICON;
   const buttonStyles = buttonStylesMap[size][type];
 
   const [icons] = React.useState(() => {
+    if (isIconButton)
+      return {
+        iconLeft: iconLeft || iconRight,
+        iconRight: null,
+        leftWidth: iconLeftWidth || iconRightWidth,
+        leftHeight: iconLeftHeight || iconRightHeight,
+        rightWidth: 0,
+        rightHeight: 0,
+      };
+
     return {
-      iconLeft: isIconButton ? iconLeft || iconRight : iconLeft,
-      iconRight: isIconButton ? null : iconRight,
+      iconLeft,
+      iconRight: iconRight,
+      leftWidth: iconLeftWidth,
+      leftHeight: iconLeftHeight,
+      rightWidth: iconRightWidth,
+      rightHeight: iconRightHeight,
     };
   });
 
   const resultStyles = buttonStyles[getStylesNameOnIcons(!!icons.iconLeft, !!icons.iconRight)];
 
-  const leftIconElement = icons.iconLeft && <Icon className="icon icon-left" iconName={iconLeft} />;
+  const leftIconElement = icons.iconLeft && (
+    <Icon className="icon icon-left" iconName={icons.iconLeft} width={icons.leftWidth} height={icons.leftHeight} />
+  );
 
-  const rightIconElement = loading ? <Spinner className="icon icon-right" /> : icons.iconRight;
+  const rightIconElement = loading ? (
+    <Spinner className="icon icon-right" />
+  ) : (
+    icons.iconRight && (
+      <Icon className="icon icon-right" iconName={icons.iconRight} width={icons.rightWidth} height={iconRightHeight} />
+    )
+  );
 
   const isActive = !loading;
 

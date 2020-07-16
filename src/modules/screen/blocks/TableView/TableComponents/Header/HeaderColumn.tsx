@@ -28,10 +28,11 @@ import {
 } from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
 
-import { TableSortingType } from "../../types";
 import { UseSortingType } from "../../libs";
 
 import { HeaderGroupInterface } from "./index";
+
+import { SortingDirection } from "types/Sorting";
 
 function HeaderColumn({
   headerColumn,
@@ -93,7 +94,7 @@ function HeaderColumn({
               fullHeight,
               transform(
                 `translateY(-50%) ${
-                  sorting.currentSortingField.type === TableSortingType.DESC ? "rotateZ(180deg)" : "rotateZ(0deg)"
+                  sorting.currentSortingField.type === SortingDirection.DESC ? "rotateZ(180deg)" : "rotateZ(0deg)"
                 }`,
               ),
             ]}

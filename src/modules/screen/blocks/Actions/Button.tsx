@@ -10,9 +10,8 @@ import { useActions } from "modules/context/actions/useActions";
 import { BlockInterface } from "state/systemState";
 
 function ActionButton({ actions, options }: BlockInterface<{ name: string; icon?: Icons }, "click">) {
-  if (!actions) return null;
+  if (!actions?.click) return null;
   if (!options) return null;
-  if (!actions.click) return null;
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);

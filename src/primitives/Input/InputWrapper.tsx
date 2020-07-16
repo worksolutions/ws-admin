@@ -31,8 +31,8 @@ import {
 import { isString } from "libs/is";
 
 export enum InputSize {
-  MEDIUM,
-  LARGE,
+  MEDIUM = "medium",
+  LARGE = "large",
 }
 
 enum InputVariant {
@@ -87,7 +87,7 @@ const colorsByVariant: Record<
   },
 };
 
-function getStylesNameOnIcons(hasLeftIcon: boolean, hasRightIcon: boolean): keyof typeof stylesForSize["0"] {
+function getStylesNameOnIcons(hasLeftIcon: boolean, hasRightIcon: boolean): keyof typeof stylesForSize["large"] {
   if (hasLeftIcon && hasRightIcon) return "withIcons";
   if (hasLeftIcon) return "withIconLeft";
   if (hasRightIcon) return "withIconRight";

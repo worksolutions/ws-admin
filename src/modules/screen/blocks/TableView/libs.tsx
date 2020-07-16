@@ -8,7 +8,9 @@ import Typography from "primitives/Typography";
 import { isObject } from "libs/is";
 import { getLinkIsNative } from "libs/linkIsNative";
 
-import { TableSortingType, TableViewDataSource } from "./types";
+import { TableViewDataSource } from "./types";
+
+import { SortingDirection } from "types/Sorting";
 
 function prepareColumn(column: TableViewDataSource["columns"][0]) {
   const sizes = filter(complement(isNil), {
@@ -41,28 +43,28 @@ export function useColumns(columns: TableViewDataSource["columns"]) {
 
 export function useSorting() {
   const [currentSortingField, setCurrentSortingField] = React.useState<{
-    type: TableSortingType;
+    type: SortingDirection;
     field: string;
   } | null>(null);
 
   const nextSorting = React.useCallback(
     (field: string) => {
       if (!currentSortingField) {
-        setCurrentSortingField({ type: TableSortingType.ASC, field });
+        setCurrentSortingField({ type: SortingDirection.ASC, field });
         return;
       }
 
       if (currentSortingField.field !== field) {
-        setCurrentSortingField({ field, type: TableSortingType.ASC });
+        setCurrentSortingField({ field, type: SortingDirection.ASC });
         return;
       }
 
-      if (currentSortingField.type === TableSortingType.DESC) {
+      if (currentSortingField.type === SortingDirection.DESC) {
         setCurrentSortingField(null);
         return;
       }
 
-      setCurrentSortingField({ field, type: TableSortingType.DESC });
+      setCurrentSortingField({ field, type: SortingDirection.DESC });
     },
     [currentSortingField],
   );

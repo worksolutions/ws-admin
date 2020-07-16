@@ -4,13 +4,21 @@ import { useClickAway } from "react-use";
 export interface HandleClickOutsideInterface {
   onClickOutside: () => void;
   enabled?: boolean;
+  ignoreElements?: (HTMLElement | undefined | null)[];
   children: (ref: { current: HTMLElement | null }) => JSX.Element;
 }
 
-const HandleClickOutside = function ({ children, enabled = true, onClickOutside }: HandleClickOutsideInterface) {
-  const ref = React.useRef(null);
-  useClickAway(ref, () => {
+const HandleClickOutside = function ({
+  children,
+  ignoreElements,
+  enabled = true,
+  onClickOutside,
+}: HandleClickOutsideInterface) {
+  const ref = React.useRef<HTMLElement>(null);
+  useClickAway(ref, (event) => {
     if (!enabled) return;
+    if (ignoreElements?.filter(Boolean).find((ignorableElement) => ignorableElement!.contains(event.target as any)))
+      return;
     onClickOutside();
   });
 

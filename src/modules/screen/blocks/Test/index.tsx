@@ -4,6 +4,9 @@ import { observer } from "mobx-react-lite";
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import Input from "primitives/Input/Input";
+import Password from "primitives/Input/Password";
+
+import Sorting, { SortingElementInterface } from "components/Sorting";
 
 import {
   ai,
@@ -18,20 +21,32 @@ import {
   padding,
   paddingRight,
 } from "libs/styles";
-import Password from "../../../../primitives/Input/Password";
 
 function TestPage() {
   const [inputValue, setInputValue] = React.useState("");
+  const [sorting, setSorting] = React.useState<SortingElementInterface>({
+    id: "new",
+  });
+
   return (
     <Wrapper
       styles={[
         padding("16px 24px"),
         flex,
-        child([marginRight(6), borderRight(1, "gray-blue/09"), paddingRight(6), ai(Aligns.START)]),
+        child([
+          marginRight(6),
+          marginBottom(6),
+          borderRight(1, "gray-blue/09"),
+          paddingRight(6),
+          ai(Aligns.START),
+          flex,
+          flexColumn,
+          child(marginBottom(6)),
+        ]),
         flexWrap,
       ]}
     >
-      <Wrapper styles={[flex, flexColumn, child(marginBottom(6))]}>
+      <Wrapper>
         <Button size={ButtonSize.LARGE} type={ButtonType.PRIMARY} onClick={console.log}>
           LARGE PRIMARY
         </Button>
@@ -51,7 +66,7 @@ function TestPage() {
           LARGE PRIMARY ICON
         </Button>
       </Wrapper>
-      <Wrapper styles={[flex, flexColumn, child(marginBottom(6))]}>
+      <Wrapper>
         <Button size={ButtonSize.MEDIUM} type={ButtonType.PRIMARY} onClick={console.log}>
           MEDIUM PRIMARY
         </Button>
@@ -71,7 +86,7 @@ function TestPage() {
           MEDIUM PRIMARY ICON
         </Button>
       </Wrapper>
-      <Wrapper styles={[flex, flexColumn, child(marginBottom(6))]}>
+      <Wrapper>
         <Button size={ButtonSize.SMALL} type={ButtonType.PRIMARY} onClick={console.log}>
           SMALL PRIMARY
         </Button>
@@ -92,7 +107,7 @@ function TestPage() {
         </Button>
       </Wrapper>
 
-      <Wrapper styles={[flex, flexColumn, child(marginBottom(6))]}>
+      <Wrapper>
         <Button size={ButtonSize.LARGE} type={ButtonType.ICON} onClick={console.log} />
         <Button size={ButtonSize.LARGE} type={ButtonType.ICON} onClick={console.log} iconLeft="alert" />
         <Button size={ButtonSize.LARGE} type={ButtonType.ICON} onClick={console.log} iconRight="alert" />
@@ -104,7 +119,7 @@ function TestPage() {
           iconRight="alert"
         />
       </Wrapper>
-      <Wrapper styles={[flex, flexColumn, child(marginBottom(6))]}>
+      <Wrapper>
         <Button size={ButtonSize.MEDIUM} type={ButtonType.ICON} onClick={console.log} />
         <Button size={ButtonSize.MEDIUM} type={ButtonType.ICON} onClick={console.log} iconLeft="alert" />
         <Button size={ButtonSize.MEDIUM} type={ButtonType.ICON} onClick={console.log} iconRight="alert" />
@@ -116,7 +131,7 @@ function TestPage() {
           iconRight="alert"
         />
       </Wrapper>
-      <Wrapper styles={[flex, flexColumn, child(marginBottom(6))]}>
+      <Wrapper>
         <Button size={ButtonSize.SMALL} type={ButtonType.ICON} onClick={console.log} />
         <Button size={ButtonSize.SMALL} type={ButtonType.ICON} onClick={console.log} iconLeft="alert" />
         <Button size={ButtonSize.SMALL} type={ButtonType.ICON} onClick={console.log} iconRight="alert" />
@@ -129,7 +144,68 @@ function TestPage() {
         />
       </Wrapper>
 
-      <Wrapper styles={[flex, flexColumn, child(marginBottom(6))]}>
+      <Wrapper>
+        <Button size={ButtonSize.LARGE} type={ButtonType.SECONDARY} onClick={console.log}>
+          LARGE SECONDARY
+        </Button>
+        <Button size={ButtonSize.LARGE} type={ButtonType.SECONDARY} onClick={console.log} iconLeft="alert">
+          LARGE SECONDARY ICON LEFT
+        </Button>
+        <Button size={ButtonSize.LARGE} type={ButtonType.SECONDARY} onClick={console.log} iconRight="alert">
+          LARGE SECONDARY ICON RIGHT
+        </Button>
+        <Button
+          size={ButtonSize.LARGE}
+          type={ButtonType.SECONDARY}
+          onClick={console.log}
+          iconLeft="alert"
+          iconRight="alert"
+        >
+          LARGE SECONDARY ICON
+        </Button>
+      </Wrapper>
+      <Wrapper>
+        <Button size={ButtonSize.MEDIUM} type={ButtonType.SECONDARY} onClick={console.log}>
+          MEDIUM SECONDARY
+        </Button>
+        <Button size={ButtonSize.MEDIUM} type={ButtonType.SECONDARY} onClick={console.log} iconLeft="alert">
+          MEDIUM SECONDARY ICON LEFT
+        </Button>
+        <Button size={ButtonSize.MEDIUM} type={ButtonType.SECONDARY} onClick={console.log} iconRight="alert">
+          MEDIUM SECONDARY ICON RIGHT
+        </Button>
+        <Button
+          size={ButtonSize.MEDIUM}
+          type={ButtonType.SECONDARY}
+          onClick={console.log}
+          iconLeft="alert"
+          iconRight="alert"
+        >
+          MEDIUM SECONDARY ICON
+        </Button>
+      </Wrapper>
+      <Wrapper>
+        <Button size={ButtonSize.SMALL} type={ButtonType.SECONDARY} onClick={console.log}>
+          SMALL SECONDARY
+        </Button>
+        <Button size={ButtonSize.SMALL} type={ButtonType.SECONDARY} onClick={console.log} iconLeft="alert">
+          SMALL SECONDARY ICON LEFT
+        </Button>
+        <Button size={ButtonSize.SMALL} type={ButtonType.SECONDARY} onClick={console.log} iconRight="alert">
+          SMALL SECONDARY ICON RIGHT
+        </Button>
+        <Button
+          size={ButtonSize.SMALL}
+          type={ButtonType.SECONDARY}
+          onClick={console.log}
+          iconLeft="alert"
+          iconRight="alert"
+        >
+          SMALL SECONDARY ICON
+        </Button>
+      </Wrapper>
+
+      <Wrapper>
         <Input
           tip="default"
           iconRight="bullseye-arrow"
@@ -141,6 +217,19 @@ function TestPage() {
         <Input tip="error" placeholder="one" error value={inputValue} onChange={setInputValue} />
         <Input tip="success" placeholder="one" success value={inputValue} onChange={setInputValue} />
         <Password placeholder="one" value={inputValue} onChange={setInputValue} />
+      </Wrapper>
+
+      <Wrapper>
+        <Sorting
+          items={[
+            { title: "по новизне", id: "new", hasDirection: false },
+            { title: "по дате", id: "date", hasDirection: true },
+          ]}
+          selected={sorting}
+          onChange={(id, direction) => {
+            setSorting({ id, direction });
+          }}
+        />
       </Wrapper>
     </Wrapper>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router";
+import { Route } from "react-router";
 
 import { useSetDocumentTitle } from "libs/hooks";
 

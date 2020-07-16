@@ -13,5 +13,7 @@ export function runApiRequestDataSourceFetcher(
   }: { onDataReceived: (data: any) => void; onReceiveDataError: (data: any) => void },
 ) {
   if (dataSource.type !== DataSourceType.API_REQUEST) return;
-  apiRequestDataSource(dataSource, context).then(onDataReceived).catch(onReceiveDataError);
+  const apiRequest = apiRequestDataSource(dataSource, context);
+  apiRequest.request.then(onDataReceived).catch(onReceiveDataError);
+  return apiRequest;
 }

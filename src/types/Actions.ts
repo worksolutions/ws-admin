@@ -3,6 +3,7 @@ import { METHODS } from "../libs/request";
 export enum ActionType {
   API_REQUEST = "api:request",
   REDIRECT = "redirect",
+  NONE = "none",
 }
 
 export type ActionOptions = {
@@ -16,6 +17,7 @@ export type ActionOptions = {
     useReplace?: boolean;
     delay?: number;
   };
+  [ActionType.NONE]: {};
 };
 
 export interface ActionInterface<T extends ActionType> {
@@ -24,7 +26,10 @@ export interface ActionInterface<T extends ActionType> {
   context?: string;
 }
 
-export type AnyAction = ActionInterface<ActionType.API_REQUEST> | ActionInterface<ActionType.REDIRECT>;
+export type AnyAction =
+  | ActionInterface<ActionType.API_REQUEST>
+  | ActionInterface<ActionType.REDIRECT>
+  | ActionInterface<ActionType.NONE>;
 
 export type ContainsActions<Actions> = {
   actions: Actions;
