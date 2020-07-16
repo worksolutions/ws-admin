@@ -61,178 +61,188 @@ module.exports = {
     type: "Screen",
     options: {
       reference: "*",
-      blocks: [
-        {
-          type: "Screen",
-          options: {
-            reference: "/test*",
-            title: "Тестовая страница",
-            blocks: [{ type: "Test" }],
-          },
+    },
+    blocks: [
+      {
+        type: "Screen",
+        options: {
+          reference: "/test*",
+          title: "Тестовая страница",
         },
-        {
-          type: "Screen",
-          options: {
-            title: "Управление контентом",
-            reference: "/content*",
+        blocks: [{ type: "Test" }],
+      },
+      {
+        type: "Screen",
+        options: {
+          title: "Управление контентом",
+          reference: "/content*",
+        },
+        blocks: [
+          {
+            type: "SecondarySideMenu",
+            dataSource: {
+              type: "static",
+              options: {
+                id: "secondary-menu",
+                title: "Контент",
+                reference: "/content",
+                items: [
+                  {
+                    name: "Статьи",
+                    icon: "content-multiple",
+                    reference: "/content/articles",
+                    subElements: [],
+                  },
+                  {
+                    name: "Категории",
+                    icon: "book-open",
+                    reference: "/content/categories",
+                    subElements: [],
+                  },
+                ],
+              },
+              context: "menu.secondary-menu-items",
+            },
+          },
+          {
+            type: "Screen",
+            options: {
+              title: "Статьи",
+              reference: "/content/articles",
+            },
             blocks: [
               {
-                type: "SecondarySideMenu",
-                dataSource: {
-                  type: "static",
-                  options: {
-                    id: "secondary-menu",
-                    title: "Контент",
-                    reference: "/content",
-                    items: [
-                      {
-                        name: "Статьи",
-                        icon: "content-multiple",
-                        reference: "/content/articles",
-                        subElements: [],
-                      },
-                      {
-                        name: "Категории",
-                        icon: "book-open",
-                        reference: "/content/categories",
-                        subElements: [],
-                      },
-                    ],
-                  },
-                  context: "menu.secondary-menu-items",
-                },
-              },
-              {
-                type: "Screen",
+                type: "Wrapper",
                 options: {
-                  title: "Статьи",
-                  reference: "/content/articles",
-                  blocks: [
-                    {
-                      type: "Wrapper",
-                      options: {
-                        padding: 24,
-                        fullWidth: true,
+                  padding: 24,
+                  fullWidth: true,
+                },
+                blocks: [
+                  {
+                    type: "Column",
+                    blocks: [
+                      {
+                        type: "Wrapper",
+                        options: {
+                          margin: "0 0 24px 0",
+                        },
                         blocks: [
                           {
-                            type: "Column",
-                            options: [
-                              {
-                                type: "Wrapper",
-                                options: {
-                                  margin: "0 0 24px 0",
-                                  blocks: [
-                                    {
-                                      type: "Heading",
+                            type: "Heading",
+                            options: {
+                              value: "Статьи",
+                              actionBlockElements: [
+                                {
+                                  type: "Actions/Button",
+                                  options: { name: "Написать статью", icon: "edit-small" },
+                                  actions: {
+                                    click: {
+                                      type: "redirect",
                                       options: {
-                                        value: "Статьи",
-                                        actionBlockElements: [
-                                          {
-                                            type: "Actions/Button",
-                                            options: { name: "Написать статью", icon: "edit-small" },
-                                            actions: {
-                                              click: {
-                                                type: "redirect",
-                                                options: {
-                                                  reference: "/test",
-                                                },
-                                              },
-                                            },
-                                          },
-                                        ],
+                                        reference: "/test",
                                       },
                                     },
-                                  ],
+                                  },
                                 },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                      {
+                        type: "FormattedDataView",
+                        options: {
+                          id: "articles-list",
+                          tableView: {
+                            dataSource: {
+                              type: "static",
+                              options: {
+                                tableViewDefaultSizes: {
+                                  minWidth: 100,
+                                  width: 300,
+                                  maxWidth: 400,
+                                },
+                                selectable: true,
+                                columns: [
+                                  { title: "ID", field: "id", sortable: true, width: 100 },
+                                  { title: "Имя", field: "firstName" },
+                                  {
+                                    title: "Фамилия",
+                                    field: "lastName",
+                                  },
+                                  {
+                                    title: "Возраст",
+                                    field: "age",
+                                    type: "NUMBER",
+                                  },
+                                ],
+                                data: [
+                                  {
+                                    id: {
+                                      reference: "https://yandex.ru",
+                                      value: "11141",
+                                    },
+                                    firstName: "Mehmet",
+                                    lastName: "Baran",
+                                    age: 34,
+                                  },
+                                  {
+                                    id: {
+                                      reference: "/auth",
+                                      value: "11142",
+                                    },
+                                    firstName: "Дара",
+                                    lastName: "Мара",
+                                    age: 35,
+                                  },
+                                ],
                               },
+                            },
+                          },
+                          cardsView: {
+                            dataSource: {
+                              type: "api:request",
+                              options: {
+                                reference: "/articles/cards",
+                                method: "get",
+                                params: { page: 1, perPage: 10, orderDirection: "desc", orderField: "id" },
+                              },
+                            },
+                            options: {
+                              imageConfig: {
+                                aspectRatio: 1.6,
+                              },
+                              clickRedirectToReference: "/content/articles/{{local:id}}",
+                            },
+                          },
+                          controlPanel: {
+                            blocks: [
                               {
-                                type: "FormattedDataView",
+                                type: "Input",
                                 options: {
-                                  id: "articles-list",
-                                  tableView: {
-                                    dataSource: {
-                                      type: "static",
-                                      options: {
-                                        tableViewDefaultSizes: {
-                                          minWidth: 100,
-                                          width: 300,
-                                          maxWidth: 400,
-                                        },
-                                        selectable: true,
-                                        columns: [
-                                          { title: "ID", field: "id", sortable: true, width: 100 },
-                                          { title: "Имя", field: "firstName" },
-                                          {
-                                            title: "Фамилия",
-                                            field: "lastName",
-                                          },
-                                          {
-                                            title: "Возраст",
-                                            field: "age",
-                                            type: "NUMBER",
-                                          },
-                                        ],
-                                        data: [
-                                          {
-                                            id: {
-                                              reference: "https://yandex.ru",
-                                              value: "11141",
-                                            },
-                                            firstName: "Mehmet",
-                                            lastName: "Baran",
-                                            age: 34,
-                                          },
-                                          {
-                                            id: {
-                                              reference: "/auth",
-                                              value: "11142",
-                                            },
-                                            firstName: "Дара",
-                                            lastName: "Мара",
-                                            age: 35,
-                                          },
-                                        ],
-                                      },
-                                    },
-                                  },
-                                  cardsView: {
-                                    dataSource: {
-                                      type: "api:request",
-                                      options: {
-                                        reference: "/articles/cards",
-                                        method: "get",
-                                        params: { page: 1, perPage: 10, orderDirection: "desc", orderField: "id" },
-                                      },
-                                    },
-                                    options: {
-                                      imageConfig: {
-                                        aspectRatio: 1.6,
-                                      },
-                                      clickRedirectToReference: "/content/articles/{{local:id}}",
-                                    },
-                                  },
+                                  context: "screen:articles.search",
                                 },
                               },
                             ],
                           },
-                        ],
+                        },
                       },
-                    },
-                  ],
-                },
-              },
-              {
-                type: "Screen",
-                options: {
-                  title: "Детальная статья",
-                  reference: "/content/articles/:id",
-                  blocks: [{ type: "SimpleText", options: { text: "Тест 123" } }],
-                },
+                    ],
+                  },
+                ],
               },
             ],
           },
-        },
-      ],
-    },
+          {
+            type: "Screen",
+            options: {
+              title: "Детальная статья",
+              reference: "/content/articles/:id",
+            },
+            blocks: [{ type: "SimpleText", options: { text: "Тест 123" } }],
+          },
+        ],
+      },
+    ],
   },
 };

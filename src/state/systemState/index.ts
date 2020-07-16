@@ -18,6 +18,10 @@ export type BlockInterface<O extends Record<string, any> = {}, A extends string 
   options?: O;
 } & Partial<ContainsActions<Record<A, AnyAction>>>;
 
+export type ContainBlocksInterface = {
+  blocks: BlockInterface[];
+};
+
 @Service({ global: true })
 export class SystemState {
   @Inject(() => RequestManager) private requestManager!: RequestManager;

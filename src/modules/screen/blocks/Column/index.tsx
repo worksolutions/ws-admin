@@ -6,12 +6,12 @@ import { flex, flexColumn } from "libs/styles";
 
 import BlockRenderer from "../../BlockRenderer";
 
-import { BlockInterface } from "state/systemState";
+import { ContainBlocksInterface } from "state/systemState";
 
-function Column({ options }: BlockInterface<BlockInterface[]>) {
+function Column({ blocks }: ContainBlocksInterface) {
   return (
     <Wrapper styles={[flex, flexColumn]}>
-      {options!.map((item, key) => (
+      {blocks.map((item, key) => (
         <BlockRenderer key={key} {...item} />
       ))}
     </Wrapper>

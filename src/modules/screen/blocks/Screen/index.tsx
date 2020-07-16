@@ -5,12 +5,11 @@ import { useSetDocumentTitle } from "libs/hooks";
 
 import BlockRenderer from "../../BlockRenderer";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface, ContainBlocksInterface } from "state/systemState";
 
 export interface ScreenInterface {
   reference: string;
   title?: string;
-  blocks: BlockInterface[];
 }
 
 function Component({ title, blocks }: { title?: string; blocks: BlockInterface[] }) {
@@ -24,13 +23,9 @@ function Component({ title, blocks }: { title?: string; blocks: BlockInterface[]
   );
 }
 
-function Screen({ options }: BlockInterface<ScreenInterface>) {
+function Screen({ options, blocks }: BlockInterface<ScreenInterface> & ContainBlocksInterface) {
   return (
-    <Route
-      path={options!.reference}
-      exact
-      component={() => <Component blocks={options!.blocks} title={options!.title} />}
-    />
+    <Route path={options!.reference} exact component={() => <Component blocks={blocks} title={options!.title} />} />
   );
 }
 

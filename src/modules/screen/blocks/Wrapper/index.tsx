@@ -6,11 +6,12 @@ import { flexValue, margin, padding } from "libs/styles";
 
 import BlockRenderer from "../../BlockRenderer";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface, ContainBlocksInterface } from "state/systemState";
 
 function WrapperBlock({
   options,
-}: BlockInterface<{ padding?: any; margin?: any; fullWidth?: boolean; blocks: BlockInterface[] }>) {
+  blocks,
+}: BlockInterface<{ padding?: any; margin?: any; fullWidth?: boolean }> & ContainBlocksInterface) {
   return (
     <Wrapper
       styles={[
@@ -19,7 +20,7 @@ function WrapperBlock({
         options!.fullWidth && flexValue(1),
       ]}
     >
-      {options!.blocks.map((item, key) => (
+      {blocks.map((item, key) => (
         <BlockRenderer key={key} {...item} />
       ))}
     </Wrapper>
