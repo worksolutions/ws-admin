@@ -14,3 +14,4 @@ export const primaryStyle = [
 export const primaryHover = [backgroundColor("blue/06")];
 export const primaryFocus = [boxShadow([0, 0, 0, 2, "blue/04"])];
 export const primaryActive = [backgroundColor("blue/07")];
+export const primaryDisabled = [backgroundColor("blue/02")];

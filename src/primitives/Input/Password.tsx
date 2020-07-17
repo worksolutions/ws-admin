@@ -8,17 +8,13 @@ import eventValue from "libs/decorators/eventValue";
 import { useDebouncedInput } from "libs/hooks";
 import { right } from "libs/styles";
 
-import InputWrapper, { _defaultIconStyles, BaseInputWrapperInterface } from "./InputWrapper";
+import InputWrapper, { _defaultIconStyles } from "./InputWrapper";
+import { InputInterface } from "./Input";
 
-interface InputPasswordInterface extends Omit<BaseInputWrapperInterface, "iconRight"> {
-  value: string;
-  placeholder?: string;
-  debounce?: number;
-  onChange: (value: string) => void;
-}
+interface InputPasswordInterface extends Omit<InputInterface, "iconRight"> {}
 
 const Password = React.forwardRef(function (
-  { value, onChange, placeholder, debounce = 100, ...inputWrapperProps }: InputPasswordInterface,
+  { value, onChange, placeholder, debounce = 100, styles, ...inputWrapperProps }: InputPasswordInterface,
   ref: Ref<HTMLInputElement>,
 ) {
   const { onInputChange, inputValue } = useDebouncedInput(value, debounce, onChange);
@@ -42,7 +38,7 @@ const Password = React.forwardRef(function (
           as="input"
           disabled={inputWrapperProps.disabled}
           type={showPassword ? "text" : "password"}
-          styles={inputStyles}
+          styles={[inputStyles, styles]}
           value={inputValue}
           placeholder={placeholder}
           onChange={eventValue(onInputChange)}

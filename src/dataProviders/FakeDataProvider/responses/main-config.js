@@ -153,12 +153,13 @@ module.exports = {
                         type: "ContextInitializer",
                         id: "articles-context",
                         options: [
-                          { path: "screen:articles.search.value", value: "" },
-                          { path: "screen:articles.sorting.value", value: { id: "published_at", direction: "asc" } },
+                          { path: "screen:articles.search", value: "" },
+                          { path: "screen:articles.sorting", value: { id: "published_at", direction: "asc" } },
+                          { path: "screen:articles.pagination", value: { page: 1, perPage: 9 } },
                         ],
                       },
                       {
-                        type: "FormattedDataView",
+                        type: "DataView/FormattedData",
                         waitForId: "articles-context",
                         options: {
                           id: "articles-list",
@@ -215,11 +216,11 @@ module.exports = {
                                 reference: "/articles/cards",
                                 method: "get",
                                 params: {
-                                  title: "{{screen:articles.search.value}}",
-                                  page: 1,
-                                  perPage: 10,
-                                  orderDirection: "{{screen:articles.sorting.value.direction}}",
-                                  orderField: "{{screen:articles.sorting.value.id}}",
+                                  title: "{{screen:articles.search}}",
+                                  page: "{{screen:articles.pagination.page}}",
+                                  perPage: "{{screen:articles.pagination.perPage}}",
+                                  orderDirection: "{{screen:articles.sorting.direction}}",
+                                  orderField: "{{screen:articles.sorting.id}}",
                                 },
                               },
                             },
@@ -238,7 +239,7 @@ module.exports = {
                                   placeholder: "Найти",
                                   iconLeft: "search-big",
                                   debounce: 600,
-                                  initialValue: "{{screen:articles.search.value}}",
+                                  initialValue: "{{screen:articles.search}}",
                                 },
                                 actions: {
                                   change: {
@@ -261,7 +262,7 @@ module.exports = {
                                         { title: "по дате создания", id: "id", hasDirection: true },
                                         { title: "по дате публикации", id: "published_at", hasDirection: true },
                                       ],
-                                      initialValue: "{{{screen:articles.sorting.value}}}",
+                                      initialValue: "{{{screen:articles.sorting}}}",
                                     },
                                     actions: {
                                       change: {
@@ -276,6 +277,23 @@ module.exports = {
                                 type: "FillEmptySpace",
                               },
                             ],
+                          },
+                          paginationView: {
+                            options: {
+                              enabled: true,
+                            },
+                            dataSource: {
+                              type: "context",
+                              options: {
+                                key: "{{screen:articles.pagination}}",
+                              },
+                            },
+                            actions: {
+                              change: {
+                                type: "none",
+                                context: "screen:articles.pagination",
+                              },
+                            },
                           },
                         },
                       },

@@ -62,7 +62,7 @@ module.exports = (app) => {
 
           return result;
         }),
-        pagination: { pages: meta.last_page },
+        pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
       };
     },
   );

@@ -8,4 +8,5 @@ export enum ButtonType {
   PRIMARY,
   ICON,
   SECONDARY,
+  GHOST,
 }

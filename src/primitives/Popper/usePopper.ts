@@ -29,24 +29,21 @@ export default function usePopper(data?: PopperConfigInterface) {
   const [instance, setInstance] = React.useState<Instance | undefined>();
   const [placement, setPlacement] = React.useState<Placement>("bottom");
 
-  const destroy = () => {
-    if (!instance) return;
-    instance.destroy();
+  const destroy = (inputInstance: Instance | undefined) => {
+    if (!inputInstance) return;
+    inputInstance.destroy();
     setInstance(undefined);
   };
 
   React.useEffect(() => {
-    if (!child) return destroy;
-    if (!parent) return destroy;
-    const instance = createPopper(parent, child, getPopperData(data));
-    setInstance(instance);
-    return destroy;
+    if (!child || !parent) return () => destroy(instance);
+    const newInstance = createPopper(parent, child, getPopperData(data));
+    setInstance(newInstance);
+    return () => destroy(newInstance);
   }, [parent, child]);
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setPlacement(instance?.state.placement || "bottom");
-    }, 0);
+    setTimeout(() => setPlacement(instance?.state.placement || "bottom"), 0);
   }, [instance]);
 
   return {

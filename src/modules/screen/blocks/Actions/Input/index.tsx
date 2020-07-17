@@ -30,7 +30,7 @@ function InputBlock({
   });
 
   useEffectSkipFirst(() => {
-    resultActions.change.run({ value });
+    resultActions.change.run(value);
   }, [value]);
 
   return (

@@ -32,11 +32,12 @@ export interface TypographyInterface {
   styles?: any;
   dots?: boolean;
   children: ReactNode;
+  onClick?: () => void;
 }
 
 const Typography = React.forwardRef(
   (
-    { as, className, styles, children, type, color: colorProp, dots: dotsProp }: TypographyInterface,
+    { as, className, styles, children, type, color: colorProp, dots: dotsProp, onClick }: TypographyInterface,
     ref: Ref<HTMLSpanElement>,
   ) => (
     <TypographyWrapper
@@ -50,6 +51,7 @@ const Typography = React.forwardRef(
         dotsProp && textDots,
         styles,
       ]}
+      onClick={onClick}
     >
       {children}
     </TypographyWrapper>

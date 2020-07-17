@@ -3,6 +3,7 @@ export type DefaultStylesElementType = {
   hover: any;
   focused: any;
   active: any;
+  disabled: any;
 };
 
 export type StyleForSizeAndType = {

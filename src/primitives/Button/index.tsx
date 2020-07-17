@@ -26,6 +26,7 @@ const Button = React.forwardRef(function (
             ref={ref}
             as="button"
             styles={styles}
+            disabled={buttonWrapperProps.disabled}
             onClick={preventDefaultProp ? preventDefault(clickHandler) : clickHandler}
           >
             {iconLeft}

@@ -1,9 +1,8 @@
 import { Container } from "typedi";
-import { filter } from "ramda";
 
 import { RequestManager } from "libs/request";
 import { identityValueDecoder } from "libs/request/defaultDecoders";
-import { isObject } from "libs/is";
+import { prepareApiRequestBody } from "libs/requestLibs";
 
 import { insertContext } from "modules/context/insertContext";
 import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
@@ -11,12 +10,6 @@ import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
 import { DataSourceInterface, DataSourceType } from "types/DataSource";
 
 const requestManager = Container.get(RequestManager);
-
-function prepareBody(config: { removeEmptyString: boolean }, body: any) {
-  if (!isObject(body)) return body;
-  if (!config.removeEmptyString) return body;
-  return filter((fieldValue) => fieldValue !== "", body);
-}
 
 export default function apiRequestDataSource(
   dataSource: DataSourceInterface<DataSourceType.API_REQUEST>,
@@ -27,7 +20,7 @@ export default function apiRequestDataSource(
   const bodyWithContext = insertContext(params, context);
   const makeRequest = requestManager.createRequest(referenceWithContext.value, method, identityValueDecoder);
 
-  const body = prepareBody({ removeEmptyString }, bodyWithContext.value);
+  const body = prepareApiRequestBody({ removeEmptyString }, bodyWithContext.value);
 
   return {
     referenceWithContext,

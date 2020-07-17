@@ -34,7 +34,7 @@ function SortingBlock({
   });
 
   useEffectSkipFirst(() => {
-    resultActions.change.run({ value: sorting });
+    resultActions.change.run(sorting);
   }, [sorting]);
 
   return (

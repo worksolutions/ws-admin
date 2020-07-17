@@ -11,6 +11,7 @@ import Sorting, { SortingElementInterface } from "components/Sorting";
 import {
   ai,
   Aligns,
+  backgroundColor,
   borderRight,
   child,
   flex,
@@ -31,6 +32,7 @@ function TestPage() {
   return (
     <Wrapper
       styles={[
+        backgroundColor("test-gray"),
         padding("16px 24px"),
         flex,
         child([
@@ -188,20 +190,79 @@ function TestPage() {
         <Button size={ButtonSize.SMALL} type={ButtonType.SECONDARY} onClick={console.log}>
           SMALL SECONDARY
         </Button>
-        <Button size={ButtonSize.SMALL} type={ButtonType.SECONDARY} onClick={console.log} iconLeft="alert">
-          SMALL SECONDARY ICON LEFT
+      </Wrapper>
+
+      <Wrapper>
+        <Button size={ButtonSize.LARGE} type={ButtonType.GHOST} onClick={console.log}>
+          LARGE GHOST
         </Button>
-        <Button size={ButtonSize.SMALL} type={ButtonType.SECONDARY} onClick={console.log} iconRight="alert">
-          SMALL SECONDARY ICON RIGHT
+        <Button size={ButtonSize.LARGE} type={ButtonType.GHOST} onClick={console.log} iconLeft="alert">
+          LARGE GHOST ICON LEFT
+        </Button>
+        <Button size={ButtonSize.LARGE} type={ButtonType.GHOST} onClick={console.log} iconRight="alert">
+          LARGE GHOST ICON RIGHT
         </Button>
         <Button
-          size={ButtonSize.SMALL}
-          type={ButtonType.SECONDARY}
+          size={ButtonSize.LARGE}
+          type={ButtonType.GHOST}
           onClick={console.log}
           iconLeft="alert"
           iconRight="alert"
         >
-          SMALL SECONDARY ICON
+          LARGE GHOST ICON
+        </Button>
+      </Wrapper>
+      <Wrapper>
+        <Button size={ButtonSize.MEDIUM} type={ButtonType.GHOST} onClick={console.log}>
+          MEDIUM GHOST
+        </Button>
+        <Button size={ButtonSize.MEDIUM} type={ButtonType.GHOST} onClick={console.log} iconLeft="alert">
+          MEDIUM GHOST ICON LEFT
+        </Button>
+        <Button size={ButtonSize.MEDIUM} type={ButtonType.GHOST} onClick={console.log} iconRight="alert">
+          MEDIUM GHOST ICON RIGHT
+        </Button>
+        <Button
+          size={ButtonSize.MEDIUM}
+          type={ButtonType.GHOST}
+          onClick={console.log}
+          iconLeft="alert"
+          iconRight="alert"
+        >
+          MEDIUM GHOST ICON
+        </Button>
+      </Wrapper>
+      <Wrapper>
+        <Button size={ButtonSize.SMALL} type={ButtonType.GHOST} onClick={console.log}>
+          SMALL GHOST
+        </Button>
+        <Button size={ButtonSize.SMALL} type={ButtonType.GHOST} onClick={console.log} iconLeft="alert">
+          SMALL GHOST ICON LEFT
+        </Button>
+        <Button size={ButtonSize.SMALL} type={ButtonType.GHOST} onClick={console.log} iconRight="alert">
+          SMALL GHOST ICON RIGHT
+        </Button>
+        <Button
+          size={ButtonSize.SMALL}
+          type={ButtonType.GHOST}
+          onClick={console.log}
+          iconLeft="alert"
+          iconRight="alert"
+        >
+          SMALL GHOST ICON
+        </Button>
+      </Wrapper>
+
+      <Wrapper>
+        <Button disabled size={ButtonSize.LARGE} type={ButtonType.PRIMARY} onClick={console.log} iconLeft="alert">
+          DISABLED PRIMARY
+        </Button>
+        <Button disabled size={ButtonSize.LARGE} type={ButtonType.ICON} onClick={console.log} iconLeft="alert" />
+        <Button disabled size={ButtonSize.LARGE} type={ButtonType.SECONDARY} onClick={console.log} iconLeft="alert">
+          DISABLED SECONDARY
+        </Button>
+        <Button disabled size={ButtonSize.LARGE} type={ButtonType.GHOST} onClick={console.log} iconLeft="alert">
+          DISABLED GHOST
         </Button>
       </Wrapper>
 

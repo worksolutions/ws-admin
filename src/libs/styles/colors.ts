@@ -72,4 +72,5 @@ export const colors = {
   white: "#FFFFFF",
   black: "#000000",
   transparent: "transparent",
+  "test-gray": "#f3f3f3",
 };

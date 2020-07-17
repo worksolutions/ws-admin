@@ -40,7 +40,6 @@ const connectActionFunctionAndAppContext = (
 ) => {
   const loadingContainer = new LoadingContainer();
   const run = (inputData: any) => {
-    inputData = inputData || {};
     loadingContainer.clearErrors();
     loadingContainer.setLoading(true);
 

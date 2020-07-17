@@ -177,7 +177,7 @@ function InputWrapper({
           child([color(colors.placeholder), transition("all 0.2s")], "::placeholder"),
           styles,
           variant === InputVariant.DEFAULT
-            ? [hover(boxShadow([0, 0, 0, 1, "gray-blue/04"]))]
+            ? [hover(boxShadow([0, 0, 0, 1, "gray-blue/03"]))]
             : [boxShadow([0, 0, 0, 2, colors.shadowColor])],
           focus([boxShadow([0, 0, 0, 2, "blue/05"]), child(color("gray-blue/03"), "::placeholder")]),
         ])}

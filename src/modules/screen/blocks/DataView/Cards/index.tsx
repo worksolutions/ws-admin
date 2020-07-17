@@ -10,6 +10,8 @@ import { ai, Aligns, flex, flexValue } from "libs/styles";
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
+import { ViewMetaData } from "../types";
+
 import { CardsViewDataSource } from "./types";
 import CardsView from "./CardsView";
 
@@ -18,10 +20,15 @@ import { BlockInterface } from "state/systemState";
 export type CardsViewBlockInterface = BlockInterface<{
   clickRedirectToReference?: string;
   imageConfig: CardImageConfig;
-}>;
+}> & { onUpdateMeta: (data: ViewMetaData) => void };
 
-function CardsViewWrapper({ dataSource, options }: CardsViewBlockInterface) {
+function CardsViewWrapper({ dataSource, options, onUpdateMeta }: CardsViewBlockInterface) {
   const { data, loadingContainer } = useDataSource<CardsViewDataSource>(dataSource!);
+
+  React.useEffect(() => {
+    if (!data) return;
+    if (onUpdateMeta) onUpdateMeta({ pagination: data.pagination });
+  }, [data]);
 
   if (loadingContainer.loading) return <Spinner size={36} />;
 

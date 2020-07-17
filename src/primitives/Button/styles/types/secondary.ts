@@ -1,16 +1,6 @@
 import { makeSpinnerColorStyle } from "primitives/Spinner";
 
-import {
-  backgroundColor,
-  border,
-  borderWidth,
-  boxShadow,
-  child,
-  color,
-  fillColor,
-  marginLeft,
-  marginRight,
-} from "libs/styles";
+import { backgroundColor, borderWidth, boxShadow, child, color, fillColor, marginLeft, marginRight } from "libs/styles";
 
 export const secondaryStyle = [
   borderWidth(0),
@@ -25,3 +15,9 @@ export const secondaryStyle = [
 export const secondaryHover = [backgroundColor("gray-blue/01")];
 export const secondaryFocus = [boxShadow([0, 0, 0, 2, "blue/04"])];
 export const secondaryActive = [backgroundColor("gray-blue/02")];
+export const secondaryDisabled = [
+  color("gray-blue/03"),
+  boxShadow([0, 0, 0, 1, "gray-blue/02"]),
+  child(fillColor("gray-blue/03"), ".icon use"),
+  child(fillColor("gray-blue/03"), ".loader"),
+];

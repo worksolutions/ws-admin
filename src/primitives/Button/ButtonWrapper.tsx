@@ -61,9 +61,10 @@ function ButtonWrapper({
   iconLeftHeight,
   iconRightWidth,
   iconRightHeight,
+  disabled,
 }: ButtonWrapperInterface) {
   const isIconButton = type === ButtonType.ICON;
-  const buttonStyles = buttonStylesMap[size][type];
+  const buttonStyles = buttonStylesMap[type][size];
 
   const [icons] = React.useState(() => {
     if (isIconButton)
@@ -112,7 +113,9 @@ function ButtonWrapper({
       borderRadius(6),
       disableOutline,
       resultStyles.default,
-      isActive && [pointer, hover(resultStyles.hover), focus(resultStyles.focused), active(resultStyles.active)],
+      disabled
+        ? resultStyles.disabled
+        : isActive && [pointer, hover(resultStyles.hover), focus(resultStyles.focused), active(resultStyles.active)],
       styles,
     ],
     leftIconElement,

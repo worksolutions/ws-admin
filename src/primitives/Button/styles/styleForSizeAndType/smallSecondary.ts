@@ -2,7 +2,7 @@ import { display } from "libs/styles";
 
 import { StyleForSizeAndType } from "../types";
 import { defaultSmallStyles } from "../common";
-import { secondaryActive, secondaryFocus, secondaryHover, secondaryStyle } from "../types/secondary";
+import { secondaryActive, secondaryDisabled, secondaryFocus, secondaryHover, secondaryStyle } from "../types/secondary";
 
 export default {
   withoutIcons: {
@@ -10,6 +10,7 @@ export default {
     hover: secondaryHover,
     focused: secondaryFocus,
     active: secondaryActive,
+    disabled: secondaryDisabled,
   },
   withIconLeft: {
     default: [display("none")],

@@ -1,7 +1,7 @@
 import { display } from "libs/styles";
 
 import { StyleForSizeAndType } from "../types";
-import { primaryActive, primaryFocus, primaryHover, primaryStyle } from "../types/primary";
+import { primaryActive, primaryDisabled, primaryFocus, primaryHover, primaryStyle } from "../types/primary";
 import { defaultSmallStyles } from "../common";
 
 export default {
@@ -10,6 +10,7 @@ export default {
     hover: primaryHover,
     focused: primaryFocus,
     active: primaryActive,
+    disabled: primaryDisabled,
   },
   withIconLeft: {
     default: [display("none")],
