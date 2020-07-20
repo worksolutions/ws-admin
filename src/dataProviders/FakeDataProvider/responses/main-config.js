@@ -220,40 +220,20 @@ module.exports = {
                             },
                           },
                           controlPanel: {
-                            blocks: [
-                              {
-                                type: "Actions/Input",
-                                options: {
-                                  placeholder: "Найти",
-                                  iconLeft: "search-big",
-                                  debounce: 600,
-                                  initialValue: "{{screen:articles.search}}",
-                                },
-                                actions: {
-                                  change: {
-                                    type: "none",
-                                    context: "screen:articles.search",
-                                  },
-                                },
-                              },
-                              {
-                                type: "Actions/Sorting",
-                                options: {
-                                  title: "Сортировать:",
-                                  items: [
-                                    { title: "по дате создания", id: "id", hasDirection: true },
-                                    { title: "по дате публикации", id: "published_at", hasDirection: true },
-                                  ],
-                                  initialValue: "{{{screen:articles.sorting}}}",
-                                },
-                                actions: {
-                                  change: {
-                                    type: "none",
-                                    context: "screen:articles.sorting",
-                                  },
-                                },
-                              },
-                            ],
+                            searchOptions: {
+                              placeholder: "Найти",
+                              iconLeft: "search-big",
+                              debounce: 600,
+                              initialValue: "{{screen:articles.search}}",
+                            },
+                            sortingOptions: {
+                              title: "Сортировать:",
+                              items: [
+                                { title: "по дате создания", id: "id", hasDirection: true },
+                                { title: "по дате публикации", id: "published_at", hasDirection: true },
+                              ],
+                              initialValue: "{{{screen:articles.sorting}}}",
+                            },
                           },
                           paginationView: {
                             options: {
@@ -271,6 +251,16 @@ module.exports = {
                                 context: "screen:articles.pagination",
                               },
                             },
+                          },
+                        },
+                        actions: {
+                          search: {
+                            type: "none",
+                            context: "screen:articles.search",
+                          },
+                          sorting: {
+                            type: "none",
+                            context: "screen:articles.sorting",
                           },
                         },
                       },

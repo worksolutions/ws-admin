@@ -12,11 +12,18 @@ import { insertContext } from "modules/context/insertContext";
 
 import { BlockInterface } from "state/systemState";
 
+export interface InputOptionsInterface {
+  placeholder?: string;
+  iconLeft?: Icons;
+  debounce?: number;
+  initialValue?: string;
+}
+
 function InputBlock({
   actions,
   options,
   styles,
-}: BlockInterface<{ placeholder?: string; iconLeft?: Icons; debounce?: number; initialValue?: string }, "change"> & {
+}: BlockInterface<InputOptionsInterface, "change"> & {
   styles?: any;
 }) {
   if (!actions?.change) return null;

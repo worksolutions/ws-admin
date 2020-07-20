@@ -18,11 +18,17 @@ import { BlockInterface } from "state/systemState";
 
 import { SortingItem } from "types/Sorting";
 
+export interface SortingOptionsInterface {
+  title?: string;
+  items: SortingItem[];
+  initialValue?: string;
+}
+
 function SortingBlock({
   options,
   actions,
   styles,
-}: BlockInterface<{ title: string; items: SortingItem[]; initialValue?: string }, "change"> & { styles?: any }) {
+}: BlockInterface<SortingOptionsInterface, "change"> & { styles?: any }) {
   if (!actions?.change) return null;
 
   const appContext = useAppContext();
@@ -45,7 +51,6 @@ function SortingBlock({
         </Typography>
       )}
       <Sorting
-        styles={styles}
         items={options!.items}
         selected={sorting}
         onChange={(id, direction) => {

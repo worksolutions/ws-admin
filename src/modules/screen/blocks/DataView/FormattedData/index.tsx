@@ -14,11 +14,13 @@ import {
   border,
   borderRadius,
   borderTop,
+  child,
   flex,
   flexColumn,
   flexValue,
   flexWrap,
   jc,
+  marginLeft,
   marginRight,
   padding,
   zIndex,
@@ -28,12 +30,13 @@ import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
+import ActionInput, { InputOptionsInterface } from "../../Actions/Input";
+import ActionSorting, { SortingOptionsInterface } from "../../Actions/Sorting";
 import TableViewBlock from "../Table";
 import CardsViewBlock, { CardsViewBlockInterface } from "../Cards";
-import BlockRenderer from "../../../BlockRenderer";
 import { ViewMetaData } from "../types";
 
-import { BlockInterface, ContainBlocksInterface } from "state/systemState";
+import { BlockInterface } from "state/systemState";
 
 import { AnyDataSource, ContainsDataSourceInterface } from "types/DataSource";
 import { PaginationInterface } from "types/Pagination";
@@ -46,25 +49,37 @@ const initialMetaData: ViewMetaData = {
 
 function FormattedDataView({
   options,
-}: BlockInterface<{
-  id: string;
-  tableView: ContainsDataSourceInterface<AnyDataSource>;
-  cardsView: CardsViewBlockInterface;
-  controlPanel: ContainBlocksInterface;
-  paginationView: BlockInterface<{ enabled: boolean }, "change">;
-}>) {
+  actions,
+}: BlockInterface<
+  {
+    id: string;
+    tableView: ContainsDataSourceInterface<AnyDataSource>;
+    cardsView: CardsViewBlockInterface;
+    controlPanel: { searchOptions?: InputOptionsInterface; sortingOptions?: SortingOptionsInterface };
+    paginationView: BlockInterface<{ enabled: boolean }, "change">;
+  },
+  "search" | "sorting"
+>) {
   const [data, set] = useLocalStorage(options!.id, initialValue);
   const [metaData, setMetaData] = React.useState(initialMetaData);
   const appContext = useAppContext();
-  const actions = useActions(options?.paginationView.actions!, appContext);
   const paginationViewData = useDataSource<PaginationInterface>(options!.paginationView.dataSource!);
-
+  const paginationViewActions = useActions(options?.paginationView.actions!, appContext);
   return (
     <Wrapper styles={[flex, ai(Aligns.STRETCH), flexValue(1), borderRadius(8), border(1, "gray-blue/02"), flexColumn]}>
-      <Wrapper styles={[padding("16px 16px 0 16px"), flex, ai(Aligns.CENTER), flexWrap, zIndex(1)]}>
-        {options?.controlPanel.blocks.map((block, key) => (
-          <BlockRenderer key={key} styles={marginRight(16)} {...block} />
-        ))}
+      <Wrapper
+        styles={[padding("16px 16px 0 16px"), flex, ai(Aligns.CENTER), flexWrap, zIndex(1), child(marginRight(16))]}
+      >
+        {actions?.search && (
+          <ActionInput actions={{ change: actions.search }} options={options?.controlPanel?.searchOptions} />
+        )}
+        {actions?.sorting && (
+          <ActionSorting
+            styles={[actions?.search && marginLeft(8)]}
+            actions={{ change: actions.sorting }}
+            options={options?.controlPanel?.sortingOptions}
+          />
+        )}
         <Wrapper styles={flexValue(1)} />
         <Button
           type={ButtonType.ICON}
@@ -78,13 +93,13 @@ function FormattedDataView({
       ) : (
         <TableViewBlock {...options!.tableView} />
       )}
-      {options?.paginationView.options?.enabled && paginationViewData.data && actions.change && (
+      {options?.paginationView.options?.enabled && paginationViewData.data && paginationViewActions.change && (
         <Wrapper styles={[flex, jc(Aligns.END), padding(16), borderTop(1, "gray-blue/02")]}>
           <Pagination
             perPage={paginationViewData.data.perPage}
             elementsCount={metaData.pagination.itemsCount}
             onChange={(page) => {
-              actions.change.run(assoc("page", page, paginationViewData.data!));
+              paginationViewActions.change.run(assoc("page", page, paginationViewData.data!));
             }}
           />
         </Wrapper>
