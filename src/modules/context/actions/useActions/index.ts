@@ -1,4 +1,5 @@
 import { useLocalStore } from "mobx-react-lite";
+import { has } from "ramda";
 
 import { RequestError } from "libs/request";
 
@@ -47,10 +48,11 @@ const connectActionFunctionAndAppContext = (
       .then((actionOutputData) => {
         loadingContainer.setLoading(false);
         if (action.context) appContext.updateState({ path: action.context, data: actionOutputData });
-        if (inputData.context) appContext.updateState({ path: inputData.context, data: actionOutputData });
+        if (has("context", inputData)) appContext.updateState({ path: inputData.context, data: actionOutputData });
         return actionOutputData;
       })
       .catch((requestError: RequestError) => {
+        console.log("Action error", requestError);
         const { error } = requestError;
         loadingContainer.setErrors(error.errors);
         loadingContainer.setDefaultError(error.message);

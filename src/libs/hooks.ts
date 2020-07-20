@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import debounce from "lodash/debounce";
 import { once } from "ramda";
+import { useLocalStorage as useLocalStorageOriginal } from "react-use";
 
 export function useBoolean(initial: boolean | (() => boolean)): [boolean, () => void, () => void] {
   const [state, setState] = useState(initial);
@@ -139,4 +140,13 @@ export function usePrevious<T>(value: T) {
     ref.current = value;
   }, [value]);
   return ref.current;
+}
+
+export function useLocalStorage<T>(
+  key: string,
+  initialValue?: T | (() => T),
+  options?: Parameters<typeof useLocalStorageOriginal>[2],
+): [T, (arg: T) => void] {
+  const [value] = React.useState(initialValue!);
+  return useLocalStorageOriginal(key, value, options) as any;
 }

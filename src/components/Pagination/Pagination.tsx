@@ -23,8 +23,7 @@ import {
   width,
 } from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
-
-import { useEffectSkipFirst } from "../../libs/hooks";
+import { useEffectSkipFirst } from "libs/hooks";
 
 import { calculatePaginationData, getMaskedInputWidth } from "./libs";
 
@@ -92,6 +91,10 @@ function Pagination({ styles, perPage, elementsCount, onChange }: PaginationInte
   const [page, setPage] = React.useState(1);
   const [goToPage, setGoToPage] = React.useState("");
 
+  useEffectSkipFirst(() => {
+    setPage(1);
+  }, [perPage]);
+
   const { lastElementNumberOnPage, firstElementNumberOnPage, pages } = React.useMemo(
     () => calculatePaginationData(page, perPage, elementsCount),
     [page, perPage, elementsCount],
@@ -116,6 +119,7 @@ function Pagination({ styles, perPage, elementsCount, onChange }: PaginationInte
       <StyledReactPagination
         current={page}
         total={elementsCount}
+        pageSize={perPage}
         itemRender={(pageNumber, name) => {
           const Component = paginationComponentsForType[name];
           if (!Component) return null;

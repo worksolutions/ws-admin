@@ -3,7 +3,7 @@ export function calculatePaginationData(page: number, perPage: number, elementsC
   const firstElementNumberOnPage = lastElementNumberOnPage - perPage + 1;
   const pages = Math.ceil(elementsCount / perPage);
   return {
-    lastElementNumberOnPage,
+    lastElementNumberOnPage: Math.min(lastElementNumberOnPage, elementsCount),
     firstElementNumberOnPage,
     pages,
   };

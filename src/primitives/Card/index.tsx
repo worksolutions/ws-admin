@@ -1,6 +1,7 @@
 import React from "react";
 import { useMeasure } from "react-use";
 import { duration200 } from "layout/durations";
+import { propEq } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -87,7 +88,7 @@ function Card(card: CardComponentInterface & Record<string, any>) {
             actions={actions || []}
             statuses={statuses || []}
             title={heading!}
-            onActionClick={(index) => actions![index].handler()}
+            onActionClick={(id) => actions!.find(propEq("name", id))!.handler()}
           />
         )}
         {title && (

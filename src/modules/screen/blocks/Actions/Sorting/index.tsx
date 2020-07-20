@@ -24,7 +24,7 @@ export interface SortingOptionsInterface {
   initialValue?: string;
 }
 
-function SortingBlock({
+function ActionSorting({
   options,
   actions,
   styles,
@@ -61,4 +61,4 @@ function SortingBlock({
   );
 }
 
-export default React.memo(observer(SortingBlock));
+export default React.memo(observer(ActionSorting));

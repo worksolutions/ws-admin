@@ -18,8 +18,9 @@ import {
   flexColumn,
   flexValue,
   focus,
+  horizontalPadding,
   hover,
-  margin,
+  marginBottom,
   marginLeft,
   marginRight,
   marginTop,
@@ -29,50 +30,78 @@ import {
   transition,
 } from "libs/styles";
 
+export type ListItemId = string | number;
+
+export interface ListItemInterface {
+  id: ListItemId;
+  leftContent?: JSX.Element | null;
+  heading?: string | number;
+  subtitle?: string | number;
+  title: string | number;
+  disabled?: boolean;
+  rightContent?: JSX.Element | null;
+}
+
+export enum ListItemSize {
+  LARGE = "LARGE",
+  MEDIUM = "MEDIUM",
+}
+
 interface ListInterface {
+  itemSize?: ListItemSize;
   styles?: any;
   outerStyles?: any;
   titleStyles?: any;
+  titleDots?: boolean;
   dividerColor?: Colors;
-  items: {
-    leftContent?: JSX.Element | null;
-    heading?: string | number;
-    subtitle?: string | number;
-    title: string | number;
-    disabled?: boolean;
-    rightContent?: JSX.Element | null;
-  }[];
-  onClick?: (index: number) => void;
+  activeItemId?: ListItemId;
+  items: ListItemInterface[];
+  onClick?: (id: ListItemId) => void;
 }
 
-function List({ outerStyles, styles, titleStyles, items, onClick }: ListInterface) {
+const heightForItemSize: Record<ListItemSize, number> = { [ListItemSize.LARGE]: 40, [ListItemSize.MEDIUM]: 32 };
+
+function List({
+  outerStyles,
+  styles,
+  itemSize = ListItemSize.LARGE,
+  activeItemId,
+  titleDots,
+  titleStyles,
+  items,
+  onClick,
+}: ListInterface) {
   return (
     <Wrapper styles={[flex, flexColumn, outerStyles, firstChild(marginTop(4))]}>
-      {items.map(({ title, heading, leftContent, rightContent, subtitle, disabled }, key) => {
+      {items.map(({ title, id, heading, leftContent, rightContent, subtitle, disabled }) => {
         const enabled = !disabled;
         return (
           <Wrapper
-            key={key}
+            key={id}
             as="button"
             styles={[
               backgroundColor("transparent"),
               disableOutline,
               borderNone,
-              margin("0 4px 4px 4px"),
-              minHeight(40),
+              marginBottom(4),
+              minHeight(heightForItemSize[itemSize]),
               flex,
               ai(Aligns.CENTER),
               borderRadius(4),
+              horizontalPadding(4),
               transition(`all ${duration200}`),
               enabled && [pointer, hover(backgroundColor("gray-blue/01")), focus(boxShadow([0, 0, 0, 2, "blue/04"]))],
+              activeItemId === id && [backgroundColor("gray-blue/01")],
               styles,
             ]}
-            onClick={() => onClick && enabled && onClick(key)}
+            onClick={() => onClick && enabled && onClick(id)}
           >
             {leftContent}
-            <Wrapper styles={[marginLeft(12), marginRight(12), flexValue(1), textAlign("left")]}>
+            <Wrapper styles={[marginLeft(8), marginRight(8), flexValue(1), textAlign("left")]}>
               {heading && <Typography type="caption-regular">{heading}</Typography>}
-              <Typography styles={titleStyles}>{title}</Typography>
+              <Typography dots={titleDots} styles={titleStyles}>
+                {title}
+              </Typography>
               {subtitle && <Typography type="caption-regular">{subtitle}</Typography>}
             </Wrapper>
             {rightContent}

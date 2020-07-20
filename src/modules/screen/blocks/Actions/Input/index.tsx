@@ -19,7 +19,7 @@ export interface InputOptionsInterface {
   initialValue?: string;
 }
 
-function InputBlock({
+function ActionInput({
   actions,
   options,
   styles,
@@ -53,4 +53,4 @@ function InputBlock({
   );
 }
 
-export default React.memo(observer(InputBlock));
+export default React.memo(observer(ActionInput));

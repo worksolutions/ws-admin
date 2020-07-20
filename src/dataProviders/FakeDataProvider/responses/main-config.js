@@ -143,7 +143,6 @@ module.exports = {
                         options: [
                           { path: "screen:articles.search", value: "" },
                           { path: "screen:articles.sorting", value: { id: "published_at", direction: "asc" } },
-                          { path: "screen:articles.pagination", value: { page: 1, perPage: 9 } },
                         ],
                       },
                       {
@@ -238,6 +237,7 @@ module.exports = {
                           paginationView: {
                             options: {
                               enabled: true,
+                              paginationItems: [8, 16, 32],
                             },
                             dataSource: {
                               type: "context",

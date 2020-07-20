@@ -3,11 +3,12 @@ import React from "react";
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 import Icon, { Icons } from "primitives/Icon";
-import MenuButton, { MenuButtonOpenMode } from "primitives/MenuButton";
 
-import { ai, Aligns, Colors, flex, flexValue, jc, marginBottom, padding, whiteSpace } from "libs/styles";
+import { ai, Aligns, Colors, flex, flexValue, jc, marginBottom } from "libs/styles";
 
-import List from "../List";
+import { ListItemId } from "../List";
+import DroppedList, { DroppedListOpenMode } from "../List/DroppedList";
+import Button, { ButtonSize, ButtonType } from "../Button";
 
 import { CardActionInterface, CardStatusInterface } from "./types";
 
@@ -15,7 +16,7 @@ interface HeadingInterface {
   title: string;
   statuses: CardStatusInterface[];
   actions: CardActionInterface[];
-  onActionClick: (index: number) => Promise<void>;
+  onActionClick: (id: ListItemId) => Promise<void>;
 }
 
 function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) {
@@ -32,23 +33,33 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
         ))}
       </Wrapper>
       {actions.length !== 0 && (
-        <MenuButton className="card-actions" openMode={MenuButtonOpenMode.HOVER}>
-          {(close) => (
-            <List
-              styles={padding("4px 8px")}
-              titleStyles={whiteSpace("nowrap")}
-              items={actions.map((action) => ({
-                title: action.name,
-                disabled: action.loading,
-                leftContent: action.iconName ? <Icon iconName={action.iconName} color={action.iconColor} /> : null,
-              }))}
-              onClick={async (index) => {
-                await onActionClick(index);
-                close();
-              }}
-            />
+        <DroppedList
+          mode={DroppedListOpenMode.HOVER}
+          margin={4}
+          items={actions.map((action) => ({
+            id: action.name,
+            title: action.name,
+            disabled: action.loading,
+            leftContent: action.iconName ? <Icon iconName={action.iconName} color={action.iconColor} /> : null,
+          }))}
+          onChange={async (id) => {
+            await onActionClick(id);
+            close();
+          }}
+        >
+          {(state, parentRef, subChild) => (
+            <Button
+              ref={parentRef}
+              className="card-actions"
+              type={ButtonType.ICON}
+              size={ButtonSize.SMALL}
+              iconLeft="kebab-horizontal"
+              onClick={state.toggle}
+            >
+              {subChild}
+            </Button>
           )}
-        </MenuButton>
+        </DroppedList>
       )}
     </Wrapper>
   );

@@ -8,13 +8,14 @@ import ButtonWrapper, { BaseButtonWrapperInterface } from "./ButtonWrapper";
 import { ButtonType } from "./types";
 
 interface ButtonInterface extends BaseButtonWrapperInterface {
+  className?: string;
   preventDefault?: boolean;
   children?: React.ReactNode;
   onClick: () => void;
 }
 
 const Button = React.forwardRef(function (
-  { children, onClick, preventDefault: preventDefaultProp, ...buttonWrapperProps }: ButtonInterface,
+  { children, onClick, preventDefault: preventDefaultProp, className, ...buttonWrapperProps }: ButtonInterface,
   ref: Ref<HTMLButtonElement>,
 ) {
   return (
@@ -23,6 +24,7 @@ const Button = React.forwardRef(function (
         const clickHandler = buttonWrapperProps.loading ? undefined : onClick;
         return (
           <Wrapper
+            className={className}
             ref={ref}
             as="button"
             styles={styles}

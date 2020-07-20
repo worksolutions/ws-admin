@@ -66,7 +66,7 @@ function ButtonWrapper({
   const isIconButton = type === ButtonType.ICON;
   const buttonStyles = buttonStylesMap[type][size];
 
-  const [icons] = React.useState(() => {
+  const icons = React.useMemo(() => {
     if (isIconButton)
       return {
         iconLeft: iconLeft || iconRight,
@@ -85,7 +85,7 @@ function ButtonWrapper({
       rightWidth: iconRightWidth,
       rightHeight: iconRightHeight,
     };
-  });
+  }, [iconLeft, iconRight]);
 
   const resultStyles = buttonStyles[getStylesNameOnIcons(!!icons.iconLeft, !!icons.iconRight)];
 
