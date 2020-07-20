@@ -112,43 +112,31 @@ module.exports = {
             },
             blocks: [
               {
-                type: "Wrapper",
-                options: {
-                  padding: 24,
-                  fullWidth: true,
-                },
-                blocks: [
-                  {
-                    type: "Column",
-                    blocks: [
-                      {
-                        type: "Wrapper",
-                        options: {
-                          margin: "0 0 24px 0",
-                        },
-                        blocks: [
-                          {
-                            type: "Heading",
-                            options: {
-                              value: "Статьи",
-                              actionBlockElements: [
-                                {
-                                  type: "Actions/Button",
-                                  options: { name: "Написать статью", icon: "edit-small" },
-                                  actions: {
-                                    click: {
-                                      type: "redirect",
-                                      options: {
-                                        reference: "/test",
-                                      },
-                                    },
-                                  },
-                                },
-                              ],
+                type: "Pages/DefaultPageWithList",
+                slots: {
+                  heading: {
+                    type: "Heading",
+                    options: {
+                      value: "Статьи",
+                      actionBlockElements: [
+                        {
+                          type: "Actions/Button",
+                          options: { name: "Написать статью", icon: "edit-small" },
+                          actions: {
+                            click: {
+                              type: "redirect",
+                              options: {
+                                reference: "/test",
+                              },
                             },
                           },
-                        ],
-                      },
+                        },
+                      ],
+                    },
+                  },
+                  mainContent: {
+                    type: "Column",
+                    blocks: [
                       {
                         type: "ContextInitializer",
                         id: "articles-context",
@@ -249,32 +237,21 @@ module.exports = {
                                 },
                               },
                               {
-                                type: "Wrapper",
+                                type: "Actions/Sorting",
                                 options: {
-                                  margin: "0 0 0 8px",
+                                  title: "Сортировать:",
+                                  items: [
+                                    { title: "по дате создания", id: "id", hasDirection: true },
+                                    { title: "по дате публикации", id: "published_at", hasDirection: true },
+                                  ],
+                                  initialValue: "{{{screen:articles.sorting}}}",
                                 },
-                                blocks: [
-                                  {
-                                    type: "Actions/Sorting",
-                                    options: {
-                                      title: "Сортировать:",
-                                      items: [
-                                        { title: "по дате создания", id: "id", hasDirection: true },
-                                        { title: "по дате публикации", id: "published_at", hasDirection: true },
-                                      ],
-                                      initialValue: "{{{screen:articles.sorting}}}",
-                                    },
-                                    actions: {
-                                      change: {
-                                        type: "none",
-                                        context: "screen:articles.sorting",
-                                      },
-                                    },
+                                actions: {
+                                  change: {
+                                    type: "none",
+                                    context: "screen:articles.sorting",
                                   },
-                                ],
-                              },
-                              {
-                                type: "FillEmptySpace",
+                                },
                               },
                             ],
                           },
@@ -299,7 +276,7 @@ module.exports = {
                       },
                     ],
                   },
-                ],
+                },
               },
             ],
           },

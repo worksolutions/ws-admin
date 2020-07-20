@@ -2,8 +2,6 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { useLocalStorage } from "react-use";
 import { assoc } from "ramda";
-import { toJS } from "mobx";
-import { createCipher } from "crypto";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -67,6 +65,7 @@ function FormattedDataView({
         {options?.controlPanel.blocks.map((block, key) => (
           <BlockRenderer key={key} styles={marginRight(16)} {...block} />
         ))}
+        <Wrapper styles={flexValue(1)} />
         <Button
           type={ButtonType.ICON}
           size={ButtonSize.MEDIUM}

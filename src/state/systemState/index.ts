@@ -24,6 +24,10 @@ export type ContainBlocksInterface = {
   blocks: BlockInterface[];
 };
 
+export type ContainSlotsInterface = {
+  slots: Record<string, BlockInterface>;
+};
+
 @Service({ global: true })
 export class SystemState {
   @Inject(() => RequestManager) private requestManager!: RequestManager;
