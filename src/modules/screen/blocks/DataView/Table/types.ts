@@ -1,21 +1,47 @@
+import { Icons } from "../../../../../primitives/Icon";
+
+import { PaginationMeta } from "types/Pagination";
+import { AnyAction } from "types/Actions";
+
 export enum TableViewDataType {
-  NUMBER = "NUMBER",
   STRING = "STRING",
-  DATE = "DATE",
+  IMAGE = "IMAGE",
 }
 
-interface TableViewSizes {
-  minWidth?: number;
-  width?: number;
-  maxWidth?: number;
+export enum TableViewSizes {
+  LARGE = "LARGE",
+  MEDIUM = "MEDIUM",
+  SMALL = "SMALL",
+}
+
+export type TableViewColumn = {
+  title: string;
+  field: string;
+  type?: TableViewDataType;
+  referenceRedirect?: string;
+  resizable?: boolean;
+  sortable?: boolean;
+};
+
+export type TableViewRowsConfig = {
+  size: TableViewSizes;
+};
+
+export interface TableViewOptions {
+  selectable: boolean;
+  columns: TableViewColumn[];
+  rowsConfig: TableViewRowsConfig;
+  imageConfig?: {
+    aspectRatio: number;
+  };
+}
+
+export interface TableViewItemInterface {
+  value: string | number;
+  icon?: Icons;
 }
 
 export interface TableViewDataSource {
-  tableViewDefaultSizes?: TableViewSizes;
-  selectable: boolean;
-  columns: ({ title: string; field: string; type?: TableViewDataType; sortable?: boolean } & TableViewSizes)[];
-  data: ({ id: string | number; reference?: string } & Record<
-    string,
-    string | number | { reference: string; value: string | number }
-  >)[];
+  pagination: PaginationMeta;
+  list: Record<string, TableViewItemInterface>[];
 }

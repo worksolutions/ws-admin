@@ -235,3 +235,7 @@ export const visibility = (value: "hidden" | "visible") => css`
 export const content = (value: string) => css`
   content: "${value}";
 `;
+
+export const verticalAlign = (value: string) => css`
+  vertical-align: ${value};
+`;

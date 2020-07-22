@@ -67,6 +67,63 @@ module.exports = (app) => {
     },
   );
 
+  makeProxy(
+    { realServerUrl: "/api/articles", expressMethodHandlerName: "get", handleUrl: "/api/articles/table" },
+    app,
+    ({ data, meta }) => {
+      return {
+        list: data.map((article) => {
+          const isPublished = article.status === 1;
+          const action = {
+            type: "redirect",
+            options: {
+              reference: "/user/{{local:id}}/edit",
+            },
+          };
+
+          const result = {
+            id: {
+              value: article.id,
+            },
+            announceImage: {
+              value: article.announceImage ? prepareUrl(article.announceImage.path) : null,
+            },
+            name: {
+              value: article.title,
+            },
+            createDate: {
+              value: moment.unix(article.createdAt).format("DD MMMM YYYY"),
+            },
+            createDateTimestamp: {
+              value: article.createdAt,
+            },
+          };
+
+          if (isPublished) {
+            result.status = {
+              icon: {
+                name: "ellipse",
+                color: "green/05",
+              },
+              value: "Опубликовано",
+            };
+          } else {
+            result.status = {
+              icon: {
+                name: "ellipse",
+                color: "orange/05",
+              },
+              value: "Черновик",
+            };
+          }
+
+          return result;
+        }),
+        pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
+      };
+    },
+  );
+
   makeProxy({ handleUrl: "/api", expressMethodHandlerName: "use" }, app);
 
   app.get("/api/admin/background-tasks", (req, res) => {

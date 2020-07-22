@@ -3,14 +3,11 @@ import { useMeasure } from "react-use";
 import { duration200 } from "layout/durations";
 import { propEq } from "ramda";
 
+import ImageWithDefault from "primitives/ImageWithDefault";
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
-import Icon from "primitives/Icon";
 
 import {
-  ai,
-  Aligns,
-  backgroundColor,
   border,
   borderRadius,
   borderTop,
@@ -19,9 +16,7 @@ import {
   flexColumn,
   flexValue,
   fullWidth,
-  height,
   hover,
-  jc,
   maxHeight,
   opacity,
   overflow,
@@ -35,30 +30,6 @@ import Heading from "./Heading";
 interface CardComponentInterface extends CardInterface {
   link?: string;
   imageConfig: CardImageConfig;
-}
-
-function Image({ src, height: heightProp, width: widthProp }: { src?: string; width: number; height: number }) {
-  const image = src ? <Icon customIcon={src} width={widthProp} height={heightProp} /> : <Icon iconName="no-image" />;
-
-  if (!image) return null;
-
-  return (
-    <Wrapper
-      styles={[
-        backgroundColor("gray-blue/01"),
-        borderTop(1, "gray-blue/02"),
-        fullWidth,
-        flex,
-        ai(Aligns.CENTER),
-        jc(Aligns.CENTER),
-        height(heightProp),
-        overflow("hidden"),
-        borderRadius("0 0 8px 8px"),
-      ]}
-    >
-      {image}
-    </Wrapper>
-  );
 }
 
 function Card(card: CardComponentInterface & Record<string, any>) {
@@ -102,7 +73,12 @@ function Card(card: CardComponentInterface & Record<string, any>) {
           </Typography>
         )}
       </Wrapper>
-      <Image width={bounds.width} height={bounds.width / imageConfig.aspectRatio} src={image} />
+      <ImageWithDefault
+        width={bounds.width}
+        height={bounds.width / imageConfig.aspectRatio}
+        src={image}
+        styles={[borderTop(1, "gray-blue/02"), borderRadius("0 0 8px 8px")]}
+      />
     </Wrapper>
   );
 }

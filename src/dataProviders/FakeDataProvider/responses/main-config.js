@@ -151,48 +151,49 @@ module.exports = {
                         options: {
                           id: "articles-list",
                           tableView: {
-                            dataSource: {
-                              type: "static",
-                              options: {
-                                tableViewDefaultSizes: {
-                                  minWidth: 100,
-                                  width: 300,
-                                  maxWidth: 400,
+                            options: {
+                              selectable: false,
+                              columns: [
+                                { title: "", field: "announceImage", type: "IMAGE", resizable: false },
+                                {
+                                  title: "Название",
+                                  field: "name",
+                                  type: "STRING",
+                                  sortable: true,
+                                  referenceRedirect: "/content/articles/{{local:id}}",
                                 },
-                                selectable: true,
-                                columns: [
-                                  { title: "ID", field: "id", sortable: true, width: 100 },
-                                  { title: "Имя", field: "firstName" },
-                                  {
-                                    title: "Фамилия",
-                                    field: "lastName",
-                                  },
-                                  {
-                                    title: "Возраст",
-                                    field: "age",
-                                    type: "NUMBER",
-                                  },
-                                ],
-                                data: [
-                                  {
-                                    id: {
-                                      reference: "https://yandex.ru",
-                                      value: "11141",
-                                    },
-                                    firstName: "Mehmet",
-                                    lastName: "Baran",
-                                    age: 34,
-                                  },
-                                  {
-                                    id: {
-                                      reference: "/auth",
-                                      value: "11142",
-                                    },
-                                    firstName: "Дара",
-                                    lastName: "Мара",
-                                    age: 35,
-                                  },
-                                ],
+                                {
+                                  title: "Дата",
+                                  field: "createDate",
+                                  type: "STRING",
+                                  sortable: true,
+                                },
+                                {
+                                  title: "Статус",
+                                  field: "status",
+                                  type: "STRING",
+                                  sortable: true,
+                                },
+                              ],
+                              rowsConfig: {
+                                size: "SMALL",
+                              },
+                              imageConfig: {
+                                aspectRatio: 1.6,
+                              },
+                            },
+                            dataSource: {
+                              type: "api:request",
+                              options: {
+                                reference: "/articles/table",
+                                method: "get",
+                                params: {
+                                  title: "{{screen:articles.search}}",
+                                  page: "{{screen:articles.pagination.page}}",
+                                  perPage: "{{screen:articles.pagination.perPage}}",
+                                  orderDirection: "{{screen:articles.sorting.direction}}",
+                                  orderField: "{{screen:articles.sorting.id}}",
+                                },
                               },
                             },
                           },
@@ -215,24 +216,22 @@ module.exports = {
                               imageConfig: {
                                 aspectRatio: 1.6,
                               },
-                              clickRedirectToReference: "/content/articles/{{local:id}}",
+                              referenceRedirect: "/content/articles/{{local:id}}",
+                              sortingOptions: {
+                                title: "Сортировать:",
+                                items: [
+                                  { title: "по дате создания", id: "id", hasDirection: true },
+                                  { title: "по дате публикации", id: "published_at", hasDirection: true },
+                                ],
+                                initialValue: "{{{screen:articles.sorting}}}",
+                              },
                             },
                           },
-                          controlPanel: {
-                            searchOptions: {
-                              placeholder: "Найти",
-                              iconLeft: "search-big",
-                              debounce: 600,
-                              initialValue: "{{screen:articles.search}}",
-                            },
-                            sortingOptions: {
-                              title: "Сортировать:",
-                              items: [
-                                { title: "по дате создания", id: "id", hasDirection: true },
-                                { title: "по дате публикации", id: "published_at", hasDirection: true },
-                              ],
-                              initialValue: "{{{screen:articles.sorting}}}",
-                            },
+                          searchOptions: {
+                            placeholder: "Найти",
+                            iconLeft: "search-big",
+                            debounce: 600,
+                            initialValue: "{{screen:articles.search}}",
                           },
                           paginationView: {
                             options: {

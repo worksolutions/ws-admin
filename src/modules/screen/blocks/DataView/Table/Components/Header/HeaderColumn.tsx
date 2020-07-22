@@ -7,13 +7,10 @@ import Icon from "primitives/Icon";
 import BackdropDisabler from "primitives/BackdropDisabler";
 
 import {
-  backgroundColor,
-  borderBottom,
   borderRight,
-  createAlphaColor,
   display,
+  flex,
   fullHeight,
-  hover,
   left,
   padding,
   pointer,
@@ -74,7 +71,6 @@ function HeaderColumn({
       {...props}
       styles={[
         textAlign("left"),
-        borderBottom(1, "gray-blue/02"),
         padding("12px 16px"),
         header.sortable && pointer,
         position("relative"),
@@ -103,7 +99,7 @@ function HeaderColumn({
           </Wrapper>
         )}
       </Typography>
-      {hoverable}
+      {headerColumn.canResize && hoverable}
       {headerColumn.isResizing && <BackdropDisabler />}
     </Wrapper>
   );

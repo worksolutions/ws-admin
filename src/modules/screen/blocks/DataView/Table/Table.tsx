@@ -1,29 +1,39 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useTable, useResizeColumns, useBlockLayout } from "react-table";
+import { useTable, useResizeColumns } from "react-table";
 
-import { TableViewDataSource } from "./types";
-import TableComponent from "./TableComponents/Table";
-import BodyComponent from "./TableComponents/Body";
-import HeaderComponent, { HeaderGroupInterface } from "./TableComponents/Header";
-import RowComponent from "./TableComponents/Row";
-import { useColumns, useSorting } from "./libs";
+import Wrapper from "primitives/Wrapper";
 
-function Table({ columns, data, tableViewDefaultSizes }: TableViewDataSource) {
-  const preparedColumns = useColumns(columns);
+import { TableViewDataSource, TableViewOptions } from "./types";
+import TableComponent from "./Components/HTMLTable";
+import BodyComponent from "./Components/Body/Body";
+import HeaderComponent, { HeaderGroupInterface } from "./Components/Header";
+import { prepareColumn, useSorting } from "./libs";
+import { useFlexLayout } from "./useFlexLayout";
+
+function Table({ data, options }: { data: TableViewDataSource; options: TableViewOptions }) {
+  const preparedColumns = React.useMemo(() => options.columns.map((column) => prepareColumn(column, options)), []);
   const sorting = useSorting();
   const [resizeColumnIndex, setResizeColumnIndex] = useState(-1);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns: preparedColumns,
-      data,
-      defaultColumn: tableViewDefaultSizes,
+      data: data.list,
     },
-    useBlockLayout,
+    // useFlexLayout,
     useResizeColumns,
+    (hooks) => {
+      // hooks.getHeaderProps.push((props, { column }) => {
+      //   return [props, { style: { width: `${column.totalWidth}px` } }];
+      // });
+      hooks.useInstanceBeforeDimensions.push(({ headers }) => {
+        (headers[0] as any).canResize = false;
+      });
+    },
   );
 
   const [headerGroup] = headerGroups as HeaderGroupInterface[];
+
   return (
     <TableComponent {...getTableProps()}>
       <HeaderComponent trHeaderGroup={headerGroup} sorting={sorting} onResize={setResizeColumnIndex} />
@@ -31,7 +41,11 @@ function Table({ columns, data, tableViewDefaultSizes }: TableViewDataSource) {
         {rows.map((row) => {
           prepareRow(row);
           const { key } = row.getRowProps();
-          return <RowComponent key={key} row={row} resizingColumnIndex={resizeColumnIndex} />;
+          return (
+            <Wrapper as="tr" {...row.getRowProps()} key={key}>
+              {row.cells.map((cell) => cell.render("Cell"))}
+            </Wrapper>
+          );
         })}
       </BodyComponent>
     </TableComponent>

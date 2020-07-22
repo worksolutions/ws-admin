@@ -18,7 +18,7 @@ import CardsView from "./CardsView";
 import { BlockInterface } from "state/systemState";
 
 export type CardsViewBlockInterface = BlockInterface<{
-  clickRedirectToReference?: string;
+  referenceRedirect?: string;
   imageConfig: CardImageConfig;
 }> & { onUpdateMeta: (data: ViewMetaData) => void };
 
@@ -32,11 +32,9 @@ function CardsViewWrapper({ dataSource, options, onUpdateMeta }: CardsViewBlockI
 
   if (loadingContainer.loading) return <Spinner size={36} />;
 
-  return (
-    <Wrapper styles={[flex, ai(Aligns.STRETCH), flexValue(1)]}>
-      {data ? <CardsView {...data} {...options!} /> : <Typography>Нет данных</Typography>}
-    </Wrapper>
-  );
+  if (!data) return <Typography>Нет данных</Typography>;
+
+  return <CardsView {...data} {...options!} />;
 }
 
 export default React.memo(observer(CardsViewWrapper));

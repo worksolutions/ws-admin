@@ -20,9 +20,12 @@ import {
   flexColumn,
   flexValue,
   flexWrap,
+  fullWidth,
   jc,
+  lastChild,
   marginLeft,
   marginRight,
+  marginTop,
   padding,
   zIndex,
 } from "libs/styles";
@@ -49,13 +52,19 @@ const initialMetaData: ViewMetaData = {
   pagination: { itemsCount: 0, pagesCount: 0 },
 };
 
+interface CardsViewInterface extends CardsViewBlockInterface {
+  options?: CardsViewBlockInterface["options"] & {
+    sortingOptions?: SortingOptionsInterface;
+  };
+}
+
 export type FormattedDataViewInterface = BlockInterface<
   {
     id: string;
     tableView: ContainsDataSourceInterface<AnyDataSource>;
-    cardsView: CardsViewBlockInterface;
-    controlPanel: { searchOptions?: InputOptionsInterface; sortingOptions?: SortingOptionsInterface };
+    cardsView: CardsViewInterface;
     paginationView: BlockInterface<{ enabled: boolean; paginationItems: number[] }, "change">;
+    searchOptions: InputOptionsInterface;
   },
   "search" | "sorting"
 >;
@@ -73,19 +82,27 @@ function FormattedDataView({ options, actions }: FormattedDataViewInterface) {
 
   if (paginationViewData.loadingContainer.loading) return <Spinner size={36} />;
 
+  const isCardsView = storage.mode === "cards";
+
   return (
     <Wrapper styles={[flex, ai(Aligns.STRETCH), flexValue(1), borderRadius(8), border(1, "gray-blue/02"), flexColumn]}>
       <Wrapper
-        styles={[padding("16px 16px 0 16px"), flex, ai(Aligns.CENTER), flexWrap, zIndex(1), child(marginRight(16))]}
+        styles={[
+          padding("16px 16px 0 16px"),
+          flex,
+          ai(Aligns.CENTER),
+          flexWrap,
+          zIndex(1),
+          child(marginRight(16)),
+          lastChild(marginRight(0)),
+        ]}
       >
-        {actions?.search && (
-          <ActionInput actions={{ change: actions.search }} options={options?.controlPanel?.searchOptions} />
-        )}
-        {actions?.sorting && (
+        {actions?.search && <ActionInput actions={{ change: actions.search }} options={options?.searchOptions} />}
+        {isCardsView && actions?.sorting && (
           <ActionSorting
             styles={[actions?.search && marginLeft(8)]}
             actions={{ change: actions.sorting }}
-            options={options?.controlPanel?.sortingOptions}
+            options={options?.cardsView.options?.sortingOptions}
           />
         )}
         <Wrapper styles={flexValue(1)} />
@@ -106,14 +123,18 @@ function FormattedDataView({ options, actions }: FormattedDataViewInterface) {
         <Button
           type={ButtonType.ICON}
           size={ButtonSize.MEDIUM}
-          iconLeft={storage?.mode === "cards" ? "density-high" : "dashboard"}
-          onClick={() => setStorage({ ...storage, mode: storage!.mode === "cards" ? "table" : "cards" })}
+          iconLeft={isCardsView ? "density-high" : "dashboard"}
+          onClick={() => setStorage({ ...storage, mode: isCardsView ? "table" : "cards" })}
         />
       </Wrapper>
-      {storage?.mode === "cards" ? (
-        <CardsViewBlock {...options!.cardsView} onUpdateMeta={setMetaData} />
+      {isCardsView ? (
+        <Wrapper styles={[fullWidth, marginTop(20)]}>
+          <CardsViewBlock {...options!.cardsView} onUpdateMeta={setMetaData} />
+        </Wrapper>
       ) : (
-        <TableViewBlock {...options!.tableView} />
+        <Wrapper styles={[fullWidth, marginTop(8), flex]}>
+          <TableViewBlock {...options!.tableView} />
+        </Wrapper>
       )}
       {paginationEnabled && paginationViewData.data && paginationViewActions.change && (
         <Wrapper styles={[flex, jc(Aligns.END), padding(16), borderTop(1, "gray-blue/02")]}>

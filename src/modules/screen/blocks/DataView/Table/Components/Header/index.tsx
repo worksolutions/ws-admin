@@ -4,6 +4,7 @@ import { HeaderGroup, UseResizeColumnsColumnProps } from "react-table";
 import Wrapper from "primitives/Wrapper";
 
 import { UseSortingType } from "../../libs";
+import { flex } from "../../../../../../../libs/styles";
 
 import HeaderColumn from "./HeaderColumn";
 

@@ -10,6 +10,7 @@ import {
   display,
   getColor,
   height,
+  stringOrPixels,
   width,
 } from "libs/styles";
 
@@ -21,8 +22,8 @@ import { list } from "./list";
 export type Icons = keyof typeof list;
 
 interface StyledSVGInterface {
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   styles?: any;
 }
 
@@ -35,8 +36,8 @@ interface SVGInterface extends StyledSVGInterface {
 
 const StyledSVG = styled.svg<StyledSVGInterface>`
   display: inline-block;
-  min-width: ${(props) => props.width}px;
-  min-height: ${(props) => props.height}px;
+  min-width: ${(props) => stringOrPixels(props.width!)};
+  min-height: ${(props) => stringOrPixels(props.height!)};
 `;
 
 const SVG = React.forwardRef(function (
