@@ -34,4 +34,6 @@ export const list = {
   "bolt-alt": require("./icons/bolt-alt.svg"),
   "16-no-image": require("./icons/16-no-image.svg"),
   "cross-small": require("./icons/cross-small.svg"),
+  dot: require("./icons/dot.svg"),
+  badge: require("./icons/badge.svg"),
 };

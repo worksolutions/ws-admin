@@ -2,15 +2,15 @@ import React from "react";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
-import Icon, { Icons } from "primitives/Icon";
+import Icon from "primitives/Icon";
 
-import { ai, Aligns, Colors, flex, flexValue, jc, marginBottom } from "libs/styles";
+import { ai, Aligns, flex, flexValue, jc, marginBottom, marginLeft } from "libs/styles";
 
 import { ListItemId } from "../List";
 import DroppedList, { DroppedListOpenMode } from "../List/DroppedList";
 import Button, { ButtonSize, ButtonType } from "../Button";
 
-import { CardActionInterface, CardStatusInterface } from "./types";
+import { CardActionInterface, CardStatusIconSize, CardStatusInterface } from "./types";
 
 interface HeadingInterface {
   title: string;
@@ -18,6 +18,12 @@ interface HeadingInterface {
   actions: CardActionInterface[];
   onActionClick: (id: ListItemId) => Promise<void>;
 }
+
+const headingIconSizes: Record<CardStatusIconSize, number> = {
+  [CardStatusIconSize.SMALL]: 8,
+  [CardStatusIconSize.MEDIUM]: 16,
+  [CardStatusIconSize.LARGE]: 24,
+};
 
 function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) {
   return (
@@ -28,9 +34,19 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
             {title}
           </Typography>
         )}
-        {statuses.map(({ iconName, color }, key) => (
-          <Icon key={key} iconName={iconName as Icons} color={color as Colors} />
-        ))}
+        {statuses.map(({ iconName, color, size }, key) => {
+          const iconSize = headingIconSizes[size || CardStatusIconSize.LARGE];
+          return (
+            <Icon
+              key={key}
+              iconName={iconName}
+              color={color}
+              width={iconSize}
+              height={iconSize}
+              styles={marginLeft(8)}
+            />
+          );
+        })}
       </Wrapper>
       {actions.length !== 0 && (
         <DroppedList

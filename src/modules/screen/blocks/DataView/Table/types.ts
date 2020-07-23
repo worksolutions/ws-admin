@@ -1,11 +1,14 @@
-import { Icons } from "../../../../../primitives/Icon";
+import { Icons } from "primitives/Icon";
+
+import { Colors } from "libs/styles";
 
 import { PaginationMeta } from "types/Pagination";
-import { AnyAction } from "types/Actions";
 
 export enum TableViewDataType {
   STRING = "STRING",
+  "STATUS-STRING" = "STATUS-STRING",
   IMAGE = "IMAGE",
+  DATE = "DATE",
 }
 
 export enum TableSizes {
@@ -42,7 +45,10 @@ export interface TableViewOptions {
 
 export interface TableViewItemInterface {
   value: string | number;
-  icon?: Icons;
+  icon?: {
+    name: Icons;
+    color: Colors;
+  };
 }
 
 export interface TableViewDataSource {

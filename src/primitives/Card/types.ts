@@ -2,9 +2,16 @@ import { Colors } from "libs/styles";
 
 import { Icons } from "../Icon";
 
+export enum CardStatusIconSize {
+  LARGE = "LARGE",
+  MEDIUM = "MEDIUM",
+  SMALL = "SMALL",
+}
+
 export interface CardStatusInterface {
-  iconName: string;
-  color: string;
+  iconName: Icons;
+  color: Colors;
+  size?: CardStatusIconSize;
 }
 
 export type CardActionInterface = {

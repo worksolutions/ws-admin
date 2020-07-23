@@ -2,14 +2,10 @@ import React from "react";
 import { TableCellProps } from "react-table";
 import { useMeasure } from "react-use";
 
-import Typography from "primitives/Typography";
-import ImageWithDefault from "primitives/ImageWithDefault";
 import Wrapper from "primitives/Wrapper";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
 
 import {
-  border,
-  borderRadius,
   horizontalPadding,
   lastChild,
   paddingLeft,
@@ -25,36 +21,7 @@ import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance
 import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
 import { getSizeChangerLineStyles, SizeChangerTransparentLine } from "../SizeChangerLine";
 
-const ComponentsForColumnType: Record<
-  TableViewDataType,
-  (props: {
-    item: TableViewItemInterface;
-    width: number;
-    linkWrapper?: (child: React.ReactNode) => JSX.Element;
-    column: TableViewColumn;
-  }) => JSX.Element
-> = {
-  [TableViewDataType.STRING]: ({ item, linkWrapper }) => {
-    if (linkWrapper)
-      return linkWrapper(
-        <Typography styles={[verticalPadding(2)]} type="body-semi-bold">
-          {item.value}
-        </Typography>,
-      );
-
-    return <Typography styles={[verticalPadding(2)]}>{item.value}</Typography>;
-  },
-  [TableViewDataType.IMAGE]: ({ item, width, column }) =>
-    (
-      <ImageWithDefault
-        src={item.value as string}
-        width="100%"
-        height={Math.ceil(width / column.options!.imageConfig!.aspectRatio)}
-        styles={[border(1, "gray-blue/02"), borderRadius(4)]}
-        emptyIcon="16-no-image"
-      />
-    ) as any,
-};
+import { ComponentsForColumnType } from "./CellTypes";
 
 const verticalPaddingForSize: Record<TableSizes, number> = {
   [TableSizes.LARGE]: 16,
@@ -73,10 +40,12 @@ const widthForPaddingAndOptions: Record<
   (padding: number, options: TableViewColumn["options"]) => string | number
 > = {
   [TableViewDataType.STRING]: () => "initial",
+  [TableViewDataType["STATUS-STRING"]]: () => "initial",
   [TableViewDataType.IMAGE]: (padding, options) => {
     const imageConfig = options!.imageConfig!;
     return padding + Math.ceil(imageHeightsForHeightConfig[imageConfig.heightConfig] * imageConfig.aspectRatio);
   },
+  [TableViewDataType.DATE]: () => 133,
 };
 
 const defaultPadding = 16;

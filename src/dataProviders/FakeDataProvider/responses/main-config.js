@@ -176,13 +176,14 @@ module.exports = {
                                 {
                                   title: "Дата",
                                   field: "createDate",
-                                  type: "STRING",
+                                  type: "DATE",
+                                  resizable: false,
                                   sortable: true,
                                 },
                                 {
                                   title: "Статус",
                                   field: "status",
-                                  type: "STRING",
+                                  type: "STATUS-STRING",
                                   sortable: true,
                                 },
                               ],
