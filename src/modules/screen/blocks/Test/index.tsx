@@ -6,13 +6,13 @@ import Input from "primitives/Input/Input";
 import Password from "primitives/Input/Password";
 import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
+import { ListItemId } from "primitives/List";
 
 import Sorting, { SortingElementInterface } from "components/Sorting";
 
 import {
   ai,
   Aligns,
-  backgroundColor,
   borderRight,
   child,
   flex,
@@ -24,8 +24,6 @@ import {
   padding,
   paddingRight,
 } from "libs/styles";
-
-import { ListItemId } from "../../../../primitives/List";
 
 import Buttons from "./Buttons";
 import Dropdowns from "./Dropdowns";
@@ -41,7 +39,6 @@ function TestPage() {
   return (
     <Wrapper
       styles={[
-        backgroundColor("test-gray"),
         padding("16px 24px"),
         flex,
         child([

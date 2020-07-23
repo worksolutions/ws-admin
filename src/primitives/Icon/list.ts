@@ -29,9 +29,8 @@ export const list = {
   "density-high": require("./icons/density-high.svg"),
   dashboard: require("./icons/dashboard.svg"),
   "edit-small": require("./icons/edit-small.svg"),
-  ellipse: require("./icons/ellipse.svg"),
-  circle: require("./icons/ellipse.svg"),
   "no-image": require("./icons/no-image.svg"),
   edit: require("./icons/edit.svg"),
   "bolt-alt": require("./icons/bolt-alt.svg"),
+  "16-no-image": require("./icons/16-no-image.svg"),
 };

@@ -1,53 +1,59 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useTable, useResizeColumns } from "react-table";
+import { useTable, useResizeColumns, Hooks } from "react-table";
+import { isNil, last } from "ramda";
+import { toJS } from "mobx";
 
-import Wrapper from "primitives/Wrapper";
-
-import { TableViewDataSource, TableViewOptions } from "./types";
+import { TableViewColumn, TableViewDataSource, TableViewOptions } from "./types";
 import TableComponent from "./Components/HTMLTable";
 import BodyComponent from "./Components/Body/Body";
 import HeaderComponent, { HeaderGroupInterface } from "./Components/Header";
 import { prepareColumn, useSorting } from "./libs";
-import { useFlexLayout } from "./useFlexLayout";
 
-function Table({ data, options }: { data: TableViewDataSource; options: TableViewOptions }) {
-  const preparedColumns = React.useMemo(() => options.columns.map((column) => prepareColumn(column, options)), []);
+const createResizeHook = (columns: TableViewColumn[]) => (hooks: Hooks) => {
+  hooks.useInstanceBeforeDimensions.push(({ headers }) => {
+    columns.forEach((column, index) => {
+      if (isNil(column.resizable) || column.resizable) return;
+      (headers[index] as any).canResize = false;
+    });
+    (last(headers) as any).canResize = false;
+  });
+};
+
+function Table({ list, options }: { list: TableViewDataSource["list"]; options: TableViewOptions }) {
+  const { id, columns } = options;
+
+  const preparedColumns = React.useMemo(() => columns.map((column) => prepareColumn(column, options)), []);
   const sorting = useSorting();
-  const [resizeColumnIndex, setResizeColumnIndex] = useState(-1);
+  const [resizeHoverColumnIndex, setResizeHoverColumnIndex] = useState(-1);
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns: preparedColumns,
-      data: data.list,
+      data: list,
     },
-    // useFlexLayout,
     useResizeColumns,
-    (hooks) => {
-      // hooks.getHeaderProps.push((props, { column }) => {
-      //   return [props, { style: { width: `${column.totalWidth}px` } }];
-      // });
-      hooks.useInstanceBeforeDimensions.push(({ headers }) => {
-        (headers[0] as any).canResize = false;
-      });
-    },
+    createResizeHook(columns),
   );
 
   const [headerGroup] = headerGroups as HeaderGroupInterface[];
 
   return (
     <TableComponent {...getTableProps()}>
-      <HeaderComponent trHeaderGroup={headerGroup} sorting={sorting} onResize={setResizeColumnIndex} />
-      <BodyComponent {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          const { key } = row.getRowProps();
-          return (
-            <Wrapper as="tr" {...row.getRowProps()} key={key}>
-              {row.cells.map((cell) => cell.render("Cell"))}
-            </Wrapper>
-          );
-        })}
-      </BodyComponent>
+      <HeaderComponent
+        id={id}
+        trHeaderGroup={headerGroup}
+        sorting={sorting}
+        onResizeHover={setResizeHoverColumnIndex}
+      />
+      <BodyComponent
+        id={id}
+        trHeaderGroup={headerGroup}
+        prepareRow={prepareRow}
+        rows={rows}
+        resizeHoverColumnIndex={resizeHoverColumnIndex}
+        {...getTableBodyProps()}
+      />
     </TableComponent>
   );
 }

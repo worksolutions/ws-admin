@@ -2,7 +2,7 @@ import React from "react";
 
 import { ai, Aligns, backgroundColor, flex, height, jc, overflow, width } from "libs/styles";
 
-import Icon from "../Icon";
+import Icon, { Icons } from "../Icon";
 import Wrapper from "../Wrapper";
 
 import { StyledComponentsAS } from "types/StyledComponentsAS";
@@ -13,10 +13,11 @@ interface ImageInterface {
   height: number | string;
   styles?: any;
   as?: StyledComponentsAS;
+  emptyIcon?: Icons;
 }
 
-function Image({ src, height: heightProp, width: widthProp, styles, as }: ImageInterface) {
-  const image = src ? <Icon customIcon={src} width="100%" height="100%" /> : <Icon iconName="no-image" />;
+function Image({ src, height: heightProp, width: widthProp, styles, as, emptyIcon = "no-image" }: ImageInterface) {
+  const image = src ? <Icon customIcon={src} width="100%" height="100%" /> : <Icon iconName={emptyIcon} />;
 
   return (
     <Wrapper

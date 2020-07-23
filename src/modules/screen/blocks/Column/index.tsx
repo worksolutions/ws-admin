@@ -4,16 +4,14 @@ import Wrapper from "primitives/Wrapper";
 
 import { flex, flexColumn } from "libs/styles";
 
-import BlockRenderer from "../../BlockRenderer";
+import BlocksList from "../BlocksList";
 
 import { ContainBlocksInterface } from "state/systemState";
 
-function Column({ blocks }: ContainBlocksInterface) {
+function Column({ blocks, styles }: ContainBlocksInterface & { styles?: any }) {
   return (
-    <Wrapper styles={[flex, flexColumn]}>
-      {blocks.map((item, key) => (
-        <BlockRenderer key={key} {...item} />
-      ))}
+    <Wrapper styles={[flex, flexColumn, styles]}>
+      <BlocksList blocks={blocks} />
     </Wrapper>
   );
 }

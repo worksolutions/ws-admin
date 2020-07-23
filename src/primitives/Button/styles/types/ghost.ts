@@ -15,7 +15,7 @@ import {
 export const ghostStyle = [
   borderWidth(0),
   color("gray-blue/07"),
-  backgroundColor("white"),
+  backgroundColor("transparent"),
   child(marginRight(8), ".icon-left"),
   child(marginLeft(8), ".icon-right"),
   child(fillColor("gray-blue/07"), ".icon use"),

@@ -6,18 +6,30 @@ import Typography from "primitives/Typography";
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
+import { ViewMetaData } from "../types";
+
 import { TableViewDataSource, TableViewOptions } from "./types";
 import Table from "./Table";
 
 import { BlockInterface } from "state/systemState";
 
-function TableView({ dataSource, options }: BlockInterface<TableViewOptions>) {
+export interface TableViewBlockInterface extends BlockInterface<TableViewOptions> {
+  onUpdateMeta: (data: ViewMetaData) => void;
+}
+
+function TableView({ dataSource, options, onUpdateMeta }: TableViewBlockInterface) {
   const { data, loadingContainer } = useDataSource<TableViewDataSource>(dataSource!);
+
+  React.useEffect(() => {
+    if (!data) return;
+    if (onUpdateMeta) onUpdateMeta({ pagination: data.pagination });
+  }, [data]);
+
   if (loadingContainer.loading) return <Spinner size={36} />;
 
   if (!data) return <Typography>Нет данных</Typography>;
 
-  return <Table data={data} options={options!} />;
+  return <Table list={data.list} options={options!} />;
 }
 
 export default React.memo(observer(TableView));

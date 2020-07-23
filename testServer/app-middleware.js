@@ -52,11 +52,11 @@ module.exports = (app) => {
 
           if (isPublished) {
             result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
-            result.statuses = [{ iconName: "ellipse", color: "green/05" }];
+            result.statuses = [{ iconName: "16-small-circle", color: "green/05" }];
             result.actions.push({ name: "Снять с публикации", iconName: "bolt-alt", iconColor: "orange/05", action });
           } else {
             result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
-            result.statuses = [{ iconName: "ellipse", color: "orange/05" }];
+            result.statuses = [{ iconName: "16-small-circle", color: "orange/05" }];
             result.actions.push({ name: "Опубликовать", iconName: "bolt-alt", iconColor: "green/05", action });
           }
 

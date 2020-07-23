@@ -122,7 +122,7 @@ export const useSetDocumentTitle = (title?: string, timeout = 0) => {
   }, [title]);
 };
 
-export const useEffectSkipFirst = (callback: React.EffectCallback, dependencies: any[]) => {
+export const useEffectSkipFirst = (callback: React.EffectCallback, dependencies?: any[]) => {
   const wasChanged = useRef(false);
 
   useEffect(function () {

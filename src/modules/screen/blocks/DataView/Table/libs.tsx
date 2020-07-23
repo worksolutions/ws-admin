@@ -1,18 +1,42 @@
 import React from "react";
-import { Column } from "react-table";
+import { CellProps, Column } from "react-table";
+
+import { flex, width } from "libs/styles";
 
 import TableCell from "./Components/Body/Cell";
-import { TableViewColumn, TableViewDataType, TableViewOptions } from "./types";
+import { TableViewColumn, TableViewOptions } from "./types";
 
 import { SortingDirection } from "types/Sorting";
 
-export function prepareColumn(column: TableViewColumn, options: TableViewOptions) {
+const createCell = (column: TableViewColumn, tableViewOptions: TableViewOptions) => ({
+  value: item,
+  cell: { getCellProps },
+  fixedSizes,
+  contentWidths,
+  index,
+  resizeHoverColumnIndex,
+}: CellProps<any> & {
+  fixedSizes: boolean;
+  contentWidths: number[];
+  index: number;
+  resizeHoverColumnIndex: number;
+}) => {
+  return (
+    <TableCell
+      item={item}
+      column={column}
+      tableViewOptions={tableViewOptions}
+      tableCellProps={getCellProps()}
+      showResize={resizeHoverColumnIndex === index}
+      styles={fixedSizes && [flex, width(contentWidths[index])]}
+    />
+  );
+};
+export function prepareColumn(column: TableViewColumn, tableViewOptions: TableViewOptions) {
   return {
     Header: { sortable: column.sortable, title: column.title },
     accessor: column.field,
-    Cell: ({ value: item, cell: { getCellProps } }) => {
-      return <TableCell item={item} column={column} options={options} tableCellProps={getCellProps()} />;
-    },
+    Cell: createCell(column, tableViewOptions),
   } as Column<any>;
 }
 

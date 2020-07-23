@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { assoc } from "ramda";
+import { assoc, assocPath } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -26,6 +26,8 @@ import {
   marginLeft,
   marginRight,
   marginTop,
+  overflowX,
+  overflowY,
   padding,
   zIndex,
 } from "libs/styles";
@@ -37,13 +39,12 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import ActionInput, { InputOptionsInterface } from "../../Actions/Input";
 import ActionSorting, { SortingOptionsInterface } from "../../Actions/Sorting";
-import TableViewBlock from "../Table";
+import TableViewBlock, { TableViewBlockInterface } from "../Table";
 import CardsViewBlock, { CardsViewBlockInterface } from "../Cards";
 import { ViewMetaData } from "../types";
 
 import { BlockInterface } from "state/systemState";
 
-import { AnyDataSource, ContainsDataSourceInterface } from "types/DataSource";
 import { PaginationInterface } from "types/Pagination";
 
 export const initialLocalStorageValue = { mode: "cards", perPage: 0 };
@@ -58,18 +59,20 @@ interface CardsViewInterface extends CardsViewBlockInterface {
   };
 }
 
+export interface TableViewInterface extends TableViewBlockInterface {}
+
 export type FormattedDataViewInterface = BlockInterface<
   {
     id: string;
-    tableView: ContainsDataSourceInterface<AnyDataSource>;
+    tableView: TableViewInterface;
     cardsView: CardsViewInterface;
     paginationView: BlockInterface<{ enabled: boolean; paginationItems: number[] }, "change">;
     searchOptions: InputOptionsInterface;
   },
   "search" | "sorting"
->;
+> & { styles?: any };
 
-function FormattedDataView({ options, actions }: FormattedDataViewInterface) {
+function FormattedDataView({ options, actions, styles }: FormattedDataViewInterface) {
   const paginationEnabled = options?.paginationView.options?.enabled;
 
   const [storage, setStorage] = useLocalStorage(options!.id, initialLocalStorageValue);
@@ -80,12 +83,19 @@ function FormattedDataView({ options, actions }: FormattedDataViewInterface) {
   const appContext = useAppContext();
   const paginationViewActions = useActions(options?.paginationView.actions!, appContext);
 
+  const tableViewOptions = React.useMemo(
+    () => assocPath(["options", "id"], `${options!.id}-table`, options!.tableView),
+    [],
+  );
+
   if (paginationViewData.loadingContainer.loading) return <Spinner size={36} />;
 
   const isCardsView = storage.mode === "cards";
 
   return (
-    <Wrapper styles={[flex, ai(Aligns.STRETCH), flexValue(1), borderRadius(8), border(1, "gray-blue/02"), flexColumn]}>
+    <Wrapper
+      styles={[flex, ai(Aligns.STRETCH), flexValue(1), borderRadius(8), border(1, "gray-blue/02"), flexColumn, styles]}
+    >
       <Wrapper
         styles={[
           padding("16px 16px 0 16px"),
@@ -128,12 +138,12 @@ function FormattedDataView({ options, actions }: FormattedDataViewInterface) {
         />
       </Wrapper>
       {isCardsView ? (
-        <Wrapper styles={[fullWidth, marginTop(20)]}>
+        <Wrapper styles={[fullWidth, marginTop(20), flexValue(1), overflowY("scroll")]}>
           <CardsViewBlock {...options!.cardsView} onUpdateMeta={setMetaData} />
         </Wrapper>
       ) : (
-        <Wrapper styles={[fullWidth, marginTop(8), flex]}>
-          <TableViewBlock {...options!.tableView} />
+        <Wrapper styles={[fullWidth, marginTop(8), flex, overflowX("auto"), flexValue(1)]}>
+          <TableViewBlock {...tableViewOptions} onUpdateMeta={setMetaData} />
         </Wrapper>
       )}
       {paginationEnabled && paginationViewData.data && paginationViewActions.change && (

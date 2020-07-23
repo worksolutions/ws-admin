@@ -1,9 +1,7 @@
 import React, { Ref } from "react";
-import { animated, to, useSpring } from "react-spring";
-import { useGesture } from "react-with-gesture";
+import { animated, to } from "react-spring";
 import { elevation8 } from "style/shadows";
 import { duration200 } from "layout/durations";
-import { useLocalStorage } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -24,7 +22,7 @@ import {
   width,
 } from "libs/styles";
 
-import BackdropDisabler from "../BackdropDisabler";
+import { useResizer } from "./useResizer";
 
 interface ResizerInterface {
   initialWidth: number;
@@ -39,48 +37,33 @@ const buttonShowClosedContentWidth = 32;
 
 const buttonShowClosedContentLeft = minResizerWidth - buttonShowClosedContentWidth / 2;
 
-function calculateStyleParams(
-  down: boolean,
-  data: { delta: number[]; currentWidth: number; minWidthToAutoClose: number },
-) {
-  const newWidth = down ? data.delta[0] + data.currentWidth : data.currentWidth;
-  const childWidth = Math.max(minResizerWidth, newWidth);
-  const childOpacity = childWidth < data.minWidthToAutoClose ? 0 : 1;
-
-  return { newWidth, child: { childWidth, childOpacity } };
-}
-
 const Resizer = React.forwardRef(function (
   { initialWidth, children, styles, minWidthToAutoClose = 72, localStorageKey }: ResizerInterface,
   ref: Ref<HTMLElement>,
 ) {
-  const [currentWidth, setCurrentWidth] = localStorageKey
-    ? useLocalStorage(localStorageKey, initialWidth)
-    : React.useState(initialWidth);
-  const [bind, { delta, down }] = useGesture();
-
-  const styleParams = calculateStyleParams(down, { currentWidth: currentWidth!, delta, minWidthToAutoClose }).child;
-  const { childWidth, childOpacity } = useSpring(styleParams);
-
-  React.useEffect(() => {
-    if (down) return;
-    const { newWidth, child } = calculateStyleParams(true, { currentWidth: currentWidth!, delta, minWidthToAutoClose });
-    setCurrentWidth(child.childOpacity === 1 ? newWidth : minResizerWidth);
-  }, [down]);
-
-  function showClosedContent() {
-    setCurrentWidth(initialWidth);
-  }
+  const {
+    down,
+    childContentStyles,
+    styleParams,
+    showClosedContent,
+    getResizingLineProps,
+    backdropDisabler,
+  } = useResizer({
+    initialWidth,
+    localStorageKey,
+    minResizerWidth,
+    minWidthToAutoClose,
+  });
 
   return (
     <>
       <Wrapper ref={ref} styles={[position("relative"), flex, styles]}>
-        <Wrapper as={animated.div} style={{ width: childWidth, opacity: childOpacity }}>
+        <Wrapper as={animated.div} style={childContentStyles}>
           {children}
         </Wrapper>
         <Wrapper
           as={animated.div}
-          {...bind()}
+          {...getResizingLineProps()}
           styles={[
             position("absolute"),
             top(0),
@@ -90,7 +73,7 @@ const Resizer = React.forwardRef(function (
             down && child(backgroundColor("blue/05"), "> *"),
             hover(child(backgroundColor("blue/05"), "> *")),
           ]}
-          style={{ left: to([childWidth], (x) => `${x - 8}px`) }}
+          style={{ left: to([childContentStyles.width], (x) => `${x - 8}px`) }}
         >
           <Wrapper
             as={animated.div}
@@ -115,7 +98,7 @@ const Resizer = React.forwardRef(function (
           </Wrapper>
         )}
       </Wrapper>
-      {down && <BackdropDisabler />}
+      {backdropDisabler}
     </>
   );
 });

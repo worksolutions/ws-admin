@@ -4,9 +4,9 @@ import { backgroundColor, borderWidth, boxShadow, child, color, fillColor, margi
 
 export const secondaryStyle = [
   borderWidth(0),
-  boxShadow([0, 0, 0, 1, "gray-blue/03"]),
+  boxShadow([0, 0, 0, 1, "gray-blue/02"]),
   color("gray-blue/07"),
-  backgroundColor("white"),
+  backgroundColor("transparent"),
   child(marginRight(8), ".icon-left"),
   child(marginLeft(8), ".icon-right"),
   child(fillColor("gray-blue/07"), ".icon use"),
@@ -17,7 +17,7 @@ export const secondaryFocus = [boxShadow([0, 0, 0, 2, "blue/04"])];
 export const secondaryActive = [backgroundColor("gray-blue/02")];
 export const secondaryDisabled = [
   color("gray-blue/03"),
-  boxShadow([0, 0, 0, 1, "gray-blue/02"]),
+  boxShadow([0, 0, 0, 1, "gray-blue/01"]),
   child(fillColor("gray-blue/03"), ".icon use"),
   child(fillColor("gray-blue/03"), ".loader"),
 ];

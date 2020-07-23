@@ -135,7 +135,7 @@ module.exports = {
                     },
                   },
                   mainContent: {
-                    type: "Column",
+                    type: "BlocksList",
                     blocks: [
                       {
                         type: "ContextInitializer",
@@ -154,7 +154,18 @@ module.exports = {
                             options: {
                               selectable: false,
                               columns: [
-                                { title: "", field: "announceImage", type: "IMAGE", resizable: false },
+                                {
+                                  title: "",
+                                  field: "announceImage",
+                                  type: "IMAGE",
+                                  resizable: false,
+                                  options: {
+                                    imageConfig: {
+                                      heightConfig: "LARGE",
+                                      aspectRatio: 1.6,
+                                    },
+                                  },
+                                },
                                 {
                                   title: "Название",
                                   field: "name",
@@ -176,10 +187,7 @@ module.exports = {
                                 },
                               ],
                               rowsConfig: {
-                                size: "SMALL",
-                              },
-                              imageConfig: {
-                                aspectRatio: 1.6,
+                                paddingConfig: "SMALL",
                               },
                             },
                             dataSource: {

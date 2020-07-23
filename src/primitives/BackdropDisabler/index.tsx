@@ -18,10 +18,10 @@ const DisableSelect = createGlobalStyle`
             user-select: none;
 }`;
 
-function BackdropDisabler() {
+function BackdropDisabler({ styles }: { styles?: any }) {
   return ReactDOM.createPortal(
     <>
-      <Wrapper styles={[position("fixed"), left(0), right(0), top(0), bottom(0)]} />
+      <Wrapper styles={[position("fixed"), left(0), right(0), top(0), bottom(0), styles]} />
       <DisableSelect />
     </>,
     rootElement,

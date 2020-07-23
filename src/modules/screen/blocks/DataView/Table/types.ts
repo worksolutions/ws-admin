@@ -8,7 +8,7 @@ export enum TableViewDataType {
   IMAGE = "IMAGE",
 }
 
-export enum TableViewSizes {
+export enum TableSizes {
   LARGE = "LARGE",
   MEDIUM = "MEDIUM",
   SMALL = "SMALL",
@@ -21,19 +21,23 @@ export type TableViewColumn = {
   referenceRedirect?: string;
   resizable?: boolean;
   sortable?: boolean;
+  options?: {
+    imageConfig?: {
+      heightConfig: TableSizes;
+      aspectRatio: number;
+    };
+  };
 };
 
 export type TableViewRowsConfig = {
-  size: TableViewSizes;
+  paddingConfig: TableSizes;
 };
 
 export interface TableViewOptions {
   selectable: boolean;
   columns: TableViewColumn[];
   rowsConfig: TableViewRowsConfig;
-  imageConfig?: {
-    aspectRatio: number;
-  };
+  id: string;
 }
 
 export interface TableViewItemInterface {

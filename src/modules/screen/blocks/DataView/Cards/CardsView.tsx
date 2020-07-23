@@ -41,6 +41,7 @@ function CardsView({
         const cardComponent = <CardComponent {...card} imageConfig={imageConfig} />;
 
         if (!referenceRedirect) return cardComponent;
+
         return (
           <LinkWrapper
             key={card.id}

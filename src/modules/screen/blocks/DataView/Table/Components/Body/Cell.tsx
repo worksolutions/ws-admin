@@ -7,22 +7,23 @@ import ImageWithDefault from "primitives/ImageWithDefault";
 import Wrapper from "primitives/Wrapper";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
 
-import { border, borderRadius, paddingLeft, verticalAlign, verticalPadding, width } from "libs/styles";
-import { getLinkIsNative } from "libs/linkIsNative";
-
 import {
-  TableViewColumn,
-  TableViewDataType,
-  TableViewItemInterface,
-  TableViewOptions,
-  TableViewSizes,
-} from "../../types";
+  border,
+  borderRadius,
+  horizontalPadding,
+  lastChild,
+  paddingLeft,
+  paddingRight,
+  position,
+  verticalAlign,
+  verticalPadding,
+  width,
+} from "libs/styles";
+import { getLinkIsNative } from "libs/linkIsNative";
+import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 
-interface ColumnInterface {
-  column: TableViewColumn;
-  options: TableViewOptions;
-  item: TableViewItemInterface;
-}
+import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
+import { getSizeChangerLineStyles, SizeChangerTransparentLine } from "../SizeChangerLine";
 
 const ComponentsForColumnType: Record<
   TableViewDataType,
@@ -30,7 +31,7 @@ const ComponentsForColumnType: Record<
     item: TableViewItemInterface;
     width: number;
     linkWrapper?: (child: React.ReactNode) => JSX.Element;
-    options: TableViewOptions;
+    column: TableViewColumn;
   }) => JSX.Element
 > = {
   [TableViewDataType.STRING]: ({ item, linkWrapper }) => {
@@ -43,33 +44,58 @@ const ComponentsForColumnType: Record<
 
     return <Typography styles={[verticalPadding(2)]}>{item.value}</Typography>;
   },
-  [TableViewDataType.IMAGE]: ({ item, width, options }) => (
-    <ImageWithDefault
-      src={item.value as string}
-      width="100%"
-      height={width / options.imageConfig!.aspectRatio}
-      styles={[border(1, "gray-blue/02"), borderRadius(4)]}
-    />
-  ),
+  [TableViewDataType.IMAGE]: ({ item, width, column }) =>
+    (
+      <ImageWithDefault
+        src={item.value as string}
+        width="100%"
+        height={Math.ceil(width / column.options!.imageConfig!.aspectRatio)}
+        styles={[border(1, "gray-blue/02"), borderRadius(4)]}
+        emptyIcon="16-no-image"
+      />
+    ) as any,
 };
 
-const verticalPaddingForSize: Record<TableViewSizes, number> = {
-  [TableViewSizes.LARGE]: 16,
-  [TableViewSizes.MEDIUM]: 12,
-  [TableViewSizes.SMALL]: 8,
+const verticalPaddingForSize: Record<TableSizes, number> = {
+  [TableSizes.LARGE]: 16,
+  [TableSizes.MEDIUM]: 12,
+  [TableSizes.SMALL]: 8,
 };
 
-const widthForType: Record<TableViewDataType, (padding: number) => string | number> = {
+const imageHeightsForHeightConfig: Record<TableSizes, number> = {
+  [TableSizes.LARGE]: 48,
+  [TableSizes.MEDIUM]: 32,
+  [TableSizes.SMALL]: 24,
+};
+
+const widthForPaddingAndOptions: Record<
+  TableViewDataType,
+  (padding: number, options: TableViewColumn["options"]) => string | number
+> = {
   [TableViewDataType.STRING]: () => "initial",
-  [TableViewDataType.IMAGE]: (padding) => padding + 76,
+  [TableViewDataType.IMAGE]: (padding, options) => {
+    const imageConfig = options!.imageConfig!;
+    return padding + Math.ceil(imageHeightsForHeightConfig[imageConfig.heightConfig] * imageConfig.aspectRatio);
+  },
 };
 
-function Cell({ options, item, column, tableCellProps }: ColumnInterface & { tableCellProps: TableCellProps }) {
+const defaultPadding = 16;
+
+interface ColumnInterface {
+  column: TableViewColumn;
+  tableViewOptions: TableViewOptions;
+  item: TableViewItemInterface;
+}
+
+type CellProps = ColumnInterface & { tableCellProps: TableCellProps; styles?: any; showResize: boolean };
+
+function Cell({ tableViewOptions, item, column, tableCellProps, showResize, styles }: CellProps) {
   const [ref, bounds] = useMeasure();
-  const type = column.type || TableViewDataType.STRING;
-  const Component = ComponentsForColumnType[type];
+  const columnType = column.type || TableViewDataType.STRING;
+  const Component = ComponentsForColumnType[columnType];
   if (!Component) return null;
-  const componentVerticalPadding = verticalPaddingForSize[options.rowsConfig.size];
+
+  const componentVerticalPadding = verticalPaddingForSize[tableViewOptions.rowsConfig.paddingConfig];
 
   return (
     <Wrapper
@@ -79,14 +105,19 @@ function Cell({ options, item, column, tableCellProps }: ColumnInterface & { tab
       styles={[
         verticalAlign("top"),
         verticalPadding(componentVerticalPadding),
-        paddingLeft(16),
-        width(widthForType[type](16)),
+        horizontalPadding(0),
+        paddingLeft(defaultPadding),
+        width(widthForPaddingAndOptions[columnType](defaultPadding, column.options)),
+        lastChild(paddingRight(defaultPadding), "&"),
+        position("relative"),
+        getSizeChangerLineStyles(showResize),
+        styles,
       ]}
     >
       <Component
         width={bounds.width}
         item={item}
-        options={options}
+        column={column}
         linkWrapper={
           column.referenceRedirect
             ? (child) => (
@@ -97,8 +128,9 @@ function Cell({ options, item, column, tableCellProps }: ColumnInterface & { tab
             : undefined
         }
       />
+      {showResize && <SizeChangerTransparentLine />}
     </Wrapper>
   );
 }
 
-export default React.memo(Cell);
+export default withPerformance(["tableViewOptions", "column", "tableCellProps"])(Cell);
