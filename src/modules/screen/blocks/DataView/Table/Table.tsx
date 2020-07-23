@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useTable, useResizeColumns, Hooks } from "react-table";
+import { Hooks, useResizeColumns, useTable } from "react-table";
 import { isNil, last } from "ramda";
-import { toJS } from "mobx";
 
 import { TableViewColumn, TableViewDataSource, TableViewOptions } from "./types";
 import TableComponent from "./Components/HTMLTable";
