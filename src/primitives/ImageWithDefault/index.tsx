@@ -14,10 +14,23 @@ interface ImageInterface {
   styles?: any;
   as?: StyledComponentsAS;
   emptyIcon?: Icons;
+  emptyIconSize?: number;
 }
 
-function Image({ src, height: heightProp, width: widthProp, styles, as, emptyIcon = "no-image" }: ImageInterface) {
-  const image = src ? <Icon customIcon={src} width="100%" height="100%" /> : <Icon iconName={emptyIcon} />;
+function Image({
+  src,
+  height: heightProp,
+  width: widthProp,
+  styles,
+  as,
+  emptyIcon = "no-image",
+  emptyIconSize,
+}: ImageInterface) {
+  const image = src ? (
+    <Icon customIcon={src} width="100%" height="100%" />
+  ) : (
+    <Icon color="gray-blue/03" iconName={emptyIcon} width={emptyIconSize} height={emptyIconSize} />
+  );
 
   return (
     <Wrapper

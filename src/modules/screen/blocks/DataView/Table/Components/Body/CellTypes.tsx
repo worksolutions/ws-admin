@@ -52,6 +52,7 @@ const ImageComponent: ColumnComponent = ({ item, width, column }) => (
     height={Math.ceil(width / column.options!.imageConfig!.aspectRatio)}
     styles={[border(1, "gray-blue/02"), borderRadius(4)]}
     emptyIcon="16-no-image"
+    emptyIconSize={16}
   />
 );
 
