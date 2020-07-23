@@ -7,7 +7,7 @@ import Wrapper from "primitives/Wrapper";
 import { flex } from "libs/styles";
 
 import { UseSortingType } from "../../libs";
-import { useResizeTableHead } from "../../resizeHook";
+import { useResizeTableHead } from "../../libs/resizeHook";
 
 import HeaderColumn from "./HeaderColumn";
 

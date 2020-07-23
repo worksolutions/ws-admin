@@ -3,8 +3,8 @@ import { CellProps, Column } from "react-table";
 
 import { flex, width } from "libs/styles";
 
-import TableCell from "./Components/Body/Cell";
-import { TableViewColumn, TableViewOptions } from "./types";
+import TableCell from "../Components/Body/Cell";
+import { TableViewColumn, TableViewOptions } from "../types";
 
 import { SortingDirection } from "types/Sorting";
 

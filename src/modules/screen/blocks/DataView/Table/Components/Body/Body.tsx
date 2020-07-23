@@ -6,7 +6,7 @@ import Wrapper from "primitives/Wrapper";
 
 import { flex } from "libs/styles";
 
-import { useResizeTableContent } from "../../resizeHook";
+import { useResizeTableContent } from "../../libs/resizeHook";
 import { HeaderGroupInterface } from "../Header";
 
 type BodyInterface = {

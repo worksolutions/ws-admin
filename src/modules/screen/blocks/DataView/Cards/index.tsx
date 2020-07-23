@@ -1,13 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 
-import Spinner from "primitives/Spinner";
-import Typography from "primitives/Typography";
 import { CardImageConfig } from "primitives/Card/types";
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import { ViewMetaData } from "../types";
+import { useSubviewLoader } from "../FormattedData/libs";
 
 import { CardsViewDataSource } from "./types";
 import CardsView from "./CardsView";
@@ -25,14 +24,9 @@ export interface CardsViewBlockInterface
 function CardsViewWrapper({ dataSource, options, onUpdateMeta }: CardsViewBlockInterface) {
   const { data, loadingContainer } = useDataSource<CardsViewDataSource>(dataSource!);
 
-  React.useEffect(() => {
-    if (!data) return;
-    if (onUpdateMeta) onUpdateMeta({ pagination: data.pagination });
-  }, [data]);
+  useSubviewLoader(data, loadingContainer, onUpdateMeta);
 
-  if (loadingContainer.loading) return <Spinner size={36} />;
-
-  if (!data) return <Typography>Нет данных</Typography>;
+  if (!data) return null;
 
   return <CardsView {...data} {...options!} />;
 }

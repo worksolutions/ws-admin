@@ -1,11 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { assoc, assocPath } from "ramda";
+import { useSetState } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
-import Button, { ButtonSize, ButtonType } from "primitives/Button";
-import Dropdown, { DropdownSize } from "primitives/Dropdown";
 import Spinner from "primitives/Spinner";
+import Dropdown, { DropdownSize } from "primitives/Dropdown";
 
 import Pagination from "components/Pagination/Pagination";
 
@@ -15,142 +15,100 @@ import {
   border,
   borderRadius,
   borderTop,
-  child,
   flex,
   flexColumn,
   flexValue,
-  flexWrap,
   fullWidth,
   jc,
-  lastChild,
-  marginLeft,
-  marginRight,
   marginTop,
   overflowX,
   overflowY,
   padding,
-  zIndex,
 } from "libs/styles";
 import { useLocalStorage } from "libs/hooks";
 
-import { useAppContext } from "modules/context/hooks/useAppContext";
-import { useActions } from "modules/context/actions/useActions";
-import { useDataSource } from "modules/context/dataSource/useDataSource";
-
-import ActionInput, { InputOptionsInterface } from "../../Actions/Input";
-import ActionSorting, { SortingOptionsInterface } from "../../Actions/Sorting";
-import TableViewBlock, { TableViewBlockInterface } from "../Table";
-import CardsViewBlock, { CardsViewBlockInterface } from "../Cards";
+import TableViewBlock from "../Table";
+import CardsViewBlock from "../Cards";
 import { ViewMetaData } from "../types";
 
-import { BlockInterface } from "state/systemState";
-
-import { PaginationInterface } from "types/Pagination";
-
-export const initialLocalStorageValue = { mode: "cards", perPage: 0 };
+import { FormattedDataViewInterface } from "./types";
+import Actions from "./Components/Actions";
+import { notFoundElement } from "./Components/notFound";
+import { formattedDataLocalStorageInitialValue, usePagination } from "./libs";
 
 const initialMetaData: ViewMetaData = {
+  loading: true,
   pagination: { itemsCount: 0, pagesCount: 0 },
 };
 
-interface CardsViewInterface extends CardsViewBlockInterface {
-  options?: CardsViewBlockInterface["options"] & {
-    sortingOptions?: SortingOptionsInterface;
-  };
-}
-
-export interface TableViewInterface extends TableViewBlockInterface {}
-
-export type FormattedDataViewInterface = BlockInterface<
-  {
-    id: string;
-    tableView: TableViewInterface;
-    cardsView: CardsViewInterface;
-    paginationView: BlockInterface<{ enabled: boolean; paginationItems: number[] }, "change">;
-    searchOptions: InputOptionsInterface;
-  },
-  "search" | "sorting"
-> & { styles?: any };
-
 function FormattedDataView({ options, actions, styles }: FormattedDataViewInterface) {
-  const paginationEnabled = options?.paginationView.options?.enabled;
+  const [localStorageValue, setLocalStorageValue] = useLocalStorage(options!.id, formattedDataLocalStorageInitialValue);
 
-  const [storage, setStorage] = useLocalStorage(options!.id, initialLocalStorageValue);
+  const [metaData, setMetaData] = useSetState(initialMetaData);
 
-  const [metaData, setMetaData] = React.useState(initialMetaData);
-  const paginationViewData = useDataSource<PaginationInterface>(options!.paginationView.dataSource!);
-
-  const appContext = useAppContext();
-  const paginationViewActions = useActions(options?.paginationView.actions!, appContext);
+  const { actions: paginationViewActions, data: paginationViewData, show: showPaginationRaw } = usePagination(
+    options!.paginationView,
+  );
 
   const tableViewOptions = React.useMemo(
     () => assocPath(["options", "id"], `${options!.id}-table`, options!.tableView),
     [],
   );
 
-  if (paginationViewData.loadingContainer.loading) return <Spinner size={36} />;
+  if (paginationViewData.loadingContainer.loading) return null;
 
-  const isCardsView = storage.mode === "cards";
+  const itemsIsEmptyList = metaData.pagination!.itemsCount === 0;
+
+  const showPagination = !itemsIsEmptyList && showPaginationRaw;
+
+  const notFound = !metaData.loading && itemsIsEmptyList && notFoundElement;
+
+  const isCardsView = localStorageValue.mode === "cards";
 
   return (
     <Wrapper
       styles={[flex, ai(Aligns.STRETCH), flexValue(1), borderRadius(8), border(1, "gray-blue/02"), flexColumn, styles]}
     >
-      <Wrapper
-        styles={[
-          padding("16px 16px 0 16px"),
-          flex,
-          ai(Aligns.CENTER),
-          flexWrap,
-          zIndex(1),
-          child(marginRight(16)),
-          lastChild(marginRight(0)),
-        ]}
-      >
-        {actions?.search && <ActionInput actions={{ change: actions.search }} options={options?.searchOptions} />}
-        {isCardsView && actions?.sorting && (
-          <ActionSorting
-            styles={[actions?.search && marginLeft(8)]}
-            actions={{ change: actions.sorting }}
-            options={options?.cardsView.options?.sortingOptions}
-          />
-        )}
-        <Wrapper styles={flexValue(1)} />
-        {paginationEnabled && (
-          <Dropdown
-            size={DropdownSize.MEDIUM}
-            items={options!.paginationView.options?.paginationItems.map((number) => ({ id: number, title: number }))}
-            selectedItemId={paginationViewData.data!.perPage}
-            onChange={async (value) => {
-              await paginationViewActions.change.run({
-                page: 1,
-                perPage: value,
-              });
-              setStorage({ ...storage, perPage: value as number });
-            }}
-          />
-        )}
-        <Button
-          type={ButtonType.ICON}
-          size={ButtonSize.MEDIUM}
-          iconLeft={isCardsView ? "density-high" : "dashboard"}
-          onClick={() => setStorage({ ...storage, mode: isCardsView ? "table" : "cards" })}
-        />
-      </Wrapper>
+      <Actions
+        options={options}
+        actions={actions}
+        isCardsView={isCardsView}
+        storage={localStorageValue}
+        setStorage={setLocalStorageValue}
+        paginationElement={
+          showPagination && (
+            <Dropdown
+              size={DropdownSize.MEDIUM}
+              items={options!.paginationView.options?.paginationItems.map((number) => ({ id: number, title: number }))}
+              selectedItemId={paginationViewData.data!.perPage}
+              onChange={async (value) => {
+                await paginationViewActions.change.run({
+                  page: 1,
+                  perPage: value,
+                });
+                setLocalStorageValue({ ...localStorageValue, perPage: value as number });
+              }}
+            />
+          )
+        }
+      />
+      {metaData.loading && <Spinner />}
       {isCardsView ? (
         <Wrapper styles={[fullWidth, marginTop(20), flexValue(1), overflowY("scroll")]}>
+          {notFound}
           <CardsViewBlock {...options!.cardsView} onUpdateMeta={setMetaData} />
         </Wrapper>
       ) : (
         <Wrapper styles={[fullWidth, marginTop(8), flex, overflowX("auto"), flexValue(1)]}>
+          {notFound}
           <TableViewBlock {...tableViewOptions} onUpdateMeta={setMetaData} />
         </Wrapper>
       )}
-      {paginationEnabled && paginationViewData.data && paginationViewActions.change && (
+      {showPagination && (
         <Wrapper styles={[flex, jc(Aligns.END), padding(16), borderTop(1, "gray-blue/02")]}>
           <Pagination
-            perPage={paginationViewData.data.perPage}
-            elementsCount={metaData.pagination.itemsCount}
+            perPage={paginationViewData.data!.perPage}
+            elementsCount={metaData.pagination!.itemsCount}
             onChange={(page) => {
               paginationViewActions.change.run(assoc("page", page, paginationViewData.data!));
             }}

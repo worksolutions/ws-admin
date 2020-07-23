@@ -17,14 +17,14 @@ import { LoadingContainer } from "state/loadingContainer";
 
 import { AnyDataSource } from "types/DataSource";
 
-interface DataInterface<RESULT = any> {
+export interface DataSourceResultInterface<RESULT = any> {
   data: RESULT | null;
   loadingContainer: LoadingContainer;
   reload: () => void;
 }
 
 export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
-  const localStore = useLocalStore<DataInterface<RESULT>>(() => ({
+  const localStore = useLocalStore<DataSourceResultInterface<RESULT>>(() => ({
     data: null,
     loadingContainer: new LoadingContainer(true),
     reload: runDataSourceFetcher,
@@ -60,6 +60,7 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
   }
 
   function runApiRequestLogic() {
+    localStore.loadingContainer.startLoading();
     return runApiRequestDataSourceFetcher(dataSource, context, {
       onDataReceived,
       onReceiveDataError: onApiRequestReceiveDataError,
@@ -72,6 +73,7 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
     runContextDataSourceFetcher(dataSource, context, onDataReceived);
 
     const apiRequestResult = runApiRequestLogic();
+
     const allDisposers: Lambda[] = [];
     if (apiRequestResult?.bodyWithContext.value) {
       allDisposers.push(

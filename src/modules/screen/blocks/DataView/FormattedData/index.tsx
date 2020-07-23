@@ -8,13 +8,15 @@ import { useLocalStorage } from "libs/hooks";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 
-import FormattedDataView, { FormattedDataViewInterface, initialLocalStorageValue } from "./View";
+import FormattedDataView from "./View";
+import { FormattedDataViewInterface } from "./types";
+import { formattedDataLocalStorageInitialValue } from "./libs";
 
 function FormattedDataViewInitializer({ options, ...otherProps }: FormattedDataViewInterface) {
   const paginationEnabled = options?.paginationView.options?.enabled;
   const [initialized, setInitialized] = React.useState(false);
 
-  const [storage] = useLocalStorage(options!.id, initialLocalStorageValue);
+  const [storage] = useLocalStorage(options!.id, formattedDataLocalStorageInitialValue);
 
   const appContext = useAppContext();
   const paginationViewActions = useActions(options?.paginationView.actions!, appContext);

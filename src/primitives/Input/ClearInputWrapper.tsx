@@ -29,7 +29,7 @@ function ClearInputWrapper({
   size?: ButtonSize;
 }) {
   return (
-    <Wrapper styles={[flex, ai(Aligns.CENTER), flexValue(1)]}>
+    <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
       {children}
       <Button
         styles={[

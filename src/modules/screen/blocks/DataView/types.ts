@@ -1,3 +1,3 @@
 import { PaginationMeta } from "types/Pagination";
 
-export type ViewMetaData = { pagination: PaginationMeta };
+export type ViewMetaData = { loading?: boolean; pagination?: PaginationMeta };
