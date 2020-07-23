@@ -10,6 +10,8 @@ import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { insertContext } from "modules/context/insertContext";
 
+import ClearInputWrapper from "../../../../../primitives/Input/ClearInputWrapper";
+
 import { BlockInterface } from "state/systemState";
 
 export interface InputOptionsInterface {
@@ -41,15 +43,17 @@ function ActionInput({
   }, [value]);
 
   return (
-    <Input
-      outerStyles={styles}
-      size={InputSize.MEDIUM}
-      value={value}
-      placeholder={options?.placeholder}
-      iconLeft={options?.iconLeft}
-      debounce={options?.debounce}
-      onChange={setValue}
-    />
+    <ClearInputWrapper needShow={!!value} clear={() => setValue("")}>
+      <Input
+        outerStyles={styles}
+        size={InputSize.MEDIUM}
+        value={value}
+        placeholder={options?.placeholder}
+        iconLeft={options?.iconLeft}
+        debounce={options?.debounce}
+        onChange={setValue}
+      />
+    </ClearInputWrapper>
   );
 }
 

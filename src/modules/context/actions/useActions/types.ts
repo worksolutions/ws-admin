@@ -1,1 +1,1 @@
-export type ActionInputDataInterface = Record<string, any>;
+export type ActionInputDataInterface = any;
