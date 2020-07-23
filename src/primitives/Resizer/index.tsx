@@ -2,11 +2,13 @@ import React, { Ref } from "react";
 import { animated, to } from "react-spring";
 import { elevation8 } from "style/shadows";
 import { duration200 } from "layout/durations";
+import { useHover } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 
 import {
+  absoluteCenter,
   backgroundColor,
   bottom,
   child,
@@ -18,7 +20,9 @@ import {
   marginLeft,
   position,
   top,
+  transform,
   transition,
+  visibility,
   width,
 } from "libs/styles";
 
@@ -33,9 +37,6 @@ interface ResizerInterface {
 }
 
 const minResizerWidth = 24;
-const buttonShowClosedContentWidth = 32;
-
-const buttonShowClosedContentLeft = minResizerWidth - buttonShowClosedContentWidth / 2;
 
 const Resizer = React.forwardRef(function (
   { initialWidth, children, styles, minWidthToAutoClose = 72, localStorageKey }: ResizerInterface,
@@ -44,8 +45,9 @@ const Resizer = React.forwardRef(function (
   const {
     down,
     childContentStyles,
-    styleParams,
-    showClosedContent,
+    contentIsClosed,
+    showContent,
+    hideContent,
     getResizingLineProps,
     backdropDisabler,
   } = useResizer({
@@ -55,12 +57,9 @@ const Resizer = React.forwardRef(function (
     minWidthToAutoClose,
   });
 
-  return (
-    <>
-      <Wrapper ref={ref} styles={[position("relative"), flex, styles]}>
-        <Wrapper as={animated.div} style={childContentStyles}>
-          {children}
-        </Wrapper>
+  const [hoverLine] = useHover((hovered) => {
+    return (
+      <div>
         <Wrapper
           as={animated.div}
           {...getResizingLineProps()}
@@ -86,17 +85,38 @@ const Resizer = React.forwardRef(function (
             ]}
           />
         </Wrapper>
-        {styleParams.childOpacity === 0 && !down && (
-          <Wrapper styles={[position("absolute"), left(buttonShowClosedContentLeft), top("50%")]}>
-            <Button
-              styles={[elevation8, backgroundColor("white")]}
-              type={ButtonType.ICON}
-              size={ButtonSize.MEDIUM}
-              iconLeft="arrow-right"
-              onClick={showClosedContent}
-            />
-          </Wrapper>
-        )}
+
+        <Wrapper
+          as={animated.div}
+          style={{ left: childContentStyles.width }}
+          styles={[absoluteCenter, visibility(contentIsClosed ? "visible" : hovered ? "visible" : "hidden")]}
+        >
+          <Button
+            styles={[
+              elevation8,
+              backgroundColor("white"),
+              child(
+                [transition(`transform ${duration200}`), transform(`rotateZ(${contentIsClosed ? "0deg" : "180deg"})`)],
+                ".icon",
+              ),
+            ]}
+            type={ButtonType.ICON}
+            size={ButtonSize.MEDIUM}
+            iconLeft="arrow-right"
+            onClick={contentIsClosed ? showContent : hideContent}
+          />
+        </Wrapper>
+      </div>
+    );
+  });
+
+  return (
+    <>
+      <Wrapper ref={ref} styles={[position("relative"), flex, styles]}>
+        <Wrapper as={animated.div} style={childContentStyles}>
+          {children}
+        </Wrapper>
+        {hoverLine}
       </Wrapper>
       {backdropDisabler}
     </>

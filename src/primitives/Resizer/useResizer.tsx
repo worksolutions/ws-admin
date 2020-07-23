@@ -24,9 +24,18 @@ export interface UseResizerOptions {
   initialWidth: number;
   minWidthToAutoClose: number;
   minResizerWidth: number;
+  opacityDuration?: number;
+  resizeDuration?: number;
 }
 
-export function useResizer({ localStorageKey, initialWidth, minWidthToAutoClose, minResizerWidth }: UseResizerOptions) {
+export function useResizer({
+  localStorageKey,
+  initialWidth,
+  minWidthToAutoClose,
+  minResizerWidth,
+  opacityDuration = 200,
+  resizeDuration = 100,
+}: UseResizerOptions) {
   const [currentWidth, setCurrentWidth] = localStorageKey
     ? useLocalStorage(localStorageKey, initialWidth)
     : React.useState(initialWidth);
@@ -43,9 +52,14 @@ export function useResizer({ localStorageKey, initialWidth, minWidthToAutoClose,
     minResizerWidth,
   }).child;
 
-  const { childWidth, childOpacity } = useSpring({
-    config: { duration: 1 },
-    ...styleParams,
+  const { childWidth } = useSpring({
+    config: { duration: resizeDuration },
+    childWidth: styleParams.childWidth,
+  });
+
+  const { childOpacity } = useSpring({
+    config: { duration: opacityDuration },
+    childOpacity: styleParams.childOpacity,
   });
 
   React.useEffect(() => {
@@ -59,8 +73,12 @@ export function useResizer({ localStorageKey, initialWidth, minWidthToAutoClose,
     setCurrentWidth(child.childOpacity === 1 ? newWidth : minResizerWidth);
   }, [down]);
 
-  function showClosedContent() {
+  function showContent() {
     setCurrentWidth(initialWidth);
+  }
+
+  function hideContent() {
+    setCurrentWidth(minResizerWidth);
   }
 
   return {
@@ -68,7 +86,9 @@ export function useResizer({ localStorageKey, initialWidth, minWidthToAutoClose,
     styleParams,
     childContentStyles: { width: childWidth, opacity: childOpacity },
     down,
-    showClosedContent,
+    contentIsClosed: currentWidth === minResizerWidth,
+    showContent,
+    hideContent,
     backdropDisabler: down && <BackdropDisabler styles={cursor("ew-resize")} />,
   };
 }

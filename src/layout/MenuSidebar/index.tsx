@@ -8,6 +8,8 @@ import {
   backgroundImage,
   backgroundPosition,
   backgroundSize,
+  borderBottom,
+  boxShadow,
   flex,
   flexColumn,
   flexValue,
@@ -43,6 +45,7 @@ export interface MenuSidebarInterface {
 }
 
 export const sidebarWidth = 56;
+export const logoHeight = 56;
 
 function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterface) {
   return (
@@ -56,10 +59,11 @@ function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterfac
         flex,
         flexColumn,
         zIndex(1),
+        boxShadow([0, 0, 0, 1, "gray-blue/02"]),
       ]}
     >
       {logo && (
-        <Wrapper styles={[backgroundColor("blue/05"), width(56), minHeight(56), padding(8)]}>
+        <Wrapper styles={[backgroundColor("white"), borderBottom(1, "gray-blue/02"), fullWidth, minHeight(logoHeight)]}>
           <Wrapper
             styles={[
               backgroundImage(logo),
