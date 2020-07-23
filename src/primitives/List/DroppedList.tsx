@@ -100,7 +100,7 @@ function DroppedList({
           opacity: spring.opacity,
           visibility: spring.opacity.to((value) => (value === 0 ? "hidden" : "visible")),
         }}
-        styles={[maxWidth(480), minWidth("100%"), zIndex(1)]}
+        styles={[maxWidth(480), minWidth("calc(100% + 40px)"), zIndex(1)]}
         ref={initPopper("child")}
       >
         <Wrapper

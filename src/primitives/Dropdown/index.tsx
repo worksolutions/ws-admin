@@ -79,6 +79,7 @@ const Dropdown = React.forwardRef(function Dropdown(
         <Wrapper
           as="button"
           styles={[
+            width("100%"),
             disableOutline,
             borderNone,
             pointer,
