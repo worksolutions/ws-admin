@@ -20,6 +20,7 @@ import {
   fullWidth,
   jc,
   marginTop,
+  overflow,
   overflowX,
   overflowY,
   padding,
@@ -107,7 +108,7 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
           {spinner}
         </Wrapper>
       ) : (
-        <Wrapper styles={[fullWidth, marginTop(8), flex, overflowX("auto"), flexValue(1), position("relative")]}>
+        <Wrapper styles={[fullWidth, marginTop(8), flex, overflow("hidden"), flexValue(1), position("relative")]}>
           {notFound}
           <TableViewBlock {...tableViewOptions} onUpdateMeta={setMetaData} />
           {spinner}

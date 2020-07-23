@@ -36,7 +36,7 @@ function CardsView({
   const appContext = useAppContext();
 
   return (
-    <LayoutGrid marginBottom={16} marginRight={16} minWidth={242} styles={[horizontalPadding(12), ai(Aligns.STRETCH)]}>
+    <LayoutGrid marginBottom={16} marginRight={16} minWidth={242} styles={[horizontalPadding(8), ai(Aligns.STRETCH)]}>
       {list.map((card) => {
         const cardComponent = <CardComponent {...card} imageConfig={imageConfig} />;
 

@@ -4,7 +4,7 @@ import { Row } from "react-table";
 
 import Wrapper from "primitives/Wrapper";
 
-import { flex } from "libs/styles";
+import { display, flex, flexValue, overflow } from "libs/styles";
 
 import { useResizeTableContent } from "../../libs/resizeHook";
 import { HeaderGroupInterface } from "../Header";
@@ -42,7 +42,7 @@ const RowComponent = observer(function ({
 
 function Body({ id, rows, prepareRow, role, resizeHoverColumnIndex }: BodyInterface) {
   return (
-    <Wrapper as="tbody" role={role}>
+    <Wrapper as="tbody" role={role} styles={[overflow("auto"), flexValue(1), display("block")]}>
       {rows.map((row) => {
         prepareRow(row);
         return (
