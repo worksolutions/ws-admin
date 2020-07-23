@@ -4,7 +4,17 @@ import { animated, useSpring } from "react-spring";
 import { elevation16 } from "style/shadows";
 import { useHover } from "react-use";
 
-import { backgroundColor, border, borderRadius, fullWidth, maxWidth, minWidth, position, zIndex } from "libs/styles";
+import {
+  backgroundColor,
+  border,
+  borderRadius,
+  fullWidth,
+  maxWidth,
+  minWidth,
+  padding,
+  position,
+  zIndex,
+} from "libs/styles";
 import { useBoolean } from "libs/hooks";
 import { provideRef } from "libs/provideRef";
 
@@ -111,6 +121,7 @@ function DroppedList({
             border(1, "gray-blue/02"),
             elevation16,
             borderRadius(6),
+            padding("0 4px"),
           ]}
         >
           {items ? (
