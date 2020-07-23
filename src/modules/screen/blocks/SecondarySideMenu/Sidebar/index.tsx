@@ -5,6 +5,7 @@ import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 import Resizer from "primitives/Resizer";
 import Input, { InputSize } from "primitives/Input/Input";
+import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
 import {
   ai,
@@ -47,14 +48,17 @@ function SecondaryMenuSidebar({ title, items, id }: SecondaryMenuSidebarInterfac
         <Wrapper
           styles={[overflow("hidden"), minHeight("100vh"), maxHeight("100vh"), fullWidth, padding("16px 8px 0px 8px")]}
         >
-          <Wrapper styles={[padding("0 8px 12px 8px")]}>
-            <Input
-              size={InputSize.MEDIUM}
-              iconLeft="search-big"
-              placeholder="Найти раздел"
-              value={search}
-              onChange={setSearch}
-            />
+          <Wrapper styles={[padding("0 0 12px 8px")]}>
+            <ClearInputWrapper needShow={!!search} clear={() => setSearch("")}>
+              <Input
+                fullWidth
+                size={InputSize.MEDIUM}
+                iconLeft="search-big"
+                placeholder="Найти раздел"
+                value={search}
+                onChange={setSearch}
+              />
+            </ClearInputWrapper>
             <Wrapper styles={[flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN), marginTop(12)]}>
               <Typography type="h1-bold">{title}</Typography>
             </Wrapper>

@@ -27,6 +27,7 @@ import {
   Colors,
   borderWidth,
   boxShadow,
+  flexValue,
 } from "libs/styles";
 import { isString } from "libs/is";
 
@@ -161,7 +162,7 @@ function InputWrapper({
   const colors = colorsByVariant[variant];
 
   return (
-    <Wrapper styles={[fullWidthProp && fullWidth, outerStyles]}>
+    <Wrapper styles={[fullWidthProp && flexValue(1), outerStyles]}>
       <Title title={title} />
       <Wrapper styles={[fullWidth, backgroundColor(colors.background), borderRadius(6), position("relative")]}>
         {children([

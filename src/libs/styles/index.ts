@@ -40,6 +40,10 @@ export const boxShadow = memoizeWith(
   },
 ) as (...config: BoxShadow[]) => any;
 
+export const emptyBoxShadow = css`
+  box-shadow: none;
+`;
+
 export const transform = memoizeWith(identity, function (transform: string) {
   return css`
     transform: ${transform};`;
