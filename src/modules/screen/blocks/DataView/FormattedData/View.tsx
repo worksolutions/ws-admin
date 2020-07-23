@@ -24,6 +24,7 @@ import {
   overflowX,
   overflowY,
   padding,
+  position,
 } from "libs/styles";
 import { useLocalStorage } from "libs/hooks";
 
@@ -35,6 +36,7 @@ import { FormattedDataViewInterface } from "./types";
 import Actions from "./Components/Actions";
 import { notFoundElement } from "./Components/notFound";
 import { formattedDataLocalStorageInitialValue, usePagination } from "./libs";
+import { spinnerElement } from "./Components/spinner";
 
 const initialMetaData: ViewMetaData = {
   loading: true,
@@ -65,6 +67,8 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
 
   const isCardsView = localStorageValue.mode === "cards";
 
+  const spinner = metaData.loading && spinnerElement;
+
   return (
     <Wrapper
       styles={[flex, ai(Aligns.STRETCH), flexValue(1), borderRadius(8), border(1, "gray-blue/02"), flexColumn, styles]}
@@ -92,16 +96,17 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
           )
         }
       />
-      {metaData.loading && <Spinner />}
       {isCardsView ? (
-        <Wrapper styles={[fullWidth, marginTop(20), flexValue(1), overflowY("scroll")]}>
+        <Wrapper styles={[fullWidth, marginTop(20), flexValue(1), overflowY("scroll"), position("relative")]}>
           {notFound}
           <CardsViewBlock {...options!.cardsView} onUpdateMeta={setMetaData} />
+          {spinner}
         </Wrapper>
       ) : (
-        <Wrapper styles={[fullWidth, marginTop(8), flex, overflowX("auto"), flexValue(1)]}>
+        <Wrapper styles={[fullWidth, marginTop(8), flex, overflowX("auto"), flexValue(1), position("relative")]}>
           {notFound}
           <TableViewBlock {...tableViewOptions} onUpdateMeta={setMetaData} />
+          {spinner}
         </Wrapper>
       )}
       {showPagination && (
