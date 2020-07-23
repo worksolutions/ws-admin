@@ -24,6 +24,14 @@ import ActionSorting from "modules/screen/blocks/Actions/Sorting";
 import { FormattedDataViewInterface } from "../types";
 import { formattedDataLocalStorageInitialValue } from "../libs";
 
+type ActionType = Pick<FormattedDataViewInterface, "actions" | "options"> & {
+  isCardsView: boolean;
+  storage: typeof formattedDataLocalStorageInitialValue;
+  setStorage: (data: typeof formattedDataLocalStorageInitialValue) => void;
+  paginationElement: React.ReactNode;
+  onSearchChange?: (text: string) => void;
+};
+
 function Actions({
   actions,
   options,
@@ -31,12 +39,8 @@ function Actions({
   setStorage,
   storage,
   paginationElement,
-}: Pick<FormattedDataViewInterface, "actions" | "options"> & {
-  isCardsView: boolean;
-  storage: typeof formattedDataLocalStorageInitialValue;
-  setStorage: (data: typeof formattedDataLocalStorageInitialValue) => void;
-  paginationElement: React.ReactNode;
-}) {
+  onSearchChange,
+}: ActionType) {
   return (
     <Wrapper
       styles={[
@@ -49,7 +53,9 @@ function Actions({
         lastChild(marginRight(0)),
       ]}
     >
-      {actions?.search && <ActionInput actions={{ change: actions.search }} options={options?.searchOptions} />}
+      {actions?.search && (
+        <ActionInput actions={{ change: actions.search }} options={options?.searchOptions} onChange={onSearchChange} />
+      )}
       {isCardsView && actions?.sorting && (
         <ActionSorting
           styles={[actions?.search && marginLeft(8)]}

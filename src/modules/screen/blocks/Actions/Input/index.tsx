@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import Input, { InputSize } from "primitives/Input/Input";
 import { Icons } from "primitives/Icon";
+import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
 import { useEffectSkipFirst } from "libs/hooks";
 
@@ -10,35 +11,30 @@ import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { insertContext } from "modules/context/insertContext";
 
-import ClearInputWrapper from "../../../../../primitives/Input/ClearInputWrapper";
-
 import { BlockInterface } from "state/systemState";
 
 export interface InputOptionsInterface {
   placeholder?: string;
   iconLeft?: Icons;
   debounce?: number;
-  initialValue?: string;
+  value: string;
 }
 
-function ActionInput({
-  actions,
-  options,
-  styles,
-}: BlockInterface<InputOptionsInterface, "change"> & {
+type ActionInputType = BlockInterface<InputOptionsInterface, "change"> & {
   styles?: any;
-}) {
+  onChange?: (text: string) => void;
+};
+
+function ActionInput({ actions, options, styles, onChange }: ActionInputType) {
   if (!actions?.change) return null;
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
 
-  const [value, setValue] = React.useState(() => {
-    if (!options?.initialValue) return "";
-    return insertContext(options.initialValue, appContext.context).value;
-  });
+  const [value, setValue] = React.useState(() => insertContext(options!.value, appContext.context).value);
 
   useEffectSkipFirst(() => {
+    if (onChange) onChange(value);
     resultActions.change.run(value);
   }, [value]);
 

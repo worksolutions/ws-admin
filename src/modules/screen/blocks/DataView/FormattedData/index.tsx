@@ -13,7 +13,6 @@ import { FormattedDataViewInterface } from "./types";
 import { formattedDataLocalStorageInitialValue } from "./libs";
 
 function FormattedDataViewInitializer({ options, ...otherProps }: FormattedDataViewInterface) {
-  const paginationEnabled = options?.paginationView.options?.enabled;
   const [initialized, setInitialized] = React.useState(false);
 
   const [storage] = useLocalStorage(options!.id, formattedDataLocalStorageInitialValue);
@@ -22,13 +21,9 @@ function FormattedDataViewInitializer({ options, ...otherProps }: FormattedDataV
   const paginationViewActions = useActions(options?.paginationView.actions!, appContext);
 
   React.useEffect(() => {
-    if (paginationEnabled) {
-      paginationViewActions.change
-        .run({ page: 1, perPage: storage.perPage || options!.paginationView.options!.paginationItems[0] })
-        .then(() => setInitialized(true));
-      return;
-    }
-    setInitialized(true);
+    paginationViewActions.change
+      .run({ page: 1, perPage: storage.perPage || options!.paginationView.options!.paginationItems[0] })
+      .then(() => setInitialized(true));
   }, []);
 
   if (!initialized) return <Spinner size={36} />;

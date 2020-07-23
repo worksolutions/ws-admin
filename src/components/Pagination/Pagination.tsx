@@ -30,6 +30,7 @@ import { calculatePaginationData, getMaskedInputWidth } from "./libs";
 interface PaginationInterface {
   styles?: any;
   elementsCount: number;
+  page: number;
   perPage: number;
   onChange: (page: number) => void;
 }
@@ -87,13 +88,10 @@ const paginationComponentsForType: Record<
 
 paginationComponentsForType["jump-next"] = paginationComponentsForType["jump-prev"];
 
-function Pagination({ styles, perPage, elementsCount, onChange }: PaginationInterface) {
-  const [page, setPage] = React.useState(1);
+function Pagination({ styles, page, perPage, elementsCount, onChange }: PaginationInterface) {
   const [goToPage, setGoToPage] = React.useState("");
 
-  useEffectSkipFirst(() => {
-    setPage(1);
-  }, [perPage]);
+  useEffectSkipFirst(() => onChange(1), [perPage]);
 
   const { lastElementNumberOnPage, firstElementNumberOnPage, pages } = React.useMemo(
     () => calculatePaginationData(page, perPage, elementsCount),
@@ -102,12 +100,8 @@ function Pagination({ styles, perPage, elementsCount, onChange }: PaginationInte
 
   React.useEffect(() => {
     if (goToPage === "") return;
-    setPage(parseFloat(goToPage));
+    onChange(parseFloat(goToPage));
   }, [goToPage]);
-
-  useEffectSkipFirst(() => {
-    onChange(page);
-  }, [page]);
 
   const mask = React.useMemo(() => makeMask(repeat(/\d/, pages.toString().length)), [pages]);
 
@@ -126,7 +120,7 @@ function Pagination({ styles, perPage, elementsCount, onChange }: PaginationInte
           return <Component renderValue={pageNumber} currentPage={page} pagesCount={pages} />;
         }}
         onChange={(newPage) => {
-          setPage(newPage);
+          onChange(newPage);
           setGoToPage("");
         }}
       />

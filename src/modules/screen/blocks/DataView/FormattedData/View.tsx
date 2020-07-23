@@ -4,7 +4,6 @@ import { assoc, assocPath } from "ramda";
 import { useSetState } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
-import Spinner from "primitives/Spinner";
 import Dropdown, { DropdownSize } from "primitives/Dropdown";
 
 import Pagination from "components/Pagination/Pagination";
@@ -45,6 +44,7 @@ const initialMetaData: ViewMetaData = {
 
 function FormattedDataView({ options, actions, styles }: FormattedDataViewInterface) {
   const [localStorageValue, setLocalStorageValue] = useLocalStorage(options!.id, formattedDataLocalStorageInitialValue);
+  const [page, setPage] = React.useState(1);
 
   const [metaData, setMetaData] = useSetState(initialMetaData);
 
@@ -69,6 +69,12 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
 
   const spinner = metaData.loading && spinnerElement;
 
+  const onSearchChange = () => {
+    if (paginationViewData.data!.page === 1) return;
+    setPage(1);
+    paginationViewActions.change.run(assoc("page", 1, paginationViewData.data!));
+  };
+
   return (
     <Wrapper
       styles={[flex, ai(Aligns.STRETCH), flexValue(1), borderRadius(8), border(1, "gray-blue/02"), flexColumn, styles]}
@@ -79,6 +85,7 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
         isCardsView={isCardsView}
         storage={localStorageValue}
         setStorage={setLocalStorageValue}
+        onSearchChange={onSearchChange}
         paginationElement={
           showPagination && (
             <Dropdown
@@ -86,10 +93,7 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
               items={options!.paginationView.options?.paginationItems.map((number) => ({ id: number, title: number }))}
               selectedItemId={paginationViewData.data!.perPage}
               onChange={async (value) => {
-                await paginationViewActions.change.run({
-                  page: 1,
-                  perPage: value,
-                });
+                await paginationViewActions.change.run({ page: 1, perPage: value });
                 setLocalStorageValue({ ...localStorageValue, perPage: value as number });
               }}
             />
@@ -112,9 +116,11 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
       {showPagination && (
         <Wrapper styles={[flex, jc(Aligns.END), padding(16), borderTop(1, "gray-blue/02")]}>
           <Pagination
+            page={page}
             perPage={paginationViewData.data!.perPage}
             elementsCount={metaData.pagination!.itemsCount}
             onChange={(page) => {
+              setPage(page);
               paginationViewActions.change.run(assoc("page", page, paginationViewData.data!));
             }}
           />

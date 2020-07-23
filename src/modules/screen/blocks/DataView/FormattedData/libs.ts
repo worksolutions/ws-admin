@@ -36,7 +36,6 @@ export function usePagination(paginationView: FormattedDataPaginationView) {
   const actions = useActions(paginationView.actions!, appContext);
 
   const data = useDataSource<PaginationInterface>(paginationView.dataSource!);
-  const enabled = paginationView.options?.enabled;
-  const show = enabled && data.data && actions.change;
-  return { actions, data, enabled, show: !!show };
+  const show = data.data && actions.change;
+  return { actions, data, show: !!show };
 }

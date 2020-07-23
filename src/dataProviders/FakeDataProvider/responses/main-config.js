@@ -239,11 +239,10 @@ module.exports = {
                             placeholder: "Найти",
                             iconLeft: "search-big",
                             debounce: 600,
-                            initialValue: "{{screen:articles.search}}",
+                            value: "{{screen:articles.search}}",
                           },
                           paginationView: {
                             options: {
-                              enabled: true,
                               paginationItems: [8, 16, 32],
                             },
                             dataSource: {

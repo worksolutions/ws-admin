@@ -14,7 +14,7 @@ interface CardsViewInterface extends CardsViewBlockInterface {
 
 export interface TableViewInterface extends TableViewBlockInterface {}
 
-export type FormattedDataPaginationView = BlockInterface<{ enabled: boolean; paginationItems: number[] }, "change">;
+export type FormattedDataPaginationView = BlockInterface<{ paginationItems: number[] }, "change">;
 
 export type FormattedDataViewInterface = BlockInterface<
   {
