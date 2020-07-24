@@ -4,7 +4,17 @@ import { animated, useSpring } from "react-spring";
 import { elevation16 } from "style/shadows";
 import { useHover } from "react-use";
 
-import { backgroundColor, border, borderRadius, fullWidth, maxWidth, minWidth, position, zIndex } from "libs/styles";
+import {
+  backgroundColor,
+  border,
+  borderRadius,
+  fullWidth,
+  maxWidth,
+  minWidth,
+  padding,
+  position,
+  zIndex,
+} from "libs/styles";
 import { useBoolean } from "libs/hooks";
 import { provideRef } from "libs/provideRef";
 
@@ -100,7 +110,7 @@ function DroppedList({
           opacity: spring.opacity,
           visibility: spring.opacity.to((value) => (value === 0 ? "hidden" : "visible")),
         }}
-        styles={[maxWidth(480), minWidth("100%"), zIndex(1)]}
+        styles={[maxWidth(480), minWidth("calc(100% + 40px)"), zIndex(1)]}
         ref={initPopper("child")}
       >
         <Wrapper
@@ -111,6 +121,7 @@ function DroppedList({
             border(1, "gray-blue/02"),
             elevation16,
             borderRadius(6),
+            padding("0 4px"),
           ]}
         >
           {items ? (
