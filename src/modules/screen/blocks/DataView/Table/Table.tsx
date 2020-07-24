@@ -81,15 +81,15 @@ function Table({ list, options }: { list: TableViewDataSource["list"]; options: 
           {...getTableBodyProps()}
         />
       </TableComponent>
-      <TableComponent className="table-sticky-for-header" css={[position("absolute"), backgroundColor("white")]}>
-        <HeaderComponent
-          className="header-sticky"
-          id={id}
-          trHeaderGroup={headerGroup}
-          sorting={sorting}
-          onResizeHover={setResizeHoverColumnIndex}
-        />
-      </TableComponent>
+      {/*<TableComponent className="table-sticky-for-header" css={[position("absolute"), backgroundColor("white")]}>*/}
+      {/*  <HeaderComponent*/}
+      {/*    className="header-sticky"*/}
+      {/*    id={id}*/}
+      {/*    trHeaderGroup={headerGroup}*/}
+      {/*    sorting={sorting}*/}
+      {/*    onResizeHover={setResizeHoverColumnIndex}*/}
+      {/*  />*/}
+      {/*</TableComponent>*/}
     </Wrapper>
   );
 }

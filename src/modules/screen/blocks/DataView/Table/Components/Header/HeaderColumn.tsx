@@ -29,6 +29,7 @@ function HeaderColumn({ headerColumn, fixedSizes, sorting, width: widthProp, onR
     minResizerWidth: 24,
     minWidthToAutoClose: 0,
     initialWidth: widthProp || 1,
+    resizeDuration: 0,
   });
 
   const [hoverable, hovered] = useHover(() => {

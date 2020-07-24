@@ -14,9 +14,9 @@ export class Scroller {
   run(container: HTMLElement) {
     this.container = container;
     // const [originalHeader] = (container.getElementsByClassName("table-header-original") as unknown) as HTMLElement[];
-    const [stickyTable] = (container.getElementsByClassName("table-sticky-for-header") as unknown) as HTMLElement[];
+    // const [stickyTable] = (container.getElementsByClassName("table-sticky-for-header") as unknown) as HTMLElement[];
     // const [stickyHeader] = (stickyTable.getElementsByClassName("header-sticky") as unknown) as HTMLElement[];
-    stickyTable.style.display = "none";
+    // stickyTable.style.display = "none";
     // container.addEventListener("scroll", () => {
     //   if (container.scrollTop === 0) {
     //     originalHeader.style.opacity = "1";
