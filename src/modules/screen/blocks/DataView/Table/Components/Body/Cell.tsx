@@ -6,6 +6,7 @@ import Wrapper from "primitives/Wrapper";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
 
 import {
+  firstChild,
   horizontalPadding,
   lastChild,
   paddingLeft,
@@ -76,8 +77,9 @@ function Cell({ tableViewOptions, item, column, tableCellProps, showResize, styl
         verticalAlign("top"),
         verticalPadding(componentVerticalPadding),
         horizontalPadding(0),
-        paddingLeft(defaultPadding),
         width(widthForPaddingAndOptions[columnType](defaultPadding, column.options)),
+        horizontalPadding(defaultPadding / 2),
+        firstChild(paddingLeft(defaultPadding), "&"),
         lastChild(paddingRight(defaultPadding), "&"),
         position("relative"),
         getSizeChangerLineStyles(showResize),
