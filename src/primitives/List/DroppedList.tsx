@@ -3,12 +3,14 @@ import { duration200Number } from "layout/durations";
 import { animated, useSpring } from "react-spring";
 import { elevation16 } from "style/shadows";
 import { useHover } from "react-use";
+import { Placement } from "@popperjs/core";
 
 import {
   backgroundColor,
   border,
   borderRadius,
   fullWidth,
+  marginRight,
   maxWidth,
   minWidth,
   padding,
@@ -31,6 +33,7 @@ export enum DroppedListOpenMode {
 
 interface DroppedListInterface {
   mode?: DroppedListOpenMode;
+  placement?: Placement;
   itemSize?: ListItemSize;
   ignoreClickOutsideElements?: (HTMLElement | undefined | null)[];
   margin: number;
@@ -81,6 +84,7 @@ const ComponentForOpenMode: Record<
 
 function DroppedList({
   mode = DroppedListOpenMode.CLICK,
+  placement: placementProp = "bottom-start",
   itemSize,
   selectedItemId,
   ignoreClickOutsideElements,
@@ -96,7 +100,7 @@ function DroppedList({
     opacity: opened ? 1 : 0,
   });
 
-  const { initPopper, placement } = usePopper({ placement: "bottom-start" });
+  const { initPopper, placement } = usePopper({ placement: placementProp });
 
   const Component = ComponentForOpenMode[mode];
 
@@ -115,7 +119,6 @@ function DroppedList({
       >
         <Wrapper
           styles={[
-            fullWidth,
             getPopperMarginStyleForPlacement(placement, marginProp),
             backgroundColor("white"),
             border(1, "gray-blue/02"),

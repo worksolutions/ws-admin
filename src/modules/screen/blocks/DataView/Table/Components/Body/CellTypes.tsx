@@ -3,12 +3,13 @@ import React from "react";
 import Typography from "primitives/Typography";
 import ImageWithDefault from "primitives/ImageWithDefault";
 import Icon from "primitives/Icon";
+import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
+import Button, { ButtonSize, ButtonType } from "primitives/Button";
+import Wrapper from "primitives/Wrapper";
 
 import { border, borderRadius, marginRight, verticalPadding } from "libs/styles";
 
 import { TableViewColumn, TableViewDataType, TableViewItemInterface } from "../../types";
-import DroppedList, { DroppedListOpenMode } from "../../../../../../../primitives/List/DroppedList";
-import Button, { ButtonSize, ButtonType } from "../../../../../../../primitives/Button";
 
 type ColumnComponent = (props: {
   item: TableViewItemInterface;
@@ -53,16 +54,18 @@ const ActionsComponent: ColumnComponent = ({ item }) => {
       }}
     >
       {(state, parentRef, subChild) => (
-        <Button
-          ref={parentRef}
-          className="card-actions"
-          type={ButtonType.ICON}
-          size={ButtonSize.SMALL}
-          iconLeft="kebab-horizontal"
-          onClick={state.toggle}
-        >
-          {subChild}
-        </Button>
+        <Wrapper>
+          <Button
+            ref={parentRef}
+            className="card-actions"
+            type={ButtonType.ICON}
+            size={ButtonSize.SMALL}
+            iconLeft="kebab-horizontal"
+            onClick={state.toggle}
+          >
+            {subChild}
+          </Button>
+        </Wrapper>
       )}
     </DroppedList>
   );
