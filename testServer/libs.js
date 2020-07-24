@@ -13,7 +13,12 @@ exports.prepareUrl = function (url) {
   return url.startsWith("http") ? url : process.env.DEV_API_HOST + url;
 };
 
-exports.makeProxy = function ({ expressMethodHandlerName, handleUrl, realServerUrl }, app, modifyResponse) {
+exports.makeProxy = function (
+  { expressMethodHandlerName, handleUrl, realServerUrl },
+  app,
+  modifyResponse,
+  modifyRequest,
+) {
   app[expressMethodHandlerName](handleUrl, (req, res) => {
     let chunks = "";
     req.on("data", (chunk) => {
@@ -23,9 +28,10 @@ exports.makeProxy = function ({ expressMethodHandlerName, handleUrl, realServerU
       try {
         const response = await axios(realServerUrl || req.originalUrl, {
           method: req.method,
-          params: req.query,
           baseURL: process.env.DEV_API_HOST,
+          params: req.query,
           data: chunks,
+          ...(modifyRequest ? modifyRequest({ params: req.query, data: chunks }) : {}),
           headers: {
             ...ramda.omit(["host"], req.headers),
             origin: process.env.DEV_API_HOST,

@@ -5,6 +5,11 @@ import { flex, width } from "libs/styles";
 
 import TableCell from "../Components/Body/Cell";
 import { TableViewColumn, TableViewOptions } from "../types";
+import { AnyAction } from "../../../../../../types/Actions";
+import { useEffectSkipFirst } from "../../../../../../libs/hooks";
+import { useActions } from "../../../../../context/actions/useActions";
+import { useAppContext } from "../../../../../context/hooks/useAppContext";
+import { insertContext } from "../../../../../context/insertContext";
 
 import { SortingDirection } from "types/Sorting";
 
@@ -40,30 +45,26 @@ export function prepareColumn(column: TableViewColumn, tableViewOptions: TableVi
   } as Column<any>;
 }
 
-export function useSorting() {
-  const [currentSortingField, setCurrentSortingField] = React.useState<{
-    type: SortingDirection;
-    field: string;
-  } | null>(null);
+export function useSortingLogic(
+  getSorting: () => {
+    direction: SortingDirection;
+    id: string;
+  },
+) {
+  const [currentSortingField, setCurrentSortingField] = React.useState(getSorting);
 
   const nextSorting = React.useCallback(
-    (field: string) => {
-      if (!currentSortingField) {
-        setCurrentSortingField({ type: SortingDirection.ASC, field });
+    (id: string) => {
+      if (currentSortingField.id !== id) {
+        setCurrentSortingField({ id, direction: SortingDirection.ASC });
         return;
       }
 
-      if (currentSortingField.field !== field) {
-        setCurrentSortingField({ field, type: SortingDirection.ASC });
-        return;
-      }
-
-      if (currentSortingField.type === SortingDirection.DESC) {
-        setCurrentSortingField(null);
-        return;
-      }
-
-      setCurrentSortingField({ field, type: SortingDirection.DESC });
+      setCurrentSortingField({
+        id,
+        direction:
+          currentSortingField.direction === SortingDirection.ASC ? SortingDirection.DESC : SortingDirection.ASC,
+      });
     },
     [currentSortingField],
   );
@@ -72,6 +73,21 @@ export function useSorting() {
     currentSortingField,
     nextSorting,
   };
+}
+export function useSorting(initialValue: string, changeAction: AnyAction) {
+  const appContext = useAppContext();
+
+  const { currentSortingField, nextSorting } = useSortingLogic(
+    () => insertContext(initialValue, appContext.context).value,
+  );
+  const { change } = useActions({ change: changeAction }, appContext);
+
+  useEffectSkipFirst(() => {
+    if (!currentSortingField) return;
+    change.run(currentSortingField);
+  }, [currentSortingField]);
+
+  return { currentSortingField, nextSorting };
 }
 
 export type UseSortingType = ReturnType<typeof useSorting>;

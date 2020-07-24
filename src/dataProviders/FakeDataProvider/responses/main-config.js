@@ -142,7 +142,7 @@ module.exports = {
                         id: "articles-context",
                         options: [
                           { path: "screen:articles.search", value: "" },
-                          { path: "screen:articles.sorting", value: { id: "published_at", direction: "asc" } },
+                          { path: "screen:articles.sorting", value: { id: "publishedAt", direction: "desc" } },
                         ],
                       },
                       {
@@ -159,6 +159,7 @@ module.exports = {
                                   field: "announceImage",
                                   type: "IMAGE",
                                   resizable: false,
+                                  sortable: false,
                                   options: {
                                     imageConfig: {
                                       heightConfig: "LARGE",
@@ -170,12 +171,12 @@ module.exports = {
                                   title: "Название",
                                   field: "name",
                                   type: "STRING",
-                                  sortable: true,
+                                  sortable: false,
                                   referenceRedirect: "/content/articles/{{local:id}}",
                                 },
                                 {
                                   title: "Дата",
-                                  field: "createDate",
+                                  field: "publishedAt",
                                   type: "DATE",
                                   resizable: false,
                                   sortable: true,
@@ -184,11 +185,21 @@ module.exports = {
                                   title: "Статус",
                                   field: "status",
                                   type: "STATUS-STRING",
-                                  sortable: true,
+                                  sortable: false,
+                                },
+                                {
+                                  title: "",
+                                  field: "actions",
+                                  type: "ACTIONS",
+                                  resizable: false,
+                                  sortable: false,
                                 },
                               ],
                               rowsConfig: {
                                 paddingConfig: "SMALL",
+                              },
+                              sortingOptions: {
+                                initialValue: "{{{screen:articles.sorting}}}",
                               },
                             },
                             dataSource: {
@@ -230,7 +241,7 @@ module.exports = {
                                 title: "Сортировать:",
                                 items: [
                                   { title: "по дате создания", id: "id", hasDirection: true },
-                                  { title: "по дате публикации", id: "published_at", hasDirection: true },
+                                  { title: "по дате публикации", id: "publishedAt", hasDirection: true },
                                 ],
                                 initialValue: "{{{screen:articles.sorting}}}",
                               },

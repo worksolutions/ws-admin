@@ -43,6 +43,7 @@ export function useResizeTableHead(id: string, cells: { isResizing: boolean }[])
   }
 
   const [headerWidths, setHeaderWidths] = React.useState<number[]>([]);
+
   React.useEffect(() => {
     storageInstance.initialize(id);
     const savedValue = storageInstance.get(id);
@@ -60,15 +61,8 @@ export function useResizeTableHead(id: string, cells: { isResizing: boolean }[])
   useEffectSkipFirst(() => {
     const widths = calculateWidths();
     setHeaderWidths(widths);
+    storageInstance.set(id, widths);
   }, [isResize]);
-
-  useEffectSkipFirst(() => {
-    if (!isResize) return;
-    setTimeout(() => {
-      const widths = calculateWidths();
-      storageInstance.set(id, widths);
-    }, 1);
-  });
 
   return {
     headerRef,

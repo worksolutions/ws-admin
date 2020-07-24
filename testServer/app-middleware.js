@@ -1,6 +1,7 @@
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const moment = require("moment");
+const { assoc } = require("ramda");
 moment.locale("ru");
 
 dotenv.config({ path: __dirname + "/../.env" });
@@ -65,6 +66,10 @@ module.exports = (app) => {
         pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
       };
     },
+    ({ params }) => {
+      if (params.orderField === "publishedAt") return { params: assoc("orderField", "published_at", params) };
+      return {};
+    },
   );
 
   makeProxy(
@@ -91,8 +96,18 @@ module.exports = (app) => {
             name: {
               value: article.title,
             },
-            createDate: {
-              value: moment.unix(article.createdAt).format("DD MMMM YYYY"),
+            publishedAt: {
+              value: moment.unix(article.publishedAt).format("DD MMMM YYYY"),
+            },
+            actions: {
+              value: [
+                {
+                  name: "Редактировать",
+                  iconName: "edit",
+                  iconColor: "gray-blue/05",
+                  action,
+                },
+              ],
             },
           };
 
@@ -103,6 +118,12 @@ module.exports = (app) => {
               },
               value: "Опубликовано",
             };
+            result.actions.value.push({
+              name: "Снять с публикации",
+              iconName: "bolt-alt",
+              iconColor: "orange/05",
+              action,
+            });
           } else {
             result.status = {
               icon: {
@@ -110,12 +131,17 @@ module.exports = (app) => {
               },
               value: "Черновик",
             };
+            result.actions.value.push({ name: "Опубликовать", iconName: "bolt-alt", iconColor: "green/05", action });
           }
 
           return result;
         }),
         pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
       };
+    },
+    ({ params }) => {
+      if (params.orderField === "publishedAt") return { params: assoc("orderField", "published_at", params) };
+      return {};
     },
   );
 

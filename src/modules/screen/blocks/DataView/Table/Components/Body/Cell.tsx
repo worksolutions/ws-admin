@@ -46,6 +46,7 @@ const widthForPaddingAndOptions: Record<
     return padding + Math.ceil(imageHeightsForHeightConfig[imageConfig.heightConfig] * imageConfig.aspectRatio);
   },
   [TableViewDataType.DATE]: () => 133,
+  [TableViewDataType.ACTIONS]: () => "initial",
 };
 
 const defaultPadding = 16;
