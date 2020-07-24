@@ -7,6 +7,8 @@ import Icon from "primitives/Icon";
 import { border, borderRadius, marginRight, verticalPadding } from "libs/styles";
 
 import { TableViewColumn, TableViewDataType, TableViewItemInterface } from "../../types";
+import DroppedList, { DroppedListOpenMode } from "../../../../../../../primitives/List/DroppedList";
+import Button, { ButtonSize, ButtonType } from "../../../../../../../primitives/Button";
 
 type ColumnComponent = (props: {
   item: TableViewItemInterface;
@@ -35,6 +37,37 @@ const StringComponent: ColumnComponent = ({ item: { icon, value }, linkWrapper }
   );
 };
 
+const ActionsComponent: ColumnComponent = ({ item }) => {
+  return (
+    <DroppedList
+      mode={DroppedListOpenMode.HOVER}
+      margin={4}
+      items={item.value.map((action: any) => ({
+        // TODO: make actions like card
+        id: action.name,
+        title: action.name,
+        leftContent: action.iconName ? <Icon iconName={action.iconName} color={action.iconColor} /> : null,
+      }))}
+      onChange={async () => {
+        close();
+      }}
+    >
+      {(state, parentRef, subChild) => (
+        <Button
+          ref={parentRef}
+          className="card-actions"
+          type={ButtonType.ICON}
+          size={ButtonSize.SMALL}
+          iconLeft="kebab-horizontal"
+          onClick={state.toggle}
+        >
+          {subChild}
+        </Button>
+      )}
+    </DroppedList>
+  );
+};
+
 const StatusComponent: ColumnComponent = ({ item: { icon, value } }) => {
   const iconElement = icon && <Icon iconName="badge" width={8} height={8} color={icon.color} styles={marginRight(8)} />;
   return (
@@ -60,5 +93,6 @@ export const ComponentsForColumnType: Record<TableViewDataType, ColumnComponent>
   [TableViewDataType.STRING]: StringComponent,
   [TableViewDataType.IMAGE]: ImageComponent,
   [TableViewDataType.DATE]: StringComponent,
+  [TableViewDataType.ACTIONS]: ActionsComponent,
   [TableViewDataType["STATUS-STRING"]]: StatusComponent,
 };

@@ -187,6 +187,13 @@ module.exports = {
                                   type: "STATUS-STRING",
                                   sortable: false,
                                 },
+                                {
+                                  title: "",
+                                  field: "actions",
+                                  type: "ACTIONS",
+                                  resizable: false,
+                                  sortable: false,
+                                },
                               ],
                               rowsConfig: {
                                 paddingConfig: "SMALL",

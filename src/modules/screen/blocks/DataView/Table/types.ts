@@ -9,6 +9,7 @@ export enum TableViewDataType {
   "STATUS-STRING" = "STATUS-STRING",
   IMAGE = "IMAGE",
   DATE = "DATE",
+  ACTIONS = "ACTIONS",
 }
 
 export enum TableSizes {
@@ -47,7 +48,7 @@ export interface TableViewOptions {
 }
 
 export interface TableViewItemInterface {
-  value: string | number;
+  value: any;
   icon?: {
     name: Icons;
     color: Colors;

@@ -99,6 +99,16 @@ module.exports = (app) => {
             publishedAt: {
               value: moment.unix(article.publishedAt).format("DD MMMM YYYY"),
             },
+            actions: {
+              value: [
+                {
+                  name: "Редактировать",
+                  iconName: "edit",
+                  iconColor: "gray-blue/05",
+                  action,
+                },
+              ],
+            },
           };
 
           if (isPublished) {
@@ -108,6 +118,12 @@ module.exports = (app) => {
               },
               value: "Опубликовано",
             };
+            result.actions.value.push({
+              name: "Снять с публикации",
+              iconName: "bolt-alt",
+              iconColor: "orange/05",
+              action,
+            });
           } else {
             result.status = {
               icon: {
@@ -115,6 +131,7 @@ module.exports = (app) => {
               },
               value: "Черновик",
             };
+            result.actions.value.push({ name: "Опубликовать", iconName: "bolt-alt", iconColor: "green/05", action });
           }
 
           return result;
