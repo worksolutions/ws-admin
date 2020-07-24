@@ -10,13 +10,36 @@ import { useEffectSkipFirst } from "libs/hooks";
 
 import { useDataSource } from "../context/dataSource/useDataSource";
 import { browserHistory } from "../../common";
+import { useAppContext } from "../context/hooks/useAppContext";
+import { useActions } from "../context/actions/useActions";
 
 import AuthView from "./AuthView";
+import { AuthTokenSaver } from "./authTokenSaver";
 
 import { SystemState } from "state/systemState";
 import { GlobalStateCommonPartInterface } from "state/globalState";
 
 const systemState = Container.get(SystemState);
+
+function Logout() {
+  const appContext = useAppContext();
+
+  const { userAuthenticate } = systemState.stateContainer.state;
+  const { logout } = useActions(userAuthenticate.actions, appContext);
+
+  async function removeToken() {
+    await logout.run();
+    if (userAuthenticate.authTokenSaveStrategy) {
+      new AuthTokenSaver(userAuthenticate.authTokenSaveStrategy).runRemoveTokenPipeline();
+    }
+  }
+
+  React.useEffect(() => {
+    removeToken();
+  }, []);
+
+  return <></>;
+}
 
 function AuthModule({ children }: { children: ReactNode }) {
   const state = systemState.stateContainer.state;
@@ -36,6 +59,7 @@ function AuthModule({ children }: { children: ReactNode }) {
   return (
     <Switch>
       <Route exact path="/auth" render={() => <AuthView reloadProfile={reload} />} />
+      <Route exact path="/logout" render={() => <Logout />} />
       {children}
     </Switch>
   );

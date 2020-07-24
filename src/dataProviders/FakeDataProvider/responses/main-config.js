@@ -36,6 +36,7 @@ module.exports = {
         { type: "modify-token", options: { tokenType: "jwt" } },
         { type: "set-cookie", options: { cookieName: "accessToken" } },
       ],
+      removePipe: [{ type: "remove-cookie", options: { cookieName: "accessToken" } }],
     },
     actions: {
       authenticate: {
@@ -49,6 +50,12 @@ module.exports = {
         type: "redirect",
         options: {
           reference: "/auth/reset-password",
+        },
+      },
+      logout: {
+        type: "redirect",
+        options: {
+          reference: "/auth",
         },
       },
     },

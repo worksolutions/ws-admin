@@ -13,17 +13,23 @@ interface SetCookiePipeElement {
   options: { cookieName: string };
 }
 
+interface RemoveCookiePipeElement {
+  type: "remove-cookie";
+  options: { cookieName: string };
+}
+
 interface SendCookieToHeaderPipeElement {
   type: "send-cookie-to-header";
   options: { headerName: string; cookieName: string };
 }
 
-type Pipe = (ModifyTokenPipeElement | SetCookiePipeElement | SendCookieToHeaderPipeElement)[];
+type Pipe = (ModifyTokenPipeElement | SetCookiePipeElement | SendCookieToHeaderPipeElement | RemoveCookiePipeElement)[];
 
 export interface AuthTokenSaveStrategy {
   dataSourceTokenField: string;
   defaultPipe: Pipe;
   authenticationPipe: Pipe;
+  removePipe: Pipe;
 }
 
 const prepareTokenByType = {
@@ -46,6 +52,10 @@ export class AuthTokenSaver {
       });
       return token;
     },
+    "remove-cookie": function (options: RemoveCookiePipeElement["options"]) {
+      Cookie.remove(options.cookieName);
+      return "";
+    },
   };
 
   constructor(private authTokenSaveStrategy: AuthTokenSaveStrategy) {}
@@ -67,5 +77,9 @@ export class AuthTokenSaver {
 
   runDefaultTokenPipeline() {
     this.runPipe(this.authTokenSaveStrategy.defaultPipe, "");
+  }
+
+  runRemoveTokenPipeline() {
+    this.runPipe(this.authTokenSaveStrategy.removePipe, "");
   }
 }

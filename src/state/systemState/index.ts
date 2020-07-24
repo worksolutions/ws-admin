@@ -50,6 +50,7 @@ export class SystemState {
       ContainsActions<{
         authenticate: AnyAction;
         resetPassword: AnyAction;
+        logout: AnyAction;
       }>;
   }>;
 
