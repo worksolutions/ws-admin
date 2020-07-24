@@ -59,7 +59,7 @@ function HeaderColumn({ headerColumn, fixedSizes, sorting, width: widthProp, onR
       style={{ width: fixedSizes ? childContentStyles.width : undefined }}
       styles={[
         textAlign("left"),
-        padding("12px 16px"),
+        padding("12px 8px"),
         position("relative"),
         header.sortable && pointer,
         getSizeChangerLineStyles(hovered || headerColumn.isResizing),
