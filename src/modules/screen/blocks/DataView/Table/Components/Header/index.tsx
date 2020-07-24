@@ -19,13 +19,14 @@ interface HeaderInterface {
   id: string;
   trHeaderGroup: HeaderGroupInterface;
   sorting: UseSortingType;
+  className?: string;
   onResizeHover: (index: number) => void;
 }
 
-function Header({ trHeaderGroup, sorting, id, onResizeHover }: HeaderInterface) {
+function Header({ trHeaderGroup, sorting, id, className, onResizeHover }: HeaderInterface) {
   const { headerRef, fixedSizes, headerWidths } = useResizeTableHead(id, trHeaderGroup.headers);
   return (
-    <Wrapper as="thead">
+    <Wrapper as="thead" className={className}>
       <Wrapper as="tr" {...trHeaderGroup.getHeaderGroupProps()} ref={headerRef} styles={fixedSizes && flex}>
         {trHeaderGroup.headers.map((header, index) => (
           <HeaderColumn

@@ -20,17 +20,17 @@ import {
   fullWidth,
   jc,
   marginTop,
-  overflowX,
+  overflow,
   overflowY,
   padding,
   position,
 } from "libs/styles";
 import { useLocalStorage } from "libs/hooks";
 
-import TableViewBlock from "../Table";
 import CardsViewBlock from "../Cards";
 import { ViewMetaData } from "../types";
 
+import TableComponent from "./Components/Table";
 import { FormattedDataViewInterface } from "./types";
 import Actions from "./Components/Actions";
 import { notFoundElement } from "./Components/notFound";
@@ -50,11 +50,6 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
 
   const { actions: paginationViewActions, data: paginationViewData, show: showPaginationRaw } = usePagination(
     options!.paginationView,
-  );
-
-  const tableViewOptions = React.useMemo(
-    () => assocPath(["options", "id"], `${options!.id}-table`, options!.tableView),
-    [],
   );
 
   if (paginationViewData.loadingContainer.loading) return null;
@@ -107,11 +102,7 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
           {spinner}
         </Wrapper>
       ) : (
-        <Wrapper styles={[fullWidth, marginTop(8), flex, overflowX("auto"), flexValue(1), position("relative")]}>
-          {notFound}
-          <TableViewBlock {...tableViewOptions} onUpdateMeta={setMetaData} />
-          {spinner}
-        </Wrapper>
+        <TableComponent options={options} notFound={notFound} spinner={spinner} setMetaData={setMetaData} />
       )}
       {showPagination && (
         <Wrapper styles={[flex, jc(Aligns.END), padding(16), borderTop(1, "gray-blue/02")]}>

@@ -60,15 +60,10 @@ export function useResizeTableHead(id: string, cells: { isResizing: boolean }[])
   useEffectSkipFirst(() => {
     const widths = calculateWidths();
     setHeaderWidths(widths);
-  }, [isResize]);
-
-  useEffectSkipFirst(() => {
-    if (!isResize) return;
-    setTimeout(() => {
-      const widths = calculateWidths();
+    if (!isResize) {
       storageInstance.set(id, widths);
-    }, 1);
-  });
+    }
+  }, [isResize]);
 
   return {
     headerRef,

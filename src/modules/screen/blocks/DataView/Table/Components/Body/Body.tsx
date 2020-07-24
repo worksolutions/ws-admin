@@ -10,6 +10,7 @@ import { useResizeTableContent } from "../../libs/resizeHook";
 import { HeaderGroupInterface } from "../Header";
 
 type BodyInterface = {
+  className?: string;
   resizeHoverColumnIndex: number;
   id: string;
   rows: Row[];
@@ -40,9 +41,9 @@ const RowComponent = observer(function ({
   );
 });
 
-function Body({ id, rows, prepareRow, role, resizeHoverColumnIndex }: BodyInterface) {
+function Body({ id, rows, prepareRow, role, className, resizeHoverColumnIndex }: BodyInterface) {
   return (
-    <Wrapper as="tbody" role={role}>
+    <Wrapper as="tbody" role={role} className={className}>
       {rows.map((row) => {
         prepareRow(row);
         return (
