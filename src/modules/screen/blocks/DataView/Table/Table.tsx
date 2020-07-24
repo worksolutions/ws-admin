@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Hooks, useResizeColumns, useTable } from "react-table";
-import { isNil, last } from "ramda";
+import { isNil, last, sort } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -18,6 +18,9 @@ import {
   position,
   top,
 } from "libs/styles";
+
+import { useEffectSkipFirst } from "../../../../../libs/hooks";
+import { AnyAction } from "../../../../../types/Actions";
 
 import { TableViewColumn, TableViewDataSource, TableViewOptions } from "./types";
 import TableComponent from "./Components/HTMLTable";
@@ -36,11 +39,19 @@ const createResizeHook = (columns: TableViewColumn[]) => (hooks: Hooks) => {
   });
 };
 
-function Table({ list, options }: { list: TableViewDataSource["list"]; options: TableViewOptions }) {
+function Table({
+  list,
+  options,
+  actions,
+}: {
+  list: TableViewDataSource["list"];
+  options: TableViewOptions;
+  actions: { sorting: AnyAction };
+}) {
   const { id, columns } = options;
 
   const preparedColumns = React.useMemo(() => columns.map((column) => prepareColumn(column, options)), []);
-  const sorting = useSorting();
+  const sorting = useSorting(options.sortingOptions.initialValue, actions.sorting);
   const [resizeHoverColumnIndex, setResizeHoverColumnIndex] = useState(-1);
   const ref = React.useRef<HTMLElement>();
 

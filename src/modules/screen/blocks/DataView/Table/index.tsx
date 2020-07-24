@@ -11,11 +11,14 @@ import Table from "./Table";
 
 import { BlockInterface } from "state/systemState";
 
+import { AnyAction } from "types/Actions";
+
 export interface TableViewBlockInterface extends BlockInterface<TableViewOptions> {
   onUpdateMeta: (data: ViewMetaData) => void;
+  actions: { sorting: AnyAction };
 }
 
-function TableView({ dataSource, options, onUpdateMeta }: TableViewBlockInterface) {
+function TableView({ dataSource, options, onUpdateMeta, actions }: TableViewBlockInterface) {
   const { data, loadingContainer } = useDataSource<TableViewDataSource>(dataSource!);
 
   useSubviewLoader(data, loadingContainer, onUpdateMeta);
@@ -23,7 +26,7 @@ function TableView({ dataSource, options, onUpdateMeta }: TableViewBlockInterfac
   if (!data) return null;
   if (data.list.length === 0) return null;
 
-  return <Table list={data.list} options={options!} />;
+  return <Table list={data.list} options={options!} actions={actions} />;
 }
 
 export default React.memo(observer(TableView));

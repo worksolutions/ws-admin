@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { assoc, assocPath } from "ramda";
+import { assoc } from "ramda";
 import { useSetState } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
@@ -20,7 +20,6 @@ import {
   fullWidth,
   jc,
   marginTop,
-  overflow,
   overflowY,
   padding,
   position,
@@ -102,7 +101,13 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
           {spinner}
         </Wrapper>
       ) : (
-        <TableComponent options={options} notFound={notFound} spinner={spinner} setMetaData={setMetaData} />
+        <TableComponent
+          options={options}
+          notFound={notFound}
+          spinner={spinner}
+          actions={actions!}
+          setMetaData={setMetaData}
+        />
       )}
       {showPagination && (
         <Wrapper styles={[flex, jc(Aligns.END), padding(16), borderTop(1, "gray-blue/02")]}>

@@ -40,6 +40,9 @@ export interface TableViewOptions {
   selectable: boolean;
   columns: TableViewColumn[];
   rowsConfig: TableViewRowsConfig;
+  sortingOptions: {
+    initialValue: string;
+  };
   id: string;
 }
 

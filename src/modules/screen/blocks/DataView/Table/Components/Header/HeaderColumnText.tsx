@@ -22,7 +22,7 @@ function HeaderColumnText({ title, sortable, currentSortingField, headerColumnId
   return (
     <Typography type="caption-semi-bold" color="gray-blue/05" styles={position("relative")}>
       {title}
-      {sortable && currentSortingField && currentSortingField.field === headerColumnId && (
+      {sortable && currentSortingField && currentSortingField.id === headerColumnId && (
         <Wrapper
           styles={[
             transition("transform 0.2s"),
@@ -32,7 +32,7 @@ function HeaderColumnText({ title, sortable, currentSortingField, headerColumnId
             fullHeight,
             transform(
               `translateY(-50%) ${
-                currentSortingField.type === SortingDirection.DESC ? "rotateZ(180deg)" : "rotateZ(0deg)"
+                currentSortingField.direction === SortingDirection.DESC ? "rotateZ(0deg)" : "rotateZ(180deg)"
               }`,
             ),
           ]}

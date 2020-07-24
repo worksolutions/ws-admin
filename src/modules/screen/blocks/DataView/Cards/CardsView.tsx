@@ -25,6 +25,8 @@ import { useAppContext } from "modules/context/hooks/useAppContext";
 import { CardsViewDataSource } from "./types";
 import CardComponent from "./CardComponent";
 
+import { AnyAction } from "types/Actions";
+
 function CardsView({
   list,
   referenceRedirect,

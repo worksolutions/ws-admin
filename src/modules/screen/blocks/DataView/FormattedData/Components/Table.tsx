@@ -10,14 +10,17 @@ import TableViewBlock from "../../Table";
 import { FormattedDataViewInterface } from "../types";
 import { ViewMetaData } from "../../types";
 
+import { AnyAction } from "types/Actions";
+
 interface TableComponentsProps {
   notFound: React.ReactNode;
   spinner: React.ReactNode;
   options: FormattedDataViewInterface["options"];
   setMetaData: (meta: ViewMetaData) => void;
+  actions: { sorting: AnyAction };
 }
 
-function TableComponent({ options, notFound, spinner, setMetaData }: TableComponentsProps) {
+function TableComponent({ options, notFound, spinner, setMetaData, actions }: TableComponentsProps) {
   const tableViewOptions = React.useMemo(
     () => assocPath(["options", "id"], `${options!.id}-table`, options!.tableView),
     [],
@@ -26,7 +29,7 @@ function TableComponent({ options, notFound, spinner, setMetaData }: TableCompon
   return (
     <Wrapper styles={[position("relative"), fullWidth, overflow("hidden"), flexValue(1), marginTop(8)]}>
       {notFound}
-      <TableViewBlock {...tableViewOptions} onUpdateMeta={setMetaData} />
+      <TableViewBlock {...tableViewOptions} onUpdateMeta={setMetaData} actions={actions} />
       {spinner}
     </Wrapper>
   );

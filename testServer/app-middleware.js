@@ -1,6 +1,7 @@
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const moment = require("moment");
+const { assoc } = require("ramda");
 moment.locale("ru");
 
 dotenv.config({ path: __dirname + "/../.env" });
@@ -65,6 +66,10 @@ module.exports = (app) => {
         pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
       };
     },
+    ({ params }) => {
+      if (params.orderField === "publishedAt") return { params: assoc("orderField", "published_at", params) };
+      return {};
+    },
   );
 
   makeProxy(
@@ -91,8 +96,8 @@ module.exports = (app) => {
             name: {
               value: article.title,
             },
-            createDate: {
-              value: moment.unix(article.createdAt).format("DD MMMM YYYY"),
+            publishedAt: {
+              value: moment.unix(article.publishedAt).format("DD MMMM YYYY"),
             },
           };
 
@@ -116,6 +121,10 @@ module.exports = (app) => {
         }),
         pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
       };
+    },
+    ({ params }) => {
+      if (params.orderField === "publishedAt") return { params: assoc("orderField", "published_at", params) };
+      return {};
     },
   );
 
