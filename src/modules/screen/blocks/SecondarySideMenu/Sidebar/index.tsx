@@ -11,9 +11,15 @@ import {
   ai,
   Aligns,
   backgroundColor,
+  backgroundImage,
+  backgroundRepeat,
   flex,
+  flexColumn,
+  flexGrow,
   fullWidth,
+  height,
   jc,
+  marginRight,
   marginTop,
   maxHeight,
   minHeight,
@@ -46,7 +52,15 @@ function SecondaryMenuSidebar({ title, items, id }: SecondaryMenuSidebarInterfac
         styles={[backgroundColor("gray-blue/01"), position("fixed")]}
       >
         <Wrapper
-          styles={[overflow("hidden"), minHeight("100vh"), maxHeight("100vh"), fullWidth, padding("16px 8px 0px 8px")]}
+          styles={[
+            flex,
+            flexColumn,
+            overflow("hidden"),
+            minHeight("100vh"),
+            maxHeight("100vh"),
+            fullWidth,
+            padding("16px 8px"),
+          ]}
         >
           <Wrapper styles={[padding("0 0 12px 8px")]}>
             <ClearInputWrapper needShow={!!search} clear={() => setSearch("")}>
@@ -63,9 +77,29 @@ function SecondaryMenuSidebar({ title, items, id }: SecondaryMenuSidebarInterfac
               <Typography type="h1-bold">{title}</Typography>
             </Wrapper>
           </Wrapper>
-          {items.map((item, key) => (
-            <RecursiveTreeElement key={key} item={item} level={0} />
-          ))}
+          <Wrapper styles={[flexGrow(1)]}>
+            {items.map(
+              (item, key) =>
+                item.name.toLowerCase().startsWith(search.toLowerCase()) && (
+                  <RecursiveTreeElement key={key} item={item} level={0} />
+                ),
+            )}
+          </Wrapper>
+          <Wrapper styles={[height(64), fullWidth, flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN)]}>
+            <Wrapper styles={[flex, flexColumn]}>
+              <Typography color="gray-blue/04">2020</Typography>
+              <Typography color="gray-blue/04">© Work Solutions</Typography>
+            </Wrapper>
+            <Wrapper
+              styles={[
+                backgroundImage("/ws-logo-mono-black.svg"),
+                backgroundRepeat("no-repeat"),
+                width(66),
+                height(48),
+                marginRight(8),
+              ]}
+            />
+          </Wrapper>
         </Wrapper>
       </Resizer>
       <Wrapper styles={width(bounds.width)} />

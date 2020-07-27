@@ -128,7 +128,7 @@ module.exports = {
                       actionBlockElements: [
                         {
                           type: "Actions/Button",
-                          options: { name: "Написать статью", icon: "edit-small" },
+                          options: { name: "Добавить", icon: "plus-big" },
                           actions: {
                             click: {
                               type: "redirect",

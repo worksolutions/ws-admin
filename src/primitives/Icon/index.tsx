@@ -4,7 +4,6 @@ import styled from "styled-components/macro";
 import {
   backgroundImage,
   backgroundPosition,
-  backgroundRepeat,
   backgroundSize,
   Colors,
   display,

@@ -28,16 +28,16 @@ function HeaderColumnText({ title, sortable, currentSortingField, headerColumnId
             transition("transform 0.2s"),
             position("absolute"),
             top("50%"),
-            left("100%"),
+            left("calc(100% + 8px)"),
             fullHeight,
             transform(
               `translateY(-50%) ${
-                currentSortingField.direction === SortingDirection.DESC ? "rotateZ(0deg)" : "rotateZ(180deg)"
+                currentSortingField.direction === SortingDirection.DESC ? "rotateZ(0deg)" : "scale(1, -1)"
               }`,
             ),
           ]}
         >
-          <Icon iconName="16-triangle-down-alt" width={16} height={16} />
+          <Icon iconName="sort-desc" width={16} height={16} />
         </Wrapper>
       )}
     </Typography>

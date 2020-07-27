@@ -12,6 +12,7 @@ import {
   borderRadius,
   boxShadow,
   Colors,
+  createAlphaColor,
   disableOutline,
   firstChild,
   flex,
@@ -88,16 +89,23 @@ function List({
               flex,
               ai(Aligns.CENTER),
               borderRadius(4),
-              horizontalPadding(4),
+              horizontalPadding(8),
               transition(`all ${duration200}`),
-              enabled && [pointer, hover(backgroundColor("gray-blue/01")), focus(boxShadow([0, 0, 0, 2, "blue/04"]))],
-              activeItemId === id && [backgroundColor("gray-blue/01")],
+              enabled && [
+                pointer,
+                hover([backgroundColor("gray-blue/01"), boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)])]),
+                focus(boxShadow([0, 0, 0, 2, "blue/04"])),
+              ],
+              activeItemId === id && [
+                backgroundColor("gray-blue/01"),
+                boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)]),
+              ],
               styles,
             ]}
             onClick={() => onClick && enabled && onClick(id)}
           >
             {leftContent}
-            <Wrapper styles={[marginLeft(8), marginRight(8), flexValue(1), textAlign("left")]}>
+            <Wrapper styles={[marginRight(8), flexValue(1), textAlign("left")]}>
               {heading && <Typography type="caption-regular">{heading}</Typography>}
               <Typography dots={titleDots} styles={titleStyles}>
                 {title}
