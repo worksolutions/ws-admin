@@ -1,16 +1,24 @@
 import React from "react";
-import { animated, to } from "react-spring";
 import { observer } from "mobx-react-lite";
-import { clamp } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 import { useResizer } from "primitives/Resizer/useResizer";
 
-import { height, opacity, padding, pointer, position, textAlign, width } from "libs/styles";
+import {
+  backgroundColor,
+  height,
+  opacity,
+  padding,
+  pointer,
+  position,
+  textAlign,
+  top,
+  width,
+  zIndex,
+} from "libs/styles";
 
 import { UseSortingType } from "../../libs";
 import { SizeChangerLine } from "../SizeChangerLine";
-import { TableViewColumnSizes } from "../../types";
 
 import { HeaderGroupInterface } from "./index";
 import HeaderColumnText from "./HeaderColumnText";
@@ -21,6 +29,7 @@ interface HeaderColumnInterface {
   width: number;
   fixedSizes: boolean;
   tableHeight: number;
+  zIndex: number;
 }
 
 function getCellWidth(fixedSizes: boolean, widthProp: number, minWidthValue: number | undefined) {
@@ -32,7 +41,14 @@ function getCellWidth(fixedSizes: boolean, widthProp: number, minWidthValue: num
   return widthProp;
 }
 
-function HeaderColumn({ headerColumn, fixedSizes, sorting, width: widthProp, tableHeight }: HeaderColumnInterface) {
+function HeaderColumn({
+  headerColumn,
+  fixedSizes,
+  sorting,
+  width: widthProp,
+  tableHeight,
+  zIndex: zIndexProp,
+}: HeaderColumnInterface) {
   const header = headerColumn.render("Header") as any;
   const tableResizerProps: any = headerColumn.getResizerProps();
 
@@ -52,9 +68,12 @@ function HeaderColumn({ headerColumn, fixedSizes, sorting, width: widthProp, tab
     <Wrapper
       as="th"
       styles={[
+        zIndex(zIndexProp),
+        backgroundColor("white"),
         textAlign("left"),
         padding("12px 8px"),
-        position("relative"),
+        position("sticky"),
+        top(0),
         header.sortable && pointer,
         width(resultCellWidth || "initial"),
       ]}

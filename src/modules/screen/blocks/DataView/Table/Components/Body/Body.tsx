@@ -4,13 +4,12 @@ import { Row } from "react-table";
 
 import Wrapper from "primitives/Wrapper";
 
-import { flex } from "libs/styles";
+import { firstChild, flex, marginTop } from "libs/styles";
 
 import { useResizeTableContent } from "../Header/resizeHook";
 import { HeaderGroupInterface } from "../Header";
 
 type BodyInterface = {
-  className?: string;
   id: string;
   rows: Row[];
   prepareRow: (row: Row) => void;
@@ -30,9 +29,9 @@ const RowComponent = observer(function ({ row, id }: { row: Row; id: string }) {
   );
 });
 
-function Body({ id, rows, prepareRow, role, className }: BodyInterface) {
+function Body({ id, rows, prepareRow, role }: BodyInterface) {
   return (
-    <Wrapper as="tbody" role={role} className={className}>
+    <Wrapper as="tbody" role={role} styles={firstChild(marginTop(40))}>
       {rows.map((row) => {
         prepareRow(row);
         return <RowComponent key={row.getRowProps().key} row={row} id={id} />;

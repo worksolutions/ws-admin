@@ -4,11 +4,11 @@ import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
 
-import { flex } from "libs/styles";
+import { backgroundColor, flex, fullWidth, zIndex } from "libs/styles";
 
 import { UseSortingType } from "../../libs";
 
-import { useResizeTableHead } from "./resizeHook";
+import { useResizeTableMain } from "./resizeHook";
 import HeaderColumn from "./HeaderColumn";
 
 export type HeaderGroupInterface = { headers: (UseResizeColumnsColumnProps<any> & HeaderGroup<any>)[] } & HeaderGroup<
@@ -19,20 +19,25 @@ interface HeaderInterface {
   id: string;
   trHeaderGroup: HeaderGroupInterface;
   sorting: UseSortingType;
-  className?: string;
   tableHeight: number;
 }
 
-function Header({ trHeaderGroup, sorting, id, className, tableHeight }: HeaderInterface) {
-  const { headerRef, fixedSizes, headerWidths } = useResizeTableHead(id, trHeaderGroup.headers);
+function Header({ trHeaderGroup, sorting, id, tableHeight }: HeaderInterface) {
+  const { headerRef, fixedSizes, headerWidths } = useResizeTableMain(id, trHeaderGroup.headers);
   return (
-    <Wrapper as="thead" className={className}>
-      <Wrapper as="tr" {...trHeaderGroup.getHeaderGroupProps()} ref={headerRef} styles={fixedSizes && flex}>
+    <Wrapper as="thead" styles={zIndex(1)}>
+      <Wrapper
+        as="tr"
+        {...trHeaderGroup.getHeaderGroupProps()}
+        ref={headerRef}
+        styles={[fullWidth, fixedSizes && flex]}
+      >
         {trHeaderGroup.headers.map((header, index) => (
           <HeaderColumn
             key={header.getHeaderProps().key}
             fixedSizes={fixedSizes}
             width={headerWidths[index]}
+            zIndex={trHeaderGroup.headers.length - index}
             headerColumn={header}
             sorting={sorting}
             tableHeight={tableHeight}

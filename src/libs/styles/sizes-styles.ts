@@ -104,7 +104,7 @@ export const paddingBottom = memoizeWith(identity, function (paddingBottom: numb
     padding-bottom: ${paddingBottom}px;`;
 });
 
-type Position = "fixed" | "static" | "relative" | "absolute";
+type Position = "fixed" | "static" | "relative" | "absolute" | "sticky";
 
 export const position = memoizeWith(identity, function (position: Position) {
   return css`

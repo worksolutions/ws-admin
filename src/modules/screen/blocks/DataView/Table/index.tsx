@@ -1,6 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 
+import Wrapper from "primitives/Wrapper";
+
+import { flex, fullHeight, fullWidth, overflow, position } from "libs/styles";
+
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import { ViewMetaData } from "../types";
@@ -26,7 +30,11 @@ function TableView({ dataSource, options, onUpdateMeta, actions }: TableViewBloc
   if (!data) return null;
   if (data.list.length === 0) return null;
 
-  return <Table list={data.list} options={options!} actions={actions} />;
+  return (
+    <Wrapper styles={[position("relative"), fullHeight, fullWidth]}>
+      <Table list={data.list} options={options!} actions={actions} />
+    </Wrapper>
+  );
 }
 
 export default React.memo(observer(TableView));

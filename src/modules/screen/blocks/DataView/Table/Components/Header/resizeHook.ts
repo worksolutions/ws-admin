@@ -38,7 +38,7 @@ function calculateWidths(parent: HTMLElement) {
   return htmlCollectionToArray(parent.children).map((element) => element.getBoundingClientRect().width);
 }
 
-export function useResizeTableHead(id: string, cells: { isResizing: boolean }[]) {
+export function useResizeTableMain(id: string, cells: { isResizing: boolean }[]) {
   const savedWidths = storageInstance.get(id);
   const resizeColumnIndex = cells.findIndex((cell) => cell.isResizing);
   const previousResizeColumnIndex = usePrevious(resizeColumnIndex);

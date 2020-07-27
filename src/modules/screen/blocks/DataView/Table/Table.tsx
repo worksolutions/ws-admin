@@ -1,34 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { Hooks, useResizeColumns, useTable } from "react-table";
-import { isNil, last, sort } from "ramda";
+import { isNil, last } from "ramda";
 import { useMeasure } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
 
-import {
-  backgroundColor,
-  child,
-  display,
-  flex,
-  fullHeight,
-  fullWidth,
-  height,
-  opacity,
-  overflow,
-  position,
-  top,
-} from "libs/styles";
-
-import { useEffectSkipFirst } from "../../../../../libs/hooks";
-import { AnyAction } from "../../../../../types/Actions";
+import { flex, fullHeight, fullWidth, overflow } from "libs/styles";
 
 import { TableViewColumn, TableViewDataSource, TableViewOptions } from "./types";
 import TableComponent from "./Components/HTMLTable";
 import BodyComponent from "./Components/Body/Body";
 import HeaderComponent, { HeaderGroupInterface } from "./Components/Header";
 import { prepareColumn, useSorting } from "./libs";
-import { Scroller } from "./libs/Scroller";
+import { useTableScroller } from "./libs/useTableScroller";
+import { useResizeTableContent } from "./Components/Header/resizeHook";
+
+import { AnyAction } from "types/Actions";
 
 const createResizeHook = (columns: TableViewColumn[]) => (hooks: Hooks) => {
   hooks.useInstanceBeforeDimensions.push(({ headers }) => {
@@ -67,23 +55,14 @@ function Table({
 
   const [headerGroup] = headerGroups as HeaderGroupInterface[];
 
-  const scroller = React.useMemo(() => new Scroller(), []);
+  const { fixedSizes } = useResizeTableContent(id);
 
-  React.useEffect(() => {
-    setTimeout(() => scroller.run(ref.current!), 10);
-    return () => scroller.destroy();
-  }, []);
+  useTableScroller(fixedSizes, ref);
 
   return (
-    <Wrapper ref={ref} styles={[fullHeight, fullWidth, flex, overflow("scroll"), position("relative")]}>
+    <Wrapper ref={ref} styles={[fullHeight, fullWidth, flex, overflow("scroll")]}>
       <TableComponent {...getTableProps()} ref={tableRef}>
-        <HeaderComponent
-          className="table-header-original"
-          id={id}
-          trHeaderGroup={headerGroup}
-          sorting={sorting}
-          tableHeight={tableBounds.height}
-        />
+        <HeaderComponent id={id} trHeaderGroup={headerGroup} sorting={sorting} tableHeight={tableBounds.height} />
         <BodyComponent
           id={id}
           trHeaderGroup={headerGroup}
@@ -92,15 +71,6 @@ function Table({
           {...getTableBodyProps()}
         />
       </TableComponent>
-      {/*<TableComponent className="table-sticky-for-header" css={[position("absolute"), backgroundColor("white")]}>*/}
-      {/*  <HeaderComponent*/}
-      {/*    className="header-sticky"*/}
-      {/*    id={id}*/}
-      {/*    trHeaderGroup={headerGroup}*/}
-      {/*    sorting={sorting}*/}
-      {/*    onResizeHover={setResizeHoverColumnIndex}*/}
-      {/*  />*/}
-      {/*</TableComponent>*/}
     </Wrapper>
   );
 }
