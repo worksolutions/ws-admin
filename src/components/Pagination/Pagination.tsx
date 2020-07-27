@@ -10,6 +10,7 @@ import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { InputSize } from "primitives/Input/Input";
 import { ghostActive } from "primitives/Button/styles/types/ghost";
 import MaskedInput, { makeMask } from "primitives/Input/MaskedInput";
+import Form from "primitives/Form";
 
 import {
   ai,
@@ -95,6 +96,7 @@ paginationComponentsForType["jump-next"] = paginationComponentsForType["jump-pre
 
 function Pagination({ styles, page, perPage, elementsCount, onChange }: PaginationInterface) {
   const [goToPage, setGoToPage] = React.useState("");
+  const maskedInputRef = React.useRef<HTMLInputElement>(null);
 
   useEffectSkipFirst(() => onChange(1), [perPage]);
 
@@ -103,12 +105,15 @@ function Pagination({ styles, page, perPage, elementsCount, onChange }: Paginati
     [page, perPage, elementsCount],
   );
 
-  React.useEffect(() => {
-    if (goToPage === "") return;
-    onChange(parseFloat(goToPage));
-  }, [goToPage]);
-
   const mask = React.useMemo(() => makeMask(repeat(/\d/, pages.toString().length)), [pages]);
+
+  const onSubmit = () => {
+    const newPage = goToPage ? clamp(1, pages, parseFloat(goToPage)) || 1 : "";
+    if (newPage === "") return;
+    onChange(parseFloat(newPage.toString()));
+    setGoToPage("");
+    maskedInputRef.current!.blur();
+  };
 
   return (
     <Wrapper styles={[flex, ai(Aligns.CENTER), styles]}>
@@ -132,19 +137,18 @@ function Pagination({ styles, page, perPage, elementsCount, onChange }: Paginati
       <Typography color="gray-blue/05" styles={marginLeft(20)}>
         Перейти на:
       </Typography>
-      <MaskedInput
-        size={InputSize.MEDIUM}
-        mask={mask}
-        outerStyles={[marginLeft(8), width(getMaskedInputWidth(pages))]}
-        styles={[textAlign("center")]}
-        value={goToPage}
-        placeholder="1"
-        debounce={700}
-        onChange={(value) => {
-          const newPage = value ? clamp(1, pages, parseFloat(value)) || 1 : "";
-          setGoToPage(newPage.toString());
-        }}
-      />
+      <Form onSubmit={onSubmit}>
+        <MaskedInput
+          ref={maskedInputRef}
+          size={InputSize.MEDIUM}
+          mask={mask}
+          outerStyles={[marginLeft(8), width(getMaskedInputWidth(pages))]}
+          styles={[textAlign("center")]}
+          value={goToPage}
+          placeholder="1"
+          onChange={setGoToPage}
+        />
+      </Form>
     </Wrapper>
   );
 }
