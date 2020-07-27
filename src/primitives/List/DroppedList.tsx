@@ -124,7 +124,7 @@ function DroppedList({
             border(1, "gray-blue/02"),
             elevation16,
             borderRadius(6),
-            padding("0 4px"),
+            padding("4px 8px"),
           ]}
         >
           {items ? (

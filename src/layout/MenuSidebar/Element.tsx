@@ -9,6 +9,7 @@ import {
   Aligns,
   backgroundColor,
   borderRadius,
+  cursor,
   disableOutline,
   flex,
   height,
@@ -51,7 +52,7 @@ export const IconLink = React.memo(function ({
             jc(Aligns.CENTER),
             transition("background-color 0.2s"),
             disableOutline,
-            selected ? [backgroundColor("blue/05")] : hover(backgroundColor("gray-blue/01")),
+            selected ? [backgroundColor("blue/05"), cursor("default")] : hover(backgroundColor("gray-blue/01")),
             styles,
           ]}
         >

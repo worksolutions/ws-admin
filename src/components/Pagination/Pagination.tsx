@@ -19,6 +19,7 @@ import {
   horizontalPadding,
   marginLeft,
   marginRight,
+  pointerEvents,
   textAlign,
   width,
 } from "libs/styles";
@@ -56,7 +57,11 @@ const paginationComponentsForType: Record<
   ),
   page: (props) => (
     <Button
-      styles={[marginRight(2), marginLeft(2), props.currentPage === props.renderValue && [ghostActive]]}
+      styles={[
+        marginRight(2),
+        marginLeft(2),
+        props.currentPage === props.renderValue && [ghostActive, pointerEvents("none")],
+      ]}
       size={ButtonSize.SMALL}
       type={ButtonType.GHOST}
       onClick={() => null}

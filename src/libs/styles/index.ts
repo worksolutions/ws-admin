@@ -106,6 +106,11 @@ export const pointer = css`
   cursor: pointer;
 `;
 
+export const pointerEvents = memoizeWith(identity, function (value: CSSProperties["pointerEvents"]) {
+  return css`
+    pointer-events: ${value};`;
+});
+
 export const cursor = memoizeWith(identity, function (value: CSSProperties["cursor"]) {
   return css`
     cursor: ${value};`;
