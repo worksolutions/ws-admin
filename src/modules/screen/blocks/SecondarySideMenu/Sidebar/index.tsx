@@ -78,9 +78,12 @@ function SecondaryMenuSidebar({ title, items, id }: SecondaryMenuSidebarInterfac
             </Wrapper>
           </Wrapper>
           <Wrapper styles={[flexGrow(1)]}>
-            {items.map((item, key) => (
-              <RecursiveTreeElement key={key} item={item} level={0} />
-            ))}
+            {items.map(
+              (item, key) =>
+                item.name.toLowerCase().startsWith(search.toLowerCase()) && (
+                  <RecursiveTreeElement key={key} item={item} level={0} />
+                ),
+            )}
           </Wrapper>
           <Wrapper styles={[height(64), fullWidth, flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN)]}>
             <Wrapper styles={[flex, flexColumn]}>

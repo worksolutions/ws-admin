@@ -17,6 +17,7 @@ import {
   height,
   hover,
   jc,
+  pointerEvents,
   transition,
   width,
 } from "libs/styles";
@@ -55,7 +56,7 @@ export const IconLink = React.memo(function ({
             transition("background-color 0.2s"),
             disableOutline,
             selected
-              ? [backgroundColor("blue/05"), cursor("default")]
+              ? [backgroundColor("blue/05"), cursor("default"), pointerEvents("none")]
               : hover([backgroundColor("gray-blue/01"), boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)])]),
             styles,
           ]}
