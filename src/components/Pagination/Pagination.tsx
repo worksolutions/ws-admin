@@ -106,6 +106,7 @@ function Pagination({ styles, page, perPage, elementsCount, onChange }: Paginati
   React.useEffect(() => {
     if (goToPage === "") return;
     onChange(parseFloat(goToPage));
+    setGoToPage("");
   }, [goToPage]);
 
   const mask = React.useMemo(() => makeMask(repeat(/\d/, pages.toString().length)), [pages]);
@@ -139,8 +140,8 @@ function Pagination({ styles, page, perPage, elementsCount, onChange }: Paginati
         styles={[textAlign("center")]}
         value={goToPage}
         placeholder="1"
-        debounce={700}
-        onChange={(value) => {
+        onChange={() => {}}
+        onKeyDown={(value) => {
           const newPage = value ? clamp(1, pages, parseFloat(value)) || 1 : "";
           setGoToPage(newPage.toString());
         }}
