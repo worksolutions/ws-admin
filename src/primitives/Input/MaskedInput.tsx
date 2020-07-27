@@ -15,7 +15,6 @@ interface MaskedInputInterface extends InputInterface {
   guide?: boolean;
   showMaskWhenEmpty?: boolean;
   maskCharacter?: string;
-  onKeyDown?: (value: string) => void;
 }
 
 const MaskedInput = React.forwardRef(function (
@@ -29,7 +28,6 @@ const MaskedInput = React.forwardRef(function (
     maskCharacter,
     mask,
     onChange,
-    onKeyDown,
     ...inputWrapperProps
   }: MaskedInputInterface,
   innerRef: Ref<HTMLInputElement>,
@@ -48,13 +46,6 @@ const MaskedInput = React.forwardRef(function (
     onChange: eventValue(onInputChange),
   });
 
-  const onPressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!onKeyDown) return;
-    if (e.keyCode !== 13) return;
-    onKeyDown(inputValue);
-    ref.current!.blur();
-  };
-
   return (
     <InputWrapper {...inputWrapperProps}>
       {(inputStyles) => (
@@ -66,7 +57,6 @@ const MaskedInput = React.forwardRef(function (
           styles={[inputStyles, styles]}
           placeholder={placeholder}
           onChange={onChangeMasked}
-          onKeyDown={onPressEnter}
         />
       )}
     </InputWrapper>
