@@ -7,8 +7,8 @@ import Wrapper from "primitives/Wrapper";
 import { flex } from "libs/styles";
 
 import { UseSortingType } from "../../libs";
-import { useResizeTableHead } from "../../libs/resizeHook";
 
+import { useResizeTableHead } from "./resizeHook";
 import HeaderColumn from "./HeaderColumn";
 
 export type HeaderGroupInterface = { headers: (UseResizeColumnsColumnProps<any> & HeaderGroup<any>)[] } & HeaderGroup<
@@ -20,10 +20,10 @@ interface HeaderInterface {
   trHeaderGroup: HeaderGroupInterface;
   sorting: UseSortingType;
   className?: string;
-  onResizeHover: (index: number) => void;
+  tableHeight: number;
 }
 
-function Header({ trHeaderGroup, sorting, id, className, onResizeHover }: HeaderInterface) {
+function Header({ trHeaderGroup, sorting, id, className, tableHeight }: HeaderInterface) {
   const { headerRef, fixedSizes, headerWidths } = useResizeTableHead(id, trHeaderGroup.headers);
   return (
     <Wrapper as="thead" className={className}>
@@ -35,7 +35,7 @@ function Header({ trHeaderGroup, sorting, id, className, onResizeHover }: Header
             width={headerWidths[index]}
             headerColumn={header}
             sorting={sorting}
-            onResizeHover={(hovered) => onResizeHover(hovered ? index : -1)}
+            tableHeight={tableHeight}
           />
         ))}
       </Wrapper>

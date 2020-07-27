@@ -2,7 +2,7 @@ import React from "react";
 import { action, observable } from "mobx";
 
 import { htmlCollectionToArray } from "libs/htmlCollectionToArray";
-import { useEffectSkipFirst } from "libs/hooks";
+import { useEffectSkipFirst, usePrevious } from "libs/hooks";
 import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
 
 class Storage {
@@ -34,40 +34,45 @@ class Storage {
 
 const storageInstance = new Storage();
 
+function calculateWidths(parent: HTMLElement) {
+  return htmlCollectionToArray(parent.children).map((element) => element.getBoundingClientRect().width);
+}
+
 export function useResizeTableHead(id: string, cells: { isResizing: boolean }[]) {
   const savedWidths = storageInstance.get(id);
+  const resizeColumnIndex = cells.findIndex((cell) => cell.isResizing);
+  const previousResizeColumnIndex = usePrevious(resizeColumnIndex);
+  const headerRef = React.useRef<HTMLElement>();
 
-  function getInitialHeaderWidths(savedWidths: number[] | null) {
-    if (savedWidths) return cells.map((_, index) => savedWidths[index]);
-    return new Array(cells.length).fill(0);
-  }
-
-  const [headerWidths, setHeaderWidths] = React.useState<number[]>([]);
+  const [headerWidths, setHeaderWidths] = React.useState(() => new Array(cells.length).fill(0));
 
   React.useEffect(() => {
     storageInstance.initialize(id);
-    const savedValue = storageInstance.get(id);
-    setHeaderWidths(getInitialHeaderWidths(savedValue));
+    const savedWidths = storageInstance.get(id);
+    if (savedWidths) {
+      setHeaderWidths(savedWidths);
+      return;
+    }
+    setTimeout(() => {
+      setHeaderWidths(calculateWidths(headerRef.current!));
+    }, 100);
   }, []);
 
-  const headerRef = React.useRef<HTMLElement>();
-
-  const isResize = !!cells.find((cell) => cell.isResizing);
-
-  function calculateWidths() {
-    return htmlCollectionToArray(headerRef.current!.children).map((element) => element.getBoundingClientRect().width);
-  }
-
   useEffectSkipFirst(() => {
-    const widths = calculateWidths();
+    if (resizeColumnIndex !== -1) return;
+    const [resizeLine] = htmlCollectionToArray(
+      headerRef.current!.children[previousResizeColumnIndex].getElementsByClassName("resize-line"),
+    );
+    const widths = calculateWidths(headerRef.current!);
+    widths[previousResizeColumnIndex] = parseFloat(resizeLine.style.left);
     setHeaderWidths(widths);
     storageInstance.set(id, widths);
-  }, [isResize]);
+  }, [resizeColumnIndex]);
 
   return {
     headerRef,
     fixedSizes: !!savedWidths,
-    headerWidths: headerWidths,
+    headerWidths,
   };
 }
 

@@ -1,51 +1,82 @@
 import React from "react";
+import { animated } from "react-spring";
+import { duration200 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
-import { borderRight, display, fullHeight, position, right, top, transform, width, zIndex } from "libs/styles";
+import {
+  backgroundColor,
+  cursor,
+  display,
+  fullHeight,
+  hover,
+  marginLeft,
+  opacity,
+  position,
+  top,
+  transform,
+  transition,
+  width,
+  zIndex,
+} from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
 
 interface SizeChangerLineInterface {
-  style?: Record<string, any>;
+  style?: any;
+  styles?: any;
   onMouseDown?: (event: MouseEvent) => void;
   onTouchStart?: (event: MouseEvent) => void;
 }
 
+const resizeLinePlaceWidth = 20;
+const resizeLineWidth = 1;
+
 const resizeLineStyles = [
-  width(10),
-  fullHeight,
+  cursor("ew-resize"),
+  width(resizeLinePlaceWidth),
   display("inline-block"),
   position("absolute"),
-  transform("translateX(50%)"),
-  right(0),
   top(0),
+  transform("translateX(-50%)"),
   zIndex(1),
+  opacity(0),
+  transition(`opacity ${duration200}`),
+  hover(opacity(1)),
 ];
 
 const stopPropagationFunc = stopPropagation();
 
-function SizeChangerTransparentLineComponent({ style, onMouseDown, onTouchStart, ...other }: SizeChangerLineInterface) {
+function SizeChangerLineComponent({ style, styles, onMouseDown, onTouchStart, ...other }: SizeChangerLineInterface) {
   return (
     <Wrapper
+      className="resize-line"
       style={style}
+      as={animated.div}
       draggable={false}
-      styles={resizeLineStyles}
+      styles={[resizeLineStyles, styles]}
       role="separator"
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
       onClick={stopPropagationFunc}
       {...other}
-    />
+    >
+      <Wrapper
+        styles={[
+          marginLeft(resizeLinePlaceWidth / 2 - resizeLineWidth / 2),
+          width(resizeLineWidth),
+          fullHeight,
+          backgroundColor("blue/05"),
+        ]}
+      />
+    </Wrapper>
   );
 }
 
-export const SizeChangerTransparentLine = withPerformance([
+export const SizeChangerLine = withPerformance([
   "style",
   "onMouseDown",
   "onTouchStart",
   "onMouseEnter",
   "onMouseLeave",
-])(SizeChangerTransparentLineComponent);
-
-export const getSizeChangerLineStyles = (show: boolean) => borderRight(1, show ? "gray-blue/02" : "transparent");
+])(SizeChangerLineComponent);

@@ -20,7 +20,7 @@ import { getLinkIsNative } from "libs/linkIsNative";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 
 import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
-import { getSizeChangerLineStyles, SizeChangerTransparentLine } from "../SizeChangerLine";
+import { SizeChangerLine } from "../SizeChangerLine";
 
 import { ComponentsForColumnType } from "./CellTypes";
 
@@ -58,9 +58,9 @@ interface ColumnInterface {
   item: TableViewItemInterface;
 }
 
-type CellProps = ColumnInterface & { tableCellProps: TableCellProps; styles?: any; showResize: boolean };
+type CellProps = ColumnInterface & { tableCellProps: TableCellProps; styles?: any };
 
-function Cell({ tableViewOptions, item, column, tableCellProps, showResize, styles }: CellProps) {
+function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellProps) {
   const [ref, bounds] = useMeasure();
   const columnType = column.type || TableViewDataType.STRING;
   const Component = ComponentsForColumnType[columnType];
@@ -76,13 +76,11 @@ function Cell({ tableViewOptions, item, column, tableCellProps, showResize, styl
       styles={[
         verticalAlign("top"),
         verticalPadding(componentVerticalPadding),
-        horizontalPadding(0),
         width(widthForPaddingAndOptions[columnType](defaultPadding, column.options)),
         horizontalPadding(defaultPadding / 2),
         firstChild(paddingLeft(defaultPadding), "&"),
         lastChild(paddingRight(defaultPadding), "&"),
         position("relative"),
-        getSizeChangerLineStyles(showResize),
         styles,
       ]}
     >
@@ -100,7 +98,6 @@ function Cell({ tableViewOptions, item, column, tableCellProps, showResize, styl
             : undefined
         }
       />
-      {showResize && <SizeChangerTransparentLine />}
     </Wrapper>
   );
 }

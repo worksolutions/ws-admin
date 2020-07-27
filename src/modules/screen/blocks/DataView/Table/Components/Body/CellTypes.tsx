@@ -7,7 +7,7 @@ import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import Wrapper from "primitives/Wrapper";
 
-import { border, borderRadius, marginRight, verticalPadding } from "libs/styles";
+import { ai, Aligns, border, borderRadius, flex, marginRight, verticalPadding } from "libs/styles";
 
 import { TableViewColumn, TableViewDataType, TableViewItemInterface } from "../../types";
 
@@ -74,7 +74,7 @@ const ActionsComponent: ColumnComponent = ({ item }) => {
 const StatusComponent: ColumnComponent = ({ item: { icon, value } }) => {
   const iconElement = icon && <Icon iconName="badge" width={8} height={8} color={icon.color} styles={marginRight(8)} />;
   return (
-    <Typography styles={[verticalPadding(2)]}>
+    <Typography styles={[verticalPadding(2), flex, ai(Aligns.CENTER)]}>
       {iconElement}
       {value}
     </Typography>

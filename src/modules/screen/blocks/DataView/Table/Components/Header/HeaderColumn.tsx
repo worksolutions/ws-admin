@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
-import { useHover } from "react-use";
+import React from "react";
 import { animated, to } from "react-spring";
+import { observer } from "mobx-react-lite";
+import { clamp } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 import { useResizer } from "primitives/Resizer/useResizer";
 
-import { padding, pointer, position, textAlign } from "libs/styles";
+import { height, opacity, padding, pointer, position, textAlign, width } from "libs/styles";
 
 import { UseSortingType } from "../../libs";
-import { getSizeChangerLineStyles, SizeChangerTransparentLine } from "../SizeChangerLine";
+import { SizeChangerLine } from "../SizeChangerLine";
+import { TableViewColumnSizes } from "../../types";
 
 import { HeaderGroupInterface } from "./index";
 import HeaderColumnText from "./HeaderColumnText";
@@ -18,51 +20,43 @@ interface HeaderColumnInterface {
   sorting: UseSortingType;
   width: number;
   fixedSizes: boolean;
-  onResizeHover: (hovered: boolean) => void;
+  tableHeight: number;
 }
 
-function HeaderColumn({ headerColumn, fixedSizes, sorting, width: widthProp, onResizeHover }: HeaderColumnInterface) {
+function getCellWidth(fixedSizes: boolean, widthProp: number, minWidthValue: number | undefined) {
+  if (fixedSizes) return widthProp;
+
+  if (minWidthValue && minWidthValue > widthProp && widthProp !== 0) {
+    return minWidthValue;
+  }
+  return widthProp;
+}
+
+function HeaderColumn({ headerColumn, fixedSizes, sorting, width: widthProp, tableHeight }: HeaderColumnInterface) {
   const header = headerColumn.render("Header") as any;
   const tableResizerProps: any = headerColumn.getResizerProps();
 
-  const { backdropDisabler, childContentStyles, getResizingLineProps } = useResizer({
-    minResizerWidth: 24,
+  const minWidthValue = header.sizes?.minWidth;
+  const resultCellWidth = getCellWidth(fixedSizes, widthProp, minWidthValue);
+
+  const { backdropDisabler, childContentStyles, getResizingLineProps, down } = useResizer({
+    minResizerWidth: minWidthValue ?? 24,
     minWidthToAutoClose: 0,
-    initialWidth: widthProp || 1,
+    initialWidth: resultCellWidth,
     resizeDuration: 0,
   });
 
-  const [hoverable, hovered] = useHover(() => {
-    const resizerLineProps = getResizingLineProps();
-    return (
-      <SizeChangerTransparentLine
-        style={tableResizerProps.style}
-        onMouseDown={(event: any) => {
-          resizerLineProps.onMouseDown!(event);
-          tableResizerProps.onMouseDown && tableResizerProps.onMouseDown(event);
-        }}
-        onTouchStart={(event: any) => {
-          resizerLineProps.onTouchStart!(event);
-          tableResizerProps.onTouchStart && tableResizerProps.onTouchStart(event);
-        }}
-      />
-    );
-  });
-
-  useEffect(() => {
-    onResizeHover(hovered || headerColumn.isResizing);
-  }, [hovered, headerColumn.isResizing]);
+  const resizerLineProps = getResizingLineProps();
 
   return (
     <Wrapper
-      as={animated.th}
-      style={{ width: fixedSizes ? childContentStyles.width : undefined }}
+      as="th"
       styles={[
         textAlign("left"),
         padding("12px 8px"),
         position("relative"),
         header.sortable && pointer,
-        getSizeChangerLineStyles(hovered || headerColumn.isResizing),
+        width(resultCellWidth || "initial"),
       ]}
       onClick={() => header.sortable && sorting.nextSorting(headerColumn.id)}
     >
@@ -72,10 +66,23 @@ function HeaderColumn({ headerColumn, fixedSizes, sorting, width: widthProp, onR
         currentSortingField={sorting.currentSortingField}
         headerColumnId={headerColumn.id}
       />
-      {headerColumn.canResize && hoverable}
+      {headerColumn.canResize && (
+        <SizeChangerLine
+          style={{ left: childContentStyles.width }}
+          styles={[height(tableHeight), down && opacity(1)]}
+          onMouseDown={(event: any) => {
+            resizerLineProps.onMouseDown!(event);
+            tableResizerProps.onMouseDown && tableResizerProps.onMouseDown(event);
+          }}
+          onTouchStart={(event: any) => {
+            resizerLineProps.onTouchStart!(event);
+            tableResizerProps.onTouchStart && tableResizerProps.onTouchStart(event);
+          }}
+        />
+      )}
       {backdropDisabler}
     </Wrapper>
   );
 }
 
-export default HeaderColumn;
+export default observer(HeaderColumn);

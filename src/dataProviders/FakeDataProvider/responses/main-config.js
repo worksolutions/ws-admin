@@ -193,6 +193,9 @@ module.exports = {
                                   field: "status",
                                   type: "STATUS-STRING",
                                   sortable: false,
+                                  sizes: {
+                                    minWidth: 135,
+                                  },
                                 },
                                 {
                                   title: "",

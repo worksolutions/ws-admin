@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Hooks, useResizeColumns, useTable } from "react-table";
 import { isNil, last, sort } from "ramda";
+import { useMeasure } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -52,8 +53,8 @@ function Table({
 
   const preparedColumns = React.useMemo(() => columns.map((column) => prepareColumn(column, options)), []);
   const sorting = useSorting(options.sortingOptions.initialValue, actions.sorting);
-  const [resizeHoverColumnIndex, setResizeHoverColumnIndex] = useState(-1);
   const ref = React.useRef<HTMLElement>();
+  const [tableRef, tableBounds] = useMeasure();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -75,20 +76,19 @@ function Table({
 
   return (
     <Wrapper ref={ref} styles={[fullHeight, fullWidth, flex, overflow("scroll"), position("relative")]}>
-      <TableComponent {...getTableProps()}>
+      <TableComponent {...getTableProps()} ref={tableRef}>
         <HeaderComponent
           className="table-header-original"
           id={id}
           trHeaderGroup={headerGroup}
           sorting={sorting}
-          onResizeHover={setResizeHoverColumnIndex}
+          tableHeight={tableBounds.height}
         />
         <BodyComponent
           id={id}
           trHeaderGroup={headerGroup}
           prepareRow={prepareRow}
           rows={rows}
-          resizeHoverColumnIndex={resizeHoverColumnIndex}
           {...getTableBodyProps()}
         />
       </TableComponent>

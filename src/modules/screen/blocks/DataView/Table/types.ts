@@ -18,6 +18,10 @@ export enum TableSizes {
   SMALL = "SMALL",
 }
 
+export interface TableViewColumnSizes {
+  minWidth?: number;
+}
+
 export type TableViewColumn = {
   title: string;
   field: string;
@@ -25,6 +29,7 @@ export type TableViewColumn = {
   referenceRedirect?: string;
   resizable?: boolean;
   sortable?: boolean;
+  sizes?: TableViewColumnSizes;
   options?: {
     imageConfig?: {
       heightConfig: TableSizes;

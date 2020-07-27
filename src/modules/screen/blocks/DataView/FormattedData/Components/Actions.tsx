@@ -48,7 +48,7 @@ function Actions({
         flex,
         ai(Aligns.CENTER),
         flexWrap,
-        zIndex(1),
+        zIndex(2),
         child(marginRight(16)),
         lastChild(marginRight(0)),
       ]}

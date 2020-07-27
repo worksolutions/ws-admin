@@ -1,16 +1,17 @@
 import React from "react";
 import { CellProps, Column } from "react-table";
 
-import { flex, width } from "libs/styles";
+import { ai, Aligns, flex, width } from "libs/styles";
+import { useEffectSkipFirst } from "libs/hooks";
+
+import { useActions } from "modules/context/actions/useActions";
+import { useAppContext } from "modules/context/hooks/useAppContext";
+import { insertContext } from "modules/context/insertContext";
 
 import TableCell from "../Components/Body/Cell";
 import { TableViewColumn, TableViewOptions } from "../types";
-import { AnyAction } from "../../../../../../types/Actions";
-import { useEffectSkipFirst } from "../../../../../../libs/hooks";
-import { useActions } from "../../../../../context/actions/useActions";
-import { useAppContext } from "../../../../../context/hooks/useAppContext";
-import { insertContext } from "../../../../../context/insertContext";
 
+import { AnyAction } from "types/Actions";
 import { SortingDirection } from "types/Sorting";
 
 const createCell = (column: TableViewColumn, tableViewOptions: TableViewOptions) => ({
@@ -19,12 +20,10 @@ const createCell = (column: TableViewColumn, tableViewOptions: TableViewOptions)
   fixedSizes,
   contentWidths,
   index,
-  resizeHoverColumnIndex,
 }: CellProps<any> & {
   fixedSizes: boolean;
   contentWidths: number[];
   index: number;
-  resizeHoverColumnIndex: number;
 }) => {
   return (
     <TableCell
@@ -32,14 +31,13 @@ const createCell = (column: TableViewColumn, tableViewOptions: TableViewOptions)
       column={column}
       tableViewOptions={tableViewOptions}
       tableCellProps={getCellProps()}
-      showResize={resizeHoverColumnIndex === index}
-      styles={fixedSizes && [flex, width(contentWidths[index])]}
+      styles={fixedSizes && [flex, ai(Aligns.START), width(contentWidths[index])]}
     />
   );
 };
 export function prepareColumn(column: TableViewColumn, tableViewOptions: TableViewOptions) {
   return {
-    Header: { sortable: column.sortable, title: column.title },
+    Header: { sortable: column.sortable, title: column.title, sizes: column.sizes },
     accessor: column.field,
     Cell: createCell(column, tableViewOptions),
   } as Column<any>;

@@ -15,11 +15,22 @@ import {
   left,
   position,
   top,
+  zIndex,
 } from "libs/styles";
 
 export const spinnerElement = (
   <Wrapper
-    styles={[flex, position("absolute"), top(0), left(0), fullWidth, fullHeight, ai(Aligns.CENTER), jc(Aligns.CENTER)]}
+    styles={[
+      flex,
+      position("absolute"),
+      top(0),
+      left(0),
+      fullWidth,
+      fullHeight,
+      ai(Aligns.CENTER),
+      jc(Aligns.CENTER),
+      zIndex(3),
+    ]}
   >
     <Wrapper
       styles={[
