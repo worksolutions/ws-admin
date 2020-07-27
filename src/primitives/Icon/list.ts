@@ -37,6 +37,5 @@ export const list = {
   dot: require("./icons/dot.svg"),
   badge: require("./icons/badge.svg"),
   "plus-big": require("./icons/plus-big.svg"),
-  "sort-asc": require("./icons/sort-asc.svg"),
   "sort-desc": require("./icons/sort-desc.svg"),
 };

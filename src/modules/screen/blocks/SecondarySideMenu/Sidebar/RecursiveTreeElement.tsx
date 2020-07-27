@@ -66,7 +66,7 @@ const TreeElement = withPerformance(["toggle"])(function ({
       disableDecoration,
       active
         ? [
-            backgroundColor("gray-blue/04"),
+            backgroundColor("gray-blue/03"),
             child(fillColor("white"), ".item-icon use"),
             child(color("white"), ".item-text"),
           ]

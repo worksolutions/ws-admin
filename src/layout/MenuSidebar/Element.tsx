@@ -9,6 +9,8 @@ import {
   Aligns,
   backgroundColor,
   borderRadius,
+  boxShadow,
+  createAlphaColor,
   cursor,
   disableOutline,
   flex,
@@ -38,7 +40,7 @@ export const IconLink = React.memo(function ({
   iconStyles,
 }: BaseIconButtonInterface & { styles?: any }) {
   return (
-    <Hint text={hint} margin={16}>
+    <Hint text={selected ? null : hint} margin={16}>
       {(initParent) => (
         <LinkWrapper
           ref={initParent}
@@ -52,7 +54,9 @@ export const IconLink = React.memo(function ({
             jc(Aligns.CENTER),
             transition("background-color 0.2s"),
             disableOutline,
-            selected ? [backgroundColor("blue/05"), cursor("default")] : hover(backgroundColor("gray-blue/01")),
+            selected
+              ? [backgroundColor("blue/05"), cursor("default")]
+              : hover([backgroundColor("gray-blue/01"), boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)])]),
             styles,
           ]}
         >

@@ -98,12 +98,12 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
                   child(
                     [
                       transition(`all ${duration200}`),
-                      transform(selected.direction === SortingDirection.DESC ? "rotateZ(0deg)" : "rotateZ(180deg)"),
+                      transform(selected.direction === SortingDirection.DESC ? "rotateZ(0deg)" : "scale(1, -1)"),
                     ],
                     ".icon",
                   ),
                 ]}
-                iconLeft="16-triangle-down-alt"
+                iconLeft="sort-desc"
                 iconLeftWidth={16}
                 iconLeftHeight={16}
                 type={ButtonType.ICON}

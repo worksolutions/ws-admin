@@ -159,8 +159,8 @@ function AuthView({ reloadProfile }: { reloadProfile: () => void }) {
         </Wrapper>
         <Wrapper styles={[height(64), fullWidth, flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN)]}>
           <Wrapper styles={[flex, flexColumn]}>
-            <Typography color="gray-blue/04">© Рабочие решения</Typography>
             <Typography color="gray-blue/04">2020</Typography>
+            <Typography color="gray-blue/04">© Work Solutions</Typography>
           </Wrapper>
           <Wrapper
             styles={[

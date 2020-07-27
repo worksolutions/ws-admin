@@ -73,6 +73,7 @@ const Dropdown = React.forwardRef(function Dropdown(
         rightContent:
           selectedItemId === item.id ? <Icon iconName="check" color="blue/06" /> : <Wrapper styles={width(24)} />,
       }))}
+      selectedItemId={selectedItemId}
       onChange={(id) => onChange(id)}
     >
       {(state, parentRef, subChild) => (
