@@ -1,6 +1,7 @@
 import React from "react";
 import { TableCellProps } from "react-table";
 import { useMeasure } from "react-use";
+import { duration200 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
@@ -9,18 +10,27 @@ import {
   firstChild,
   horizontalPadding,
   lastChild,
+  left,
   paddingLeft,
+  top,
   paddingRight,
   position,
   verticalAlign,
   verticalPadding,
   width,
+  right,
+  bottom,
+  zIndex,
+  child,
+  marginLeft,
+  marginRight,
+  borderRadius,
+  transition,
 } from "libs/styles";
 import { getLinkIsNative } from "libs/linkIsNative";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 
 import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
-import { SizeChangerLine } from "../SizeChangerLine";
 
 import { ComponentsForColumnType } from "./CellTypes";
 
@@ -51,6 +61,7 @@ const widthForPaddingAndOptions: Record<
 };
 
 const defaultPadding = 16;
+const halfOfDefaultPadding = defaultPadding / 2;
 
 interface ColumnInterface {
   column: TableViewColumn;
@@ -77,21 +88,50 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
         verticalAlign("top"),
         verticalPadding(componentVerticalPadding),
         width(widthForPaddingAndOptions[columnType](defaultPadding, column.options)),
-        horizontalPadding(defaultPadding / 2),
-        firstChild(paddingLeft(defaultPadding), "&"),
-        lastChild(paddingRight(defaultPadding), "&"),
+        horizontalPadding(halfOfDefaultPadding),
+        firstChild(
+          [
+            paddingLeft(defaultPadding),
+            child([marginLeft(halfOfDefaultPadding), borderRadius("4px 0 0 4px")], ".table-cell-back"),
+          ],
+          "&",
+        ),
+        lastChild(
+          [
+            paddingRight(defaultPadding),
+            child([marginRight(halfOfDefaultPadding), borderRadius("0 4px 4px 0")], ".table-cell-back"),
+          ],
+          "&",
+        ),
         position("relative"),
         styles,
       ]}
     >
+      <Wrapper
+        className="table-cell-back"
+        styles={[
+          transition(`background-color ${duration200}`),
+          position("absolute"),
+          left(0),
+          top(0),
+          right(0),
+          bottom(0),
+          zIndex(-1),
+        ]}
+      />
       <Component
         width={bounds.width}
         item={item}
         column={column}
         linkWrapper={
           column.referenceRedirect
-            ? (child) => (
-                <TypographyLink to={column.referenceRedirect!} native={getLinkIsNative(column.referenceRedirect!)}>
+            ? (child, styles) => (
+                <TypographyLink
+                  styles={styles}
+                  type="body-semi-bold"
+                  to={column.referenceRedirect!}
+                  native={getLinkIsNative(column.referenceRedirect!)}
+                >
                   {child}
                 </TypographyLink>
               )

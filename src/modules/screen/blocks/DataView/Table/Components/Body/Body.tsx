@@ -4,7 +4,7 @@ import { Row } from "react-table";
 
 import Wrapper from "primitives/Wrapper";
 
-import { firstChild, flex, marginTop } from "libs/styles";
+import { backgroundColor, child, firstChild, flex, hover, marginTop } from "libs/styles";
 
 import { useResizeTableContent } from "../Header/resizeHook";
 import { HeaderGroupInterface } from "../Header";
@@ -21,7 +21,11 @@ const RowComponent = observer(function ({ row, id }: { row: Row; id: string }) {
   const { fixedSizes, contentWidths } = useResizeTableContent(id);
   const rowStyles = fixedSizes && flex;
   return (
-    <Wrapper as="tr" role={role} styles={rowStyles}>
+    <Wrapper
+      as="tr"
+      role={role}
+      styles={[rowStyles, hover(child(backgroundColor("gray-blue/01"), ".table-cell-back"))]}
+    >
       {row.cells.map((cell, index) => (
         <Fragment key={index}>{cell.render("Cell", { fixedSizes, contentWidths, index })}</Fragment>
       ))}

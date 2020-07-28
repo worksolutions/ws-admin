@@ -7,14 +7,26 @@ import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import Wrapper from "primitives/Wrapper";
 
-import { ai, Aligns, border, borderRadius, flex, marginRight, verticalPadding } from "libs/styles";
+import {
+  ai,
+  Aligns,
+  border,
+  borderRadius,
+  color,
+  disableDecoration,
+  flex,
+  hover,
+  marginRight,
+  minHeight,
+  verticalPadding,
+} from "libs/styles";
 
 import { TableViewColumn, TableViewDataType, TableViewItemInterface } from "../../types";
 
 type ColumnComponent = (props: {
   item: TableViewItemInterface;
   width: number;
-  linkWrapper?: (child: React.ReactNode) => JSX.Element;
+  linkWrapper?: (child: React.ReactNode, styles?: any) => JSX.Element;
   column: TableViewColumn;
 }) => JSX.Element;
 
@@ -24,10 +36,9 @@ const StringComponent: ColumnComponent = ({ item: { icon, value }, linkWrapper }
     return linkWrapper(
       <>
         {iconElement}
-        <Typography styles={[verticalPadding(2)]} type="body-semi-bold">
-          {value}
-        </Typography>
+        {value}
       </>,
+      [minHeight("100%"), verticalPadding(2), color("gray-blue/09"), disableDecoration, hover(color("gray-blue/07"))],
     );
 
   return (
