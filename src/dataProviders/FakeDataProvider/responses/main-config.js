@@ -179,7 +179,6 @@ module.exports = {
                                   field: "name",
                                   type: "STRING",
                                   sortable: false,
-                                  referenceRedirect: "/content/articles/{{local:id}}",
                                 },
                                 {
                                   title: "Дата",
@@ -246,7 +245,6 @@ module.exports = {
                               imageConfig: {
                                 aspectRatio: 1.6,
                               },
-                              referenceRedirect: "/content/articles/{{local:id}}",
                               sortingOptions: {
                                 title: "Сортировать:",
                                 items: [

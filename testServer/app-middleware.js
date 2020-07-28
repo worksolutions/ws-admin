@@ -33,7 +33,7 @@ module.exports = (app) => {
           const action = {
             type: "redirect",
             options: {
-              reference: "/user/{{local:id}}/edit",
+              reference: "/",
             },
           };
 
@@ -41,6 +41,7 @@ module.exports = (app) => {
             title: article.title,
             id: article.id,
             image: article.announceImage ? prepareUrl(article.announceImage.path) : null,
+            redirectReference: "/content/articles/" + article.id,
             actions: [
               {
                 name: "Редактировать",
@@ -82,7 +83,7 @@ module.exports = (app) => {
           const action = {
             type: "redirect",
             options: {
-              reference: "/user/{{local:id}}/edit",
+              reference: "/",
             },
           };
 
@@ -95,6 +96,7 @@ module.exports = (app) => {
             },
             name: {
               value: article.title,
+              redirectReference: "/content/articles/" + article.id,
             },
             publishedAt: {
               value: moment.unix(article.publishedAt).format("DD MMMM YYYY"),

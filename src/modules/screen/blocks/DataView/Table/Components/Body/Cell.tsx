@@ -82,6 +82,7 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
   const [ref, bounds] = useMeasure();
   const columnType = column.type || TableViewDataType.STRING;
   const Component = ComponentsForColumnType[columnType];
+
   if (!Component) return null;
 
   const componentVerticalPadding = verticalPaddingBySize[tableViewOptions.rowsConfig.paddingConfig];
@@ -132,13 +133,13 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
         item={item}
         column={column}
         linkWrapper={
-          column.referenceRedirect
+          item.redirectReference
             ? (child, styles) => (
                 <TypographyLink
                   styles={styles}
                   type="body-semi-bold"
-                  to={column.referenceRedirect!}
-                  native={getLinkIsNative(column.referenceRedirect!)}
+                  to={item.redirectReference!}
+                  native={getLinkIsNative(item.redirectReference!)}
                 >
                   {child}
                 </TypographyLink>

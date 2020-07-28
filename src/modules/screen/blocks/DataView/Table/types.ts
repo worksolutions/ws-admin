@@ -26,7 +26,6 @@ export type TableViewColumn = {
   title: string;
   field: string;
   type?: TableViewDataType;
-  referenceRedirect?: string;
   resizable?: boolean;
   sortable?: boolean;
   sizes?: TableViewColumnSizes;
@@ -54,6 +53,7 @@ export interface TableViewOptions {
 
 export interface TableViewItemInterface {
   value: any;
+  redirectReference?: string;
   icon?: {
     name: Icons;
     color: Colors;

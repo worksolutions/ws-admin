@@ -27,27 +27,18 @@ import CardComponent from "./CardComponent";
 
 import { AnyAction } from "types/Actions";
 
-function CardsView({
-  list,
-  referenceRedirect,
-  imageConfig,
-}: CardsViewDataSource & {
-  referenceRedirect?: string;
-  imageConfig: CardImageConfig;
-}) {
-  const appContext = useAppContext();
-
+function CardsView({ list, imageConfig }: CardsViewDataSource & { imageConfig: CardImageConfig }) {
   return (
     <LayoutGrid marginBottom={16} marginRight={16} minWidth={242} styles={[horizontalPadding(8), ai(Aligns.STRETCH)]}>
       {list.map((card) => {
         const cardComponent = <CardComponent {...card} imageConfig={imageConfig} />;
 
-        if (!referenceRedirect) return cardComponent;
+        if (!card.redirectReference) return cardComponent;
 
         return (
           <LinkWrapper
             key={card.id}
-            to={insertContext(referenceRedirect, appContext.context, card).value}
+            to={card.redirectReference}
             styles={[
               disableDecoration,
               child([

@@ -15,7 +15,6 @@ import { BlockInterface } from "state/systemState";
 
 export interface CardsViewBlockInterface
   extends BlockInterface<{
-    referenceRedirect?: string;
     imageConfig: CardImageConfig;
   }> {
   onUpdateMeta: (data: ViewMetaData) => void;

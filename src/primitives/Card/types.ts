@@ -29,6 +29,7 @@ export interface CardInterface {
   actions?: CardActionInterface[];
   title?: string;
   image?: string;
+  redirectReference?: string;
 }
 
 export interface CardImageConfig {
