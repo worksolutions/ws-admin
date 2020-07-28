@@ -25,6 +25,7 @@ import {
   minHeight,
   overflow,
   padding,
+  paddingLeft,
   position,
   width,
 } from "libs/styles";
@@ -86,7 +87,7 @@ function SecondaryMenuSidebar({ title, items, id }: SecondaryMenuSidebarInterfac
             )}
           </Wrapper>
           <Wrapper styles={[height(64), fullWidth, flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN)]}>
-            <Wrapper styles={[flex, flexColumn]}>
+            <Wrapper styles={[flex, flexColumn, paddingLeft(8)]}>
               <Typography color="gray-blue/04">2020</Typography>
               <Typography color="gray-blue/04">© Work Solutions</Typography>
             </Wrapper>

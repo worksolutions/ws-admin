@@ -17,7 +17,7 @@ export const disableOutline = css`
   outline: none;
 `;
 
-type BoxShadow = [
+export type BoxShadow = [
   number | string,
   number | string,
   number | string,

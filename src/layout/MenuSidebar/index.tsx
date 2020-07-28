@@ -1,5 +1,5 @@
 import React from "react";
-import { elevation16 } from "style/shadows";
+import { elevation16Raw } from "style/shadows";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -52,14 +52,13 @@ function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterfac
     <Wrapper
       styles={[
         backgroundColor("white"),
-        elevation16,
         position("fixed"),
         fullHeight,
         width(sidebarWidth),
         flex,
         flexColumn,
         zIndex(1),
-        boxShadow([0, 0, 0, 1, "gray-blue/02"]),
+        boxShadow([0, 0, 0, 1, "gray-blue/02"], ...elevation16Raw),
       ]}
     >
       {logo && (
