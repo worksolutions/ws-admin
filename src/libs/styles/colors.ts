@@ -49,7 +49,7 @@ export const colors = {
   "blue/08": "#104E9B",
   "blue/09": "#0C3B75",
   "blue/10": "#08274D",
-  "gray-blue/01": "#F1F2F4",
+  "gray-blue/01": "#F2F4F7",
   "gray-blue/02": "#D7DDE5",
   "gray-blue/03": "#B5C0CF",
   "gray-blue/04": "#96A6BA",
