@@ -22,12 +22,14 @@ import {
   marginTop,
   overflowY,
   padding,
+  paddingBottom,
   position,
 } from "libs/styles";
-import { useLocalStorage } from "libs/hooks";
+import { useLocalStorage, useScrollCallback, useScrollCallbackWasScrolledBoolean } from "libs/hooks";
 
 import CardsViewBlock from "../Cards";
 import { ViewMetaData } from "../types";
+import { elevation8 } from "../../../../../style/shadows";
 
 import TableComponent from "./Components/Table";
 import { FormattedDataViewInterface } from "./types";
@@ -50,6 +52,11 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
   const { actions: paginationViewActions, data: paginationViewData, show: showPaginationRaw } = usePagination(
     options!.paginationView,
   );
+
+  const {
+    scrolled: cardsScrolled,
+    setScrollableElement: setCardsScrollableElement,
+  } = useScrollCallbackWasScrolledBoolean();
 
   if (paginationViewData.loadingContainer.loading) return null;
 
@@ -74,6 +81,7 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
       styles={[flex, ai(Aligns.STRETCH), flexValue(1), borderRadius(8), border(1, "gray-blue/02"), flexColumn, styles]}
     >
       <Actions
+        styles={[isCardsView ? [cardsScrolled && elevation8] : [paddingBottom(8)]]}
         options={options}
         actions={actions}
         isCardsView={isCardsView}
@@ -95,7 +103,10 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
         }
       />
       {isCardsView ? (
-        <Wrapper styles={[fullWidth, marginTop(20), flexValue(1), overflowY("scroll"), position("relative")]}>
+        <Wrapper
+          ref={setCardsScrollableElement}
+          styles={[fullWidth, flexValue(1), overflowY("scroll"), position("relative")]}
+        >
           {notFound}
           <CardsViewBlock {...options!.cardsView} onUpdateMeta={setMetaData} />
           {spinner}

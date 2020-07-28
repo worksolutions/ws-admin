@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Ref } from "react";
 import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
@@ -22,7 +22,7 @@ export interface TableViewBlockInterface extends BlockInterface<TableViewOptions
   actions: { sorting: AnyAction };
 }
 
-function TableView({ dataSource, options, onUpdateMeta, actions }: TableViewBlockInterface) {
+function TableView({ dataSource, options, onUpdateMeta, actions }: TableViewBlockInterface, ref: Ref<HTMLElement>) {
   const { data, loadingContainer } = useDataSource<TableViewDataSource>(dataSource!);
 
   useSubviewLoader(data, loadingContainer, onUpdateMeta);
@@ -32,9 +32,9 @@ function TableView({ dataSource, options, onUpdateMeta, actions }: TableViewBloc
 
   return (
     <Wrapper styles={[position("relative"), fullHeight, fullWidth]}>
-      <Table list={data.list} options={options!} actions={actions} />
+      <Table ref={ref} list={data.list} options={options!} actions={actions} />
     </Wrapper>
   );
 }
 
-export default React.memo(observer(TableView));
+export default React.memo(observer(TableView, { forwardRef: true }));

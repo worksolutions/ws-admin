@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Ref } from "react";
 import { observer } from "mobx-react-lite";
 import { assocPath } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 
-import { flexValue, fullWidth, marginTop, overflow, position } from "libs/styles";
+import { flexValue, fullWidth, overflow, position } from "libs/styles";
 
 import TableViewBlock from "../../Table";
 import { FormattedDataViewInterface } from "../types";
@@ -20,19 +20,22 @@ interface TableComponentsProps {
   actions: { sorting: AnyAction };
 }
 
-function TableComponent({ options, notFound, spinner, setMetaData, actions }: TableComponentsProps) {
+function TableComponent(
+  { options, notFound, spinner, setMetaData, actions }: TableComponentsProps,
+  ref: Ref<HTMLElement>,
+) {
   const tableViewOptions = React.useMemo(
     () => assocPath(["options", "id"], `${options!.id}-table`, options!.tableView),
     [],
   );
 
   return (
-    <Wrapper styles={[position("relative"), fullWidth, overflow("hidden"), flexValue(1), marginTop(8)]}>
+    <Wrapper styles={[position("relative"), fullWidth, overflow("hidden"), flexValue(1)]}>
       {notFound}
-      <TableViewBlock {...tableViewOptions} onUpdateMeta={setMetaData} actions={actions} />
+      <TableViewBlock ref={ref} {...tableViewOptions} onUpdateMeta={setMetaData} actions={actions} />
       {spinner}
     </Wrapper>
   );
 }
 
-export default React.memo(observer(TableComponent));
+export default React.memo(observer(TableComponent, { forwardRef: true }));

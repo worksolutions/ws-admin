@@ -25,6 +25,7 @@ import { FormattedDataViewInterface } from "../types";
 import { formattedDataLocalStorageInitialValue } from "../libs";
 
 type ActionType = Pick<FormattedDataViewInterface, "actions" | "options"> & {
+  styles?: any;
   isCardsView: boolean;
   storage: typeof formattedDataLocalStorageInitialValue;
   setStorage: (data: typeof formattedDataLocalStorageInitialValue) => void;
@@ -33,6 +34,7 @@ type ActionType = Pick<FormattedDataViewInterface, "actions" | "options"> & {
 };
 
 function Actions({
+  styles,
   actions,
   options,
   isCardsView,
@@ -44,13 +46,14 @@ function Actions({
   return (
     <Wrapper
       styles={[
-        padding("16px 16px 0 16px"),
+        padding(16),
         flex,
         ai(Aligns.CENTER),
         flexWrap,
         zIndex(2),
         child(marginRight(16)),
         lastChild(marginRight(0)),
+        styles,
       ]}
     >
       {actions?.search && (
