@@ -26,6 +26,7 @@ import {
   marginRight,
   borderRadius,
   transition,
+  overflow,
 } from "libs/styles";
 import { getLinkIsNative } from "libs/linkIsNative";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
@@ -34,19 +35,19 @@ import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface,
 
 import { ComponentsForColumnType } from "./CellTypes";
 
-const verticalPaddingForSize: Record<TableSizes, number> = {
+const verticalPaddingBySize: Record<TableSizes, number> = {
   [TableSizes.LARGE]: 16,
   [TableSizes.MEDIUM]: 12,
   [TableSizes.SMALL]: 8,
 };
 
-const imageHeightsForHeightConfig: Record<TableSizes, number> = {
+const imageHeightsForHeightConfigBySize: Record<TableSizes, number> = {
   [TableSizes.LARGE]: 48,
   [TableSizes.MEDIUM]: 32,
   [TableSizes.SMALL]: 24,
 };
 
-const widthForPaddingAndOptions: Record<
+const widthForPaddingAndOptionsByType: Record<
   TableViewDataType,
   (padding: number, options: TableViewColumn["options"]) => string | number
 > = {
@@ -54,10 +55,16 @@ const widthForPaddingAndOptions: Record<
   [TableViewDataType["STATUS-STRING"]]: () => "initial",
   [TableViewDataType.IMAGE]: (padding, options) => {
     const imageConfig = options!.imageConfig!;
-    return padding + Math.ceil(imageHeightsForHeightConfig[imageConfig.heightConfig] * imageConfig.aspectRatio);
+    return padding + Math.ceil(imageHeightsForHeightConfigBySize[imageConfig.heightConfig] * imageConfig.aspectRatio);
   },
   [TableViewDataType.DATE]: () => 133,
   [TableViewDataType.ACTIONS]: () => 40,
+};
+
+const commonStylesForCellByType: Record<string, any> = {
+  [TableViewDataType.STRING]: overflow("hidden"),
+  [TableViewDataType.DATE]: overflow("hidden"),
+  [TableViewDataType.IMAGE]: overflow("hidden"),
 };
 
 const defaultPadding = 16;
@@ -77,7 +84,7 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
   const Component = ComponentsForColumnType[columnType];
   if (!Component) return null;
 
-  const componentVerticalPadding = verticalPaddingForSize[tableViewOptions.rowsConfig.paddingConfig];
+  const componentVerticalPadding = verticalPaddingBySize[tableViewOptions.rowsConfig.paddingConfig];
 
   return (
     <Wrapper
@@ -87,7 +94,8 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
       styles={[
         verticalAlign("top"),
         verticalPadding(componentVerticalPadding),
-        width(widthForPaddingAndOptions[columnType](defaultPadding, column.options)),
+        width(widthForPaddingAndOptionsByType[columnType](defaultPadding, column.options)),
+        commonStylesForCellByType[columnType],
         horizontalPadding(halfOfDefaultPadding),
         firstChild(
           [
