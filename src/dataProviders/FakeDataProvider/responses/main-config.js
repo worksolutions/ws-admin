@@ -120,25 +120,18 @@ module.exports = {
             blocks: [
               {
                 type: "Pages/DefaultPageWithList",
+                options: { title: "Статьи" },
                 slots: {
-                  heading: {
-                    type: "Heading",
-                    options: {
-                      value: "Статьи",
-                      actionBlockElements: [
-                        {
-                          type: "Actions/Button",
-                          options: { name: "Добавить", icon: "plus-big" },
-                          actions: {
-                            click: {
-                              type: "redirect",
-                              options: {
-                                reference: "/test",
-                              },
-                            },
-                          },
+                  headingAction: {
+                    type: "Actions/Button",
+                    options: { name: "Добавить", icon: "plus-big" },
+                    actions: {
+                      click: {
+                        type: "redirect",
+                        options: {
+                          reference: "/test",
                         },
-                      ],
+                      },
                     },
                   },
                   mainContent: {
@@ -300,9 +293,66 @@ module.exports = {
             type: "Screen",
             options: {
               title: "Детальная статья",
-              reference: "/content/articles/:id",
+              reference: "/content/articles/:articleId",
             },
-            blocks: [{ type: "SimpleText", options: { text: "Тест 123" } }],
+            blocks: [
+              {
+                type: "Pages/DefaultDetailPage",
+                options: {
+                  title: "Статья",
+                  status: {
+                    title: "{{screen:article.status.title}}",
+                    badgeColor: "{{screen:article.status.badgeColor}}",
+                  },
+                  externalReference: "https://yandex.ru",
+                },
+                dataSource: {
+                  type: "api:request",
+                  options: {
+                    reference: "/article/{{screen:articleId}}",
+                    method: "get",
+                  },
+                  context: "screen:article",
+                },
+                slots: {
+                  headingAction: {
+                    type: "Actions/Button",
+                    options: { name: "Редактировать", icon: "edit-alt", buttonType: "SECONDARY" },
+                    actions: {
+                      click: {
+                        type: "redirect",
+                        options: {
+                          reference: "/test",
+                        },
+                      },
+                    },
+                  },
+                  mainContent: {
+                    type: "Tabs",
+                    options: [
+                      {
+                        title: "Атрибуты",
+                        block: {
+                          type: "SimpleText",
+                          options: {
+                            text: "атрибуты111",
+                          },
+                        },
+                      },
+                      {
+                        title: "Текст",
+                        block: {
+                          type: "SimpleText",
+                          options: {
+                            text: "текст 213",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
           },
         ],
       },

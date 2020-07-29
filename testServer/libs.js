@@ -13,6 +13,7 @@ exports.prepareUrl = function (url) {
   return url.startsWith("http") ? url : process.env.DEV_API_HOST + url;
 };
 
+// eslint-disable-next-line max-params
 exports.makeProxy = function (
   { expressMethodHandlerName, handleUrl, realServerUrl },
   app,
@@ -26,17 +27,20 @@ exports.makeProxy = function (
     });
     req.on("end", async () => {
       try {
-        const response = await axios(realServerUrl || req.originalUrl, {
-          method: req.method,
-          baseURL: process.env.DEV_API_HOST,
-          params: req.query,
-          data: chunks,
-          ...(modifyRequest ? modifyRequest({ params: req.query, data: chunks }) : {}),
-          headers: {
-            ...ramda.omit(["host"], req.headers),
-            origin: process.env.DEV_API_HOST,
+        const response = await axios(
+          (ramda.is(Function, realServerUrl) ? realServerUrl(req) : realServerUrl) || req.originalUrl,
+          {
+            method: req.method,
+            baseURL: process.env.DEV_API_HOST,
+            params: req.query,
+            data: chunks,
+            ...(modifyRequest ? modifyRequest({ params: req.query, data: chunks }) : {}),
+            headers: {
+              ...ramda.omit(["host"], req.headers),
+              origin: process.env.DEV_API_HOST,
+            },
           },
-        });
+        );
         if (modifyResponse) {
           const result = await modifyResponse(response.data, response.status);
           if (!ramda.isNil(result)) {

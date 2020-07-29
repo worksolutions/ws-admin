@@ -38,4 +38,6 @@ export const list = {
   badge: require("./icons/badge.svg"),
   "plus-big": require("./icons/plus-big.svg"),
   "sort-desc": require("./icons/sort-desc.svg"),
+  "external-link-alt": require("./icons/external-link-alt.svg"),
+  "edit-alt": require("./icons/edit-alt.svg"),
 };

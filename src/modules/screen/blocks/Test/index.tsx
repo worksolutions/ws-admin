@@ -7,6 +7,7 @@ import Password from "primitives/Input/Password";
 import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { ListItemId } from "primitives/List";
+import Tabs from "primitives/Tabs";
 
 import Sorting, { SortingElementInterface } from "components/Sorting";
 
@@ -130,6 +131,15 @@ function TestPage() {
         </DroppedList>
       </Wrapper>
       <Dropdowns />
+      <Wrapper>
+        <Tabs
+          items={[
+            { render: () => <div>1</div>, title: "Атрибуты" },
+            { render: () => <div />, title: "Текст" },
+            { render: () => <div />, title: "Статьи по теме" },
+          ]}
+        />
+      </Wrapper>
     </Wrapper>
   );
 }

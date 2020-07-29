@@ -5,8 +5,8 @@ export enum ButtonSize {
 }
 
 export enum ButtonType {
-  PRIMARY,
-  ICON,
-  SECONDARY,
-  GHOST,
+  PRIMARY = "PRIMARY",
+  ICON = "ICON",
+  SECONDARY = "SECONDARY",
+  GHOST = "GHOST",
 }

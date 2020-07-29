@@ -8,7 +8,6 @@ import Spinner from "primitives/Spinner";
 import { useSetDocumentTitle } from "libs/hooks";
 
 import ToastReceiver from "modules/ToastReceiver";
-import useScreenContextSynchronizer from "modules/context/hooks/useScreenContextSynchronizer";
 import AuthModule from "modules/auth";
 import { AuthTokenSaver } from "modules/auth/authTokenSaver";
 import BlockRenderer from "modules/screen/BlockRenderer";
@@ -29,7 +28,6 @@ function App() {
     });
   }, []);
   useSetDocumentTitle(systemState.stateContainer.state.title || "Административная панель");
-  useScreenContextSynchronizer();
 
   if (systemState.stateContainer.empty) {
     return <Spinner size={132} />;

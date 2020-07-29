@@ -9,7 +9,10 @@ import { useActions } from "modules/context/actions/useActions";
 
 import { BlockInterface } from "state/systemState";
 
-function ActionButton({ actions, options }: BlockInterface<{ name: string; icon?: Icons }, "click">) {
+function ActionButton({
+  actions,
+  options,
+}: BlockInterface<{ name: string; icon?: Icons; buttonType?: ButtonType }, "click">) {
   if (!actions?.click) return null;
   if (!options) return null;
 
@@ -18,7 +21,7 @@ function ActionButton({ actions, options }: BlockInterface<{ name: string; icon?
 
   return (
     <Button
-      type={ButtonType.PRIMARY}
+      type={options.buttonType || ButtonType.PRIMARY}
       size={ButtonSize.MEDIUM}
       iconLeft={options.icon}
       loading={resultActions.click.loadingContainer.loading}

@@ -1,23 +1,27 @@
 import React from "react";
 
-import Wrapper from "primitives/Wrapper";
+import Typography from "primitives/Typography";
 
-import { flex, flexColumn, flexValue, fullHeight, marginBottom, overflow, padding } from "libs/styles";
+import { flexValue, overflow } from "libs/styles";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
 
-import { PageComponentInterface } from "../types";
+import DefaultPageWrapper from "../common/DefaultPageWrapper";
 
-function DefaultPageWithList({ slots }: PageComponentInterface) {
+import { BlockInterface, ContainSlotsInterface } from "state/systemState";
+
+function DefaultPageWithList({ slots, options }: ContainSlotsInterface & BlockInterface<{ title: string }>) {
   return (
-    <Wrapper styles={[padding(24), flex, flexColumn, flexValue(1), fullHeight, overflow("hidden")]}>
-      {slots.heading && (
-        <Wrapper styles={[marginBottom(24)]}>
-          <BlockRenderer {...slots.heading} />
-        </Wrapper>
-      )}
+    <DefaultPageWrapper
+      heading={
+        <>
+          <Typography type="h1-bold">{options!.title}</Typography>
+          {slots.headingAction && <BlockRenderer {...slots.headingAction} />}
+        </>
+      }
+    >
       {slots.mainContent && <BlockRenderer {...slots.mainContent} styles={[flexValue(1), overflow("hidden")]} />}
-    </Wrapper>
+    </DefaultPageWrapper>
   );
 }
 

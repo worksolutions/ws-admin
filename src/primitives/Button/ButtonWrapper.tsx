@@ -22,7 +22,10 @@ import Spinner from "../Spinner";
 import { buttonStylesMap } from "./styles";
 import { ButtonSize, ButtonType } from "./types";
 
-function getStylesNameOnIcons(hasLeftIcon: boolean, hasRightIcon: boolean): keyof typeof buttonStylesMap["0"]["0"] {
+function getStylesNameOnIcons(
+  hasLeftIcon: boolean,
+  hasRightIcon: boolean,
+): keyof typeof buttonStylesMap["PRIMARY"]["0"] {
   if (hasLeftIcon && hasRightIcon) return "withTwoIcons";
   if (hasLeftIcon) return "withIconLeft";
   if (hasRightIcon) return "withIconRight";

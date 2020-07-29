@@ -3,6 +3,8 @@ import { Route } from "react-router";
 
 import { useSetDocumentTitle } from "libs/hooks";
 
+import useScreenContextSynchronizer from "modules/context/hooks/useScreenContextSynchronizer";
+
 import BlockRenderer from "../../BlockRenderer";
 
 import { BlockInterface, ContainBlocksInterface } from "state/systemState";
@@ -14,6 +16,8 @@ export interface ScreenInterface {
 
 function Component({ title, blocks }: { title?: string; blocks: BlockInterface[] }) {
   useSetDocumentTitle(title, 1);
+  useScreenContextSynchronizer();
+
   return (
     <>
       {blocks.map((block, key) => (

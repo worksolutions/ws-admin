@@ -11,7 +11,7 @@ interface ButtonInterface extends BaseButtonWrapperInterface {
   className?: string;
   preventDefault?: boolean;
   children?: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Button = React.forwardRef(function (
@@ -29,7 +29,7 @@ const Button = React.forwardRef(function (
             as="button"
             styles={styles}
             disabled={buttonWrapperProps.disabled}
-            onClick={preventDefaultProp ? preventDefault(clickHandler) : clickHandler}
+            onClick={clickHandler && (preventDefaultProp ? preventDefault(clickHandler) : clickHandler)}
           >
             {iconLeft}
             {buttonWrapperProps.loading ? buttonWrapperProps.loadingText || children : children}
