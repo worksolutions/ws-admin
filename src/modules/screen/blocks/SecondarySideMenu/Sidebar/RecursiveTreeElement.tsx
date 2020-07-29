@@ -19,6 +19,7 @@ import {
   disableDecoration,
   fillColor,
   flex,
+  fontWeight,
   fullWidth,
   hover,
   lastChild,
@@ -81,16 +82,11 @@ const TreeElement = withPerformance(["toggle"])(function ({
             width={16}
             height={16}
             styles={[marginRight(4), marginLeft(oneLevelPaddingLeft * level), opened && transform("rotateZ(90deg)")]}
-            iconName="16-triangle-right"
+            icon="16-triangle-right"
           />
         )}
         {(item.icon || hasSubElements) && (
-          <Icon
-            className="item-icon"
-            color="blue/09"
-            styles={[marginRight(8)]}
-            iconName={item.icon || "folder-outline"}
-          />
+          <Icon className="item-icon" color="blue/09" styles={[marginRight(8)]} icon={item.icon || "folder-outline"} />
         )}
         <Typography dots styles={transition(`all ${duration200}`)} className="item-text" color="gray-blue/09">
           {item.name}
@@ -103,7 +99,7 @@ const TreeElement = withPerformance(["toggle"])(function ({
     return <Wrapper {...resultProps} onClick={toggle} />;
   }
 
-  return <TypographyLink to={item.reference} {...resultProps} />;
+  return <TypographyLink to={item.reference} {...resultProps} styles={[resultProps.styles, fontWeight(100)]} />;
 });
 
 export const RecursiveTreeElement = React.memo(function ({ item, level }: RecursiveTreeElementInterface) {

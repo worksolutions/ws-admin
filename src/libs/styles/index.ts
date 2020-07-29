@@ -23,12 +23,13 @@ export type BoxShadow = [
   number | string,
   number | string,
   Colors | GradientColor | AlphaColor,
+  boolean?,
 ];
 
-function makeShadow([offsetX, offsetY, blurRadius, spread, color]: BoxShadow) {
-  return `${stringOrPixels(offsetX)} ${stringOrPixels(offsetY)} ${stringOrPixels(blurRadius)} ${stringOrPixels(
-    spread,
-  )} ${getColor(color)}`;
+function makeShadow([offsetX, offsetY, blurRadius, spread, color, inset]: BoxShadow) {
+  return `${inset ? "inset " : ""}${stringOrPixels(offsetX)} ${stringOrPixels(offsetY)} ${stringOrPixels(
+    blurRadius,
+  )} ${stringOrPixels(spread)} ${getColor(color)}`;
 }
 
 export const boxShadow = memoizeWith(

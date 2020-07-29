@@ -24,10 +24,10 @@ const getChildForStatus = {
     </Typography>
   ),
   [BackgroundTaskStatus.COMPLETE]: (_valuePercent: number) => (
-    <Icon styles={[position("absolute"), absoluteCenter]} iconName="check" color="green/05" />
+    <Icon styles={[position("absolute"), absoluteCenter]} icon="check" color="green/05" />
   ),
   [BackgroundTaskStatus.ERROR]: (_valuePercent: number) => (
-    <Icon styles={[position("absolute"), absoluteCenter]} iconName="alert" color="red/05" />
+    <Icon styles={[position("absolute"), absoluteCenter]} icon="alert" color="red/05" />
   ),
 };
 

@@ -93,14 +93,14 @@ function ButtonWrapper({
   const resultStyles = buttonStyles[getStylesNameOnIcons(!!icons.iconLeft, !!icons.iconRight)];
 
   const leftIconElement = icons.iconLeft && (
-    <Icon className="icon icon-left" iconName={icons.iconLeft} width={icons.leftWidth} height={icons.leftHeight} />
+    <Icon className="icon icon-left" icon={icons.iconLeft} width={icons.leftWidth} height={icons.leftHeight} />
   );
 
   const rightIconElement = loading ? (
     <Spinner className="icon icon-right" />
   ) : (
     icons.iconRight && (
-      <Icon className="icon icon-right" iconName={icons.iconRight} width={icons.rightWidth} height={iconRightHeight} />
+      <Icon className="icon icon-right" icon={icons.iconRight} width={icons.rightWidth} height={iconRightHeight} />
     )
   );
 

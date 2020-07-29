@@ -61,10 +61,9 @@ export default cb(
                   href: "/user",
                   selected: false,
                   type: "button",
-                  icon: "user",
                   hint: globalState.stateContainer.state.currentUser.name,
                   iconStyles: [borderRadius("100%"), border(1, createAlphaColor("black", 20))],
-                  customIcon: globalState.stateContainer.state.currentUser.avatar,
+                  icon: globalState.stateContainer.state.currentUser.avatar || "user",
                 }
               : null,
             { href: "/logout", selected: false, type: "button", hint: "Выйти из системы", icon: "log-out" },

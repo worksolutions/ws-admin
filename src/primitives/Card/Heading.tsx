@@ -34,18 +34,9 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
             {title}
           </Typography>
         )}
-        {statuses.map(({ iconName, color, size }, key) => {
+        {statuses.map(({ icon, color, size }, key) => {
           const iconSize = headingIconSizes[size || CardStatusIconSize.LARGE];
-          return (
-            <Icon
-              key={key}
-              iconName={iconName}
-              color={color}
-              width={iconSize}
-              height={iconSize}
-              styles={marginLeft(8)}
-            />
-          );
+          return <Icon key={key} icon={icon} color={color} width={iconSize} height={iconSize} styles={marginLeft(8)} />;
         })}
       </Wrapper>
       {actions.length !== 0 && (
@@ -56,7 +47,7 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
             id: action.name,
             title: action.name,
             disabled: action.loading,
-            leftContent: action.iconName ? <Icon iconName={action.iconName} color={action.iconColor} /> : null,
+            leftContent: action.icon ? <Icon icon={action.icon} color={action.iconColor} /> : null,
           }))}
           onChange={async (id) => {
             await onActionClick(id);

@@ -53,7 +53,7 @@ function Tabs({ initialActive = 0, items, styles }: TabsInterface) {
               left(getLeft(widths.current, active)),
               position("absolute"),
               width(widths.current[active] - tabHorizontalPadding * 2),
-              bottom(0),
+              bottom(-1),
               height(2),
               backgroundColor("blue/05"),
             ]}

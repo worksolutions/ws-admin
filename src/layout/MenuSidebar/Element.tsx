@@ -23,8 +23,7 @@ import {
 } from "libs/styles";
 
 export interface BaseIconButtonInterface {
-  icon: Icons;
-  customIcon?: string;
+  icon: Icons | any;
   selected: boolean;
   href: string;
   hint?: string;
@@ -33,7 +32,6 @@ export interface BaseIconButtonInterface {
 
 export const IconLink = React.memo(function ({
   icon,
-  customIcon,
   selected,
   href,
   hint,
@@ -61,7 +59,7 @@ export const IconLink = React.memo(function ({
             styles,
           ]}
         >
-          <Icon styles={iconStyles} iconName={icon} customIcon={customIcon} color={selected ? "white" : "blue/09"} />
+          <Icon styles={iconStyles} icon={icon} color={selected ? "white" : "blue/09"} />
         </LinkWrapper>
       )}
     </Hint>

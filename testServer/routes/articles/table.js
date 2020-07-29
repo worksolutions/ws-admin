@@ -36,7 +36,7 @@ module.exports = (app) => {
               value: [
                 {
                   name: "Редактировать",
-                  iconName: "edit",
+                  icon: "edit",
                   iconColor: "gray-blue/05",
                   action,
                 },
@@ -53,7 +53,7 @@ module.exports = (app) => {
             };
             result.actions.value.push({
               name: "Снять с публикации",
-              iconName: "bolt-alt",
+              icon: "bolt-alt",
               iconColor: "orange/05",
               action,
             });
@@ -64,7 +64,7 @@ module.exports = (app) => {
               },
               value: "Черновик",
             };
-            result.actions.value.push({ name: "Опубликовать", iconName: "bolt-alt", iconColor: "green/05", action });
+            result.actions.value.push({ name: "Опубликовать", icon: "bolt-alt", iconColor: "green/05", action });
           }
 
           return result;

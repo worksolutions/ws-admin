@@ -16,7 +16,7 @@ function SimpleText({
   if (text.value !== "" && !isNil(text.value)) return <Typography styles={styles}>{text.value}</Typography>;
   return (
     <Typography color="gray-blue/04" styles={styles}>
-      {options!.emptyValue || "нет"}
+      {options!.emptyValue || "Нет"}
     </Typography>
   );
 }

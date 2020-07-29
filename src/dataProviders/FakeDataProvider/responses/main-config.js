@@ -363,9 +363,11 @@ module.exports = {
                                   },
                                   {
                                     title: "Автор",
-                                    type: "text",
+                                    type: "icon-link",
                                     options: {
-                                      value: "{{screen:article.author.name}} {{screen:article.author.surname}}",
+                                      title: "{{screen:article.author.name}} {{screen:article.author.surname}}",
+                                      imageReference: "{{screen:article.author.image.path}}",
+                                      reference: "/user/{{screen:article.author.id}}",
                                     },
                                   },
                                 ],

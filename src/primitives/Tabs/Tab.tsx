@@ -1,27 +1,26 @@
 import React from "react";
 import { duration200 } from "layout/durations";
-import { UseMeasureRect } from "react-use/lib/useMeasure";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 import {
+  active,
   ai,
   Aligns,
   backgroundColor,
-  borderBottom,
   borderNone,
-  borderRadius,
   child,
+  color,
   disableOutline,
   flex,
   flexColumn,
   horizontalPadding,
+  hover,
   padding,
   pointer,
   transition,
-  focus,
   verticalPadding,
 } from "libs/styles";
 
@@ -35,7 +34,7 @@ interface TabInterface {
 export const calculateWidthDelayTime = 500;
 export const tabHorizontalPadding = 8;
 
-function Tab({ active, title, onClick, onWidthDetect }: TabInterface) {
+function Tab({ active: activeProp, title, onClick, onWidthDetect }: TabInterface) {
   const ref = React.useRef<HTMLSpanElement>();
 
   React.useEffect(() => {
@@ -46,25 +45,24 @@ function Tab({ active, title, onClick, onWidthDetect }: TabInterface) {
     <Wrapper
       as="button"
       ref={ref}
-      disabled={active}
+      disabled={activeProp}
       styles={[
-        pointer,
         disableOutline,
         verticalPadding(0),
         horizontalPadding(tabHorizontalPadding),
-        borderRadius(6),
         backgroundColor("white"),
         flex,
         flexColumn,
         ai(Aligns.CENTER),
         borderNone,
-        !active && focus(child(borderBottom(2, "gray-blue/02"))),
+        !activeProp && [pointer, hover(child(color("gray-blue/07"))), active(child(color("gray-blue/09")))],
       ]}
       onClick={onClick}
     >
       <Typography
         type="body-semi-bold"
-        styles={[transition(`border-bottom-color ${duration200}`), borderBottom(2, "transparent"), padding("8px 4px")]}
+        color={activeProp ? "gray-blue/09" : "gray-blue/05"}
+        styles={[transition(`border-bottom-color ${duration200}, color ${duration200}`), padding("8px 4px")]}
       >
         {title}
       </Typography>

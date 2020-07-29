@@ -71,7 +71,7 @@ const Dropdown = React.forwardRef(function Dropdown(
       items={items?.map((item) => ({
         ...item,
         rightContent:
-          selectedItemId === item.id ? <Icon iconName="check" color="blue/06" /> : <Wrapper styles={width(24)} />,
+          selectedItemId === item.id ? <Icon icon="check" color="blue/06" /> : <Wrapper styles={width(24)} />,
       }))}
       selectedItemId={selectedItemId}
       onChange={(id) => onChange(id)}
@@ -106,7 +106,7 @@ const Dropdown = React.forwardRef(function Dropdown(
             </Typography>
           )}
           <Icon
-            iconName="arrow-down"
+            icon="arrow-down"
             styles={[
               transition(`all ${duration200}`),
               transform(`rotateZ(${state.opened ? "180deg" : "0deg"})`),

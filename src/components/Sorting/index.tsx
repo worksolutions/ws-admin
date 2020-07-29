@@ -58,7 +58,7 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
         title: item.title,
         rightContent:
           originalSelectedElement.id === item.id ? (
-            <Icon iconName="check" color="blue/06" />
+            <Icon icon="check" color="blue/06" />
           ) : (
             <Wrapper styles={width(24)} />
           ),

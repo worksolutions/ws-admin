@@ -9,50 +9,6 @@ import Wrapper from "../Wrapper";
 
 import { StyledComponentsAS } from "types/StyledComponentsAS";
 
-// interface ImageInterface {
-//   src?: string;
-//   width: number | string;
-//   height: number | string;
-//   styles?: any;
-//   as?: StyledComponentsAS;
-//   emptyIcon?: Icons;
-//   emptyIconSize?: number;
-// }
-//
-// function ImageWithDefault({
-//   src,
-//   height: heightProp,
-//   width: widthProp,
-//   styles,
-//   as,
-//   emptyIcon = "no-image",
-//   emptyIconSize,
-// }: ImageInterface) {
-//   const image = src ? (
-//     <Icon customIcon={src} width="100%" height="100%" />
-//   ) : (
-//     <Icon color="gray-blue/03" iconName={emptyIcon} width={emptyIconSize} height={emptyIconSize} />
-//   );
-//
-//   return (
-//     <Wrapper
-//       as={as}
-//       styles={[
-//         backgroundColor("gray-blue/01"),
-//         flex,
-//         ai(Aligns.CENTER),
-//         jc(Aligns.CENTER),
-//         width(widthProp),
-//         height(heightProp),
-//         overflow("hidden"),
-//         styles,
-//       ]}
-//     >
-//       {image}
-//     </Wrapper>
-//   );
-// }
-
 interface ImageInterface {
   src?: string;
   width?: number | string;
@@ -94,9 +50,9 @@ function ImageWithDefault({
   }, [bounds]);
 
   const image = src ? (
-    <Icon customIcon={src} width="100%" height="100%" />
+    <Icon icon={src} width="100%" height="100%" />
   ) : (
-    <Icon color="gray-blue/03" iconName={emptyIcon} width={emptyIconSize} height={emptyIconSize} />
+    <Icon color="gray-blue/03" icon={emptyIcon} width={emptyIconSize} height={emptyIconSize} />
   );
 
   return (

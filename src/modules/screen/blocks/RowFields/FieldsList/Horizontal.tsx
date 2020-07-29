@@ -11,6 +11,7 @@ import {
   lastChild,
   marginBottom,
   marginRight,
+  marginTop,
   maxWidth,
   textAlign,
   width,
@@ -30,7 +31,7 @@ function HorizontalFieldsList({ options, forceTitleWidth, onCalculateTitleWidth 
   };
 
   return (
-    <Wrapper styles={[flex, flexColumn, horizontalPadding(20), lastChild(marginBottom(0))]}>
+    <Wrapper styles={[flex, flexColumn, horizontalPadding(20), marginTop(16), lastChild(marginBottom(0))]}>
       {options!.fields.map((field, key) => {
         return (
           <Wrapper key={key} styles={[flex, marginBottom(16)]}>

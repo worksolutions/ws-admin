@@ -17,12 +17,12 @@ interface BreadcrumbElementInterface {
 export default React.memo(function ({ name, icon, hasNext, to }: BreadcrumbElementInterface) {
   return (
     <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
-      {icon && <Icon iconName={icon} color="blue/09" />}
-      <TypographyLink to={to} type="caption-regular" color="gray-blue/07" styles={[padding(4), disableDecoration]}>
+      {icon && <Icon icon={icon} color="blue/09" />}
+      <TypographyLink to={to} color="gray-blue/07" styles={[padding(4)]}>
         {name}
       </TypographyLink>
       {hasNext && (
-        <Typography type="caption-regular" color="gray-blue/07" styles={[padding("4px 8px"), marginRight(2)]}>
+        <Typography color="gray-blue/07" styles={[padding("4px 8px"), marginRight(2)]}>
           /
         </Typography>
       )}

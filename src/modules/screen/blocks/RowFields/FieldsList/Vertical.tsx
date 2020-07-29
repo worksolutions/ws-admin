@@ -14,6 +14,7 @@ function VerticalFieldsList({ options }: FieldListComponentInterface) {
     <LayoutGrid
       elementsCount={options!.fields.length}
       marginRight={16}
+      marginTop={16}
       minWidth={242}
       styles={[horizontalPadding(12), ai(Aligns.STRETCH)]}
     >

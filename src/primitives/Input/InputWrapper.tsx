@@ -147,10 +147,10 @@ function InputWrapper({
   const styles = stylesForSize[size][getStylesNameOnIcons(!!iconLeft, !!iconRight)];
 
   const leftIconElement = iconLeft && (
-    <Icon styles={[_defaultIconStyles, left(8)]} color="gray-blue/05" iconName={iconLeft} />
+    <Icon styles={[_defaultIconStyles, left(8)]} color="gray-blue/05" icon={iconLeft} />
   );
   const rightIconElement = isString(iconRight) ? (
-    <Icon styles={[_defaultIconStyles, right(8)]} color="gray-blue/07" iconName={iconRight} />
+    <Icon styles={[_defaultIconStyles, right(8)]} color="gray-blue/07" icon={iconRight} />
   ) : (
     iconRight
   );

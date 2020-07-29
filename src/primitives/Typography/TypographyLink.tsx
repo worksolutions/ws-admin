@@ -1,26 +1,44 @@
 import React, { Ref } from "react";
 import { Link, LinkProps } from "react-router-dom";
-import styled from "styled-components";
+import { isNil } from "ramda";
+import { duration200 } from "layout/durations";
 
-import { color } from "libs/styles";
+import { color, disableDecoration, hover, transition } from "libs/styles";
+import { getLinkIsNative } from "libs/linkIsNative";
 
-import Typography, { TypographyInterface } from "./index";
+import Typography, { TypographyInterface, TypographyTypes } from "./index";
 
-type TypographyLinkInterface = TypographyInterface & Omit<LinkProps, "to" | "as">;
+type TypographyLinkInterface = TypographyInterface & Omit<LinkProps, "to" | "as" | "type">;
 
-const defaultLinkStyles = [color("blue/06")];
+const blueLinkStyles = [color("blue/06")];
+const blackLinkStyles = [
+  TypographyTypes["body-semi-bold"],
+  transition(`color ${duration200}`),
+  hover(color("gray-blue/07")),
+  disableDecoration,
+];
+
+type Theme = "black" | "blue";
 
 function makeTypographyLink(
   link: string,
-  native: boolean | undefined,
-  nativeParams: { download: boolean; target?: string },
+  theme: Theme | undefined,
+  nativeParams: { native: boolean | undefined; download: boolean; target?: string },
 ) {
+  const themeStyles = theme
+    ? theme === "black"
+      ? blackLinkStyles
+      : blueLinkStyles
+    : nativeParams.native
+    ? blueLinkStyles
+    : blackLinkStyles;
+
   return React.forwardRef(({ styles, ...data }: TypographyLinkInterface, ref: Ref<HTMLAnchorElement>) => {
-    if (native) {
+    if (nativeParams.native) {
       return (
         <Typography
           {...data}
-          styles={[defaultLinkStyles, styles]}
+          styles={[themeStyles, styles]}
           {...nativeParams}
           // @ts-ignore
           href={link}
@@ -29,8 +47,9 @@ function makeTypographyLink(
         />
       );
     }
+
     // @ts-ignore
-    return <Typography as={Link} {...data} styles={[defaultLinkStyles, styles]} to={link} ref={ref} />;
+    return <Typography as={Link} {...data} styles={[themeStyles, styles]} to={link} ref={ref} />;
   });
 }
 
@@ -39,8 +58,13 @@ export const TypographyLink = React.memo(function ({
   target,
   download,
   native,
+  theme,
   ...props
-}: TypographyLinkInterface & { to: string; native?: boolean }) {
-  const Component = makeTypographyLink(to, native, { download, target });
+}: TypographyLinkInterface & { to: string; native?: boolean; theme?: Theme }) {
+  const Component = makeTypographyLink(to, theme, {
+    native: isNil(native) ? getLinkIsNative(to) : native,
+    download,
+    target,
+  });
   return <Component {...props} />;
 });

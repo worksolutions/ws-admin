@@ -37,7 +37,7 @@ function HeaderColumnText({ title, sortable, currentSortingField, headerColumnId
             ),
           ]}
         >
-          <Icon iconName="sort-desc" width={16} height={16} />
+          <Icon icon="sort-desc" width={16} height={16} />
         </Wrapper>
       )}
     </Typography>

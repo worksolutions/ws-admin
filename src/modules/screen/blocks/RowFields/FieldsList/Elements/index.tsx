@@ -1,8 +1,11 @@
 import React from "react";
 
 import ImageWithDefault from "primitives/ImageWithDefault";
+import Icon from "primitives/Icon";
+import { TypographyLink } from "primitives/Typography/TypographyLink";
+import Wrapper from "primitives/Wrapper";
 
-import { border, borderRadius } from "libs/styles";
+import { ai, Aligns, border, borderRadius, flex, marginRight } from "libs/styles";
 
 import SimpleText from "modules/screen/blocks/SimpleText";
 import { insertContext } from "modules/context/insertContext";
@@ -27,6 +30,19 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
         width="100%"
         aspectRatio={options.aspectRatio}
       />
+    );
+  },
+
+  [FieldListItemType.iconLink]: ({ options, styles }) => {
+    const imageReference = insertContext(options.imageReference, useAppContext().context);
+    const reference = insertContext(options.reference, useAppContext().context);
+    const title = insertContext(options.title, useAppContext().context);
+
+    return (
+      <Wrapper styles={[styles, flex, ai(Aligns.CENTER)]}>
+        {imageReference.value && <Icon icon={imageReference.value} styles={[marginRight(8), borderRadius(12)]} />}
+        <TypographyLink to={reference.value}>{title.value}</TypographyLink>
+      </Wrapper>
     );
   },
 };

@@ -30,14 +30,14 @@ type ColumnComponent = (props: {
 }) => JSX.Element;
 
 const StringComponent: ColumnComponent = ({ item: { icon, value }, linkWrapper }) => {
-  const iconElement = icon && <Icon iconName={icon.name} color={icon.color} styles={marginRight(8)} />;
+  const iconElement = icon && <Icon icon={icon.name} color={icon.color} styles={marginRight(8)} />;
   if (linkWrapper)
     return linkWrapper(
       <>
         {iconElement}
         {value}
       </>,
-      [minHeight("100%"), verticalPadding(2), color("gray-blue/09"), disableDecoration, hover(color("gray-blue/07"))],
+      [minHeight("100%"), verticalPadding(2)],
     );
 
   return (
@@ -57,7 +57,7 @@ const ActionsComponent: ColumnComponent = ({ item }) => {
         // TODO: make actions like card
         id: action.name,
         title: action.name,
-        leftContent: action.iconName ? <Icon iconName={action.iconName} color={action.iconColor} /> : null,
+        leftContent: action.icon ? <Icon icon={action.icon} color={action.iconColor} /> : null,
       }))}
       onChange={async () => {
         close();
@@ -82,7 +82,7 @@ const ActionsComponent: ColumnComponent = ({ item }) => {
 };
 
 const StatusComponent: ColumnComponent = ({ item: { icon, value } }) => {
-  const iconElement = icon && <Icon iconName="badge" width={8} height={8} color={icon.color} styles={marginRight(8)} />;
+  const iconElement = icon && <Icon icon="badge" width={8} height={8} color={icon.color} styles={marginRight(8)} />;
   return (
     <Typography styles={[verticalPadding(2), flex, ai(Aligns.CENTER)]}>
       {iconElement}

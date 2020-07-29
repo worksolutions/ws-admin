@@ -27,8 +27,7 @@ interface StyledSVGInterface {
 }
 
 interface SVGInterface extends StyledSVGInterface {
-  iconName?: Icons;
-  customIcon?: any;
+  icon?: Icons | any;
   className?: string;
   color?: Colors;
 }
@@ -40,18 +39,11 @@ const StyledSVG = styled.svg<StyledSVGInterface>`
 `;
 
 const SVG = React.forwardRef(function (
-  {
-    className,
-    iconName,
-    width: widthProp,
-    height: heightProp,
-    styles,
-    color = "gray-blue/05",
-    customIcon,
-  }: SVGInterface,
+  { className, icon, width: widthProp, height: heightProp, styles, color = "gray-blue/05" }: SVGInterface,
   refProp: any,
 ) {
-  const rawIcon = React.useMemo(() => customIcon || (iconName ? list[iconName] : null), [iconName, customIcon]);
+  // @ts-ignore
+  const rawIcon = React.useMemo(() => (icon in list ? list[icon] : icon), [icon]);
 
   const [ref, setRef] = React.useState<HTMLElement | SVGSVGElement | null>();
 
@@ -60,7 +52,7 @@ const SVG = React.forwardRef(function (
   React.useEffect(() => {
     if (!ref) return;
     ref.innerHTML = `<use xlink:href="${rawIcon.symbol}" fill="${fillColor}"/>`;
-  }, [ref, iconName, color, rawIcon, fillColor]);
+  }, [ref, icon, color, rawIcon, fillColor]);
 
   if (!rawIcon) return null;
 

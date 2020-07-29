@@ -8,6 +8,7 @@ export enum FieldListItemMode {
 export enum FieldListItemType {
   text = "text",
   image = "image",
+  iconLink = "icon-link",
 }
 
 export interface FieldListItemInterface {

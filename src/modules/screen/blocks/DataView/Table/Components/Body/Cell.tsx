@@ -1,34 +1,32 @@
 import React from "react";
 import { TableCellProps } from "react-table";
-import { useMeasure } from "react-use";
 import { duration200 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
 
 import {
+  borderRadius,
+  bottom,
+  child,
   firstChild,
   horizontalPadding,
   lastChild,
   left,
+  marginLeft,
+  marginRight,
+  overflow,
   paddingLeft,
-  top,
   paddingRight,
   position,
+  right,
+  top,
+  transition,
   verticalAlign,
   verticalPadding,
   width,
-  right,
-  bottom,
   zIndex,
-  child,
-  marginLeft,
-  marginRight,
-  borderRadius,
-  transition,
-  overflow,
 } from "libs/styles";
-import { getLinkIsNative } from "libs/linkIsNative";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 
 import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
@@ -132,12 +130,7 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
         linkWrapper={
           item.redirectReference
             ? (child, styles) => (
-                <TypographyLink
-                  styles={styles}
-                  type="body-semi-bold"
-                  to={item.redirectReference!}
-                  native={getLinkIsNative(item.redirectReference!)}
-                >
+                <TypographyLink styles={styles} to={item.redirectReference!}>
                   {child}
                 </TypographyLink>
               )

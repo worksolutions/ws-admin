@@ -9,14 +9,14 @@ export enum CardStatusIconSize {
 }
 
 export interface CardStatusInterface {
-  iconName: Icons;
+  icon: Icons;
   color: Colors;
   size?: CardStatusIconSize;
 }
 
 export type CardActionInterface = {
   name: string;
-  iconName?: Icons;
+  icon?: Icons;
   iconColor?: Colors;
   loading?: boolean;
   handler: () => Promise<void>;
