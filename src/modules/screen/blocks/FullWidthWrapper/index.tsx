@@ -5,7 +5,7 @@ import Wrapper from "primitives/Wrapper";
 import { flex } from "libs/styles";
 import { flexValue } from "libs/styles";
 
-import BlockRenderer from "../../BlockRenderer";
+import BlockRenderer from "modules/screen/BlockRenderer";
 
 import { ContainBlocksInterface } from "state/systemState";
 

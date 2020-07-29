@@ -2,6 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { assoc } from "ramda";
 import { useSetState } from "react-use";
+import { elevation8 } from "style/shadows";
 
 import Wrapper from "primitives/Wrapper";
 import Dropdown, { DropdownSize } from "primitives/Dropdown";
@@ -19,17 +20,15 @@ import {
   flexValue,
   fullWidth,
   jc,
-  marginTop,
   overflowY,
   padding,
   paddingBottom,
   position,
 } from "libs/styles";
-import { useLocalStorage, useScrollCallback, useScrollCallbackWasScrolledBoolean } from "libs/hooks";
+import { useLocalStorage, useScrollCallbackWasScrolledBoolean } from "libs/hooks";
 
 import CardsViewBlock from "../Cards";
 import { ViewMetaData } from "../types";
-import { elevation8 } from "../../../../../style/shadows";
 
 import TableComponent from "./Components/Table";
 import { FormattedDataViewInterface } from "./types";

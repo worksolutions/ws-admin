@@ -5,7 +5,7 @@ import Wrapper from "primitives/Wrapper";
 
 import { border, borderRadius, flexValue, overflowY } from "libs/styles";
 
-import BlockRenderer from "../../BlockRenderer";
+import BlockRenderer from "modules/screen/BlockRenderer";
 
 import { BlockInterface } from "state/systemState";
 

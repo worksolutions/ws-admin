@@ -10,9 +10,8 @@ import { ai, Aligns, flex, marginLeft } from "libs/styles";
 import { getLinkIsNative } from "libs/linkIsNative";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
-
-import { useAppContext } from "../../../../../context/hooks/useAppContext";
-import { insertContext } from "../../../../../context/insertContext";
+import { useAppContext } from "modules/context/hooks/useAppContext";
+import { insertContext } from "modules/context/insertContext";
 
 import PageHeaderStatus, { PageHeaderStatusInterface } from "./Status";
 

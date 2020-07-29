@@ -1,10 +1,6 @@
 import React from "react";
 
-import Wrapper from "primitives/Wrapper";
-
-import { flex, flexColumn } from "libs/styles";
-
-import BlockRenderer from "../../BlockRenderer";
+import BlockRenderer from "modules/screen/BlockRenderer";
 
 import { ContainBlocksInterface } from "state/systemState";
 

@@ -3,15 +3,15 @@ import { Route, Switch } from "react-router";
 import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
 import { assoc } from "ramda";
+import { browserHistory } from "common";
 
 import Spinner from "primitives/Spinner";
 
 import { useEffectSkipFirst } from "libs/hooks";
 
-import { useDataSource } from "../context/dataSource/useDataSource";
-import { browserHistory } from "../../common";
-import { useAppContext } from "../context/hooks/useAppContext";
-import { useActions } from "../context/actions/useActions";
+import { useDataSource } from "modules/context/dataSource/useDataSource";
+import { useAppContext } from "modules/context/hooks/useAppContext";
+import { useActions } from "modules/context/actions/useActions";
 
 import AuthView from "./AuthView";
 import { AuthTokenSaver } from "./authTokenSaver";

@@ -6,7 +6,7 @@ import Typography from "primitives/Typography";
 
 import { ai, Aligns, flex, flexValue, jc } from "libs/styles";
 
-import BlockRenderer from "../../BlockRenderer";
+import BlockRenderer from "modules/screen/BlockRenderer";
 
 import { BlockInterface } from "state/systemState";
 

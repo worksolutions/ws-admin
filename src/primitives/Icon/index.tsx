@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components/macro";
 
+import Wrapper from "primitives/Wrapper";
+
 import {
   backgroundImage,
   backgroundPosition,
@@ -12,9 +14,7 @@ import {
   stringOrPixels,
   width,
 } from "libs/styles";
-
-import { isString } from "../../libs/is";
-import Wrapper from "../Wrapper";
+import { isString } from "libs/is";
 
 import { list } from "./list";
 

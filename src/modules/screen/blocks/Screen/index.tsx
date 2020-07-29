@@ -4,8 +4,7 @@ import { Route } from "react-router";
 import { useSetDocumentTitle } from "libs/hooks";
 
 import useScreenContextSynchronizer from "modules/context/hooks/useScreenContextSynchronizer";
-
-import BlockRenderer from "../../BlockRenderer";
+import BlockRenderer from "modules/screen/BlockRenderer";
 
 import { BlockInterface, ContainBlocksInterface } from "state/systemState";
 
