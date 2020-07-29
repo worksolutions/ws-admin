@@ -1,20 +1,7 @@
 import React from "react";
 import { useMeasure } from "react-use";
 
-import {
-  border,
-  child,
-  flex,
-  flexValue,
-  flexWrap,
-  marginBottom,
-  marginLeft,
-  marginRight,
-  minWidth,
-  nthChild,
-  paddingRight,
-  width,
-} from "libs/styles";
+import { child, flex, flexValue, flexWrap, marginBottom, marginLeft, marginRight, marginTop, width } from "libs/styles";
 
 import Wrapper from "../Wrapper";
 
@@ -35,21 +22,25 @@ function getElementsCountInRow(rowWidth: number, minWidth: number) {
 
 interface LayoutGridInterface {
   styles?: any;
+  elementsCount: number;
   minWidth: number;
   marginRight: number;
-  marginBottom: number;
+  marginTop?: number;
+  marginBottom?: number;
   children: React.ReactNode;
 }
 
 function LayoutGrid({
   styles,
+  elementsCount,
+  marginTop: marginTopProp,
   marginBottom: marginBottomProp,
   marginRight: marginRightProp,
   minWidth: minWidthProp,
   children,
 }: LayoutGridInterface) {
   const [measureRef, measures] = useMeasure();
-  const elementsCountInRow = getElementsCountInRow(measures.width, minWidthProp);
+  const elementsCountInRow = Math.min(elementsCount, getElementsCountInRow(measures.width, minWidthProp));
   const newWidth = widthForCount[elementsCountInRow];
   const marginHalf = marginRightProp / 2;
   return (
@@ -61,7 +52,8 @@ function LayoutGrid({
         flexWrap,
         child([
           width(`calc(${newWidth} - ${marginRightProp}px)`),
-          marginBottom(marginBottomProp),
+          marginBottomProp && marginBottom(marginBottomProp),
+          marginTopProp && marginTop(marginTopProp),
           marginLeft(marginHalf),
           marginRight(marginHalf),
         ]),

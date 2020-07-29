@@ -19,17 +19,18 @@ import {
   transition,
 } from "libs/styles";
 
-import { insertContext } from "modules/context/insertContext";
-import { useAppContext } from "modules/context/hooks/useAppContext";
-
 import { CardsViewDataSource } from "./types";
 import CardComponent from "./CardComponent";
 
-import { AnyAction } from "types/Actions";
-
 function CardsView({ list, imageConfig }: CardsViewDataSource & { imageConfig: CardImageConfig }) {
   return (
-    <LayoutGrid marginBottom={16} marginRight={16} minWidth={242} styles={[horizontalPadding(8), ai(Aligns.STRETCH)]}>
+    <LayoutGrid
+      elementsCount={list.length}
+      marginBottom={16}
+      marginRight={16}
+      minWidth={242}
+      styles={[horizontalPadding(8), ai(Aligns.STRETCH)]}
+    >
       {list.map((card) => {
         const cardComponent = <CardComponent {...card} imageConfig={imageConfig} />;
 

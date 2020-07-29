@@ -79,7 +79,6 @@ interface ColumnInterface {
 type CellProps = ColumnInterface & { tableCellProps: TableCellProps; styles?: any };
 
 function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellProps) {
-  const [ref, bounds] = useMeasure();
   const columnType = column.type || TableViewDataType.STRING;
   const Component = ComponentsForColumnType[columnType];
 
@@ -91,7 +90,6 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
     <Wrapper
       as="td"
       {...tableCellProps}
-      ref={ref}
       styles={[
         verticalAlign("top"),
         verticalPadding(componentVerticalPadding),
@@ -129,7 +127,6 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
         ]}
       />
       <Component
-        width={bounds.width}
         item={item}
         column={column}
         linkWrapper={

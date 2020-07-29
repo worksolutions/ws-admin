@@ -3,7 +3,7 @@ import React from "react";
 import Tabs from "primitives/Tabs";
 import Wrapper from "primitives/Wrapper";
 
-import { border, borderRadius, padding } from "libs/styles";
+import { border, borderRadius, flexValue, overflowY } from "libs/styles";
 
 import BlockRenderer from "../../BlockRenderer";
 
@@ -14,7 +14,7 @@ function TabsBlock({ options }: BlockInterface<{ title: string; block: BlockInte
     <Tabs
       items={options!.map((tab) => ({
         render: () => (
-          <Wrapper styles={[border(1, "gray-blue/02"), borderRadius(8), padding("24px 20px")]}>
+          <Wrapper styles={[border(1, "gray-blue/02"), borderRadius(8), flexValue(1), overflowY("auto")]}>
             <BlockRenderer {...tab.block} />
           </Wrapper>
         ),

@@ -36,11 +36,8 @@ function Card(card: CardComponentInterface & Record<string, any>) {
   const { heading, statuses, actions, title, imageConfig, image, ...other } = card;
   const hasTopRow = heading || statuses?.length !== 0 || actions?.length !== 0;
 
-  const [measureRef, bounds] = useMeasure();
-
   return (
     <Wrapper
-      ref={measureRef}
       className="card"
       {...other}
       styles={[
@@ -74,8 +71,8 @@ function Card(card: CardComponentInterface & Record<string, any>) {
         )}
       </Wrapper>
       <ImageWithDefault
-        width={bounds.width}
-        height={bounds.width / imageConfig.aspectRatio}
+        width="100%"
+        aspectRatio={imageConfig.aspectRatio}
         src={image}
         styles={[borderTop(1, "gray-blue/02"), borderRadius("0 0 8px 8px")]}
       />

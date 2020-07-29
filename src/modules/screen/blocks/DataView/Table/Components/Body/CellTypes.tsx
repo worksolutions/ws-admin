@@ -25,7 +25,6 @@ import { TableViewColumn, TableViewDataType, TableViewItemInterface } from "../.
 
 type ColumnComponent = (props: {
   item: TableViewItemInterface;
-  width: number;
   linkWrapper?: (child: React.ReactNode, styles?: any) => JSX.Element;
   column: TableViewColumn;
 }) => JSX.Element;
@@ -92,11 +91,11 @@ const StatusComponent: ColumnComponent = ({ item: { icon, value } }) => {
   );
 };
 
-const ImageComponent: ColumnComponent = ({ item, width, column }) => (
+const ImageComponent: ColumnComponent = ({ item, column }) => (
   <ImageWithDefault
     src={item.value as string}
     width="100%"
-    height={Math.ceil(width / column.options!.imageConfig!.aspectRatio)}
+    aspectRatio={column.options!.imageConfig!.aspectRatio}
     styles={[border(1, "gray-blue/02"), borderRadius(4)]}
     emptyIcon="16-no-image"
     emptyIconSize={16}

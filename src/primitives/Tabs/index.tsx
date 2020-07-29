@@ -31,6 +31,8 @@ function Tabs({ initialActive = 0, items, styles }: TabsInterface) {
     setTimeout(update, calculateWidthDelayTime);
   }, []);
 
+  const Component = items[active].render;
+
   return (
     <>
       <Wrapper styles={[flex, position("relative"), styles]}>
@@ -58,7 +60,7 @@ function Tabs({ initialActive = 0, items, styles }: TabsInterface) {
           />
         )}
       </Wrapper>
-      {items[active].render()}
+      <Component />
     </>
   );
 }

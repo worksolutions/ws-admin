@@ -33,7 +33,6 @@ function PageHeader({ slots, status, title, externalReference }: ContainSlotsInt
     <>
       <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
         <Typography type="h1-bold">{enhancedTitle.value}</Typography>
-        {status && <PageHeaderStatus styles={marginLeft(16)} title={status.title} badgeColor={status.badgeColor} />}
         {externalReference && (
           <TypographyLink
             styles={marginLeft(16)}
@@ -44,6 +43,7 @@ function PageHeader({ slots, status, title, externalReference }: ContainSlotsInt
             <Button size={ButtonSize.MEDIUM} type={ButtonType.ICON} iconLeft="external-link-alt" />
           </TypographyLink>
         )}
+        {status && <PageHeaderStatus styles={marginLeft(16)} title={status.title} badgeColor={status.badgeColor} />}
       </Wrapper>
       {slots.headingAction && <BlockRenderer {...slots.headingAction} />}
     </>

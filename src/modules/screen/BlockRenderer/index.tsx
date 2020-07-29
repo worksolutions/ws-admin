@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
 
 import Spinner from "primitives/Spinner";
 
@@ -50,4 +51,4 @@ function BlockRenderer(props: BlockInterface & { styles?: any }) {
   return <BlockComponent {...props} />;
 }
 
-export default React.memo(BlockRenderer);
+export default React.memo(observer(BlockRenderer));

@@ -1,4 +1,4 @@
-import { hasPath, path, is } from "ramda";
+import { hasPath, path, is, isNil } from "ramda";
 
 import { getContextTypeAndPathByParam } from "./contextParamParser";
 
@@ -23,7 +23,7 @@ function getFromContext(resultMatch: string, context: object) {
   const pathExists = hasPath(arrPath, typeContext);
   return {
     path: arrPath,
-    value: pathExists ? value : resultMatch,
+    value: pathExists ? (isNil(value) ? "" : value) : "",
     contextType: type,
   };
 }

@@ -1,4 +1,4 @@
-const { makeProxy } = require("../../libs");
+const { makeProxy, prepareUrl } = require("../../libs");
 
 const statusesByNumber = {
   0: {
@@ -27,6 +27,10 @@ module.exports = (app) => {
     app,
     ({ data }) => {
       const status = statusesByNumber[data.status];
+      if (data.announceImage) data.announceImage.path = prepareUrl(data.announceImage.path);
+      if (data.contentImage) data.contentImage.path = prepareUrl(data.contentImage.path);
+      if (data.background) data.background.path = prepareUrl(data.background.path);
+
       return {
         ...data,
         status: {

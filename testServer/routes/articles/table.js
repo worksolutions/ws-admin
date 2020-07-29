@@ -1,4 +1,5 @@
 const moment = require("moment");
+const { assoc } = require("ramda");
 
 const { prepareUrl, makeProxy } = require("../../libs");
 

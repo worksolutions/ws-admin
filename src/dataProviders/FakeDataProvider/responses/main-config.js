@@ -333,10 +333,96 @@ module.exports = {
                       {
                         title: "Атрибуты",
                         block: {
-                          type: "SimpleText",
-                          options: {
-                            text: "атрибуты111",
-                          },
+                          type: "RowFields/GroupedFields",
+                          options: [
+                            {
+                              title: "Основные",
+                              fieldList: {
+                                mode: "HORIZONTAL",
+                                fields: [
+                                  {
+                                    title: "Название",
+                                    type: "text",
+                                    options: { value: "{{screen:article.title}}" },
+                                  },
+                                  {
+                                    title: "Текст анонса",
+
+                                    type: "text",
+                                    options: { value: "{{screen:article.announce}}" },
+                                  },
+                                  {
+                                    title: "Дата публикации",
+                                    type: "text",
+                                    options: { value: "{{screen:article.publishedAt}}" },
+                                  },
+                                  {
+                                    title: "Категория",
+                                    type: "text",
+                                    options: { value: "{{screen:article.category.name}}" },
+                                  },
+                                  {
+                                    title: "Автор",
+                                    type: "text",
+                                    options: {
+                                      value: "{{screen:article.author.name}} {{screen:article.author.surname}}",
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              title: "Мета",
+                              fieldList: {
+                                mode: "HORIZONTAL",
+                                fields: [
+                                  {
+                                    title: "Символьный код",
+                                    type: "text",
+                                    options: { value: "{{screen:article.code}}" },
+                                  },
+                                  {
+                                    title: "Заголовок",
+                                    type: "text",
+                                    options: { value: "{{screen:article.tagTitle}}" },
+                                  },
+                                  {
+                                    title: "Описание",
+                                    type: "text",
+                                    options: { value: "{{screen:article.tagDescription}}" },
+                                  },
+                                  {
+                                    title: "Ключевые слова",
+                                    type: "text",
+                                    options: { value: "{{screen:article.keywords}}" },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              title: "Изображения",
+                              fieldList: {
+                                mode: "VERTICAL",
+                                fields: [
+                                  {
+                                    title: "Изображение анонса",
+                                    type: "image",
+                                    options: { reference: "{{screen:article.announceImage.path}}", aspectRatio: 1.6 },
+                                  },
+                                  {
+                                    title: "Изображение заголовка",
+                                    type: "image",
+                                    options: { reference: "{{screen:article.contentImage.path}}", aspectRatio: 1.6 },
+                                  },
+                                  {
+                                    title: "Фон",
+                                    type: "image",
+                                    options: { reference: "{{screen:article.background.path}}", aspectRatio: 1.6 },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
                         },
                       },
                       {
@@ -344,7 +430,7 @@ module.exports = {
                         block: {
                           type: "SimpleText",
                           options: {
-                            text: "текст 213",
+                            value: "текст 213",
                           },
                         },
                       },
