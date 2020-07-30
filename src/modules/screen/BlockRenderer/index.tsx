@@ -18,7 +18,7 @@ globalEventBus.on("BLOCK_WAS_RENDERED", ({ id, rendered }) => {
   renderedElements[id] = rendered;
 });
 
-function BlockRenderer(props: BlockInterface & { styles?: any }) {
+function BlockRenderer(props: BlockInterface & { styles?: any; type?: string }) {
   const [BlockComponent, setBlockComponent] = useState<FC<BlockInterface>>();
   const update = useForceUpdate();
 
@@ -29,8 +29,7 @@ function BlockRenderer(props: BlockInterface & { styles?: any }) {
   }
 
   useEffect(() => {
-    // @ts-ignore
-    loadBlockComponent(props.type, (value) => {
+    loadBlockComponent(props.type!, (value) => {
       setBlockComponent(value);
       if (props.id) globalEventBus.emit("BLOCK_WAS_RENDERED", { rendered: true, id: props.id });
     });

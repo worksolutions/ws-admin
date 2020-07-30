@@ -1,3 +1,4 @@
+const axios = require("axios");
 const moment = require("moment");
 
 const { makeProxy, prepareUrl } = require("../../libs");
@@ -27,7 +28,7 @@ module.exports = (app) => {
       handleUrl: "/api/article/:articleId",
     },
     app,
-    ({ data }) => {
+    async ({ data }, { originalRequestParams }) => {
       const status = statusesByNumber[data.status];
       data.status = {
         title: status.title,
@@ -40,8 +41,40 @@ module.exports = (app) => {
       if (data.contentImage) data.contentImage.path = prepareUrl(data.contentImage.path);
       if (data.background) data.background.path = prepareUrl(data.background.path);
 
-      if (data.content) data.content = data.content.replace(/\/storage/g, prepareUrl("/storage"));
+      data.content = data.content.replace(/\/storage/g, prepareUrl("/storage"));
+
+      const articles = await getSubArticlesContent(data.content, (code) => {
+        return axios("/api/blog/article/" + code, originalRequestParams);
+      });
+
+      const articlesData = articles.map((article) => article.data.data);
+
+      let index = 0;
+
+      data.content = data.content.replace(/#article:[\w-_]+#/g, () => {
+        const article = articlesData[index];
+        index++;
+        return `#text-enhancer:ReadMore:${JSON.stringify({
+          image: article.announceImageUrl ? prepareUrl(article.announceImageUrl) : null,
+          imageAspectRatio: 1.6,
+          text: article.title,
+          reference: prepareUrl(`/blog/${article.code}`),
+        })}#`;
+      });
+
       return data;
     },
   );
 };
+
+async function getSubArticlesContent(text, getArticle) {
+  const articleMatch = text.match(/#article:[\w-_]+#/g);
+  if (!articleMatch) return [];
+
+  return await Promise.all(
+    articleMatch.map((match) => {
+      const articleCodeText = match.split("#")[1];
+      return getArticle(articleCodeText.split(":")[1]);
+    }),
+  );
+}

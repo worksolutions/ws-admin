@@ -10,7 +10,7 @@ import Typography, { TypographyInterface, TypographyTypes } from "./index";
 
 type TypographyLinkInterface = TypographyInterface & Omit<LinkProps, "to" | "as" | "type">;
 
-export const blueTypographyLinkStyles = [transition(`color ${duration200}`), color("blue/06"), hover(color("blue/05"))];
+export const blueTypographyLinkStyles = [color("blue/06")];
 
 export const blackTypographyLinkStyles = [
   TypographyTypes["body-semi-bold"],

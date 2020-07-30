@@ -20,7 +20,10 @@ import {
 import { insertContext } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 
+import BlockRenderer from "../../BlockRenderer";
+
 import { htmlStyles } from "./htmlStyles";
+import { modifyTextWithEnhancers } from "./enhancers";
 
 import { BlockInterface } from "state/systemState";
 
@@ -28,7 +31,10 @@ function FormattedHTMLText({ options, styles }: BlockInterface<{ value: string }
   const text = insertContext(options!.value, useAppContext().context);
   const ref = React.useRef<HTMLDivElement>();
 
+  const enhancers = React.useMemo(() => modifyTextWithEnhancers(text.value), [text.value]);
+
   React.useEffect(() => {
+    ref.current!.innerHTML = enhancers.text;
     ref.current!.querySelectorAll("pre code").forEach((element) => {
       const [, language] = element.className.split("-");
       element.innerHTML = Prism.highlight(
@@ -40,24 +46,29 @@ function FormattedHTMLText({ options, styles }: BlockInterface<{ value: string }
   }, [text.value]);
 
   return (
-    <Wrapper
-      styles={[styles, backgroundColor("gray-blue/01"), padding(16), flex, jc(Aligns.CENTER), minHeight("100%")]}
-    >
+    <>
       <Wrapper
-        ref={ref}
-        styles={[
-          fullWidth,
-          maxWidth(752),
-          backgroundColor("white"),
-          border(1, "gray-blue/02"),
-          padding("40px 64px 8px 64px"),
-          borderRadius(6),
-          overflow("hidden"),
-          htmlStyles,
-        ]}
-        dangerouslySetInnerHTML={{ __html: text.value }}
-      />
-    </Wrapper>
+        styles={[styles, backgroundColor("gray-blue/01"), padding(16), flex, jc(Aligns.CENTER), minHeight("100%")]}
+      >
+        <Wrapper
+          ref={ref}
+          styles={[
+            fullWidth,
+            maxWidth(752),
+            backgroundColor("white"),
+            border(1, "gray-blue/02"),
+            padding("40px 64px 8px 64px"),
+            borderRadius(6),
+            overflow("hidden"),
+            htmlStyles,
+          ]}
+          dangerouslySetInnerHTML={{ __html: text.value }}
+        />
+      </Wrapper>
+      {enhancers.enhancers.map((enhancer, key) => (
+        <BlockRenderer key={key} type={`FormattedHTMLText/enhancers/${enhancer.name}`} options={enhancer} />
+      ))}
+    </>
   );
 }
 

@@ -14,6 +14,7 @@ interface ImageInterface {
   width?: number | string;
   height?: number | string;
   aspectRatio?: number;
+  outerStyles?: any;
   styles?: any;
   as?: StyledComponentsAS;
   emptyIcon?: Icons;
@@ -34,6 +35,7 @@ function ImageWithDefault({
   width: widthProp,
   aspectRatio,
   styles,
+  outerStyles,
   as,
   emptyIcon = "no-image",
   emptyIconSize,
@@ -56,7 +58,10 @@ function ImageWithDefault({
   );
 
   return (
-    <Wrapper ref={ref} styles={[overflow("hidden"), widthProp && width(widthProp), heightProp && height(heightProp)]}>
+    <Wrapper
+      ref={ref}
+      styles={[overflow("hidden"), widthProp && width(widthProp), heightProp && height(heightProp), outerStyles]}
+    >
       {resultSizes.width !== 0 && (
         <Wrapper
           as={as}

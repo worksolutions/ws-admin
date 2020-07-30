@@ -27,22 +27,28 @@ exports.makeProxy = function (
     });
     req.on("end", async () => {
       try {
-        const response = await axios(
-          (ramda.is(Function, realServerUrl) ? realServerUrl(req) : realServerUrl) || req.originalUrl,
-          {
-            method: req.method,
-            baseURL: process.env.DEV_API_HOST,
-            params: req.query,
-            data: chunks,
-            ...(modifyRequest ? modifyRequest({ params: req.query, data: chunks }) : {}),
-            headers: {
-              ...ramda.omit(["host"], req.headers),
-              origin: process.env.DEV_API_HOST,
-            },
-          },
-        );
+        const resultUrl = (ramda.is(Function, realServerUrl) ? realServerUrl(req) : realServerUrl) || req.originalUrl;
+        const headers = {
+          ...ramda.omit(["host"], req.headers),
+          origin: process.env.DEV_API_HOST,
+        };
+        const originalRequestParams = {
+          method: req.method,
+          baseURL: process.env.DEV_API_HOST,
+          params: req.query,
+          data: chunks,
+          ...(modifyRequest ? modifyRequest({ params: req.query, data: chunks }) : {}),
+          headers,
+        };
+
+        const response = await axios(resultUrl, originalRequestParams);
+
         if (modifyResponse) {
-          const result = await modifyResponse(response.data, response.status);
+          const result = await modifyResponse(response.data, {
+            status: response.status,
+            resultUrl,
+            originalRequestParams,
+          });
           if (!ramda.isNil(result)) {
             response.data = result;
           }
