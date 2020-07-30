@@ -13,12 +13,13 @@ function SimpleText({
   styles,
 }: BlockInterface<{ value: string | number; emptyValue?: string | number }> & { styles?: any }) {
   const text = insertContext(options!.value, useAppContext().context);
-  if (text.value !== "" && !isNil(text.value)) return <Typography styles={styles}>{text.value}</Typography>;
-  return (
-    <Typography color="gray-blue/04" styles={styles}>
-      {options!.emptyValue || "Нет"}
-    </Typography>
-  );
+  if (text.value === "" || isNil(text.value))
+    return (
+      <Typography color="gray-blue/04" styles={styles}>
+        {options!.emptyValue || "Нет"}
+      </Typography>
+    );
+  return <Typography styles={styles}>{text.value}</Typography>;
 }
 
 export default React.memo(SimpleText);

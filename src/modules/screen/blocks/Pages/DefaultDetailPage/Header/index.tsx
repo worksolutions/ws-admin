@@ -26,13 +26,14 @@ function PageHeader({ slots, status, title, externalReference }: ContainSlotsInt
   const appContext = useAppContext();
 
   const enhancedTitle = insertContext(title, appContext.context);
+  const enhancedExternalReference = insertContext(externalReference, appContext.context);
 
   return (
     <>
       <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
         <Typography type="h1-bold">{enhancedTitle.value}</Typography>
-        {externalReference && (
-          <TypographyLink styles={marginLeft(16)} to={externalReference} target="_blank">
+        {enhancedExternalReference.value && (
+          <TypographyLink styles={marginLeft(16)} to={enhancedExternalReference.value} target="_blank">
             <Button size={ButtonSize.MEDIUM} type={ButtonType.ICON} iconLeft="external-link-alt" />
           </TypographyLink>
         )}

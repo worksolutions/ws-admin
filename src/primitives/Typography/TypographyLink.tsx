@@ -10,8 +10,9 @@ import Typography, { TypographyInterface, TypographyTypes } from "./index";
 
 type TypographyLinkInterface = TypographyInterface & Omit<LinkProps, "to" | "as" | "type">;
 
-const blueLinkStyles = [color("blue/06")];
-const blackLinkStyles = [
+export const blueTypographyLinkStyles = [transition(`color ${duration200}`), color("blue/06"), hover(color("blue/05"))];
+
+export const blackTypographyLinkStyles = [
   TypographyTypes["body-semi-bold"],
   transition(`color ${duration200}`),
   hover(color("gray-blue/07")),
@@ -27,11 +28,11 @@ function makeTypographyLink(
 ) {
   const themeStyles = theme
     ? theme === "black"
-      ? blackLinkStyles
-      : blueLinkStyles
+      ? blackTypographyLinkStyles
+      : blueTypographyLinkStyles
     : nativeParams.native
-    ? blueLinkStyles
-    : blackLinkStyles;
+    ? blueTypographyLinkStyles
+    : blackTypographyLinkStyles;
 
   return React.forwardRef(({ styles, ...data }: TypographyLinkInterface, ref: Ref<HTMLAnchorElement>) => {
     if (nativeParams.native) {

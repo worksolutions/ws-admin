@@ -39,6 +39,8 @@ module.exports = (app) => {
       if (data.announceImage) data.announceImage.path = prepareUrl(data.announceImage.path);
       if (data.contentImage) data.contentImage.path = prepareUrl(data.contentImage.path);
       if (data.background) data.background.path = prepareUrl(data.background.path);
+
+      if (data.content) data.content = data.content.replace(/\/storage/g, prepareUrl("/storage"));
       return data;
     },
   );

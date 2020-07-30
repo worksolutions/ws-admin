@@ -304,7 +304,7 @@ module.exports = {
                     title: "{{screen:article.status.title}}",
                     badgeColor: "{{screen:article.status.badgeColor}}",
                   },
-                  externalReference: "https://yandex.ru",
+                  externalReference: "{{screen:article.externalLink}}",
                 },
                 dataSource: {
                   type: "api:request",
@@ -430,9 +430,9 @@ module.exports = {
                       {
                         title: "Текст",
                         block: {
-                          type: "SimpleText",
+                          type: "FormattedHTMLText",
                           options: {
-                            value: "текст 213",
+                            value: "{{screen:article.content}}",
                           },
                         },
                       },
