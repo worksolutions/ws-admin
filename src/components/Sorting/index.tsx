@@ -51,6 +51,7 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
 
   return (
     <DroppedList
+      selectedItemId={selected.id}
       ignoreClickOutsideElements={[listRef.current]}
       margin={8}
       items={items.map((item) => ({
