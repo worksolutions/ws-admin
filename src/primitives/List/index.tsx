@@ -91,15 +91,8 @@ function List({
               borderRadius(4),
               horizontalPadding(8),
               transition(`all ${duration200}`),
-              enabled && [
-                pointer,
-                hover([backgroundColor("gray-blue/01"), boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)])]),
-                focus(boxShadow([0, 0, 0, 2, "blue/04"])),
-              ],
-              activeItemId === id && [
-                backgroundColor("gray-blue/01"),
-                boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)]),
-              ],
+              enabled && [pointer, hover([backgroundColor("gray-blue/01")]), focus(boxShadow([0, 0, 0, 2, "blue/04"]))],
+              activeItemId === id && [backgroundColor("gray-blue/01")],
               styles,
             ]}
             onClick={() => onClick && enabled && onClick(id)}
