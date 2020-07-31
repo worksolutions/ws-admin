@@ -14,7 +14,7 @@ import { BlockInterface } from "state/systemState";
 
 import { PaginationMeta } from "types/Pagination";
 
-export type CardsViewBlockInterface = BlockInterface<{ imageConfig: CardImageConfig }> & {
+type CardsViewBlockInterface = BlockInterface<{ imageConfig: CardImageConfig }> & {
   onUpdateMeta: (data: ViewMetaData) => void;
 };
 

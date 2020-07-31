@@ -1,4 +1,4 @@
-import React, { Ref } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { assocPath } from "ramda";
 
@@ -6,13 +6,14 @@ import Wrapper from "primitives/Wrapper";
 
 import { flexValue, fullWidth, overflow, position } from "libs/styles";
 
-import TableViewBlock from "../../Table";
-import { FormattedDataViewInterface } from "../types";
-import { ViewMetaData } from "../../types";
+import { FormattedDataViewInterface } from "../../types";
+import { ViewMetaData } from "../../../types";
+
+import TableViewBlock from "./Table";
 
 import { AnyAction } from "types/Actions";
 
-interface TableComponentsProps {
+interface TableViewBlockInterface {
   notFound: React.ReactNode;
   spinner: React.ReactNode;
   options: FormattedDataViewInterface["options"];
@@ -20,7 +21,7 @@ interface TableComponentsProps {
   actions: { sorting: AnyAction };
 }
 
-function TableComponent({ options, notFound, spinner, setMetaData, actions }: TableComponentsProps) {
+function TableViewBlockWrapper({ options, notFound, spinner, setMetaData, actions }: TableViewBlockInterface) {
   const tableViewOptions = React.useMemo(
     () => assocPath(["options", "id"], `${options!.id}-table`, options!.tableView),
     [],
@@ -35,4 +36,4 @@ function TableComponent({ options, notFound, spinner, setMetaData, actions }: Ta
   );
 }
 
-export default React.memo(observer(TableComponent));
+export default React.memo(observer(TableViewBlockWrapper));

@@ -11,13 +11,15 @@ import { flex, fullHeight, fullWidth, height, left, overflow, position, right, t
 import { provideRef } from "libs/provideRef";
 import { useScrollCallbackWasScrolledBoolean } from "libs/hooks";
 
-import { TableViewColumn, TableViewDataSource, TableViewOptions } from "./types";
+import { TableViewDataSource } from "../types";
+
 import TableComponent from "./Components/HTMLTable";
 import BodyComponent from "./Components/Body/Body";
 import HeaderComponent, { HeaderGroupInterface } from "./Components/Header";
 import { prepareColumn, useSorting } from "./libs";
 import { useTableScroller } from "./libs/useTableScroller";
 import { useResizeTableContent } from "./Components/Header/resizeHook";
+import { TableViewColumn, TableViewOptions } from "./types";
 
 import { AnyAction } from "types/Actions";
 
@@ -32,12 +34,12 @@ const createResizeHook = (columns: TableViewColumn[]) => (hooks: Hooks) => {
 };
 
 interface TableInterface {
-  list: TableViewDataSource["list"];
+  list: TableViewDataSource;
   options: TableViewOptions;
   actions: { sorting: AnyAction };
 }
 
-function Table({ list, options, actions }: TableInterface, ref: Ref<HTMLElement>) {
+function TableViewPresenter({ list, options, actions }: TableInterface) {
   const { id, columns } = options;
 
   const preparedColumns = React.useMemo(() => columns.map((column) => prepareColumn(column, options)), []);
@@ -63,9 +65,9 @@ function Table({ list, options, actions }: TableInterface, ref: Ref<HTMLElement>
   const { scrolled, setScrollableElement } = useScrollCallbackWasScrolledBoolean();
 
   return (
-    <>
+    <Wrapper styles={[position("relative"), fullHeight, fullWidth]}>
       <Wrapper
-        ref={provideRef(ref, wrapperRef, setScrollableElement)}
+        ref={provideRef(wrapperRef, setScrollableElement)}
         styles={[fullHeight, fullWidth, flex, overflow("scroll")]}
       >
         <TableComponent {...getTableProps()} ref={tableRef}>
@@ -80,8 +82,8 @@ function Table({ list, options, actions }: TableInterface, ref: Ref<HTMLElement>
         </TableComponent>
       </Wrapper>
       {scrolled && <Wrapper styles={[position("absolute"), top(0), left(0), right(0), height(40), elevation8]} />}
-    </>
+    </Wrapper>
   );
 }
 
-export default React.memo(observer(Table, { forwardRef: true }));
+export default React.memo(observer(TableViewPresenter));

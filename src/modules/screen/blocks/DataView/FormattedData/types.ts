@@ -2,7 +2,7 @@ import { InputOptionsInterface } from "modules/screen/blocks/Actions/Input";
 import { SortingOptionsInterface } from "modules/screen/blocks/Actions/Sorting";
 
 import { CardsViewInterface } from "../Cards/types";
-import { TableViewBlockInterface } from "../Table";
+import { TableViewInterface } from "../Table/types";
 
 import { BlockInterface } from "state/systemState";
 
@@ -12,7 +12,7 @@ interface CardsViewConfigInterface extends CardsViewInterface {
   };
 }
 
-export interface TableViewConfigInterface extends TableViewBlockInterface {}
+export interface TableViewConfigInterface extends TableViewInterface {}
 
 export type FormattedDataViewPagination = BlockInterface<{ paginationItems: number[] }, "change">;
 

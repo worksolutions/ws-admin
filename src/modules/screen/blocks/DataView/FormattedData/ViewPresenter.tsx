@@ -30,7 +30,7 @@ import { useLocalStorage, useScrollCallbackWasScrolledBoolean } from "libs/hooks
 import { ViewMetaData } from "../types";
 
 import CardsViewBlock from "./ViewsBlocks/Cards";
-import TableComponent from "./Components/Table";
+import TableViewBlockWrapper from "./ViewsBlocks/Table";
 import Actions from "./Components/Actions";
 import { notFoundElement } from "./Components/notFound";
 import { spinnerElement } from "./Components/spinner";
@@ -111,7 +111,7 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
           {spinner}
         </Wrapper>
       ) : (
-        <TableComponent
+        <TableViewBlockWrapper
           options={options}
           notFound={notFound}
           spinner={spinner}
