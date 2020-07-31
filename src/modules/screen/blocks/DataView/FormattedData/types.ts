@@ -6,7 +6,7 @@ import { TableViewInterface } from "../Table/types";
 
 import { BlockInterface } from "state/systemState";
 
-interface CardsViewConfigInterface extends CardsViewInterface {
+export interface CardsViewConfigInterface extends CardsViewInterface {
   options?: CardsViewInterface["options"] & {
     sortingOptions?: SortingOptionsInterface;
   };

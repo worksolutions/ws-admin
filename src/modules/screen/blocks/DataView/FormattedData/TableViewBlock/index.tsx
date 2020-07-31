@@ -1,13 +1,13 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { assocPath } from "ramda";
+import { assoc } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 
 import { flexValue, fullWidth, overflow, position } from "libs/styles";
 
-import { FormattedDataViewInterface } from "../../types";
-import { ViewMetaData } from "../../../types";
+import { TableViewConfigInterface } from "../types";
+import { ViewMetaData } from "../../types";
 
 import TableViewBlock from "./Table";
 
@@ -16,16 +16,14 @@ import { AnyAction } from "types/Actions";
 interface TableViewBlockInterface {
   notFound: React.ReactNode;
   spinner: React.ReactNode;
-  options: FormattedDataViewInterface["options"];
+  id: string;
+  options: TableViewConfigInterface;
   setMetaData: (meta: ViewMetaData) => void;
   actions: { sorting: AnyAction };
 }
 
-function TableViewBlockWrapper({ options, notFound, spinner, setMetaData, actions }: TableViewBlockInterface) {
-  const tableViewOptions = React.useMemo(
-    () => assocPath(["options", "id"], `${options!.id}-table`, options!.tableView),
-    [],
-  );
+function TableViewBlockWrapper({ id, options, notFound, spinner, setMetaData, actions }: TableViewBlockInterface) {
+  const tableViewOptions = React.useMemo(() => assoc("id", `${id}-table`, options), []);
 
   return (
     <Wrapper styles={[position("relative"), fullWidth, overflow("hidden"), flexValue(1)]}>

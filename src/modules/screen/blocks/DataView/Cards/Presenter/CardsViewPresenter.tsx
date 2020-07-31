@@ -6,6 +6,8 @@ import { elevation16 } from "style/shadows";
 import LayoutGrid from "primitives/LayoutGrid";
 import { CardImageConfig } from "primitives/Card/types";
 import LinkWrapper from "primitives/LinkWrapper";
+import Wrapper from "primitives/Wrapper";
+import Typography from "primitives/Typography";
 
 import {
   ai,
@@ -13,9 +15,11 @@ import {
   child,
   color,
   disableDecoration,
+  flex,
   fullHeight,
   horizontalPadding,
   hover,
+  jc,
   transition,
 } from "libs/styles";
 
@@ -24,6 +28,14 @@ import { CardsViewDataSource } from "../types";
 import CardComponent from "./CardComponent";
 
 function CardsViewPresenter({ list, imageConfig }: { list: CardsViewDataSource; imageConfig: CardImageConfig }) {
+  if (list.length === 0) {
+    return (
+      <Wrapper styles={[flex, fullHeight, ai(Aligns.CENTER), jc(Aligns.CENTER)]}>
+        <Typography color="gray-blue/05">Нет элементов для отображения</Typography>
+      </Wrapper>
+    );
+  }
+
   return (
     <LayoutGrid
       elementsCount={list.length}

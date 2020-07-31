@@ -18,19 +18,16 @@ import {
   flex,
   flexColumn,
   flexValue,
-  fullWidth,
   jc,
-  overflowY,
   padding,
   paddingBottom,
-  position,
 } from "libs/styles";
 import { useLocalStorage, useScrollCallbackWasScrolledBoolean } from "libs/hooks";
 
 import { ViewMetaData } from "../types";
 
-import CardsViewBlock from "./ViewsBlocks/Cards";
-import TableViewBlockWrapper from "./ViewsBlocks/Table";
+import TableViewBlockWrapper from "./TableViewBlock";
+import CardsViewBlockWrapper from "./CardsViewBlock";
 import Actions from "./Components/Actions";
 import { notFoundElement } from "./Components/notFound";
 import { spinnerElement } from "./Components/spinner";
@@ -102,17 +99,17 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
         }
       />
       {isCardsView ? (
-        <Wrapper
+        <CardsViewBlockWrapper
           ref={setCardsScrollableElement}
-          styles={[fullWidth, flexValue(1), overflowY("scroll"), position("relative")]}
-        >
-          {notFound}
-          <CardsViewBlock {...options!.cardsView} onUpdateMeta={setMetaData} />
-          {spinner}
-        </Wrapper>
+          setMetaData={setMetaData}
+          notFound={notFound}
+          spinner={spinner}
+          options={options!.cardsView}
+        />
       ) : (
         <TableViewBlockWrapper
-          options={options}
+          id={options!.id}
+          options={options!.tableView}
           notFound={notFound}
           spinner={spinner}
           actions={actions!}

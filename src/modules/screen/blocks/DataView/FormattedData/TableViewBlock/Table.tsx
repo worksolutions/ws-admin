@@ -7,12 +7,13 @@ import { fullHeight, fullWidth, position } from "libs/styles";
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
-import TableViewPresenter from "../../../Table/Presenter/TableViewPresenter";
-import { BlockInterface } from "../../../../../../../state/systemState";
-import { ViewMetaData } from "../../../types";
-import { TableViewDataSource } from "../../../Table/types";
-import { TableViewOptions } from "../../../Table/Presenter/types";
-import { useFormattedDataLoader } from "../../libs";
+import TableViewPresenter from "../../Table/Presenter/TableViewPresenter";
+import { ViewMetaData } from "../../types";
+import { TableViewDataSource } from "../../Table/types";
+import { TableViewOptions } from "../../Table/Presenter/types";
+import { useFormattedDataLoader } from "../libs";
+
+import { BlockInterface } from "state/systemState";
 
 import { PaginationMeta } from "types/Pagination";
 
@@ -35,7 +36,7 @@ function TableView({ dataSource, options, onUpdateMeta, actions }: TableViewBloc
 
   return (
     <Wrapper styles={[position("relative"), fullHeight, fullWidth]}>
-      <TableViewPresenter list={data.list} options={options!} actions={actions!} />
+      <TableViewPresenter {...data} options={options!} actions={actions!} />
     </Wrapper>
   );
 }
