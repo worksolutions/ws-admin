@@ -27,7 +27,8 @@ module.exports = (app) => {
 
   articlesCardsRouter(app);
   articlesTableRouter(app);
-  articleRouter(app);
+  articleRouter.article(app);
+  articleRouter.relatedArticles(app);
 
   makeProxy({ handleUrl: "/api", expressMethodHandlerName: "use" }, app);
 

@@ -1,40 +1,23 @@
-import React, { Ref } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
-
-import Wrapper from "primitives/Wrapper";
-
-import { flex, fullHeight, fullWidth, overflow, position } from "libs/styles";
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
-import { ViewMetaData } from "../types";
-import { useSubviewLoader } from "../FormattedData/libs";
+import { TableViewDataSource, TableViewInterface } from "./types";
+import TableViewPresenter from "./Presenter/TableViewPresenter";
 
-import { TableViewDataSource, TableViewOptions } from "./types";
-import Table from "./Table";
-
-import { BlockInterface } from "state/systemState";
-
-import { AnyAction } from "types/Actions";
-
-export interface TableViewBlockInterface extends BlockInterface<TableViewOptions> {
-  onUpdateMeta: (data: ViewMetaData) => void;
-  actions: { sorting: AnyAction };
-}
-
-function TableView({ dataSource, options, onUpdateMeta, actions }: TableViewBlockInterface, ref: Ref<HTMLElement>) {
+function TableView({ dataSource, options, actions, onLoadingUpdate }: TableViewInterface) {
   const { data, loadingContainer } = useDataSource<TableViewDataSource>(dataSource!);
 
-  useSubviewLoader(data, loadingContainer, onUpdateMeta);
+  React.useEffect(() => {
+    if (!onLoadingUpdate) return;
+    onLoadingUpdate(loadingContainer.loading);
+  }, [loadingContainer.loading]);
 
   if (!data) return null;
-  if (data.list.length === 0) return null;
+  if (data.length === 0) return null;
 
-  return (
-    <Wrapper styles={[position("relative"), fullHeight, fullWidth]}>
-      <Table ref={ref} list={data.list} options={options!} actions={actions} />
-    </Wrapper>
-  );
+  return <TableViewPresenter list={data} options={options!} actions={actions!} />;
 }
 
-export default React.memo(observer(TableView, { forwardRef: true }));
+export default React.memo(observer(TableView));
