@@ -66,7 +66,7 @@ function Table({ list, options, actions }: TableInterface, ref: Ref<HTMLElement>
     <>
       <Wrapper
         ref={provideRef(ref, wrapperRef, setScrollableElement)}
-        styles={[fullHeight, fullWidth, flex, overflow("scroll")]}
+        styles={[fullHeight, fullWidth, flex, overflow("auto")]}
       >
         <TableComponent {...getTableProps()} ref={tableRef}>
           <HeaderComponent id={id} trHeaderGroup={headerGroup} sorting={sorting} tableHeight={tableBounds.height} />

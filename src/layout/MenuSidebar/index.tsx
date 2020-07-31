@@ -20,8 +20,8 @@ import {
   padding,
   position,
   width,
-  zIndex,
 } from "libs/styles";
+import { layoutZIndexes } from "libs/styles/zIndexes";
 
 import { BaseIconButtonInterface, IconLink } from "./Element";
 
@@ -57,7 +57,7 @@ function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterfac
         width(sidebarWidth),
         flex,
         flexColumn,
-        zIndex(1),
+        layoutZIndexes.menuSidebar,
         boxShadow([0, 0, 0, 1, "gray-blue/02"], ...elevation16Raw),
       ]}
     >

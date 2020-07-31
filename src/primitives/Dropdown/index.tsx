@@ -15,6 +15,7 @@ import {
   flex,
   flexValue,
   focus,
+  hover,
   marginLeft,
   padding,
   pointer,
@@ -91,6 +92,7 @@ const Dropdown = React.forwardRef(function Dropdown(
             backgroundColor("gray-blue/01"),
             transition(`all ${duration200}`),
             boxShadow([0, 0, 0, 1, "gray-blue/02"]),
+            hover(boxShadow([0, 0, 0, 1, "gray-blue/03"])),
             focus(boxShadow([0, 0, 0, 2, "blue/04"])),
           ]}
           onClick={state.toggle}

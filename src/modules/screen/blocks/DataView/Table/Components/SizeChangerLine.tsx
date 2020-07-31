@@ -1,6 +1,6 @@
 import React from "react";
 import { animated } from "react-spring";
-import { duration200 } from "layout/durations";
+import { duration120 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -21,6 +21,7 @@ import {
   zIndex,
 } from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
+import { tableZIndexes } from "libs/styles/zIndexes";
 
 interface SizeChangerLineInterface {
   style?: any;
@@ -39,9 +40,9 @@ const resizeLineStyles = [
   position("absolute"),
   top(0),
   transform("translateX(-50%)"),
-  zIndex(1),
+  tableZIndexes.resizeLine,
   opacity(0),
-  transition(`opacity ${duration200}`),
+  transition(`opacity ${duration120}`),
   hover(opacity(1)),
 ];
 

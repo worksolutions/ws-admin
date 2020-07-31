@@ -104,7 +104,7 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
       {isCardsView ? (
         <Wrapper
           ref={setCardsScrollableElement}
-          styles={[fullWidth, flexValue(1), overflowY("scroll"), position("relative")]}
+          styles={[fullWidth, flexValue(1), overflowY("auto"), position("relative")]}
         >
           {notFound}
           <CardsViewBlock {...options!.cardsView} onUpdateMeta={setMetaData} />

@@ -25,9 +25,9 @@ import {
   verticalAlign,
   verticalPadding,
   width,
-  zIndex,
 } from "libs/styles";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
+import { tableZIndexes } from "libs/styles/zIndexes";
 
 import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
 
@@ -121,7 +121,7 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
           top(0),
           right(0),
           bottom(0),
-          zIndex(-1),
+          tableZIndexes.cell,
         ]}
       />
       <Component
