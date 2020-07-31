@@ -18,7 +18,6 @@ import {
   transform,
   transition,
   width,
-  zIndex,
 } from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
 import { tableZIndexes } from "libs/styles/zIndexes";
@@ -26,6 +25,7 @@ import { tableZIndexes } from "libs/styles/zIndexes";
 interface SizeChangerLineInterface {
   style?: any;
   styles?: any;
+  lineStyles?: any;
   onMouseDown?: (event: MouseEvent) => void;
   onTouchStart?: (event: MouseEvent) => void;
 }
@@ -48,7 +48,14 @@ const resizeLineStyles = [
 
 const stopPropagationFunc = stopPropagation();
 
-function SizeChangerLineComponent({ style, styles, onMouseDown, onTouchStart, ...other }: SizeChangerLineInterface) {
+function SizeChangerLineComponent({
+  style,
+  styles,
+  lineStyles,
+  onMouseDown,
+  onTouchStart,
+  ...other
+}: SizeChangerLineInterface) {
   return (
     <Wrapper
       className="resize-line"
@@ -68,6 +75,7 @@ function SizeChangerLineComponent({ style, styles, onMouseDown, onTouchStart, ..
           width(resizeLineWidth),
           fullHeight,
           backgroundColor("blue/05"),
+          lineStyles,
         ]}
       />
     </Wrapper>

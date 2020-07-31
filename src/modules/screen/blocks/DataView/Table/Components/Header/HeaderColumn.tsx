@@ -6,6 +6,7 @@ import { useResizer } from "primitives/Resizer/useResizer";
 
 import {
   backgroundColor,
+  cursor,
   height,
   opacity,
   padding,
@@ -30,6 +31,7 @@ interface HeaderColumnInterface {
   fixedSizes: boolean;
   tableHeight: number;
   zIndex: number;
+  isLastColumn?: boolean;
 }
 
 function getCellWidth(fixedSizes: boolean, widthProp: number, minWidthValue: number | undefined) {
@@ -48,6 +50,7 @@ function HeaderColumn({
   width: widthProp,
   tableHeight,
   zIndex: zIndexProp,
+  isLastColumn = false,
 }: HeaderColumnInterface) {
   const header = headerColumn.render("Header") as any;
   const tableResizerProps: any = headerColumn.getResizerProps();
@@ -85,7 +88,7 @@ function HeaderColumn({
         currentSortingField={sorting.currentSortingField}
         headerColumnId={headerColumn.id}
       />
-      {headerColumn.canResize && (
+      {headerColumn.canResize ? (
         <SizeChangerLine
           style={{ left: childContentStyles.width }}
           styles={[height(tableHeight), down && opacity(1)]}
@@ -98,6 +101,14 @@ function HeaderColumn({
             tableResizerProps.onTouchStart && tableResizerProps.onTouchStart(event);
           }}
         />
+      ) : (
+        isLastColumn || (
+          <SizeChangerLine
+            style={{ left: childContentStyles.width }}
+            styles={[height(tableHeight), cursor("default")]}
+            lineStyles={[backgroundColor("gray/02")]}
+          />
+        )
       )}
       {backdropDisabler}
     </Wrapper>

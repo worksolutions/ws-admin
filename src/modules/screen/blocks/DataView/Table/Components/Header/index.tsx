@@ -42,6 +42,7 @@ function Header({ trHeaderGroup, sorting, id, tableHeight }: HeaderInterface) {
             headerColumn={header}
             sorting={sorting}
             tableHeight={tableHeight}
+            isLastColumn={trHeaderGroup.headers.length - 1 === index}
           />
         ))}
       </Wrapper>
