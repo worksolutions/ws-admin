@@ -5,7 +5,7 @@ import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import Wrapper from "primitives/Wrapper";
 
 import { ai, Aligns, child, flex, flexValue, flexWrap, lastChild, marginLeft, marginRight, padding } from "libs/styles";
-import { dataViewActionsZIndex } from "libs/styles/zIndexes";
+import { formattedDataViewZIndexes } from "libs/styles/zIndexes";
 
 import ActionInput from "modules/screen/blocks/Actions/Input";
 import ActionSorting from "modules/screen/blocks/Actions/Sorting";
@@ -39,7 +39,7 @@ function Actions({
         flex,
         ai(Aligns.CENTER),
         flexWrap,
-        dataViewActionsZIndex,
+        formattedDataViewZIndexes.actionsPanel,
         child(marginRight(16)),
         lastChild(marginRight(0)),
         styles,
