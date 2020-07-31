@@ -1,11 +1,11 @@
 import React from "react";
-import { useMeasure } from "react-use";
 import { UseMeasureRect } from "react-use/lib/useMeasure";
 
-import { ai, Aligns, backgroundColor, flex, height, jc, overflow, position, width } from "libs/styles";
+import Icon, { Icons } from "primitives/Icon";
+import Wrapper from "primitives/Wrapper";
 
-import Icon, { Icons } from "../Icon";
-import Wrapper from "../Wrapper";
+import { ai, Aligns, backgroundColor, flex, height, jc, overflow, width } from "libs/styles";
+import { useMeasureCallback } from "libs/hooks";
 
 import { StyledComponentsAS } from "types/StyledComponentsAS";
 
@@ -40,16 +40,13 @@ function ImageWithDefault({
   emptyIcon = "no-image",
   emptyIconSize,
 }: ImageInterface) {
-  const [ref, bounds] = useMeasure();
-  const [resultSizes, setResultSizes] = React.useState<{ width: number | string; height: number | string }>(() => ({
-    width: 0,
-    height: 0,
-  }));
-
-  React.useEffect(() => {
-    if (bounds.width === 0) return;
-    setResultSizes(getSizes({ height: heightProp, width: widthProp, aspectRatio }, bounds));
-  }, [bounds]);
+  const imageRef = React.useRef<HTMLElement>();
+  const setMeasureRef = useMeasureCallback((size) => {
+    if (!imageRef.current) return;
+    const resultSizes = getSizes({ height: heightProp, width: widthProp, aspectRatio }, size);
+    imageRef.current.style.width = resultSizes.width + "px";
+    imageRef.current.style.height = resultSizes.height + "px";
+  });
 
   const image = src ? (
     <Icon icon={src} width="100%" height="100%" />
@@ -59,26 +56,23 @@ function ImageWithDefault({
 
   return (
     <Wrapper
-      ref={ref}
+      ref={setMeasureRef}
       styles={[overflow("hidden"), widthProp && width(widthProp), heightProp && height(heightProp), outerStyles]}
     >
-      {resultSizes.width !== 0 && (
-        <Wrapper
-          as={as}
-          styles={[
-            backgroundColor("gray-blue/01"),
-            flex,
-            ai(Aligns.CENTER),
-            jc(Aligns.CENTER),
-            width(resultSizes.width),
-            height(resultSizes.height),
-            overflow("hidden"),
-            styles,
-          ]}
-        >
-          {image}
-        </Wrapper>
-      )}
+      <Wrapper
+        ref={imageRef}
+        as={as}
+        styles={[
+          backgroundColor("gray-blue/01"),
+          flex,
+          ai(Aligns.CENTER),
+          jc(Aligns.CENTER),
+          overflow("hidden"),
+          styles,
+        ]}
+      >
+        {image}
+      </Wrapper>
     </Wrapper>
   );
 }

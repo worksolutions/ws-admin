@@ -5,7 +5,7 @@ import { useSpring } from "react-spring";
 
 import BackdropDisabler from "primitives/BackdropDisabler";
 
-import { useEffectSkipFirst } from "libs/hooks";
+import { useEffectSkipFirst, usePrevious } from "libs/hooks";
 import { cursor } from "libs/styles";
 
 function calculateStyleParams(
@@ -44,7 +44,9 @@ export function useResizer({
 
   const [bind, { delta, down }] = useGesture();
 
-  const styleParams = calculateStyleParams(down, {
+  const prevDown = usePrevious(down);
+
+  const styleParams = calculateStyleParams(prevDown, {
     currentWidth: currentWidth!,
     delta,
     minWidthToAutoClose,
