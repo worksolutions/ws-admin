@@ -5,47 +5,48 @@ import { child, flex, flexValue, flexWrap, marginBottom, marginLeft, marginRight
 
 import Wrapper from "../Wrapper";
 
-const widthForCount: Record<number, string> = {
-  1: "100%",
-  2: "50%",
-  3: "33.3333%",
-  4: "25%",
-  5: "20%",
-  6: "16.6666%",
-};
+const sizeWindows = [
+  { from: 0, to: 540, value: 1 },
+  { from: 540, to: 768, value: 2 },
+  { from: 768, to: 1024, value: 3 },
+  { from: 1024, to: 1280, value: 4 },
+  { from: 1280, to: 1440, value: 5 },
+  { from: 1440, to: 100000000, value: 6 },
+];
 
-function getElementsCountInRow(rowWidth: number, minWidth: number) {
-  const count = Math.floor(rowWidth / minWidth);
-  if (count in widthForCount) return count;
-  return 4;
+function getElementsCountInRow(rowWidth: number) {
+  return sizeWindows.find((window) => rowWidth >= window.from && rowWidth < window.to)!.value;
 }
 
 interface LayoutGridInterface {
+  className?: string;
   styles?: any;
-  elementsCount: number;
   minWidth: number;
   marginRight: number;
   marginTop?: number;
   marginBottom?: number;
-  children: React.ReactNode;
+  children: React.ReactNode[];
 }
 
+const elementSizeForRowCount = ["0", "100%", "50%", "33.333%", "25%", "20%", "16.6666%"];
+
 function LayoutGrid({
+  className,
   styles,
-  elementsCount,
   marginTop: marginTopProp,
   marginBottom: marginBottomProp,
   marginRight: marginRightProp,
-  minWidth: minWidthProp,
   children,
 }: LayoutGridInterface) {
   const [measureRef, measures] = useMeasure();
-  const elementsCountInRow = Math.min(elementsCount, getElementsCountInRow(measures.width, minWidthProp));
-  const newWidth = widthForCount[elementsCountInRow];
+  const newWidth = React.useMemo(() => elementSizeForRowCount[getElementsCountInRow(measures.width)], [measures.width]);
+
   const marginHalf = marginRightProp / 2;
+
   return (
     <Wrapper
       ref={measureRef}
+      className={className}
       styles={[
         flex,
         flexValue(1),

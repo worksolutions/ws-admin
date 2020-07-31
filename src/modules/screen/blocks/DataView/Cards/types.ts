@@ -1,11 +1,13 @@
-import { CardActionInterface, CardInterface } from "primitives/Card/types";
+import { CardActionInterface, CardImageConfig, CardInterface } from "primitives/Card/types";
+
+import { BlockInterface } from "state/systemState";
 
 import { AnyAction } from "types/Actions";
-import { PaginationMeta } from "types/Pagination";
 
-export interface CardsViewDataSource {
-  pagination: PaginationMeta;
-  list: (Omit<CardInterface, "actions"> & {
-    actions?: (Omit<CardActionInterface, "handler"> & { action: AnyAction })[];
-  })[];
-}
+export type CardsViewInterface = BlockInterface<{ imageConfig: CardImageConfig }> & {
+  onLoadingUpdate?: (loading: boolean) => void;
+};
+
+export type CardsViewDataSource = (Omit<CardInterface, "actions"> & {
+  actions?: (Omit<CardActionInterface, "handler"> & { action: AnyAction })[];
+})[];

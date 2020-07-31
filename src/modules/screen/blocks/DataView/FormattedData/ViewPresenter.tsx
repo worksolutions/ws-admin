@@ -18,24 +18,21 @@ import {
   flex,
   flexColumn,
   flexValue,
-  fullWidth,
   jc,
-  overflowY,
   padding,
   paddingBottom,
-  position,
 } from "libs/styles";
 import { useLocalStorage, useScrollCallbackWasScrolledBoolean } from "libs/hooks";
 
-import CardsViewBlock from "../Cards";
 import { ViewMetaData } from "../types";
 
-import TableComponent from "./Components/Table";
-import { FormattedDataViewInterface } from "./types";
+import TableViewBlockWrapper from "./TableViewBlock";
+import CardsViewBlockWrapper from "./CardsViewBlock";
 import Actions from "./Components/Actions";
 import { notFoundElement } from "./Components/notFound";
-import { formattedDataLocalStorageInitialValue, usePagination } from "./libs";
 import { spinnerElement } from "./Components/spinner";
+import { formattedDataLocalStorageInitialValue, usePagination } from "./libs";
+import { FormattedDataViewInterface } from "./types";
 
 const initialMetaData: ViewMetaData = {
   loading: true,
@@ -102,17 +99,17 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
         }
       />
       {isCardsView ? (
-        <Wrapper
+        <CardsViewBlockWrapper
           ref={setCardsScrollableElement}
-          styles={[fullWidth, flexValue(1), overflowY("auto"), position("relative")]}
-        >
-          {notFound}
-          <CardsViewBlock {...options!.cardsView} onUpdateMeta={setMetaData} />
-          {spinner}
-        </Wrapper>
+          setMetaData={setMetaData}
+          notFound={notFound}
+          spinner={spinner}
+          options={options!.cardsView}
+        />
       ) : (
-        <TableComponent
-          options={options}
+        <TableViewBlockWrapper
+          id={options!.id}
+          options={options!.tableView}
           notFound={notFound}
           spinner={spinner}
           actions={actions!}

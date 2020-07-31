@@ -1,27 +1,27 @@
 import { InputOptionsInterface } from "modules/screen/blocks/Actions/Input";
 import { SortingOptionsInterface } from "modules/screen/blocks/Actions/Sorting";
 
-import { TableViewBlockInterface } from "../Table";
-import { CardsViewBlockInterface } from "../Cards";
+import { CardsViewInterface } from "../Cards/types";
+import { TableViewInterface } from "../Table/types";
 
 import { BlockInterface } from "state/systemState";
 
-interface CardsViewInterface extends CardsViewBlockInterface {
-  options?: CardsViewBlockInterface["options"] & {
+export interface CardsViewConfigInterface extends CardsViewInterface {
+  options?: CardsViewInterface["options"] & {
     sortingOptions?: SortingOptionsInterface;
   };
 }
 
-export interface TableViewInterface extends TableViewBlockInterface {}
+export interface TableViewConfigInterface extends TableViewInterface {}
 
-export type FormattedDataPaginationView = BlockInterface<{ paginationItems: number[] }, "change">;
+export type FormattedDataViewPagination = BlockInterface<{ paginationItems: number[] }, "change">;
 
 export type FormattedDataViewInterface = BlockInterface<
   {
     id: string;
-    tableView: TableViewInterface;
-    cardsView: CardsViewInterface;
-    paginationView: FormattedDataPaginationView;
+    tableView: TableViewConfigInterface;
+    cardsView: CardsViewConfigInterface;
+    paginationView: FormattedDataViewPagination;
     searchOptions: InputOptionsInterface;
   },
   "search" | "sorting"

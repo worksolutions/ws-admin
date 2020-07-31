@@ -1,66 +1,11 @@
-import { Icons } from "primitives/Icon";
+import { TableViewItemInterface, TableViewOptions } from "./Presenter/types";
 
-import { Colors } from "libs/styles";
+import { BlockInterface } from "state/systemState";
 
-import { PaginationMeta } from "types/Pagination";
+import { AnyAction } from "types/Actions";
 
-export enum TableViewDataType {
-  STRING = "STRING",
-  "STATUS-STRING" = "STATUS-STRING",
-  IMAGE = "IMAGE",
-  DATE = "DATE",
-  ACTIONS = "ACTIONS",
-}
-
-export enum TableSizes {
-  LARGE = "LARGE",
-  MEDIUM = "MEDIUM",
-  SMALL = "SMALL",
-}
-
-export interface TableViewColumnSizes {
-  minWidth?: number;
-}
-
-export type TableViewColumn = {
-  title: string;
-  field: string;
-  type?: TableViewDataType;
-  resizable?: boolean;
-  sortable?: boolean;
-  sizes?: TableViewColumnSizes;
-  options?: {
-    imageConfig?: {
-      heightConfig: TableSizes;
-      aspectRatio: number;
-    };
-  };
+export type TableViewInterface = BlockInterface<TableViewOptions, "sorting"> & {
+  onLoadingUpdate?: (loading: boolean) => void;
 };
 
-export type TableViewRowsConfig = {
-  paddingConfig: TableSizes;
-};
-
-export interface TableViewOptions {
-  selectable: boolean;
-  columns: TableViewColumn[];
-  rowsConfig: TableViewRowsConfig;
-  sortingOptions: {
-    initialValue: string;
-  };
-  id: string;
-}
-
-export interface TableViewItemInterface {
-  value: any;
-  redirectReference?: string;
-  icon?: {
-    name: Icons;
-    color: Colors;
-  };
-}
-
-export interface TableViewDataSource {
-  pagination: PaginationMeta;
-  list: Record<string, TableViewItemInterface>[];
-}
+export type TableViewDataSource = Record<string, TableViewItemInterface>[];

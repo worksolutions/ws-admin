@@ -6,13 +6,13 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import { ViewMetaData } from "../types";
 
-import { FormattedDataPaginationView } from "./types";
+import { FormattedDataViewPagination } from "./types";
 
 import { LoadingContainer } from "state/loadingContainer";
 
 import { PaginationInterface, PaginationMeta } from "types/Pagination";
 
-export function useSubviewLoader(
+export function useFormattedDataLoader(
   data: { pagination: PaginationMeta } | null,
   loadingContainer: LoadingContainer,
   onUpdateMeta: (data: ViewMetaData) => void,
@@ -31,7 +31,7 @@ export function useSubviewLoader(
 
 export const formattedDataLocalStorageInitialValue = { mode: "cards", perPage: 0 };
 
-export function usePagination(paginationView: FormattedDataPaginationView) {
+export function usePagination(paginationView: FormattedDataViewPagination) {
   const appContext = useAppContext();
   const actions = useActions(paginationView.actions!, appContext);
 

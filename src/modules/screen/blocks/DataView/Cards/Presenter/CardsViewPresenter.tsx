@@ -6,6 +6,8 @@ import { elevation16 } from "style/shadows";
 import LayoutGrid from "primitives/LayoutGrid";
 import { CardImageConfig } from "primitives/Card/types";
 import LinkWrapper from "primitives/LinkWrapper";
+import Wrapper from "primitives/Wrapper";
+import Typography from "primitives/Typography";
 
 import {
   ai,
@@ -13,23 +15,35 @@ import {
   child,
   color,
   disableDecoration,
+  flex,
   fullHeight,
   horizontalPadding,
   hover,
+  jc,
+  marginTop,
   transition,
 } from "libs/styles";
 
-import { CardsViewDataSource } from "./types";
+import { CardsViewDataSource } from "../types";
+
 import CardComponent from "./CardComponent";
 
-function CardsView({ list, imageConfig }: CardsViewDataSource & { imageConfig: CardImageConfig }) {
+function CardsViewPresenter({ list, imageConfig }: { list: CardsViewDataSource; imageConfig: CardImageConfig }) {
+  if (list.length === 0) {
+    return (
+      <Wrapper className="cards-view-presenter" styles={[flex, fullHeight, ai(Aligns.CENTER), jc(Aligns.CENTER)]}>
+        <Typography color="gray-blue/05">Нет элементов для отображения</Typography>
+      </Wrapper>
+    );
+  }
+
   return (
     <LayoutGrid
-      elementsCount={list.length}
+      className="cards-view-presenter"
       marginBottom={16}
       marginRight={16}
       minWidth={242}
-      styles={[horizontalPadding(8), ai(Aligns.STRETCH)]}
+      styles={[marginTop(16), horizontalPadding(8), ai(Aligns.STRETCH)]}
     >
       {list.map((card) => {
         const cardComponent = <CardComponent {...card} imageConfig={imageConfig} />;
@@ -57,4 +71,4 @@ function CardsView({ list, imageConfig }: CardsViewDataSource & { imageConfig: C
   );
 }
 
-export default React.memo(observer(CardsView));
+export default React.memo(observer(CardsViewPresenter));

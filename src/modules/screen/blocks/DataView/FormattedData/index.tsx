@@ -8,11 +8,11 @@ import { useLocalStorage } from "libs/hooks";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 
-import FormattedDataView from "./View";
+import ViewPresenter from "./ViewPresenter";
 import { FormattedDataViewInterface } from "./types";
 import { formattedDataLocalStorageInitialValue } from "./libs";
 
-function FormattedDataViewInitializer({ options, ...otherProps }: FormattedDataViewInterface) {
+function FormattedDataView({ options, ...otherProps }: FormattedDataViewInterface) {
   const [initialized, setInitialized] = React.useState(false);
 
   const [storage] = useLocalStorage(options!.id, formattedDataLocalStorageInitialValue);
@@ -28,7 +28,7 @@ function FormattedDataViewInitializer({ options, ...otherProps }: FormattedDataV
 
   if (!initialized) return <Spinner size={36} />;
 
-  return <FormattedDataView options={options} {...otherProps} />;
+  return <ViewPresenter options={options} {...otherProps} />;
 }
 
-export default React.memo(observer(FormattedDataViewInitializer));
+export default React.memo(observer(FormattedDataView));
