@@ -12,6 +12,7 @@ export interface CardStatusInterface {
   icon: Icons;
   color: Colors;
   size?: CardStatusIconSize;
+  alternativeText?: string;
 }
 
 export type CardActionInterface = {

@@ -35,11 +35,11 @@ module.exports = (app) => {
 
           if (isPublished) {
             result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
-            result.statuses = [{ icon: "badge", color: "green/05", size: "SMALL" }];
+            result.statuses = [{ icon: "badge", color: "green/05", size: "SMALL", alternativeText: "Опубликовано" }];
             result.actions.push({ name: "Снять с публикации", icon: "bolt-alt", iconColor: "orange/05", action });
           } else {
             result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
-            result.statuses = [{ icon: "badge", color: "orange/05", size: "SMALL" }];
+            result.statuses = [{ icon: "badge", color: "orange/05", size: "SMALL", alternativeText: "Черновик" }];
             result.actions.push({ name: "Опубликовать", icon: "bolt-alt", iconColor: "green/05", action });
           }
 

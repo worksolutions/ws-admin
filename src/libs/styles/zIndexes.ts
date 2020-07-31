@@ -15,8 +15,9 @@ export const componentZIndexes = {
   sortingButtonsOnFocus: zIndex(1),
 };
 
-export const primitiveIndexes = {
+export const primitiveZIndexes = {
   droppedListWrapper: zIndex(1),
+  hint: zIndex(2),
 };
 
 export const layoutZIndexes = {

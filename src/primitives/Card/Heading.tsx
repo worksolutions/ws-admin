@@ -9,6 +9,7 @@ import { ai, Aligns, flex, flexValue, jc, marginBottom, marginLeft } from "libs/
 import { ListItemId } from "../List";
 import DroppedList, { DroppedListOpenMode } from "../List/DroppedList";
 import Button, { ButtonSize, ButtonType } from "../Button";
+import Hint from "../Popper/Hint";
 
 import { CardActionInterface, CardStatusIconSize, CardStatusInterface } from "./types";
 
@@ -34,9 +35,24 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
             {title}
           </Typography>
         )}
-        {statuses.map(({ icon, color, size }, key) => {
+        {statuses.map(({ icon, color, size, alternativeText }, key) => {
           const iconSize = headingIconSizes[size || CardStatusIconSize.LARGE];
-          return <Icon key={key} icon={icon} color={color} width={iconSize} height={iconSize} styles={marginLeft(8)} />;
+          const renderIcon = (initParent?: (ref: HTMLElement | null) => void) => (
+            <Icon
+              ref={initParent}
+              key={key}
+              icon={icon}
+              color={color}
+              width={iconSize}
+              height={iconSize}
+              styles={marginLeft(8)}
+            />
+          );
+          return alternativeText ? (
+            <Hint text={alternativeText}>{(initParent) => renderIcon(initParent)}</Hint>
+          ) : (
+            renderIcon()
+          );
         })}
       </Wrapper>
       {actions.length !== 0 && (

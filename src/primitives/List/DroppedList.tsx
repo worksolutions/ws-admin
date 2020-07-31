@@ -8,7 +8,7 @@ import { Placement } from "@popperjs/core";
 import { backgroundColor, border, borderRadius, maxWidth, minWidth, padding, position } from "libs/styles";
 import { useBoolean } from "libs/hooks";
 import { provideRef } from "libs/provideRef";
-import { primitiveIndexes } from "libs/styles/zIndexes";
+import { primitiveZIndexes } from "libs/styles/zIndexes";
 
 import Wrapper from "../Wrapper";
 import usePopper, { getPopperMarginStyleForPlacement } from "../Popper/usePopper";
@@ -104,7 +104,7 @@ function DroppedList({
           opacity: spring.opacity,
           visibility: spring.opacity.to((value) => (value === 0 ? "hidden" : "visible")),
         }}
-        styles={[maxWidth(480), minWidth("calc(100% + 40px)"), primitiveIndexes.droppedListWrapper]}
+        styles={[maxWidth(480), minWidth("calc(100% + 40px)"), primitiveZIndexes.droppedListWrapper]}
         ref={initPopper("child")}
       >
         <Wrapper

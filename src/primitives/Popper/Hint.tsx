@@ -17,6 +17,7 @@ import {
   transition,
   whiteSpace,
 } from "libs/styles";
+import { primitiveZIndexes } from "libs/styles/zIndexes";
 
 import usePopper, { getPopperMarginStyleForPlacement, PopperConfigInterface } from "./usePopper";
 
@@ -128,6 +129,7 @@ function Hint({
           transition(`opacity ${hideAnimationDelay}ms`),
           getPopperMarginStyleForPlacement(placement, marginProp!),
           themeStyles.container,
+          primitiveZIndexes.hint,
         ]}
       >
         <Typography type="caption-regular" color={themeStyles.text.color} styles={[whiteSpace("nowrap")]}>
