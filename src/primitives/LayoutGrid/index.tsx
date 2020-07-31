@@ -19,6 +19,7 @@ function getElementsCountInRow(rowWidth: number) {
 }
 
 interface LayoutGridInterface {
+  className?: string;
   styles?: any;
   minWidth: number;
   marginRight: number;
@@ -30,6 +31,7 @@ interface LayoutGridInterface {
 const elementSizeForRowCount = ["0", "100%", "50%", "33.333%", "25%", "20%", "16.6666%"];
 
 function LayoutGrid({
+  className,
   styles,
   marginTop: marginTopProp,
   marginBottom: marginBottomProp,
@@ -44,6 +46,7 @@ function LayoutGrid({
   return (
     <Wrapper
       ref={measureRef}
+      className={className}
       styles={[
         flex,
         flexValue(1),
