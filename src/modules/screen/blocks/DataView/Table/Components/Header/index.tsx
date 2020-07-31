@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import Wrapper from "primitives/Wrapper";
 
 import { backgroundColor, flex, fullWidth, zIndex } from "libs/styles";
+import { zIndex1 } from "libs/styles/zIndexes";
 
 import { UseSortingType } from "../../libs";
 
@@ -25,7 +26,7 @@ interface HeaderInterface {
 function Header({ trHeaderGroup, sorting, id, tableHeight }: HeaderInterface) {
   const { headerRef, fixedSizes, headerWidths } = useResizeTableMain(id, trHeaderGroup.headers);
   return (
-    <Wrapper as="thead" styles={zIndex(1)}>
+    <Wrapper as="thead" styles={zIndex1}>
       <Wrapper
         as="tr"
         {...trHeaderGroup.getHeaderGroupProps()}

@@ -24,8 +24,8 @@ import {
   transform,
   transition,
   width,
-  zIndex,
 } from "libs/styles";
+import { zIndex1 } from "libs/styles/zIndexes";
 
 import { SortingDirection, SortingID, SortingItem } from "types/Sorting";
 
@@ -76,7 +76,7 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
             styles={[
               boxShadow([0, 0, 0, 1, "gray-blue/02"]),
               originalSelectedElement.hasDirection && borderRadius("6px 0 0 6px"),
-              focus(zIndex(1)),
+              focus(zIndex1),
             ]}
             type={ButtonType.SECONDARY}
             size={ButtonSize.MEDIUM}
@@ -94,7 +94,7 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
                   borderRadius("0 6px 6px 0"),
                   padding(8),
                   ai(Aligns.CENTER),
-                  focus(zIndex(1)),
+                  focus(zIndex1),
                   child(
                     [
                       transition(`all ${duration200}`),

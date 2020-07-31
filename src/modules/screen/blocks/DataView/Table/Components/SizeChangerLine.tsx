@@ -21,6 +21,7 @@ import {
   zIndex,
 } from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
+import { zIndex1 } from "libs/styles/zIndexes";
 
 interface SizeChangerLineInterface {
   style?: any;
@@ -39,7 +40,7 @@ const resizeLineStyles = [
   position("absolute"),
   top(0),
   transform("translateX(-50%)"),
-  zIndex(1),
+  zIndex1,
   opacity(0),
   transition(`opacity ${duration120}`),
   hover(opacity(1)),

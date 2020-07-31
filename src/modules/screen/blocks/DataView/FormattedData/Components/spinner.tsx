@@ -15,8 +15,8 @@ import {
   left,
   position,
   top,
-  zIndex,
 } from "libs/styles";
+import { zIndex3 } from "libs/styles/zIndexes";
 
 export const spinnerElement = (
   <Wrapper
@@ -29,7 +29,7 @@ export const spinnerElement = (
       fullHeight,
       ai(Aligns.CENTER),
       jc(Aligns.CENTER),
-      zIndex(3),
+      zIndex3,
     ]}
   >
     <Wrapper

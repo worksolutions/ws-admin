@@ -4,19 +4,8 @@ import { observer } from "mobx-react-lite";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import Wrapper from "primitives/Wrapper";
 
-import {
-  ai,
-  Aligns,
-  child,
-  flex,
-  flexValue,
-  flexWrap,
-  lastChild,
-  marginLeft,
-  marginRight,
-  padding,
-  zIndex,
-} from "libs/styles";
+import { ai, Aligns, child, flex, flexValue, flexWrap, lastChild, marginLeft, marginRight, padding } from "libs/styles";
+import { zIndex100 } from "libs/styles/zIndexes";
 
 import ActionInput from "modules/screen/blocks/Actions/Input";
 import ActionSorting from "modules/screen/blocks/Actions/Sorting";
@@ -50,7 +39,7 @@ function Actions({
         flex,
         ai(Aligns.CENTER),
         flexWrap,
-        zIndex(100),
+        zIndex100,
         child(marginRight(16)),
         lastChild(marginRight(0)),
         styles,
