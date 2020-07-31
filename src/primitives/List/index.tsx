@@ -105,7 +105,7 @@ function List({
             onClick={() => onClick && enabled && onClick(id)}
           >
             {leftContent}
-            <Wrapper styles={[marginRight(8), flexValue(1), textAlign("left")]}>
+            <Wrapper styles={[leftContent && marginLeft(8), marginRight(8), flexValue(1), textAlign("left")]}>
               {heading && <Typography type="caption-regular">{heading}</Typography>}
               <Typography dots={titleDots} styles={titleStyles}>
                 {title}
