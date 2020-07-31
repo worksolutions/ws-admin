@@ -27,7 +27,7 @@ function CardsViewBlockWrapper(
       styles={[
         fullWidth,
         flexValue(1),
-        overflowY("scroll"),
+        overflowY("auto"),
         position("relative"),
         child(marginTop(0), ".cards-view-presenter"),
       ]}

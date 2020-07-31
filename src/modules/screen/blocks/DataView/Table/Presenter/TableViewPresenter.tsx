@@ -1,4 +1,4 @@
-import React, { Ref } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { Hooks, useResizeColumns, useTable } from "react-table";
 import { isNil, last } from "ramda";

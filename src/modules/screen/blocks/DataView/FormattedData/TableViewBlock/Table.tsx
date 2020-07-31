@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
 
-import { fullHeight, fullWidth, position } from "libs/styles";
+import { fullHeight, fullWidth } from "libs/styles";
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
@@ -35,7 +35,7 @@ function TableView({ dataSource, options, onUpdateMeta, actions }: TableViewBloc
   if (data.list.length === 0) return null;
 
   return (
-    <Wrapper styles={[position("relative"), fullHeight, fullWidth]}>
+    <Wrapper styles={[fullHeight, fullWidth]}>
       <TableViewPresenter {...data} options={options!} actions={actions!} />
     </Wrapper>
   );
