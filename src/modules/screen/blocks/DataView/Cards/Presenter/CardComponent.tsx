@@ -7,11 +7,11 @@ import Card from "primitives/Card";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 
-import { CardsViewDataSource } from "./types";
+import { CardsViewDataSource } from "../types";
 
 import { AnyAction } from "types/Actions";
 
-function CardComponent(card: CardsViewDataSource["list"][0] & { imageConfig: CardImageConfig }) {
+function CardComponent(card: CardsViewDataSource[0] & { imageConfig: CardImageConfig }) {
   const { id, statuses, actions, heading, title, image, imageConfig } = card;
   const appContext = useAppContext();
 

@@ -436,6 +436,22 @@ module.exports = {
                           },
                         },
                       },
+                      {
+                        title: "Статьи по теме",
+                        block: {
+                          type: "DataView/Cards",
+                          dataSource: {
+                            type: "api:request",
+                            options: {
+                              reference: "/article/{{screen:articleId}}/related-articles",
+                              method: "get",
+                            },
+                          },
+                          options: {
+                            imageConfig: { aspectRatio: 1.6 },
+                          },
+                        },
+                      },
                     ],
                   },
                 },

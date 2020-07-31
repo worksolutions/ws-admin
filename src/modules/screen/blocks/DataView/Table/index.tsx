@@ -8,7 +8,7 @@ import { flex, fullHeight, fullWidth, overflow, position } from "libs/styles";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import { ViewMetaData } from "../types";
-import { useSubviewLoader } from "../FormattedData/libs";
+import { useFormattedDataLoader } from "../FormattedData/libs";
 
 import { TableViewDataSource, TableViewOptions } from "./types";
 import Table from "./Table";
@@ -25,7 +25,7 @@ export interface TableViewBlockInterface extends BlockInterface<TableViewOptions
 function TableView({ dataSource, options, onUpdateMeta, actions }: TableViewBlockInterface, ref: Ref<HTMLElement>) {
   const { data, loadingContainer } = useDataSource<TableViewDataSource>(dataSource!);
 
-  useSubviewLoader(data, loadingContainer, onUpdateMeta);
+  useFormattedDataLoader(data, loadingContainer, onUpdateMeta);
 
   if (!data) return null;
   if (data.list.length === 0) return null;

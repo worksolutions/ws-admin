@@ -20,10 +20,7 @@ interface TableComponentsProps {
   actions: { sorting: AnyAction };
 }
 
-function TableComponent(
-  { options, notFound, spinner, setMetaData, actions }: TableComponentsProps,
-  ref: Ref<HTMLElement>,
-) {
+function TableComponent({ options, notFound, spinner, setMetaData, actions }: TableComponentsProps) {
   const tableViewOptions = React.useMemo(
     () => assocPath(["options", "id"], `${options!.id}-table`, options!.tableView),
     [],
@@ -32,10 +29,10 @@ function TableComponent(
   return (
     <Wrapper styles={[position("relative"), fullWidth, overflow("hidden"), flexValue(1)]}>
       {notFound}
-      <TableViewBlock ref={ref} {...tableViewOptions} onUpdateMeta={setMetaData} actions={actions} />
+      <TableViewBlock {...tableViewOptions} onUpdateMeta={setMetaData} actions={actions} />
       {spinner}
     </Wrapper>
   );
 }
 
-export default React.memo(observer(TableComponent, { forwardRef: true }));
+export default React.memo(observer(TableComponent));

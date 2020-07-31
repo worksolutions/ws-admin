@@ -27,15 +27,15 @@ import {
 } from "libs/styles";
 import { useLocalStorage, useScrollCallbackWasScrolledBoolean } from "libs/hooks";
 
-import CardsViewBlock from "../Cards";
 import { ViewMetaData } from "../types";
 
+import CardsViewBlock from "./ViewsBlocks/Cards";
 import TableComponent from "./Components/Table";
-import { FormattedDataViewInterface } from "./types";
 import Actions from "./Components/Actions";
 import { notFoundElement } from "./Components/notFound";
-import { formattedDataLocalStorageInitialValue, usePagination } from "./libs";
 import { spinnerElement } from "./Components/spinner";
+import { formattedDataLocalStorageInitialValue, usePagination } from "./libs";
+import { FormattedDataViewInterface } from "./types";
 
 const initialMetaData: ViewMetaData = {
   loading: true,

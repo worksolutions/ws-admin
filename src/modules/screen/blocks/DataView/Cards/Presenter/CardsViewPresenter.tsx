@@ -19,10 +19,11 @@ import {
   transition,
 } from "libs/styles";
 
-import { CardsViewDataSource } from "./types";
+import { CardsViewDataSource } from "../types";
+
 import CardComponent from "./CardComponent";
 
-function CardsView({ list, imageConfig }: CardsViewDataSource & { imageConfig: CardImageConfig }) {
+function CardsViewPresenter({ list, imageConfig }: { list: CardsViewDataSource; imageConfig: CardImageConfig }) {
   return (
     <LayoutGrid
       elementsCount={list.length}
@@ -57,4 +58,4 @@ function CardsView({ list, imageConfig }: CardsViewDataSource & { imageConfig: C
   );
 }
 
-export default React.memo(observer(CardsView));
+export default React.memo(observer(CardsViewPresenter));
