@@ -6,6 +6,7 @@ import preventDefault from "libs/preventDefault";
 
 import ButtonWrapper, { BaseButtonWrapperInterface } from "./ButtonWrapper";
 import { ButtonType } from "./types";
+import { provideRef } from "../../libs/provideRef";
 
 interface ButtonInterface extends BaseButtonWrapperInterface {
   className?: string;
@@ -20,12 +21,12 @@ const Button = React.forwardRef(function (
 ) {
   return (
     <ButtonWrapper {...buttonWrapperProps}>
-      {(styles, iconLeft, iconRight) => {
+      {(styles, { iconLeft, iconRight }, hintRef) => {
         const clickHandler = buttonWrapperProps.loading ? undefined : onClick;
         return (
           <Wrapper
             className={className}
-            ref={ref}
+            ref={provideRef(ref, hintRef!)}
             as="button"
             styles={styles}
             disabled={buttonWrapperProps.disabled}

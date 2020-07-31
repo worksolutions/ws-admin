@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Ref } from "react";
 
 import { TypographyTypes } from "primitives/Typography";
 import Icon, { Icons } from "primitives/Icon";
@@ -18,6 +18,7 @@ import {
 } from "libs/styles";
 
 import Spinner from "../Spinner";
+import Hint from "../Popper/Hint";
 
 import { buttonStylesMap } from "./styles";
 import { ButtonSize, ButtonType } from "./types";
@@ -45,11 +46,16 @@ export interface BaseButtonWrapperInterface {
   spinner?: boolean;
   size?: ButtonSize;
   type?: ButtonType;
+  alternativeText?: string;
   styles?: any;
 }
 
 interface ButtonWrapperInterface extends BaseButtonWrapperInterface {
-  children: (styles: any, iconLeft: React.ReactNode, iconRight: React.ReactNode) => JSX.Element;
+  children: (
+    styles: any,
+    icons: { iconLeft: React.ReactNode; iconRight: React.ReactNode },
+    hintRef?: Ref<HTMLElement>,
+  ) => JSX.Element;
 }
 
 function ButtonWrapper({
@@ -64,6 +70,7 @@ function ButtonWrapper({
   iconLeftHeight,
   iconRightWidth,
   iconRightHeight,
+  alternativeText,
   disabled,
 }: ButtonWrapperInterface) {
   const isIconButton = type === ButtonType.ICON;
@@ -106,23 +113,34 @@ function ButtonWrapper({
 
   const isActive = !loading;
 
-  return children(
-    [
-      position("relative"),
-      inlineFlex,
-      jc(Aligns.CENTER),
-      transition("all 200ms"),
-      TypographyTypes["button"],
-      borderRadius(6),
-      disableOutline,
-      resultStyles.default,
-      disabled
-        ? resultStyles.disabled
-        : isActive && [pointer, hover(resultStyles.hover), focus(resultStyles.focused), active(resultStyles.active)],
-      styles,
-    ],
-    leftIconElement,
-    rightIconElement,
+  const getChildren = (initParent?: Ref<HTMLElement>) =>
+    children(
+      [
+        position("relative"),
+        inlineFlex,
+        jc(Aligns.CENTER),
+        transition("all 200ms"),
+        TypographyTypes["button"],
+        borderRadius(6),
+        disableOutline,
+        resultStyles.default,
+        disabled
+          ? resultStyles.disabled
+          : isActive && [pointer, hover(resultStyles.hover), focus(resultStyles.focused), active(resultStyles.active)],
+        styles,
+      ],
+      { iconLeft: leftIconElement, iconRight: rightIconElement },
+      initParent,
+    );
+
+  return alternativeText ? (
+    <div>
+      <Hint text={alternativeText} margin={0}>
+        {(initParent) => getChildren(initParent)}
+      </Hint>
+    </div>
+  ) : (
+    getChildren()
   );
 }
 
