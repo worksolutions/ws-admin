@@ -16,7 +16,7 @@ export const componentZIndexes = {
 };
 
 export const primitiveZIndexes = {
-  droppedListWrapper: zIndex(1),
+  droppedListWrapper: zIndex(100),
   hint: zIndex(2),
 };
 
