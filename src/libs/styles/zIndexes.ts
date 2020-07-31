@@ -1,7 +1,6 @@
 import { zIndex } from "./index";
 
-export const zIndexNegative = zIndex(-1);
-export const zIndex1 = zIndex(1);
-export const zIndex2 = zIndex(2);
-export const zIndex3 = zIndex(3);
-export const zIndex100 = zIndex(100);
+export const tableCellZIndex = zIndex(-1);
+export const commonZIndex = zIndex(1);
+export const spinnerZIndex = zIndex(3);
+export const dataViewActionsZIndex = zIndex(100);
