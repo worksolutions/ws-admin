@@ -25,7 +25,7 @@ interface HeaderInterface {
 }
 
 function Header({ trHeaderGroup, sorting, id, tableHeight }: HeaderInterface) {
-  const { headerRef, fixedSizes, headerWidths } = useResizeTableMain(id, trHeaderGroup.headers);
+  const { headerRef, fixedSizes, headerWidths } = useResizeTableMain(id, trHeaderGroup.headers, 1);
 
   return (
     <Wrapper as="thead" styles={tableZIndexes.thead}>

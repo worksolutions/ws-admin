@@ -40,9 +40,10 @@ function calculateHeaderWidths(headerTR: HTMLElement) {
     .map((element) => element.getBoundingClientRect().width);
 }
 
-export function useResizeTableMain(id: string, cells: { isResizing: boolean }[]) {
+export function useResizeTableMain(id: string, cells: { isResizing: boolean }[], ignoreStartCellsCount = 0) {
   const savedWidths = storageInstance.get(id);
   const resizeColumnIndex = cells.findIndex((cell) => cell.isResizing);
+
   const previousResizeColumnIndex = usePrevious(resizeColumnIndex);
   const headerRef = React.useRef<HTMLElement>();
 
@@ -63,7 +64,9 @@ export function useResizeTableMain(id: string, cells: { isResizing: boolean }[])
   useEffectSkipFirst(() => {
     if (resizeColumnIndex !== -1) return;
     const [resizeLine] = htmlCollectionToArray(
-      headerRef.current!.children[previousResizeColumnIndex].getElementsByClassName("resize-line"),
+      headerRef.current!.children[previousResizeColumnIndex + ignoreStartCellsCount].getElementsByClassName(
+        "resize-line",
+      ),
     );
     const widths = calculateHeaderWidths(headerRef.current!);
     widths[previousResizeColumnIndex] = parseFloat(resizeLine.style.left);
