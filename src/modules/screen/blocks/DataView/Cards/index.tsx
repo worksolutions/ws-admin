@@ -1,6 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 
+import Spinner from "primitives/Spinner";
+
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import { CardsViewDataSource, CardsViewInterface } from "./types";
@@ -14,6 +16,7 @@ function CardsView({ dataSource, options, onLoadingUpdate }: CardsViewInterface)
     onLoadingUpdate(loadingContainer.loading);
   }, [loadingContainer.loading]);
 
+  if (loadingContainer.loading) return <Spinner size={78} />;
   if (!data) return null;
 
   return <CardsViewPresenter list={data} {...options!} />;
