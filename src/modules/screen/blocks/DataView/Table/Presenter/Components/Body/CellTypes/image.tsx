@@ -3,6 +3,7 @@ import React from "react";
 import ImageWithDefault from "primitives/ImageWithDefault";
 
 import { border, borderRadius } from "libs/styles";
+import { isPureObject } from "libs/is";
 
 import { CellComponentData } from "../types";
 import { TableSizes } from "../../../types";
@@ -15,11 +16,13 @@ const imageHeightsForHeightConfigBySize: Record<TableSizes, number> = {
 };
 
 export const cellComponent: CellComponentData = ({ item, column }) => {
+  const value = isPureObject(item) ? item.value : item;
+
   const imageConfig = column.options!.imageConfig!;
   return {
     component: (
       <ImageWithDefault
-        src={item.value as string}
+        src={value}
         width="100%"
         aspectRatio={column.options!.imageConfig!.aspectRatio}
         styles={[border(1, "gray-blue/02"), borderRadius(4)]}

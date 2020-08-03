@@ -17,7 +17,7 @@ export const cellComponent: CellComponentData = ({ item }) => {
   return {
     component: (
       <Wrapper styles={flex}>
-        {item.value.map((action: any, key: number) => {
+        {item.map((action: any, key: number) => {
           if (action.mode === "button") {
             return (
               <Button
@@ -63,7 +63,6 @@ export const cellComponent: CellComponentData = ({ item }) => {
         })}
       </Wrapper>
     ),
-    cellWidth:
-      cellDefaultHorizontalPadding + item.value.length * buttonWidth + buttonMarginLeft * (item.value.length - 1),
+    cellWidth: cellDefaultHorizontalPadding + item.length * buttonWidth + buttonMarginLeft * (item.length - 1),
   };
 };

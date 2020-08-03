@@ -12,6 +12,6 @@ export function isArray(arg: any): arg is Array<any> {
   return is(Array, arg);
 }
 
-export function isObject(arg: any): arg is Record<string, any> {
-  return is(Object, arg);
+export function isPureObject(arg: any): arg is Record<string, any> {
+  return is(Object, arg) && !Array.isArray(arg);
 }

@@ -12,7 +12,7 @@ module.exports = {
           icon: "grid-plus-outline",
         },
         {
-          code: "categories",
+          code: "users/list",
           name: "Пользователь",
           icon: "account-multiple-outline",
         },
@@ -149,7 +149,7 @@ module.exports = {
                         type: "DataView/FormattedData",
                         waitForId: "articles-context",
                         options: {
-                          id: "articles-list",
+                          id: "articles",
                           tableView: {
                             options: {
                               selectable: false,
@@ -197,9 +197,6 @@ module.exports = {
                                   sortable: false,
                                 },
                               ],
-                              rowsConfig: {
-                                paddingConfig: "SMALL",
-                              },
                               sortingOptions: {
                                 initialValue: "{{{screen:articles.sorting}}}",
                               },
@@ -485,7 +482,7 @@ module.exports = {
                   mainContent: {
                     type: "DataView/FormattedData",
                     options: {
-                      id: "categories-id",
+                      id: "categories",
                       tableView: {
                         options: {
                           selectable: false,
@@ -509,9 +506,6 @@ module.exports = {
                               sortable: false,
                             },
                           ],
-                          rowsConfig: {
-                            paddingConfig: "SMALL",
-                          },
                           sortingOptions: {
                             initialValue: "{{{screen:categories.sorting}}}",
                           },
@@ -548,6 +542,123 @@ module.exports = {
                           change: {
                             type: "none",
                             context: "screen:categories.pagination",
+                          },
+                        },
+                      },
+                      showMode: "table",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "Screen",
+        options: {
+          title: "Управление контентом",
+          reference: "/users*",
+        },
+        blocks: [
+          {
+            type: "Screen",
+            options: {
+              title: "Пользователи",
+              reference: "/users/list",
+            },
+            blocks: [
+              {
+                type: "Pages/DefaultPageWithList",
+                options: { title: "Пользователи" },
+                slots: {
+                  headingAction: {
+                    type: "Actions/Button",
+                    options: { name: "Добавить", icon: "plus-big" },
+                    actions: {
+                      click: {
+                        type: "redirect",
+                        options: {
+                          reference: "/test",
+                        },
+                      },
+                    },
+                  },
+                  mainContent: {
+                    type: "DataView/FormattedData",
+                    options: {
+                      id: "users",
+                      tableView: {
+                        options: {
+                          selectable: false,
+                          columns: [
+                            {
+                              title: "Имя",
+                              field: "user",
+                              type: "USER",
+                              sortable: false,
+                            },
+                            {
+                              title: "Должность",
+                              field: "position",
+                              type: "STRING",
+                              sortable: false,
+                            },
+                            {
+                              title: "E-mail",
+                              field: "email",
+                              type: "STRING",
+                              sortable: false,
+                            },
+                            {
+                              title: "Статус",
+                              field: "status",
+                              type: "STRING",
+                              sortable: false,
+                            },
+                            {
+                              title: "",
+                              field: "actions",
+                              type: "ACTIONS",
+                              sortable: false,
+                            },
+                          ],
+                          sortingOptions: {
+                            initialValue: "{{{screen:users.sorting}}}",
+                          },
+                        },
+                        dataSource: {
+                          type: "api:request",
+                          options: {
+                            reference: "/users",
+                            method: "get",
+                            params: {
+                              page: "{{screen:users.pagination.page}}",
+                              perPage: "{{screen:users.pagination.perPage}}",
+                            },
+                          },
+                        },
+                      },
+                      searchOptions: {
+                        placeholder: "Найти",
+                        iconLeft: "search-big",
+                        debounce: 600,
+                        value: "{{screen:users.search}}",
+                      },
+                      paginationView: {
+                        options: {
+                          paginationItems: [8, 16, 32],
+                        },
+                        dataSource: {
+                          type: "context",
+                          options: {
+                            key: "{{screen:users.pagination}}",
+                          },
+                        },
+                        actions: {
+                          change: {
+                            type: "none",
+                            context: "screen:users.pagination",
                           },
                         },
                       },

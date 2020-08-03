@@ -6,6 +6,7 @@ import { cellComponent as cellDateComponent } from "./date";
 import { cellComponent as cellStatusComponent } from "./status";
 import { cellComponent as cellImageComponent } from "./image";
 import { cellComponent as cellActionComponent } from "./actions";
+import { cellComponent as cellUserComponent } from "./user";
 
 export const getComponentForColumnType: Record<TableViewDataType, CellComponentData> = {
   [TableViewDataType.STRING]: cellStringComponent,
@@ -13,4 +14,5 @@ export const getComponentForColumnType: Record<TableViewDataType, CellComponentD
   [TableViewDataType["STATUS-STRING"]]: cellStatusComponent,
   [TableViewDataType.IMAGE]: cellImageComponent,
   [TableViewDataType.ACTIONS]: cellActionComponent,
+  [TableViewDataType.USER]: cellUserComponent,
 };

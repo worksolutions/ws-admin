@@ -3,17 +3,16 @@ import { TableCellProps } from "react-table";
 import { duration200 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
-import { TypographyLink } from "primitives/Typography/TypographyLink";
+import Typography from "primitives/Typography";
 
 import {
   bottom,
   horizontalPadding,
   left,
-  maxWidth,
-  minWidth,
   position,
   right,
   top,
+  transform,
   transition,
   verticalAlign,
   verticalPadding,
@@ -22,7 +21,7 @@ import {
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 import { tableZIndexes } from "libs/styles/zIndexes";
 
-import { TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
+import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
 import { cellVerticalPaddingBySize, halfOfCellDefaultHorizontalPadding } from "../../libs/paddings";
 
 import { getComponentForColumnType } from "./CellTypes";
@@ -38,22 +37,12 @@ type CellProps = ColumnInterface & { tableCellProps: TableCellProps; styles?: an
 function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellProps) {
   const columnType = column.type || TableViewDataType.STRING;
   const getComponentData = getComponentForColumnType[columnType];
+  if (!getComponentData) return <Typography>unknown type: {columnType}</Typography>;
 
-  if (!getComponentData) return null;
+  const { component, cellWidth } = getComponentData({ column, item });
 
-  const { component, cellWidth } = getComponentData({
-    column,
-    item,
-    linkWrapper: item.redirectReference
-      ? (child, styles) => (
-          <TypographyLink styles={styles} to={item.redirectReference!}>
-            {child}
-          </TypographyLink>
-        )
-      : undefined,
-  });
-
-  const componentVerticalPadding = cellVerticalPaddingBySize[tableViewOptions.rowsConfig.paddingConfig];
+  const componentVerticalPadding =
+    cellVerticalPaddingBySize[tableViewOptions?.rowsConfig?.paddingConfig || TableSizes.MEDIUM];
 
   return (
     <Wrapper
@@ -64,8 +53,6 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
         verticalPadding(componentVerticalPadding),
         horizontalPadding(halfOfCellDefaultHorizontalPadding),
         width(cellWidth),
-        // maxWidth(cellWidth),
-        // minWidth(cellWidth),
         position("relative"),
         styles,
       ]}

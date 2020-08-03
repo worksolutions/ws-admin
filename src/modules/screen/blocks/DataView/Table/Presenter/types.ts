@@ -8,6 +8,7 @@ export enum TableViewDataType {
   IMAGE = "IMAGE",
   DATE = "DATE",
   ACTIONS = "ACTIONS",
+  USER = "USER",
 }
 
 export enum TableSizes {
@@ -35,24 +36,17 @@ export type TableViewColumn = {
   };
 };
 export type TableViewRowsConfig = {
-  paddingConfig: TableSizes;
+  paddingConfig?: TableSizes;
 };
 
 export interface TableViewOptions {
   selectable: boolean;
   columns: TableViewColumn[];
-  rowsConfig: TableViewRowsConfig;
+  rowsConfig?: TableViewRowsConfig;
   sortingOptions: {
     initialValue: string;
   };
   id: string;
 }
 
-export interface TableViewItemInterface {
-  value: any;
-  redirectReference?: string;
-  icon?: {
-    name: Icons;
-    color: Colors;
-  };
-}
+export type TableViewItemInterface = (any | Record<string, any>) & { styles?: any };

@@ -13,37 +13,29 @@ module.exports = (app) => {
           const isPublished = article.status === 1;
 
           const result = {
-            id: {
-              value: article.id,
-            },
-            announceImage: {
-              value: article.announceImage ? prepareUrl(article.announceImage.path) : null,
-            },
+            id: article.id,
+            announceImage: article.announceImage ? prepareUrl(article.announceImage.path) : null,
             name: {
               value: article.title,
               redirectReference: "/content/articles/" + article.id,
             },
-            publishedAt: {
-              value: moment.unix(article.publishedAt).format("DD MMMM YYYY"),
-            },
-            actions: {
-              value: [
-                {
-                  mode: "dropdown",
-                  items: [
-                    {
-                      name: "Редактировать",
-                      icon: "edit",
-                      iconColor: "gray-blue/05",
-                      type: "redirect",
-                      options: {
-                        reference: "/",
-                      },
+            publishedAt: moment.unix(article.publishedAt).format("DD MMMM YYYY"),
+            actions: [
+              {
+                mode: "dropdown",
+                items: [
+                  {
+                    name: "Редактировать",
+                    icon: "edit",
+                    iconColor: "gray-blue/05",
+                    type: "redirect",
+                    options: {
+                      reference: "/",
                     },
-                  ],
-                },
-              ],
-            },
+                  },
+                ],
+              },
+            ],
           };
 
           if (isPublished) {
@@ -53,7 +45,7 @@ module.exports = (app) => {
               },
               value: "Опубликовано",
             };
-            result.actions.value[0].items.push({
+            result.actions[0].items.push({
               name: "Снять с публикации",
               icon: "bolt-alt",
               iconColor: "orange/05",
@@ -69,7 +61,7 @@ module.exports = (app) => {
               },
               value: "Черновик",
             };
-            result.actions.value[0].items.push({
+            result.actions[0].items.push({
               name: "Опубликовать",
               icon: "bolt-alt",
               iconColor: "green/05",

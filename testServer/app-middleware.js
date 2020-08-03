@@ -10,6 +10,7 @@ const articlesCardsRouter = require("./routes/articles/cards");
 const articlesTableRouter = require("./routes/articles/table");
 const articleRouter = require("./routes/article");
 const categoriesRouter = require("./routes/categories");
+const usersRouter = require("./routes/users");
 
 const mainConfig = require("../src/dataProviders/FakeDataProvider/responses/main-config");
 
@@ -31,6 +32,7 @@ module.exports = (app) => {
   articleRouter.article(app);
   articleRouter.relatedArticles(app);
   categoriesRouter(app);
+  usersRouter(app);
 
   makeProxy({ handleUrl: "/api", expressMethodHandlerName: "use" }, app);
 

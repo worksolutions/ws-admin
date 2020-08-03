@@ -121,6 +121,7 @@ function Pagination({ styles, page, perPage, elementsCount, onChange }: Paginati
         {firstElementNumberOnPage}-{lastElementNumberOnPage} из {elementsCount}
       </Typography>
       <StyledReactPagination
+        showLessItems
         current={page}
         total={elementsCount}
         pageSize={perPage}
