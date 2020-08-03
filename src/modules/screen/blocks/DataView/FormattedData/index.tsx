@@ -10,12 +10,12 @@ import { useActions } from "modules/context/actions/useActions";
 
 import ViewPresenter from "./ViewPresenter";
 import { FormattedDataViewInterface } from "./types";
-import { formattedDataLocalStorageInitialValue } from "./libs";
+import { getFormattedDataLocalStorageInitialValue } from "./libs";
 
 function FormattedDataView({ options, ...otherProps }: FormattedDataViewInterface) {
   const [initialized, setInitialized] = React.useState(false);
 
-  const [storage] = useLocalStorage(options!.id, formattedDataLocalStorageInitialValue);
+  const [storage] = useLocalStorage(options!.id, () => getFormattedDataLocalStorageInitialValue(options!.showMode));
 
   const appContext = useAppContext();
   const paginationViewActions = useActions(options?.paginationView.actions!, appContext);

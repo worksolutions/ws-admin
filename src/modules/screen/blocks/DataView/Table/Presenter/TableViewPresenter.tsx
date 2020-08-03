@@ -43,7 +43,7 @@ function TableViewPresenter({ list, options, actions }: TableInterface) {
   const { id, columns } = options;
 
   const preparedColumns = React.useMemo(() => columns.map((column) => prepareColumn(column, options)), []);
-  const sorting = useSorting(options.sortingOptions.initialValue, actions.sorting);
+  const sorting = useSorting(options.sortingOptions.initialValue, actions?.sorting);
   const wrapperRef = React.useRef<HTMLElement>();
   const [tableRef, tableBounds] = useMeasure();
 

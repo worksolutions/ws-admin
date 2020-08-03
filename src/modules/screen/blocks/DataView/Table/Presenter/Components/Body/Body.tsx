@@ -4,10 +4,23 @@ import { Row } from "react-table";
 
 import Wrapper from "primitives/Wrapper";
 
-import { backgroundColor, child, firstChild, flex, hover, marginTop } from "libs/styles";
+import {
+  backgroundColor,
+  borderRadius,
+  child,
+  firstChild,
+  flex,
+  hover,
+  marginTop,
+  maxWidth,
+  nthChild,
+  nthLastChild,
+  width,
+} from "libs/styles";
 
 import { useResizeTableContent } from "../Header/resizeHook";
 import { HeaderGroupInterface } from "../Header";
+import { halfOfCellDefaultHorizontalPadding } from "../../libs/paddings";
 
 type BodyInterface = {
   id: string;
@@ -24,11 +37,24 @@ const RowComponent = observer(function ({ row, id }: { row: Row; id: string }) {
     <Wrapper
       as="tr"
       role={role}
-      styles={[rowStyles, hover(child(backgroundColor("gray-blue/01"), ".table-cell-back"))]}
+      styles={[
+        rowStyles,
+        nthChild("2", child(borderRadius("4px 0 0 4px"), ".table-cell-back")),
+        nthLastChild("2", child(borderRadius("0 4px 4px 0"), ".table-cell-back")),
+        hover(child(backgroundColor("gray-blue/01"), ".table-cell-back")),
+      ]}
     >
+      <Wrapper
+        styles={[width(halfOfCellDefaultHorizontalPadding), maxWidth(halfOfCellDefaultHorizontalPadding)]}
+        as="td"
+      />
       {row.cells.map((cell, index) => (
         <Fragment key={index}>{cell.render("Cell", { fixedSizes, contentWidths, index })}</Fragment>
       ))}
+      <Wrapper
+        styles={[width(halfOfCellDefaultHorizontalPadding), maxWidth(halfOfCellDefaultHorizontalPadding)]}
+        as="td"
+      />
     </Wrapper>
   );
 });

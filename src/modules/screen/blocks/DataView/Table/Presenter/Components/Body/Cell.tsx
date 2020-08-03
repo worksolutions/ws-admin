@@ -6,20 +6,11 @@ import Wrapper from "primitives/Wrapper";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
 
 import {
-  borderRadius,
   bottom,
-  child,
-  firstChild,
   horizontalPadding,
-  lastChild,
   left,
-  marginLeft,
-  marginRight,
   maxWidth,
   minWidth,
-  overflow,
-  paddingLeft,
-  paddingRight,
   position,
   right,
   top,
@@ -31,44 +22,10 @@ import {
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 import { tableZIndexes } from "libs/styles/zIndexes";
 
-import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
+import { TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
+import { cellVerticalPaddingBySize, halfOfCellDefaultHorizontalPadding } from "../../libs/paddings";
 
-import { ComponentsForColumnType } from "./CellTypes";
-
-const verticalPaddingBySize: Record<TableSizes, number> = {
-  [TableSizes.LARGE]: 16,
-  [TableSizes.MEDIUM]: 12,
-  [TableSizes.SMALL]: 8,
-};
-
-const imageHeightsForHeightConfigBySize: Record<TableSizes, number> = {
-  [TableSizes.LARGE]: 48,
-  [TableSizes.MEDIUM]: 32,
-  [TableSizes.SMALL]: 24,
-};
-
-const widthForPaddingAndOptionsByType: Record<
-  TableViewDataType,
-  (padding: number, options: TableViewColumn["options"]) => string | number
-> = {
-  [TableViewDataType.STRING]: () => "initial",
-  [TableViewDataType["STATUS-STRING"]]: () => "initial",
-  [TableViewDataType.IMAGE]: (padding, options) => {
-    const imageConfig = options!.imageConfig!;
-    return padding + Math.ceil(imageHeightsForHeightConfigBySize[imageConfig.heightConfig] * imageConfig.aspectRatio);
-  },
-  [TableViewDataType.DATE]: () => 133,
-  [TableViewDataType.ACTIONS]: () => 40,
-};
-
-const commonStylesForCellByType: Record<string, any> = {
-  [TableViewDataType.STRING]: overflow("hidden"),
-  [TableViewDataType.DATE]: overflow("hidden"),
-  [TableViewDataType.IMAGE]: overflow("hidden"),
-};
-
-const defaultPadding = 16;
-const halfOfDefaultPadding = defaultPadding / 2;
+import { getComponentForColumnType } from "./CellTypes";
 
 interface ColumnInterface {
   column: TableViewColumn;
@@ -80,13 +37,23 @@ type CellProps = ColumnInterface & { tableCellProps: TableCellProps; styles?: an
 
 function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellProps) {
   const columnType = column.type || TableViewDataType.STRING;
-  const Component = ComponentsForColumnType[columnType];
+  const getComponentData = getComponentForColumnType[columnType];
 
-  if (!Component) return null;
+  if (!getComponentData) return null;
 
-  const componentVerticalPadding = verticalPaddingBySize[tableViewOptions.rowsConfig.paddingConfig];
+  const { component, cellWidth } = getComponentData({
+    column,
+    item,
+    linkWrapper: item.redirectReference
+      ? (child, styles) => (
+          <TypographyLink styles={styles} to={item.redirectReference!}>
+            {child}
+          </TypographyLink>
+        )
+      : undefined,
+  });
 
-  const widthValue = widthForPaddingAndOptionsByType[columnType](defaultPadding, column.options);
+  const componentVerticalPadding = cellVerticalPaddingBySize[tableViewOptions.rowsConfig.paddingConfig];
 
   return (
     <Wrapper
@@ -95,25 +62,10 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
       styles={[
         verticalAlign("top"),
         verticalPadding(componentVerticalPadding),
-        width(widthValue),
-        maxWidth(widthValue),
-        minWidth(widthValue),
-        commonStylesForCellByType[columnType],
-        horizontalPadding(halfOfDefaultPadding),
-        firstChild(
-          [
-            paddingLeft(defaultPadding),
-            child([marginLeft(halfOfDefaultPadding), borderRadius("4px 0 0 4px")], ".table-cell-back"),
-          ],
-          "&",
-        ),
-        lastChild(
-          [
-            paddingRight(defaultPadding),
-            child([marginRight(halfOfDefaultPadding), borderRadius("0 4px 4px 0")], ".table-cell-back"),
-          ],
-          "&",
-        ),
+        horizontalPadding(halfOfCellDefaultHorizontalPadding),
+        width(cellWidth),
+        // maxWidth(cellWidth),
+        // minWidth(cellWidth),
         position("relative"),
         styles,
       ]}
@@ -130,19 +82,7 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
           tableZIndexes.cell,
         ]}
       />
-      <Component
-        item={item}
-        column={column}
-        linkWrapper={
-          item.redirectReference
-            ? (child, styles) => (
-                <TypographyLink styles={styles} to={item.redirectReference!}>
-                  {child}
-                </TypographyLink>
-              )
-            : undefined
-        }
-      />
+      {component}
     </Wrapper>
   );
 }

@@ -16,6 +16,8 @@ export interface TableViewConfigInterface extends TableViewInterface {}
 
 export type FormattedDataViewPagination = BlockInterface<{ paginationItems: number[] }, "change">;
 
+export type FormattedDataViewShowMode = "all" | "table" | "cards";
+
 export type FormattedDataViewInterface = BlockInterface<
   {
     id: string;
@@ -23,6 +25,7 @@ export type FormattedDataViewInterface = BlockInterface<
     cardsView: CardsViewConfigInterface;
     paginationView: FormattedDataViewPagination;
     searchOptions: InputOptionsInterface;
+    showMode?: FormattedDataViewShowMode;
   },
   "search" | "sorting"
 > & { styles?: any };

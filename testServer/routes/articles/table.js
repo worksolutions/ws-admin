@@ -11,12 +11,6 @@ module.exports = (app) => {
       return {
         list: data.map((article) => {
           const isPublished = article.status === 1;
-          const action = {
-            type: "redirect",
-            options: {
-              reference: "/",
-            },
-          };
 
           const result = {
             id: {
@@ -35,10 +29,18 @@ module.exports = (app) => {
             actions: {
               value: [
                 {
-                  name: "Редактировать",
-                  icon: "edit",
-                  iconColor: "gray-blue/05",
-                  action,
+                  mode: "dropdown",
+                  items: [
+                    {
+                      name: "Редактировать",
+                      icon: "edit",
+                      iconColor: "gray-blue/05",
+                      type: "redirect",
+                      options: {
+                        reference: "/",
+                      },
+                    },
+                  ],
                 },
               ],
             },
@@ -51,11 +53,14 @@ module.exports = (app) => {
               },
               value: "Опубликовано",
             };
-            result.actions.value.push({
+            result.actions.value[0].items.push({
               name: "Снять с публикации",
               icon: "bolt-alt",
               iconColor: "orange/05",
-              action,
+              type: "redirect",
+              options: {
+                reference: "/",
+              },
             });
           } else {
             result.status = {
@@ -64,7 +69,15 @@ module.exports = (app) => {
               },
               value: "Черновик",
             };
-            result.actions.value.push({ name: "Опубликовать", icon: "bolt-alt", iconColor: "green/05", action });
+            result.actions.value[0].items.push({
+              name: "Опубликовать",
+              icon: "bolt-alt",
+              iconColor: "green/05",
+              type: "redirect",
+              options: {
+                reference: "/",
+              },
+            });
           }
 
           return result;

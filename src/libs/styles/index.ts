@@ -203,6 +203,12 @@ export const nthChild = (selector: string | number, styles: any, preSelector = "
   }
 `;
 
+export const nthLastChild = (selector: string | number, styles: any, preSelector = "& > *") => css`
+  ${preSelector}:nth-last-child(${selector}) {
+    ${styles};
+  }
+`;
+
 export const child = (styles: any, preSelector = "& > *") => css`
   ${preSelector} {
     ${styles};

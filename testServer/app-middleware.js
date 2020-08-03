@@ -9,6 +9,7 @@ const { error, prepareUrl, makeProxy } = require("./libs");
 const articlesCardsRouter = require("./routes/articles/cards");
 const articlesTableRouter = require("./routes/articles/table");
 const articleRouter = require("./routes/article");
+const categoriesRouter = require("./routes/categories");
 
 const mainConfig = require("../src/dataProviders/FakeDataProvider/responses/main-config");
 
@@ -29,6 +30,7 @@ module.exports = (app) => {
   articlesTableRouter(app);
   articleRouter.article(app);
   articleRouter.relatedArticles(app);
+  categoriesRouter(app);
 
   makeProxy({ handleUrl: "/api", expressMethodHandlerName: "use" }, app);
 

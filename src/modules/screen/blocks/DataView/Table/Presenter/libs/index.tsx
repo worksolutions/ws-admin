@@ -72,7 +72,10 @@ export function useSortingLogic(
     nextSorting,
   };
 }
-export function useSorting(initialValue: string, changeAction: AnyAction) {
+export function useSorting(initialValue: string, changeAction?: AnyAction) {
+  if (!changeAction) {
+    return { currentSortingField: { id: null, direction: SortingDirection.DESC }, nextSorting: () => null };
+  }
   const appContext = useAppContext();
 
   const { currentSortingField, nextSorting } = useSortingLogic(

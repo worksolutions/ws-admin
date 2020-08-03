@@ -11,13 +11,14 @@ import ActionInput from "modules/screen/blocks/Actions/Input";
 import ActionSorting from "modules/screen/blocks/Actions/Sorting";
 
 import { FormattedDataViewInterface } from "../types";
-import { formattedDataLocalStorageInitialValue } from "../libs";
+import { FormattedDataLocalStorageInitialValueType } from "../libs";
 
 type ActionType = Pick<FormattedDataViewInterface, "actions" | "options"> & {
   styles?: any;
   isCardsView: boolean;
-  storage: typeof formattedDataLocalStorageInitialValue;
-  setStorage: (data: typeof formattedDataLocalStorageInitialValue) => void;
+  showModeChangerButton: boolean;
+  storage: FormattedDataLocalStorageInitialValueType;
+  setStorage: (data: FormattedDataLocalStorageInitialValueType) => void;
   paginationElement: React.ReactNode;
   onSearchChange?: (text: string) => void;
 };
@@ -28,6 +29,7 @@ function Actions({
   options,
   isCardsView,
   setStorage,
+  showModeChangerButton,
   storage,
   paginationElement,
   onSearchChange,
@@ -57,12 +59,14 @@ function Actions({
       )}
       <Wrapper styles={flexValue(1)} />
       {paginationElement}
-      <Button
-        type={ButtonType.ICON}
-        size={ButtonSize.MEDIUM}
-        iconLeft={isCardsView ? "density-high" : "dashboard"}
-        onClick={() => setStorage({ ...storage, mode: isCardsView ? "table" : "cards" })}
-      />
+      {showModeChangerButton && (
+        <Button
+          type={ButtonType.ICON}
+          size={ButtonSize.MEDIUM}
+          iconLeft={isCardsView ? "density-high" : "dashboard"}
+          onClick={() => setStorage({ ...storage, mode: isCardsView ? "table" : "cards" })}
+        />
+      )}
     </Wrapper>
   );
 }

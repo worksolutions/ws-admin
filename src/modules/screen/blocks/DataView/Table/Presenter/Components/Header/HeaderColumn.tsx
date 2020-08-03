@@ -6,19 +6,30 @@ import { useResizer } from "primitives/Resizer/useResizer";
 
 import {
   backgroundColor,
+  borderRadius,
+  child,
+  firstChild,
   height,
+  horizontalPadding,
+  lastChild,
+  marginLeft,
+  marginRight,
   opacity,
   padding,
+  paddingLeft,
+  paddingRight,
   pointer,
   position,
   textAlign,
   top,
+  verticalPadding,
   width,
   zIndex,
 } from "libs/styles";
 
 import { UseSortingType } from "../../libs";
 import { SizeChangerLine } from "../SizeChangerLine";
+import { cellDefaultHorizontalPadding, halfOfCellDefaultHorizontalPadding } from "../../libs/paddings";
 
 import { HeaderGroupInterface } from "./index";
 import HeaderColumnText from "./HeaderColumnText";
@@ -38,6 +49,7 @@ function getCellWidth(fixedSizes: boolean, widthProp: number, minWidthValue: num
   if (minWidthValue && minWidthValue > widthProp && widthProp !== 0) {
     return minWidthValue;
   }
+
   return widthProp;
 }
 
@@ -71,7 +83,10 @@ function HeaderColumn({
         zIndex(zIndexProp),
         backgroundColor("white"),
         textAlign("left"),
-        padding("12px 8px"),
+        verticalPadding(12),
+        horizontalPadding(halfOfCellDefaultHorizontalPadding),
+        firstChild(paddingLeft(cellDefaultHorizontalPadding), "&"),
+        lastChild(paddingRight(cellDefaultHorizontalPadding), "&"),
         position("sticky"),
         top(0),
         header.sortable && pointer,

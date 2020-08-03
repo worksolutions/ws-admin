@@ -34,8 +34,10 @@ class Storage {
 
 const storageInstance = new Storage();
 
-function calculateWidths(parent: HTMLElement) {
-  return htmlCollectionToArray(parent.children).map((element) => element.getBoundingClientRect().width);
+function calculateHeaderWidths(headerTR: HTMLElement) {
+  return htmlCollectionToArray(headerTR.children)
+    .slice(1, -1)
+    .map((element) => element.getBoundingClientRect().width);
 }
 
 export function useResizeTableMain(id: string, cells: { isResizing: boolean }[]) {
@@ -54,7 +56,7 @@ export function useResizeTableMain(id: string, cells: { isResizing: boolean }[])
       return;
     }
     setTimeout(() => {
-      setHeaderWidths(calculateWidths(headerRef.current!));
+      setHeaderWidths(calculateHeaderWidths(headerRef.current!));
     }, 100);
   }, []);
 
@@ -63,7 +65,7 @@ export function useResizeTableMain(id: string, cells: { isResizing: boolean }[])
     const [resizeLine] = htmlCollectionToArray(
       headerRef.current!.children[previousResizeColumnIndex].getElementsByClassName("resize-line"),
     );
-    const widths = calculateWidths(headerRef.current!);
+    const widths = calculateHeaderWidths(headerRef.current!);
     widths[previousResizeColumnIndex] = parseFloat(resizeLine.style.left);
     setHeaderWidths(widths);
     storageInstance.set(id, widths);

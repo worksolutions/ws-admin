@@ -6,7 +6,7 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import { ViewMetaData } from "../types";
 
-import { FormattedDataViewPagination } from "./types";
+import { FormattedDataViewInterface, FormattedDataViewPagination, FormattedDataViewShowMode } from "./types";
 
 import { LoadingContainer } from "state/loadingContainer";
 
@@ -29,7 +29,12 @@ export function useFormattedDataLoader(
   }, [data]);
 }
 
-export const formattedDataLocalStorageInitialValue = { mode: "cards", perPage: 0 };
+export const getFormattedDataLocalStorageInitialValue = (mode?: FormattedDataViewShowMode) => ({
+  mode: mode === "table" ? "table" : "cards",
+  perPage: 0,
+});
+
+export type FormattedDataLocalStorageInitialValueType = ReturnType<typeof getFormattedDataLocalStorageInitialValue>;
 
 export function usePagination(paginationView: FormattedDataViewPagination) {
   const appContext = useAppContext();

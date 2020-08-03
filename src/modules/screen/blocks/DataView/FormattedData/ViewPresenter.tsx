@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { assoc } from "ramda";
+import { assoc, isNil } from "ramda";
 import { useSetState } from "react-use";
 import { elevation8 } from "style/shadows";
 
@@ -31,7 +31,7 @@ import CardsViewBlockWrapper from "./CardsViewBlock";
 import Actions from "./Components/Actions";
 import { notFoundElement } from "./Components/notFound";
 import { spinnerElement } from "./Components/spinner";
-import { formattedDataLocalStorageInitialValue, usePagination } from "./libs";
+import { getFormattedDataLocalStorageInitialValue, usePagination } from "./libs";
 import { FormattedDataViewInterface } from "./types";
 
 const initialMetaData: ViewMetaData = {
@@ -40,7 +40,9 @@ const initialMetaData: ViewMetaData = {
 };
 
 function FormattedDataView({ options, actions, styles }: FormattedDataViewInterface) {
-  const [localStorageValue, setLocalStorageValue] = useLocalStorage(options!.id, formattedDataLocalStorageInitialValue);
+  const [localStorageValue, setLocalStorageValue] = useLocalStorage(options!.id, () =>
+    getFormattedDataLocalStorageInitialValue(options!.showMode),
+  );
   const [page, setPage] = React.useState(1);
 
   const [metaData, setMetaData] = useSetState(initialMetaData);
@@ -54,6 +56,10 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
     setScrollableElement: setCardsScrollableElement,
   } = useScrollCallbackWasScrolledBoolean();
 
+  const isCardsView = React.useMemo(() => localStorageValue.mode === "cards", [localStorageValue.mode]);
+
+  const showModeChangerButton = React.useMemo(() => options!.showMode === "all" || isNil(options!.showMode), []);
+
   if (paginationViewData.loadingContainer.loading) return null;
 
   const itemsIsEmptyList = metaData.pagination!.itemsCount === 0;
@@ -61,8 +67,6 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
   const showPagination = !itemsIsEmptyList && showPaginationRaw;
 
   const notFound = !metaData.loading && itemsIsEmptyList && notFoundElement;
-
-  const isCardsView = localStorageValue.mode === "cards";
 
   const spinner = metaData.loading && spinnerElement;
 
@@ -83,6 +87,7 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
         isCardsView={isCardsView}
         storage={localStorageValue}
         setStorage={setLocalStorageValue}
+        showModeChangerButton={showModeChangerButton}
         onSearchChange={onSearchChange}
         paginationElement={
           showPagination && (

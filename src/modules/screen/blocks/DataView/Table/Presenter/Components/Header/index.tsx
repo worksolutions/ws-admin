@@ -4,10 +4,11 @@ import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
 
-import { flex, fullWidth } from "libs/styles";
+import { flex, fullWidth, maxWidth, width } from "libs/styles";
 import { tableZIndexes } from "libs/styles/zIndexes";
 
 import { UseSortingType } from "../../libs";
+import { halfOfCellDefaultHorizontalPadding } from "../../libs/paddings";
 
 import { useResizeTableMain } from "./resizeHook";
 import HeaderColumn from "./HeaderColumn";
@@ -25,6 +26,7 @@ interface HeaderInterface {
 
 function Header({ trHeaderGroup, sorting, id, tableHeight }: HeaderInterface) {
   const { headerRef, fixedSizes, headerWidths } = useResizeTableMain(id, trHeaderGroup.headers);
+
   return (
     <Wrapper as="thead" styles={tableZIndexes.thead}>
       <Wrapper
@@ -33,6 +35,10 @@ function Header({ trHeaderGroup, sorting, id, tableHeight }: HeaderInterface) {
         ref={headerRef}
         styles={[fullWidth, fixedSizes && flex]}
       >
+        <Wrapper
+          styles={[width(halfOfCellDefaultHorizontalPadding), maxWidth(halfOfCellDefaultHorizontalPadding)]}
+          as="th"
+        />
         {trHeaderGroup.headers.map((header, index) => (
           <HeaderColumn
             key={header.getHeaderProps().key}
@@ -44,6 +50,10 @@ function Header({ trHeaderGroup, sorting, id, tableHeight }: HeaderInterface) {
             tableHeight={tableHeight}
           />
         ))}
+        <Wrapper
+          styles={[width(halfOfCellDefaultHorizontalPadding), maxWidth(halfOfCellDefaultHorizontalPadding)]}
+          as="th"
+        />
       </Wrapper>
     </Wrapper>
   );
