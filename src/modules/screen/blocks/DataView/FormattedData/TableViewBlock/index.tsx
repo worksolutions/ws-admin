@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { assoc } from "ramda";
+import { assocPath } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -23,7 +23,7 @@ interface TableViewBlockInterface {
 }
 
 function TableViewBlockWrapper({ id, options, notFound, spinner, setMetaData, actions }: TableViewBlockInterface) {
-  const tableViewOptions = React.useMemo(() => assoc("id", `${id}-table`, options), []);
+  const tableViewOptions = React.useMemo(() => assocPath(["options", "id"], `${id}-table`, options), []);
 
   return (
     <Wrapper styles={[position("relative"), fullWidth, overflow("hidden"), flexValue(1)]}>

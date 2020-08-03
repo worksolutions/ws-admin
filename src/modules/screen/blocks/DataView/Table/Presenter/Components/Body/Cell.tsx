@@ -15,6 +15,8 @@ import {
   left,
   marginLeft,
   marginRight,
+  maxWidth,
+  minWidth,
   overflow,
   paddingLeft,
   paddingRight,
@@ -84,6 +86,8 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
 
   const componentVerticalPadding = verticalPaddingBySize[tableViewOptions.rowsConfig.paddingConfig];
 
+  const widthValue = widthForPaddingAndOptionsByType[columnType](defaultPadding, column.options);
+
   return (
     <Wrapper
       as="td"
@@ -91,7 +95,9 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
       styles={[
         verticalAlign("top"),
         verticalPadding(componentVerticalPadding),
-        width(widthForPaddingAndOptionsByType[columnType](defaultPadding, column.options)),
+        width(widthValue),
+        maxWidth(widthValue),
+        minWidth(widthValue),
         commonStylesForCellByType[columnType],
         horizontalPadding(halfOfDefaultPadding),
         firstChild(

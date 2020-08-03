@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
 
-import { backgroundColor, flex, fullWidth, zIndex } from "libs/styles";
+import { flex, fullWidth } from "libs/styles";
 import { tableZIndexes } from "libs/styles/zIndexes";
 
 import { UseSortingType } from "../../libs";
