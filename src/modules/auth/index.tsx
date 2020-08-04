@@ -14,15 +14,14 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 import AuthView from "./AuthView";
 import LogoutView from "./LogoutView";
 
-import { GlobalStateCommonPartInterface } from "state/globalState";
-import { SystemState } from "state/systemState";
+import { CurrentUserInterface, SystemState } from "state/systemState";
 
 export const systemState = Container.get(SystemState);
 
 function AuthModule({ children }: { children: ReactNode }) {
   const state = systemState.stateContainer.state;
 
-  const { loadingContainer, reload } = useDataSource<GlobalStateCommonPartInterface>(
+  const { loadingContainer, reload } = useDataSource<{ currentUser: CurrentUserInterface }>(
     assoc("context", "currentUser", state.userAuthenticate.dataSource!),
   );
 

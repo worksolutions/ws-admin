@@ -16,7 +16,7 @@ export function runContextDataSourceFetcher(
 ) {
   if (dataSource.type !== DataSourceType.CONTEXT) return;
 
-  const disposers = [observe(context.screen, run), observe(context.global, run)];
+  const disposers = [observe(context.screen, run), observe(context.system, run)];
 
   function run() {
     disposeAllHandlers(disposers);

@@ -28,6 +28,12 @@ export type ContainSlotsInterface = {
   slots: Record<string, BlockInterface>;
 };
 
+export interface CurrentUserInterface {
+  avatar: string;
+  email: string;
+  name: string;
+}
+
 @Service({ global: true })
 export class SystemState {
   @Inject(() => RequestManager) private requestManager!: RequestManager;
@@ -35,6 +41,7 @@ export class SystemState {
   @observable
   @Inject(() => StateContainer)
   stateContainer!: StateContainer<{
+    currentUser: CurrentUserInterface;
     title: string;
     roles: string[];
     logo: string;
