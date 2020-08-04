@@ -4,11 +4,11 @@ import { animated, useSpring } from "react-spring";
 import { elevation16 } from "style/shadows";
 import { useHover } from "react-use";
 import { Placement } from "@popperjs/core";
+import { primitiveIndexes } from "layout/zIndexes";
 
 import { backgroundColor, border, borderRadius, maxWidth, minWidth, padding, position } from "libs/styles";
 import { useBoolean } from "libs/hooks";
 import { provideRef } from "libs/provideRef";
-import { primitiveIndexes } from "libs/styles/zIndexes";
 
 import Wrapper from "../Wrapper";
 import usePopper, { getPopperMarginStyleForPlacement } from "../Popper/usePopper";

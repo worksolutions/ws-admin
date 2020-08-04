@@ -12,11 +12,14 @@ import {
   borderRadius,
   boxShadow,
   disableOutline,
+  firstChild,
   flex,
   flexValue,
   focus,
   hover,
+  marginBottom,
   marginLeft,
+  marginRight,
   padding,
   pointer,
   position,
@@ -38,8 +41,8 @@ export enum DropdownSize {
 }
 
 const paddingForSize: Record<DropdownSize, string> = {
-  [DropdownSize.LARGE]: "10px 12px",
-  [DropdownSize.MEDIUM]: "4px 12px",
+  [DropdownSize.LARGE]: "10px 8px 10px 12px",
+  [DropdownSize.MEDIUM]: "4px 8px 4px 12px",
 };
 
 const matchingDropdownSizeAndItemSize: Record<DropdownSize, ListItemSize> = {
@@ -47,7 +50,14 @@ const matchingDropdownSizeAndItemSize: Record<DropdownSize, ListItemSize> = {
   [DropdownSize.MEDIUM]: ListItemSize.MEDIUM,
 };
 
+export enum DropdownTitlePosition {
+  TOP,
+  LEFT,
+}
+
 interface DropdownInterface {
+  title?: string;
+  titlePosition?: DropdownTitlePosition;
   size?: DropdownSize;
   placeholder?: string;
   selectedItemId?: ListItemId;
@@ -56,8 +66,22 @@ interface DropdownInterface {
   onChange: (id: ListItemId) => void;
 }
 
+const dropdownWrapperStylesByTitlePosition: Record<DropdownTitlePosition, any> = {
+  [DropdownTitlePosition.LEFT]: [flex, ai(Aligns.CENTER), firstChild(marginRight(8))],
+  [DropdownTitlePosition.TOP]: [firstChild(marginBottom(8))],
+};
+
 const Dropdown = React.forwardRef(function Dropdown(
-  { size = DropdownSize.MEDIUM, placeholder, selectedItemId, groupedItems, items, onChange }: DropdownInterface,
+  {
+    size = DropdownSize.MEDIUM,
+    title,
+    titlePosition = DropdownTitlePosition.TOP,
+    placeholder,
+    selectedItemId,
+    groupedItems,
+    items,
+    onChange,
+  }: DropdownInterface,
   ref: Ref<HTMLElement>,
 ) {
   const selectedItem = React.useMemo(() => {
@@ -78,45 +102,48 @@ const Dropdown = React.forwardRef(function Dropdown(
       onChange={(id) => onChange(id)}
     >
       {(state, parentRef, subChild) => (
-        <Wrapper
-          as="button"
-          styles={[
-            disableOutline,
-            borderNone,
-            pointer,
-            flex,
-            ai(Aligns.CENTER),
-            position("relative"),
-            padding(paddingForSize[size]),
-            borderRadius(4),
-            backgroundColor("gray-blue/01"),
-            transition(`all ${duration200}`),
-            boxShadow([0, 0, 0, 1, "gray-blue/02"]),
-            hover(boxShadow([0, 0, 0, 1, "gray-blue/03"])),
-            focus(boxShadow([0, 0, 0, 2, "blue/04"])),
-          ]}
-          onClick={state.toggle}
-          ref={provideRef(ref, parentRef)}
-        >
-          {selectedItem ? (
-            <Typography styles={[flexValue(1), textAlign("left")]} dots>
-              {selectedItem.title}
-            </Typography>
-          ) : (
-            <Typography styles={[flexValue(1), textAlign("left")]} dots color="gray-blue/03">
-              {placeholder}
-            </Typography>
-          )}
-          <Icon
-            icon="arrow-down"
+        <Wrapper styles={title && dropdownWrapperStylesByTitlePosition[titlePosition]}>
+          {title && <Typography color="gray-blue/05">{title}</Typography>}
+          <Wrapper
+            as="button"
             styles={[
+              disableOutline,
+              borderNone,
+              pointer,
+              flex,
+              ai(Aligns.CENTER),
+              position("relative"),
+              padding(paddingForSize[size]),
+              borderRadius(4),
+              backgroundColor("gray-blue/01"),
               transition(`all ${duration200}`),
-              transform(`rotateZ(${state.opened ? "180deg" : "0deg"})`),
-              marginLeft(4),
+              boxShadow([0, 0, 0, 1, "gray-blue/02"]),
+              hover(boxShadow([0, 0, 0, 1, "gray-blue/03"])),
+              focus(boxShadow([0, 0, 0, 2, "blue/04"])),
             ]}
-            color="gray-blue/07"
-          />
-          {subChild}
+            onClick={state.toggle}
+            ref={provideRef(ref, parentRef)}
+          >
+            {selectedItem ? (
+              <Typography styles={[flexValue(1), textAlign("left")]} dots>
+                {selectedItem.title}
+              </Typography>
+            ) : (
+              <Typography styles={[flexValue(1), textAlign("left")]} dots color="gray-blue/03">
+                {placeholder}
+              </Typography>
+            )}
+            <Icon
+              icon="arrow-down"
+              styles={[
+                transition(`all ${duration200}`),
+                transform(`rotateZ(${state.opened ? "180deg" : "0deg"})`),
+                marginLeft(4),
+              ]}
+              color="gray-blue/07"
+            />
+            {subChild}
+          </Wrapper>
         </Wrapper>
       )}
     </DroppedList>

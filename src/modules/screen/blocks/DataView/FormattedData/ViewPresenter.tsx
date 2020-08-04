@@ -5,7 +5,7 @@ import { useSetState } from "react-use";
 import { elevation8 } from "style/shadows";
 
 import Wrapper from "primitives/Wrapper";
-import Dropdown, { DropdownSize } from "primitives/Dropdown";
+import Dropdown, { DropdownSize, DropdownTitlePosition } from "primitives/Dropdown";
 
 import Pagination from "components/Pagination/Pagination";
 
@@ -89,19 +89,6 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
         setStorage={setLocalStorageValue}
         showModeChangerButton={showModeChangerButton}
         onSearchChange={onSearchChange}
-        paginationElement={
-          showPagination && (
-            <Dropdown
-              size={DropdownSize.MEDIUM}
-              items={options!.paginationView.options?.paginationItems.map((number) => ({ id: number, title: number }))}
-              selectedItemId={paginationViewData.data!.perPage}
-              onChange={async (value) => {
-                await paginationViewActions.change.run({ page: 1, perPage: value });
-                setLocalStorageValue({ ...localStorageValue, perPage: value as number });
-              }}
-            />
-          )
-        }
       />
       {isCardsView ? (
         <CardsViewBlockWrapper
@@ -122,7 +109,18 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
         />
       )}
       {showPagination && (
-        <Wrapper styles={[flex, jc(Aligns.END), padding(16), borderTop(1, "gray-blue/02")]}>
+        <Wrapper styles={[flex, jc(Aligns.SPACE_BETWEEN), padding(16), borderTop(1, "gray-blue/02")]}>
+          <Dropdown
+            titlePosition={DropdownTitlePosition.LEFT}
+            title="Показывать по:"
+            size={DropdownSize.MEDIUM}
+            items={options!.paginationView.options?.paginationItems.map((number) => ({ id: number, title: number }))}
+            selectedItemId={paginationViewData.data!.perPage}
+            onChange={async (value) => {
+              await paginationViewActions.change.run({ page: 1, perPage: value });
+              setLocalStorageValue({ ...localStorageValue, perPage: value as number });
+            }}
+          />
           <Pagination
             page={page}
             perPage={paginationViewData.data!.perPage}

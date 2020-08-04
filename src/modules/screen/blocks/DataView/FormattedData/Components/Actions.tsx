@@ -1,11 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { formattedDataViewZIndexes } from "layout/zIndexes";
 
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import Wrapper from "primitives/Wrapper";
 
 import { ai, Aligns, child, flex, flexValue, flexWrap, lastChild, marginLeft, marginRight, padding } from "libs/styles";
-import { formattedDataViewZIndexes } from "libs/styles/zIndexes";
 
 import ActionInput from "modules/screen/blocks/Actions/Input";
 import ActionSorting from "modules/screen/blocks/Actions/Sorting";
@@ -19,7 +19,6 @@ type ActionType = Pick<FormattedDataViewInterface, "actions" | "options"> & {
   showModeChangerButton: boolean;
   storage: FormattedDataLocalStorageInitialValueType;
   setStorage: (data: FormattedDataLocalStorageInitialValueType) => void;
-  paginationElement: React.ReactNode;
   onSearchChange?: (text: string) => void;
 };
 
@@ -31,7 +30,6 @@ function Actions({
   setStorage,
   showModeChangerButton,
   storage,
-  paginationElement,
   onSearchChange,
 }: ActionType) {
   return (
@@ -44,6 +42,7 @@ function Actions({
         formattedDataViewZIndexes.actionsPanel,
         child(marginRight(16)),
         lastChild(marginRight(0)),
+        child(padding(0), "&:empty"),
         styles,
       ]}
     >
@@ -57,15 +56,16 @@ function Actions({
           options={options?.cardsView.options?.sortingOptions}
         />
       )}
-      <Wrapper styles={flexValue(1)} />
-      {paginationElement}
       {showModeChangerButton && (
-        <Button
-          type={ButtonType.ICON}
-          size={ButtonSize.MEDIUM}
-          iconLeft={isCardsView ? "density-high" : "dashboard"}
-          onClick={() => setStorage({ ...storage, mode: isCardsView ? "table" : "cards" })}
-        />
+        <>
+          <Wrapper styles={flexValue(1)} />
+          <Button
+            type={ButtonType.ICON}
+            size={ButtonSize.MEDIUM}
+            iconLeft={isCardsView ? "density-high" : "dashboard"}
+            onClick={() => setStorage({ ...storage, mode: isCardsView ? "table" : "cards" })}
+          />
+        </>
       )}
     </Wrapper>
   );

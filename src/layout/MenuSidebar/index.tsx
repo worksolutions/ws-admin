@@ -1,5 +1,6 @@
 import React from "react";
 import { elevation16Raw } from "style/shadows";
+import { layoutZIndexes } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -21,7 +22,6 @@ import {
   position,
   width,
 } from "libs/styles";
-import { layoutZIndexes } from "libs/styles/zIndexes";
 
 import { BaseIconButtonInterface, IconLink } from "./Element";
 

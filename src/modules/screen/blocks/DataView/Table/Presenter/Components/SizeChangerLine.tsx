@@ -1,6 +1,7 @@
 import React from "react";
 import { animated } from "react-spring";
 import { duration120 } from "layout/durations";
+import { tableZIndexes } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -21,7 +22,6 @@ import {
   zIndex,
 } from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
-import { tableZIndexes } from "libs/styles/zIndexes";
 
 interface SizeChangerLineInterface {
   style?: any;

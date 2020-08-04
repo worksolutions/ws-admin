@@ -7,7 +7,7 @@ import { elevation8 } from "style/shadows";
 
 import Wrapper from "primitives/Wrapper";
 
-import { flex, fullHeight, fullWidth, height, left, overflow, position, right, top } from "libs/styles";
+import { flex, fullHeight, fullWidth, height, left, overflow, paddingBottom, position, right, top } from "libs/styles";
 import { provideRef } from "libs/provideRef";
 import { useScrollCallbackWasScrolledBoolean } from "libs/hooks";
 
@@ -68,7 +68,7 @@ function TableViewPresenter({ list, options, actions }: TableInterface) {
     <Wrapper styles={[position("relative"), fullHeight, fullWidth]}>
       <Wrapper
         ref={provideRef(wrapperRef, setScrollableElement)}
-        styles={[fullHeight, fullWidth, flex, overflow("auto")]}
+        styles={[fullHeight, fullWidth, flex, overflow("auto"), paddingBottom(8)]}
       >
         <TableComponent {...getTableProps()} ref={tableRef}>
           <HeaderComponent id={id} trHeaderGroup={headerGroup} sorting={sorting} tableHeight={tableBounds.height} />

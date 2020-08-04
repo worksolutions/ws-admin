@@ -1,4 +1,4 @@
-import { zIndex } from "./index";
+import { zIndex } from "../libs/styles";
 
 export const formattedDataViewZIndexes = {
   spinner: zIndex(3),
@@ -20,5 +20,5 @@ export const primitiveIndexes = {
 };
 
 export const layoutZIndexes = {
-  menuSidebar: zIndex(1),
+  menuSidebar: zIndex(2),
 };

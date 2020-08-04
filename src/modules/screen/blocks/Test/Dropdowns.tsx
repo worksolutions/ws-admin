@@ -1,6 +1,6 @@
 import React from "react";
 
-import Dropdown, { DropdownSize } from "primitives/Dropdown";
+import Dropdown, { DropdownSize, DropdownTitlePosition } from "primitives/Dropdown";
 import Wrapper from "primitives/Wrapper";
 
 function Dropdowns() {
@@ -8,6 +8,7 @@ function Dropdowns() {
   return (
     <Wrapper>
       <Dropdown
+        title="Сверху:"
         selectedItemId={value}
         placeholder="тест 1"
         items={[
@@ -17,6 +18,8 @@ function Dropdowns() {
         onChange={setValue}
       />
       <Dropdown
+        title="Сбоку:"
+        titlePosition={DropdownTitlePosition.LEFT}
         size={DropdownSize.LARGE}
         selectedItemId={value}
         placeholder="тест 1"

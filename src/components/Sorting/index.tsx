@@ -2,6 +2,7 @@ import React from "react";
 import { propEq } from "ramda";
 import { duration200 } from "layout/durations";
 import { observer } from "mobx-react-lite";
+import { componentZIndexes } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -25,7 +26,6 @@ import {
   transition,
   width,
 } from "libs/styles";
-import { componentZIndexes } from "libs/styles/zIndexes";
 
 import { SortingDirection, SortingID, SortingItem } from "types/Sorting";
 

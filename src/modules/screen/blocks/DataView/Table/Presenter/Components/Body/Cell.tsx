@@ -1,6 +1,7 @@
 import React from "react";
 import { TableCellProps } from "react-table";
 import { duration200 } from "layout/durations";
+import { tableZIndexes } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -19,7 +20,6 @@ import {
   width,
 } from "libs/styles";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
-import { tableZIndexes } from "libs/styles/zIndexes";
 
 import { TableSizes, TableViewColumn, TableViewDataType, TableViewItemInterface, TableViewOptions } from "../../types";
 import { cellVerticalPaddingBySize, halfOfCellDefaultHorizontalPadding } from "../../libs/paddings";

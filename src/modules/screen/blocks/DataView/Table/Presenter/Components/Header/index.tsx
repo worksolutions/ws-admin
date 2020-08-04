@@ -1,11 +1,11 @@
 import React from "react";
 import { HeaderGroup, UseResizeColumnsColumnProps } from "react-table";
 import { observer } from "mobx-react-lite";
+import { tableZIndexes } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 
 import { flex, fullWidth, maxWidth, width } from "libs/styles";
-import { tableZIndexes } from "libs/styles/zIndexes";
 
 import { UseSortingType } from "../../libs";
 import { halfOfCellDefaultHorizontalPadding } from "../../libs/paddings";
