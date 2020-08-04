@@ -9,9 +9,14 @@ import { ai, Aligns, flex, flexColumn, flexShrink, horizontalPadding, marginBott
 import { FieldListComponentInterface } from "./types";
 import FieldItemElementRenderer from "./Elements";
 
-function VerticalFieldsList({ options }: FieldListComponentInterface) {
+function VerticalFieldsList({ options, styles }: Omit<FieldListComponentInterface, "useTitleWidthCalculation">) {
   return (
-    <LayoutGrid marginRight={16} marginTop={16} minWidth={242} styles={[horizontalPadding(12), ai(Aligns.STRETCH)]}>
+    <LayoutGrid
+      marginRight={16}
+      marginTop={16}
+      minWidth={242}
+      styles={[horizontalPadding(12), ai(Aligns.STRETCH), styles]}
+    >
       {options!.fields.map((field, key) => (
         <Wrapper key={key} styles={[flex, flexColumn]}>
           <Typography styles={[flexShrink(0), marginBottom(16)]} color="gray-blue/05">

@@ -31,7 +31,7 @@ export function useAppContext() {
 
   return {
     updateState: useCallback(updateContext, []),
-    context: { screen: screenState.stateContainer.state, system: globalState.stateContainer.state },
+    context: { screen: screenState.stateContainer.state, global: globalState.stateContainer.state },
   };
 }
 

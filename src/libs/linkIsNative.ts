@@ -1,3 +1,9 @@
 export function getLinkIsNative(link: string) {
-  return link.startsWith("http");
+  try {
+    const url = new URL(link);
+    if (url.hostname === "") return true;
+    return document.location.hostname === url.hostname;
+  } catch (e) {
+    return false;
+  }
 }

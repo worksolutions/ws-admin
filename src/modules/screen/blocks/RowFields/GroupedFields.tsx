@@ -42,6 +42,8 @@ function GroupedFields({ options }: BlockInterface<{ title: string; fieldList: F
             />
           </Wrapper>
           <FieldList
+            useTitleWidthCalculation
+            styles={horizontalPadding(20)}
             forceTitleWidth={forceWidth}
             options={group.fieldList}
             onCalculateTitleWidth={calculateWidth(key)}

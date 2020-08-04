@@ -22,7 +22,13 @@ import { useForceWidthStyles } from "../hooks";
 import { FieldListComponentInterface } from "./types";
 import FieldItemElementRenderer from "./Elements";
 
-function HorizontalFieldsList({ options, forceTitleWidth, onCalculateTitleWidth }: FieldListComponentInterface) {
+function HorizontalFieldsList({
+  options,
+  forceTitleWidth,
+  useTitleWidthCalculation,
+  onCalculateTitleWidth,
+  styles,
+}: FieldListComponentInterface) {
   const { forceWidth, widthRefs } = useForceWidthStyles(onCalculateTitleWidth);
 
   const calculateWidth = (index: number) => (ref: HTMLElement) => {
@@ -31,12 +37,12 @@ function HorizontalFieldsList({ options, forceTitleWidth, onCalculateTitleWidth 
   };
 
   return (
-    <Wrapper styles={[flex, flexColumn, horizontalPadding(20), marginTop(16), lastChild(marginBottom(0))]}>
+    <Wrapper styles={[flex, flexColumn, marginTop(16), lastChild(marginBottom(0)), styles]}>
       {options!.fields.map((field, key) => {
         return (
           <Wrapper key={key} styles={[flex, marginBottom(16)]}>
             <Typography
-              ref={calculateWidth(key)}
+              ref={useTitleWidthCalculation ? calculateWidth(key) : null}
               styles={[
                 maxWidth(192),
                 flexShrink(0),

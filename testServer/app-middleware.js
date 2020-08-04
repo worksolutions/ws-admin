@@ -23,7 +23,9 @@ module.exports = (app) => {
   makeProxy({ handleUrl: "/api/users/profile", expressMethodHandlerName: "get" }, app, ({ user }) => {
     if (!user.image) return;
     user.avatar = prepareUrl(user.image.path);
-    user.name = `${user.name} ${user.surname} (${user.position})`;
+    user.name = `${user.name} ${user.surname}`;
+    user.postName = user.position;
+    user.customFields = [{ title: "Должность", type: "text", options: { value: user.postName } }];
     return user;
   });
 

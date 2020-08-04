@@ -9,6 +9,7 @@ import { AuthTokenSaveStrategy } from "modules/auth/authTokenSaver";
 
 import { StateContainer } from "../stateContainer";
 import { LoadingContainer } from "../loadingContainer";
+import { FieldListItemType } from "../../modules/screen/blocks/RowFields/FieldsList/types";
 
 import { AnyAction, ContainsActions } from "types/Actions";
 import { AnyDataSource, ContainsDataSourceInterface } from "types/DataSource";
@@ -28,10 +29,12 @@ export type ContainSlotsInterface = {
   slots: Record<string, BlockInterface>;
 };
 
-export interface CurrentUserInterface {
+export interface UserInterface {
   avatar: string;
   email: string;
   name: string;
+  postName?: string;
+  customFields?: { title: string; type: FieldListItemType; options: any }[];
 }
 
 @Service({ global: true })
@@ -41,7 +44,7 @@ export class GlobalState {
   @observable
   @Inject(() => StateContainer)
   stateContainer!: StateContainer<{
-    currentUser: CurrentUserInterface;
+    currentUser: UserInterface;
   }>;
 
   @observable

@@ -9,6 +9,7 @@ export enum FieldListItemType {
   text = "text",
   image = "image",
   iconLink = "icon-link",
+  link = "link",
 }
 
 export interface FieldListItemInterface {
@@ -23,6 +24,8 @@ export type FieldListInterface = {
 };
 
 export type FieldListComponentInterface = BlockInterface<FieldListInterface> & {
+  useTitleWidthCalculation: boolean;
+  styles?: any;
   forceTitleWidth?: number;
   onCalculateTitleWidth?: (width: number) => void;
 };

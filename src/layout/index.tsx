@@ -71,10 +71,10 @@ export default cb(
           secondaryItems={[
             currentUser
               ? {
-                  href: "/user",
+                  href: "/users/me",
                   selected: false,
                   type: "button",
-                  hint: currentUser.name,
+                  hint: currentUser.name + (currentUser.postName ? ` (${currentUser.postName})` : ""),
                   iconStyles: [borderRadius("100%"), border(1, createAlphaColor("black", 20))],
                   icon: currentUser.avatar || "user",
                 }

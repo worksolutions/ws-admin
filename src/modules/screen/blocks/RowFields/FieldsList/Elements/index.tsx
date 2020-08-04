@@ -32,7 +32,6 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
       />
     );
   },
-
   [FieldListItemType.iconLink]: ({ options, styles }) => {
     const imageReference = insertContext(options.imageReference, useAppContext().context);
     const reference = insertContext(options.reference, useAppContext().context);
@@ -41,6 +40,16 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
     return (
       <Wrapper styles={[styles, flex, ai(Aligns.CENTER)]}>
         {imageReference.value && <Icon icon={imageReference.value} styles={[marginRight(8), borderRadius(12)]} />}
+        <TypographyLink to={reference.value}>{title.value}</TypographyLink>
+      </Wrapper>
+    );
+  },
+  [FieldListItemType.link]: ({ options, styles }) => {
+    const reference = insertContext(options.reference, useAppContext().context);
+    const title = insertContext(options.title, useAppContext().context);
+
+    return (
+      <Wrapper styles={[styles, flex, ai(Aligns.CENTER)]}>
         <TypographyLink to={reference.value}>{title.value}</TypographyLink>
       </Wrapper>
     );
