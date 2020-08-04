@@ -5,7 +5,18 @@ import Icon from "primitives/Icon";
 import Typography from "primitives/Typography";
 
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
-import { fullHeight, left, position, top, transform, transition } from "libs/styles";
+import {
+  fullHeight,
+  hover,
+  left,
+  opacity,
+  paddingRight,
+  position,
+  top,
+  transform,
+  transition,
+  willChange,
+} from "libs/styles";
 
 import { UseSortingType } from "../../libs";
 
@@ -19,16 +30,24 @@ interface HeaderColumnText {
 }
 
 function HeaderColumnText({ title, sortable, currentSortingField, headerColumnId }: HeaderColumnText) {
+  const isIconVisible = currentSortingField?.id === headerColumnId;
   return (
-    <Typography type="caption-semi-bold" color="gray-blue/05" styles={position("relative")}>
+    <Typography
+      type="caption-semi-bold"
+      color="gray-blue/05"
+      styles={[position("relative"), paddingRight(8), !isIconVisible && hover(opacity(0.5), ".sortingIcon")]}
+    >
       {title}
-      {sortable && currentSortingField && currentSortingField.id === headerColumnId && (
+      {sortable && (
         <Wrapper
+          className="sortingIcon"
           styles={[
-            transition("transform 0.2s"),
+            willChange("opacity, transform"),
+            opacity(isIconVisible ? 1 : 0),
+            transition("all 0.2s"),
             position("absolute"),
             top("50%"),
-            left("calc(100% + 8px)"),
+            left("100%"),
             fullHeight,
             transform(
               `translateY(-50%) ${

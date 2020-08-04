@@ -44,6 +44,11 @@ export const emptyBoxShadow = css`
   box-shadow: none;
 `;
 
+export const willChange = memoizeWith(identity, function (value: CSSProperties["willChange"]) {
+  return css`
+    will-change: ${value};`;
+});
+
 export const transform = memoizeWith(identity, function (transform: string) {
   return css`
     transform: ${transform};`;
