@@ -52,10 +52,10 @@ export default cb(
         );
       }, [data, pathname]);
 
-      return { menuElements };
+      return { menuElements, pathname };
     },
   },
-  function ({ children, logo }, { state: { menuElements } }) {
+  function ({ children, logo }, { state: { menuElements, pathname } }) {
     const { currentUser } = globalState.stateContainer.state;
     return (
       <>
@@ -72,7 +72,7 @@ export default cb(
             currentUser
               ? {
                   href: "/users/me",
-                  selected: false,
+                  selected: !!matchPath(pathname, { path: "/users/me" }),
                   type: "button",
                   hint: currentUser.name + (currentUser.postName ? ` (${currentUser.postName})` : ""),
                   iconStyles: [borderRadius("100%"), border(1, createAlphaColor("black", 20))],

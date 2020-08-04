@@ -23,7 +23,8 @@ import {
   padding,
   paddingBottom,
 } from "libs/styles";
-import { useLocalStorage, useScrollCallbackWasScrolledBoolean } from "libs/hooks";
+import { useScrollCallbackWasScrolledBoolean } from "libs/hooks/scroll";
+import { useLocalStorage } from "libs/hooks/special";
 
 import { ViewMetaData } from "../types";
 

@@ -2,8 +2,8 @@ import React from "react";
 import { action, observable } from "mobx";
 
 import { htmlCollectionToArray } from "libs/htmlCollectionToArray";
-import { useEffectSkipFirst, usePrevious } from "libs/hooks";
 import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
+import { useEffectSkipFirst, usePrevious } from "libs/hooks/common";
 
 class Storage {
   @observable

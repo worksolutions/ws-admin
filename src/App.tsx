@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 
 import Spinner from "primitives/Spinner";
 
-import { useSetDocumentTitle } from "libs/hooks";
+import { useSetDocumentTitle } from "libs/hooks/special";
 
 import ToastReceiver from "modules/ToastReceiver";
 import AuthModule from "modules/auth";

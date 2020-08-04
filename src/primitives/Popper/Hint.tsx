@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite";
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 
-import { useBoolean } from "libs/hooks";
 import {
   backgroundColor,
   border,
@@ -17,6 +16,7 @@ import {
   transition,
   whiteSpace,
 } from "libs/styles";
+import { useBoolean } from "libs/hooks/common";
 
 import usePopper, { getPopperMarginStyleForPlacement, PopperConfigInterface } from "./usePopper";
 

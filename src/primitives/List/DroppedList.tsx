@@ -7,8 +7,8 @@ import { Placement } from "@popperjs/core";
 import { zIndex_droppedList } from "layout/zIndexes";
 
 import { backgroundColor, border, borderRadius, maxWidth, minWidth, padding, position } from "libs/styles";
-import { useBoolean } from "libs/hooks";
 import { provideRef } from "libs/provideRef";
+import { useBoolean } from "libs/hooks/common";
 
 import Wrapper from "../Wrapper";
 import usePopper, { getPopperMarginStyleForPlacement } from "../Popper/usePopper";

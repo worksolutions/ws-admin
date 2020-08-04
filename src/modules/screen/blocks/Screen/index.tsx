@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router";
 
-import { useSetDocumentTitle } from "libs/hooks";
+import { useSetDocumentTitle } from "libs/hooks/special";
 
 import useScreenContextSynchronizer from "modules/context/hooks/useScreenContextSynchronizer";
 import BlockRenderer from "modules/screen/BlockRenderer";

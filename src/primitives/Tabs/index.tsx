@@ -5,7 +5,7 @@ import { duration200 } from "layout/durations";
 import Wrapper from "primitives/Wrapper";
 
 import { backgroundColor, borderRadius, bottom, flex, height, left, position, transition, width } from "libs/styles";
-import { useForceUpdate } from "libs/hooks";
+import { useForceUpdate } from "libs/hooks/common";
 
 import Tab, { calculateWidthDelayTime, tabHorizontalPadding } from "./Tab";
 

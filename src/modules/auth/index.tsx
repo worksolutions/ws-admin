@@ -7,7 +7,7 @@ import { Container } from "typedi";
 
 import Spinner from "primitives/Spinner";
 
-import { useEffectSkipFirst } from "libs/hooks";
+import { useEffectSkipFirst } from "libs/hooks/common";
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 

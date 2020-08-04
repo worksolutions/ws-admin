@@ -25,7 +25,7 @@ import {
   width,
 } from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
-import { useEffectSkipFirst } from "libs/hooks";
+import { useEffectSkipFirst } from "libs/hooks/common";
 
 import { calculatePaginationData, getMaskedInputWidth } from "./libs";
 

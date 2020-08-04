@@ -5,8 +5,8 @@ import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 
 import eventValue from "libs/decorators/eventValue";
-import { useDebouncedInput } from "libs/hooks";
 import { right } from "libs/styles";
+import { useDebouncedInput } from "libs/hooks/useDebouncedInput";
 
 import InputWrapper, { _defaultIconStyles } from "./InputWrapper";
 import { InputInterface } from "./Input";

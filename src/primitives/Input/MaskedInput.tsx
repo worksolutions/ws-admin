@@ -4,8 +4,8 @@ import useMaskedInput from "@viewstools/use-masked-input";
 import Wrapper from "primitives/Wrapper";
 
 import eventValue from "libs/decorators/eventValue";
-import { useDebouncedInput } from "libs/hooks";
 import { provideRef } from "libs/provideRef";
+import { useDebouncedInput } from "libs/hooks/useDebouncedInput";
 
 import InputWrapper from "./InputWrapper";
 import { InputInterface } from "./Input";

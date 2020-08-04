@@ -9,7 +9,6 @@ import { observer } from "mobx-react-lite";
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 
-import { useBoolean, useEffectSkipFirst } from "libs/hooks";
 import {
   absoluteCenter,
   ai,
@@ -37,6 +36,7 @@ import {
   verticalPadding,
   width,
 } from "libs/styles";
+import { useBoolean, useEffectSkipFirst } from "libs/hooks/common";
 
 import Button, { ButtonSize, ButtonType } from "../Button";
 import HandleClickOutside from "../HandleClickOutside";

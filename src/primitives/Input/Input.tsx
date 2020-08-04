@@ -3,7 +3,7 @@ import React, { Ref } from "react";
 import Wrapper from "primitives/Wrapper";
 
 import eventValue from "libs/decorators/eventValue";
-import { useDebouncedInput } from "libs/hooks";
+import { useDebouncedInput } from "libs/hooks/useDebouncedInput";
 
 import InputWrapper, { BaseInputWrapperInterface } from "./InputWrapper";
 

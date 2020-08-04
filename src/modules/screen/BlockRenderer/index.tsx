@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import Spinner from "primitives/Spinner";
 
 import { useEventEmitter } from "libs/events";
-import { useForceUpdate } from "libs/hooks";
+import { useForceUpdate } from "libs/hooks/common";
 
 import globalEventBus from "modules/globalEventBus";
 

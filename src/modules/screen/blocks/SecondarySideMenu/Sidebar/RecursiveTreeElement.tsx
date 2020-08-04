@@ -8,7 +8,6 @@ import Icon from "primitives/Icon";
 import Typography from "primitives/Typography";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
 
-import { usePrevious, useToggle } from "libs/hooks";
 import {
   ai,
   Aligns,
@@ -32,6 +31,7 @@ import {
   transition,
 } from "libs/styles";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
+import { usePrevious, useToggle } from "libs/hooks/common";
 
 import { SidebarItemInterface } from "../types";
 

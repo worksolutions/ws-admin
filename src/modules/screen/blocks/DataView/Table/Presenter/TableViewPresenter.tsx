@@ -9,7 +9,7 @@ import Wrapper from "primitives/Wrapper";
 
 import { flex, fullHeight, fullWidth, height, left, overflow, paddingBottom, position, right, top } from "libs/styles";
 import { provideRef } from "libs/provideRef";
-import { useScrollCallbackWasScrolledBoolean } from "libs/hooks";
+import { useScrollCallbackWasScrolledBoolean } from "libs/hooks/scroll";
 
 import { TableViewDataSource } from "../types";
 

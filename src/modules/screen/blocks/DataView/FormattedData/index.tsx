@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import Spinner from "primitives/Spinner";
 
-import { useLocalStorage } from "libs/hooks";
+import { useLocalStorage } from "libs/hooks/special";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";

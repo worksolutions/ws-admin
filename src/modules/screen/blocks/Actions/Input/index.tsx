@@ -5,7 +5,7 @@ import Input, { InputSize } from "primitives/Input/Input";
 import { Icons } from "primitives/Icon";
 import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
-import { useEffectSkipFirst } from "libs/hooks";
+import { useEffectSkipFirst } from "libs/hooks/common";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";

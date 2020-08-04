@@ -5,8 +5,8 @@ import { useSpring } from "react-spring";
 
 import BackdropDisabler from "primitives/BackdropDisabler";
 
-import { useEffectSkipFirst, usePrevious } from "libs/hooks";
 import { cursor } from "libs/styles";
+import { useEffectSkipFirst, usePrevious } from "libs/hooks/common";
 
 function calculateStyleParams(
   down: boolean,
