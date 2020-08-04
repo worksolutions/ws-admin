@@ -32,7 +32,7 @@ module.exports = (app) => {
   articleRouter.article(app);
   articleRouter.relatedArticles(app);
   categoriesRouter(app);
-  usersRouter(app);
+  usersRouter.users(app);
 
   makeProxy({ handleUrl: "/api", expressMethodHandlerName: "use" }, app);
 

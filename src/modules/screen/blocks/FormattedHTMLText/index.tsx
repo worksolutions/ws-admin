@@ -48,7 +48,7 @@ function FormattedHTMLText({ options, styles }: BlockInterface<{ value: string }
   return (
     <>
       <Wrapper
-        styles={[styles, backgroundColor("gray-blue/01"), padding(16), flex, jc(Aligns.CENTER), minHeight("100%")]}
+        styles={[backgroundColor("gray-blue/01"), padding(16), flex, jc(Aligns.CENTER), minHeight("100%"), styles]}
       >
         <Wrapper
           ref={ref}
