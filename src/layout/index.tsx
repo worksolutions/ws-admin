@@ -5,10 +5,23 @@ import { Container } from "typedi";
 import Wrapper from "primitives/Wrapper";
 import { Icons } from "primitives/Icon";
 
-import { ai, Aligns, border, borderRadius, createAlphaColor, flex, fullHeight, marginLeft, width } from "libs/styles";
+import {
+  ai,
+  Aligns,
+  border,
+  borderRadius,
+  createAlphaColor,
+  flex,
+  fullHeight,
+  marginLeft,
+  pointer,
+  width,
+} from "libs/styles";
 import { cb } from "libs/CB";
 
 import { useDataSource } from "../modules/context/dataSource/useDataSource";
+import Modal from "../primitives/Modal";
+import { browserHistory } from "../common";
 
 import MenuSidebar, { sidebarWidth } from "./MenuSidebar";
 
@@ -66,7 +79,31 @@ export default cb(
                   icon: globalState.stateContainer.state.currentUser.avatar || "user",
                 }
               : null,
-            { href: "/logout", selected: false, type: "button", hint: "Выйти из системы", icon: "log-out" },
+            {
+              selected: false,
+              type: "button",
+              hint: "Выйти из системы",
+              icon: "log-out",
+              customElement: (ref, iconElement, resultStyles) => (
+                <Modal
+                  title="Выход из системы"
+                  subTitle="Вы уверены, что хотите выйти из системы?"
+                  actionsInColumn
+                  primaryActionText="Выйти"
+                  onPrimaryAction={(close) => {
+                    close();
+                    browserHistory.replace("/logout");
+                  }}
+                  secondaryActionText="Отменить"
+                  onSecondaryAction={(close) => close()}
+                  wrappedContent={(open) => (
+                    <Wrapper ref={ref} onClick={open} styles={[resultStyles, pointer]}>
+                      {iconElement}
+                    </Wrapper>
+                  )}
+                />
+              ),
+            },
             { href: "/settings", selected: false, type: "button", icon: "settings" },
           ]}
         />

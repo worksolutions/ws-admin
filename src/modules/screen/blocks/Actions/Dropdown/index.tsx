@@ -14,7 +14,7 @@ export enum DropdownSizes {
   SMALL = "SMALL",
   MEDIUM = "MEDIUM",
   LARGE = "LARGE",
-  ADJUST_WIDTH = "ADJUST_WIDTH",
+  FULL_WIDTH = "FULL_WIDTH",
   ADJUST_CONTENT = "ADJUST_CONTENT",
 }
 
@@ -22,7 +22,7 @@ const sizes: Record<DropdownSizes, (sizes: UseMeasureRect) => string | number> =
   [DropdownSizes.SMALL]: () => 128,
   [DropdownSizes.MEDIUM]: () => 288,
   [DropdownSizes.LARGE]: () => 448,
-  [DropdownSizes.ADJUST_WIDTH]: () => "100%",
+  [DropdownSizes.FULL_WIDTH]: () => "100%",
   [DropdownSizes.ADJUST_CONTENT]: () => 0,
 };
 

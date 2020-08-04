@@ -55,15 +55,15 @@ export enum DropdownTitlePosition {
   LEFT,
 }
 
-interface DropdownInterface {
+interface DropdownInterface<ITEM> {
   title?: string;
   titlePosition?: DropdownTitlePosition;
   size?: DropdownSize;
   placeholder?: string;
-  selectedItemId?: ListItemId;
-  items?: ListItemInterface[];
-  groupedItems?: { groupName: string; items: ListItemInterface[] }[];
-  onChange: (id: ListItemId) => void;
+  selectedItemId?: ITEM;
+  items?: ListItemInterface<ITEM>[];
+  groupedItems?: { groupName: string; items: ListItemInterface<ITEM>[] }[];
+  onChange: (id: ITEM) => void;
 }
 
 const dropdownWrapperStylesByTitlePosition: Record<DropdownTitlePosition, any> = {
@@ -81,7 +81,7 @@ const Dropdown = React.forwardRef(function Dropdown(
     groupedItems,
     items,
     onChange,
-  }: DropdownInterface,
+  }: DropdownInterface<any>,
   ref: Ref<HTMLElement>,
 ) {
   const selectedItem = React.useMemo(() => {
@@ -150,4 +150,6 @@ const Dropdown = React.forwardRef(function Dropdown(
   );
 });
 
-export default React.memo(Dropdown);
+export default React.memo(Dropdown) as <ITEM>(
+  props: DropdownInterface<ITEM> & { ref?: Ref<HTMLElement> },
+) => JSX.Element;

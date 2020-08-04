@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Ref } from "react";
 import { duration200 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
@@ -33,8 +33,8 @@ import {
 
 export type ListItemId = string | number;
 
-export interface ListItemInterface {
-  id: ListItemId;
+export interface ListItemInterface<ITEM> {
+  id: ITEM;
   leftContent?: JSX.Element | null;
   heading?: string | number;
   subtitle?: string | number;
@@ -48,16 +48,16 @@ export enum ListItemSize {
   MEDIUM = "MEDIUM",
 }
 
-interface ListInterface {
+interface ListInterface<ITEM> {
   itemSize?: ListItemSize;
   styles?: any;
   outerStyles?: any;
   titleStyles?: any;
   titleDots?: boolean;
   dividerColor?: Colors;
-  activeItemId?: ListItemId;
-  items: ListItemInterface[];
-  onClick?: (id: ListItemId) => void;
+  activeItemId?: ITEM;
+  items: ListItemInterface<ITEM>[];
+  onClick?: (id: ITEM) => void;
 }
 
 const heightForItemSize: Record<ListItemSize, number> = { [ListItemSize.LARGE]: 40, [ListItemSize.MEDIUM]: 32 };
@@ -71,7 +71,7 @@ function List({
   titleStyles,
   items,
   onClick,
-}: ListInterface) {
+}: ListInterface<any>) {
   return (
     <Wrapper styles={[flex, flexColumn, outerStyles, firstChild(marginTop(4))]}>
       {items.map(({ title, id, heading, leftContent, rightContent, subtitle, disabled }) => {
@@ -124,4 +124,4 @@ List.defaultProps = {
   dividerColor: "gray-blue/02",
 };
 
-export default React.memo(List);
+export default React.memo(List) as <ITEM>(props: ListInterface<ITEM>) => JSX.Element;

@@ -2,7 +2,6 @@ import React from "react";
 import { propEq } from "ramda";
 import { duration200 } from "layout/durations";
 import { observer } from "mobx-react-lite";
-import { componentZIndexes } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -25,6 +24,7 @@ import {
   transform,
   transition,
   width,
+  zIndex,
 } from "libs/styles";
 
 import { SortingDirection, SortingID, SortingItem } from "types/Sorting";
@@ -76,7 +76,7 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
             styles={[
               boxShadow([0, 0, 0, 1, "gray-blue/02"]),
               originalSelectedElement.hasDirection && borderRadius("6px 0 0 6px"),
-              focus(componentZIndexes.sortingButtonsOnFocus),
+              focus(zIndex(1)),
             ]}
             type={ButtonType.SECONDARY}
             size={ButtonSize.MEDIUM}
@@ -94,7 +94,7 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
                   borderRadius("0 6px 6px 0"),
                   padding(8),
                   ai(Aligns.CENTER),
-                  focus(componentZIndexes.sortingButtonsOnFocus),
+                  focus(zIndex(1)),
                   child(
                     [
                       transition(`all ${duration200}`),

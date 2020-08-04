@@ -1,7 +1,7 @@
 import React from "react";
 import { animated } from "react-spring";
 import { duration120 } from "layout/durations";
-import { tableZIndexes } from "layout/zIndexes";
+import { zIndex_table_resizeLine } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -19,7 +19,6 @@ import {
   transform,
   transition,
   width,
-  zIndex,
 } from "libs/styles";
 import stopPropagation from "libs/stopPropagation";
 
@@ -40,7 +39,7 @@ const resizeLineStyles = [
   position("absolute"),
   top(0),
   transform("translateX(-50%)"),
-  tableZIndexes.resizeLine,
+  zIndex_table_resizeLine,
   opacity(0),
   transition(`opacity ${duration120}`),
   hover(opacity(1)),

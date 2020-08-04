@@ -1,7 +1,7 @@
 import React from "react";
 import { TableCellProps } from "react-table";
 import { duration200 } from "layout/durations";
-import { tableZIndexes } from "layout/zIndexes";
+import { zIndex_table_cell } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -13,7 +13,6 @@ import {
   position,
   right,
   top,
-  transform,
   transition,
   verticalAlign,
   verticalPadding,
@@ -66,7 +65,7 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
           top(0),
           right(0),
           bottom(0),
-          tableZIndexes.cell,
+          zIndex_table_cell,
         ]}
       />
       {component}

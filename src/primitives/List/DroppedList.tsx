@@ -4,7 +4,7 @@ import { animated, useSpring } from "react-spring";
 import { elevation16 } from "style/shadows";
 import { useHover } from "react-use";
 import { Placement } from "@popperjs/core";
-import { primitiveIndexes } from "layout/zIndexes";
+import { zIndex_droppedList } from "layout/zIndexes";
 
 import { backgroundColor, border, borderRadius, maxWidth, minWidth, padding, position } from "libs/styles";
 import { useBoolean } from "libs/hooks";
@@ -21,21 +21,21 @@ export enum DroppedListOpenMode {
   CLICK,
 }
 
-interface DroppedListInterface {
+interface DroppedListInterface<ITEM> {
   mode?: DroppedListOpenMode;
   placement?: Placement;
   itemSize?: ListItemSize;
   ignoreClickOutsideElements?: (HTMLElement | undefined | null)[];
   margin: number;
-  selectedItemId?: string | number;
-  items?: ListItemInterface[];
-  groupedItems?: { groupName: string; items: ListItemInterface[] }[];
+  selectedItemId?: ITEM;
+  items?: ListItemInterface<ITEM>[];
+  groupedItems?: { groupName: string; items: ListItemInterface<ITEM>[] }[];
   children: (
     state: { toggle: () => void; opened: boolean; open: () => void; close: () => void },
     parentRef: any,
     subChild: JSX.Element,
   ) => JSX.Element;
-  onChange: (id: string | number, close: () => void) => void;
+  onChange: (id: ITEM, close: () => void) => void;
 }
 
 const ComponentForOpenMode: Record<
@@ -82,7 +82,7 @@ function DroppedList({
   margin: marginProp,
   children,
   onChange,
-}: DroppedListInterface) {
+}: DroppedListInterface<any>) {
   const [opened, open, close] = useBoolean(false);
 
   const spring = useSpring({
@@ -104,7 +104,7 @@ function DroppedList({
           opacity: spring.opacity,
           visibility: spring.opacity.to((value) => (value === 0 ? "hidden" : "visible")),
         }}
-        styles={[maxWidth(480), minWidth("calc(100% + 40px)"), primitiveIndexes.droppedListWrapper]}
+        styles={[maxWidth(480), minWidth("calc(100% + 40px)"), zIndex_droppedList]}
         ref={initPopper("child")}
       >
         <Wrapper
@@ -137,4 +137,4 @@ function DroppedList({
   );
 }
 
-export default React.memo(DroppedList);
+export default React.memo(DroppedList) as <ITEM>(props: DroppedListInterface<ITEM>) => JSX.Element;

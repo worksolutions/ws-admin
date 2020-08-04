@@ -1,45 +1,23 @@
 import React, { ReactNode } from "react";
 import { Route, Switch } from "react-router";
-import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
 import { assoc } from "ramda";
 import { browserHistory } from "common";
+import { Container } from "typedi";
 
 import Spinner from "primitives/Spinner";
 
 import { useEffectSkipFirst } from "libs/hooks";
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
-import { useAppContext } from "modules/context/hooks/useAppContext";
-import { useActions } from "modules/context/actions/useActions";
 
 import AuthView from "./AuthView";
-import { AuthTokenSaver } from "./authTokenSaver";
+import LogoutView from "./LogoutView";
 
-import { SystemState } from "state/systemState";
 import { GlobalStateCommonPartInterface } from "state/globalState";
+import { SystemState } from "state/systemState";
 
-const systemState = Container.get(SystemState);
-
-function Logout() {
-  const appContext = useAppContext();
-
-  const { userAuthenticate } = systemState.stateContainer.state;
-  const { logout } = useActions(userAuthenticate.actions, appContext);
-
-  async function removeToken() {
-    await logout.run();
-    if (userAuthenticate.authTokenSaveStrategy) {
-      new AuthTokenSaver(userAuthenticate.authTokenSaveStrategy).runRemoveTokenPipeline();
-    }
-  }
-
-  React.useEffect(() => {
-    removeToken();
-  }, []);
-
-  return <></>;
-}
+export const systemState = Container.get(SystemState);
 
 function AuthModule({ children }: { children: ReactNode }) {
   const state = systemState.stateContainer.state;
@@ -59,7 +37,7 @@ function AuthModule({ children }: { children: ReactNode }) {
   return (
     <Switch>
       <Route exact path="/auth" render={() => <AuthView reloadProfile={reload} />} />
-      <Route exact path="/logout" render={() => <Logout />} />
+      <Route exact path="/logout" component={LogoutView} />
       {children}
     </Switch>
   );

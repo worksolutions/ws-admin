@@ -1,5 +1,4 @@
 import React from "react";
-import { formattedDataViewZIndexes } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 import Spinner from "primitives/Spinner";
@@ -20,17 +19,7 @@ import {
 
 export const spinnerElement = (
   <Wrapper
-    styles={[
-      flex,
-      position("absolute"),
-      top(0),
-      left(0),
-      fullWidth,
-      fullHeight,
-      ai(Aligns.CENTER),
-      jc(Aligns.CENTER),
-      formattedDataViewZIndexes.spinner,
-    ]}
+    styles={[flex, position("absolute"), top(0), left(0), fullWidth, fullHeight, ai(Aligns.CENTER), jc(Aligns.CENTER)]}
   >
     <Wrapper
       styles={[

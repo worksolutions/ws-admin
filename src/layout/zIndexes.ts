@@ -1,24 +1,9 @@
-import { zIndex } from "../libs/styles";
+import { zIndex } from "libs/styles";
 
-export const formattedDataViewZIndexes = {
-  spinner: zIndex(3),
-  actionsPanel: zIndex(100),
-};
-
-export const tableZIndexes = {
-  cell: zIndex(-1),
-  resizeLine: zIndex(1),
-  thead: zIndex(1),
-};
-
-export const componentZIndexes = {
-  sortingButtonsOnFocus: zIndex(1),
-};
-
-export const primitiveIndexes = {
-  droppedListWrapper: zIndex(1),
-};
-
-export const layoutZIndexes = {
-  menuSidebar: zIndex(2),
-};
+export const zIndex_formattedDataView_actionsPanel = zIndex(3);
+export const zIndex_table_cell = zIndex(-1);
+export const zIndex_table_resizeLine = zIndex(1);
+export const zIndex_table_header = zIndex(1);
+export const zIndex_droppedList = zIndex(1);
+export const zIndex_menuSidebar = zIndex(2);
+export const zIndex_modal = zIndex(10);

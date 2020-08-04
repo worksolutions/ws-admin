@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { formattedDataViewZIndexes } from "layout/zIndexes";
+import { zIndex_formattedDataView_actionsPanel } from "layout/zIndexes";
 
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import Wrapper from "primitives/Wrapper";
@@ -39,7 +39,7 @@ function Actions({
         flex,
         ai(Aligns.CENTER),
         flexWrap,
-        formattedDataViewZIndexes.actionsPanel,
+        zIndex_formattedDataView_actionsPanel,
         child(marginRight(16)),
         lastChild(marginRight(0)),
         child(padding(0), "&:empty"),

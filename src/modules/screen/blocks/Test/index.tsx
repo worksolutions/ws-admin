@@ -28,6 +28,7 @@ import {
 
 import Buttons from "./Buttons";
 import Dropdowns from "./Dropdowns";
+import Modals from "./Modals";
 
 function TestPage() {
   const [inputValue, setInputValue] = React.useState("");
@@ -139,6 +140,9 @@ function TestPage() {
             { render: () => <div />, title: "Статьи по теме" },
           ]}
         />
+      </Wrapper>
+      <Wrapper>
+        <Modals />
       </Wrapper>
     </Wrapper>
   );

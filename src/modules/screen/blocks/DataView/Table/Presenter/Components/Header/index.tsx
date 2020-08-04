@@ -1,7 +1,7 @@
 import React from "react";
 import { HeaderGroup, UseResizeColumnsColumnProps } from "react-table";
 import { observer } from "mobx-react-lite";
-import { tableZIndexes } from "layout/zIndexes";
+import { zIndex_table_header } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -28,7 +28,7 @@ function Header({ trHeaderGroup, sorting, id, tableHeight }: HeaderInterface) {
   const { headerRef, fixedSizes, headerWidths } = useResizeTableMain(id, trHeaderGroup.headers, 1);
 
   return (
-    <Wrapper as="thead" styles={tableZIndexes.thead}>
+    <Wrapper as="thead" styles={zIndex_table_header}>
       <Wrapper
         as="tr"
         {...trHeaderGroup.getHeaderGroupProps()}
