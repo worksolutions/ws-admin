@@ -263,7 +263,7 @@ module.exports = {
                             },
                             actions: {
                               change: {
-                                type: "none",
+                                type: "update-context",
                                 context: "screen:articles.pagination",
                               },
                             },
@@ -272,11 +272,11 @@ module.exports = {
                         },
                         actions: {
                           search: {
-                            type: "none",
+                            type: "update-context",
                             context: "screen:articles.search",
                           },
                           sorting: {
-                            type: "none",
+                            type: "update-context",
                             context: "screen:articles.sorting",
                           },
                         },
@@ -540,7 +540,7 @@ module.exports = {
                         },
                         actions: {
                           change: {
-                            type: "none",
+                            type: "update-context",
                             context: "screen:categories.pagination",
                           },
                         },
@@ -657,7 +657,7 @@ module.exports = {
                         },
                         actions: {
                           change: {
-                            type: "none",
+                            type: "update-context",
                             context: "screen:users.pagination",
                           },
                         },

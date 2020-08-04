@@ -3,7 +3,7 @@ import { METHODS } from "../libs/request";
 export enum ActionType {
   API_REQUEST = "api:request",
   REDIRECT = "redirect",
-  NONE = "none",
+  UPDATE_CONTEXT = "update-context",
 }
 
 export type ActionOptions = {
@@ -18,7 +18,7 @@ export type ActionOptions = {
     useReplace?: boolean;
     delay?: number;
   };
-  [ActionType.NONE]: {};
+  [ActionType.UPDATE_CONTEXT]: {};
 };
 
 export interface ActionInterface<T extends ActionType> {
@@ -30,7 +30,7 @@ export interface ActionInterface<T extends ActionType> {
 export type AnyAction =
   | ActionInterface<ActionType.API_REQUEST>
   | ActionInterface<ActionType.REDIRECT>
-  | ActionInterface<ActionType.NONE>;
+  | ActionInterface<ActionType.UPDATE_CONTEXT>;
 
 export type ContainsActions<Actions> = {
   actions: Actions;

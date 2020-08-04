@@ -6,7 +6,7 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import { ViewMetaData } from "../types";
 
-import { FormattedDataViewInterface, FormattedDataViewPagination, FormattedDataViewShowMode } from "./types";
+import { FormattedDataViewPagination, FormattedDataViewShowMode } from "./types";
 
 import { LoadingContainer } from "state/loadingContainer";
 

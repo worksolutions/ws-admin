@@ -1,5 +1,4 @@
 import { useLocalStore } from "mobx-react-lite";
-import { has } from "ramda";
 
 import { RequestError } from "libs/request";
 
@@ -7,7 +6,7 @@ import { AppContextInterface } from "modules/context/hooks/useAppContext";
 
 import apiRequestAction from "./actions/apiRequest";
 import redirectAction from "./actions/redirect";
-import noneAction from "./actions/none";
+import updateContext from "./actions/updateContext";
 import { ActionInputDataInterface } from "./types";
 
 import { LoadingContainer } from "state/loadingContainer";
@@ -27,10 +26,10 @@ const actionFunctionsByActionType = {
     return redirectAction(appContext.context, options, inputData);
   },
 
-  [ActionType.NONE]: (appContext: AppContextInterface, { options }: ActionInterface<ActionType.REDIRECT>) => (
+  [ActionType.UPDATE_CONTEXT]: (appContext: AppContextInterface, { options }: ActionInterface<ActionType.REDIRECT>) => (
     inputData: ActionInputDataInterface,
   ) => {
-    return noneAction(appContext.context, options, inputData);
+    return updateContext(appContext.context, options, inputData);
   },
 };
 
@@ -48,7 +47,6 @@ const connectActionFunctionAndAppContext = (
       .then((actionOutputData) => {
         loadingContainer.setLoading(false);
         if (action.context) appContext.updateState({ path: action.context, data: actionOutputData });
-        if (has("context", inputData)) appContext.updateState({ path: inputData.context, data: actionOutputData });
         return actionOutputData;
       })
       .catch((requestError: RequestError) => {
