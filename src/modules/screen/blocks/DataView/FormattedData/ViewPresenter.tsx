@@ -19,6 +19,7 @@ import {
   flexColumn,
   flexValue,
   jc,
+  marginLeft,
   padding,
   paddingBottom,
 } from "libs/styles";
@@ -122,6 +123,7 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
             }}
           />
           <Pagination
+            styles={marginLeft(16)}
             page={page}
             perPage={paginationViewData.data!.perPage}
             elementsCount={metaData.pagination!.itemsCount}
