@@ -68,18 +68,17 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
     if (!dataSource) return () => {};
     runStaticListDataSourceFetcher(dataSource, onDataReceived);
     runContextDataSourceFetcher(dataSource, context, onDataReceived);
-
     const apiRequestResult = runApiRequestLogic();
 
-    const allDisposers: Lambda[] = [];
+    const allApiDisposers: Lambda[] = [];
     if (apiRequestResult?.bodyWithContext.value) {
-      allDisposers.push(
+      allApiDisposers.push(
         ...makeOnDependencyChangeUpdater(apiRequestResult.bodyWithContext, context, runApiRequestLogic),
         ...makeOnDependencyChangeUpdater(apiRequestResult.referenceWithContext, context, runApiRequestLogic),
       );
     }
 
-    return () => allDisposers.forEach((disposer) => disposer());
+    return () => allApiDisposers.forEach((disposer) => disposer());
   }
 
   useEffect(runDataSourceFetcher, []);

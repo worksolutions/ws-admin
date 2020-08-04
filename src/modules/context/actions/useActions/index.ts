@@ -42,7 +42,6 @@ const connectActionFunctionAndAppContext = (
   const run = (inputData: any) => {
     loadingContainer.clearErrors();
     loadingContainer.setLoading(true);
-
     return actionFunction(inputData)
       .then((actionOutputData) => {
         loadingContainer.setLoading(false);
@@ -59,11 +58,10 @@ const connectActionFunctionAndAppContext = (
       });
   };
 
-  run.type = action.type;
-
   return {
     loadingContainer,
     run,
+    type: action.type,
   };
 };
 

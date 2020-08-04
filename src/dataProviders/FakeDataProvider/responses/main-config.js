@@ -258,7 +258,7 @@ module.exports = {
                             dataSource: {
                               type: "context",
                               options: {
-                                key: "{{screen:articles.pagination}}",
+                                key: "screen:articles.pagination",
                               },
                             },
                             actions: {
@@ -535,7 +535,7 @@ module.exports = {
                         dataSource: {
                           type: "context",
                           options: {
-                            key: "{{screen:categories.pagination}}",
+                            key: "screen:categories.pagination",
                           },
                         },
                         actions: {
@@ -652,7 +652,7 @@ module.exports = {
                         dataSource: {
                           type: "context",
                           options: {
-                            key: "{{screen:users.pagination}}",
+                            key: "screen:users.pagination",
                           },
                         },
                         actions: {
@@ -685,10 +685,8 @@ module.exports = {
                     options: { name: "Редактировать", icon: "plus-big", buttonType: "SECONDARY" },
                     actions: {
                       click: {
-                        type: "redirect",
-                        options: {
-                          reference: "/test",
-                        },
+                        type: "update-context",
+                        context: "global:currentUser.name",
                       },
                     },
                   },
@@ -697,7 +695,7 @@ module.exports = {
                     dataSource: {
                       type: "context",
                       options: {
-                        key: "{{global:currentUser}}",
+                        key: "global:currentUser",
                       },
                     },
                   },
