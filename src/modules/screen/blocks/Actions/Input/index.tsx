@@ -11,7 +11,7 @@ import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { insertContext } from "modules/context/insertContext";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 export interface InputOptionsInterface {
   placeholder?: string;

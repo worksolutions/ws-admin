@@ -1,6 +1,6 @@
 import { TableViewItemInterface, TableViewOptions } from "./Presenter/types";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 export type TableViewInterface = BlockInterface<TableViewOptions, "sorting"> & {
   onLoadingUpdate?: (loading: boolean) => void;

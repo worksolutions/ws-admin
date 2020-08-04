@@ -8,7 +8,7 @@ import { ai, Aligns, flex, flexValue, jc } from "libs/styles";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function Heading({ options }: BlockInterface<{ value: string; actionBlockElements: BlockInterface[] }>) {
   return (

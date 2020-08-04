@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function ContextInitializer({ options }: BlockInterface<{ path: string; value: any }[]>) {
   if (!options) return null;

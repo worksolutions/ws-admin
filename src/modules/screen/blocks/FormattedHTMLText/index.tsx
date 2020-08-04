@@ -25,7 +25,7 @@ import BlockRenderer from "../../BlockRenderer";
 import { htmlStyles } from "./htmlStyles";
 import { modifyTextWithEnhancers } from "./enhancers";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function FormattedHTMLText({ options, styles }: BlockInterface<{ value: string }> & { styles?: any }) {
   const text = insertContext(options!.value, useAppContext().context);

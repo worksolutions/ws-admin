@@ -7,7 +7,7 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 import BackgroundTasksComponent from "./BackgroundTasks";
 import { BackgroundTasksDataSourceInterface } from "./types";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function BackgroundTasks({ dataSource }: BlockInterface) {
   const { data } = useDataSource<BackgroundTasksDataSourceInterface>(dataSource!);

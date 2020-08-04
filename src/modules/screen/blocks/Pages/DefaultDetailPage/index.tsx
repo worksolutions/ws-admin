@@ -12,7 +12,7 @@ import DefaultPageWrapper from "../common/DefaultPageWrapper";
 
 import PageHeader, { PageHeaderInterface } from "./Header";
 
-import { BlockInterface, ContainSlotsInterface } from "state/systemState";
+import { BlockInterface, ContainSlotsInterface } from "state/globalState";
 
 function DefaultPageWithList({
   slots,

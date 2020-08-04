@@ -22,7 +22,7 @@ import FieldList from "./FieldsList";
 import { useForceWidthStyles } from "./hooks";
 import { FieldListInterface } from "./FieldsList/types";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function GroupedFields({ options }: BlockInterface<{ title: string; fieldList: FieldListInterface }[]>) {
   const { forceWidth, widthRefs } = useForceWidthStyles();

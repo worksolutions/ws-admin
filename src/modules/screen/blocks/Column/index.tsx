@@ -6,7 +6,7 @@ import { flex, flexColumn } from "libs/styles";
 
 import BlocksList from "../BlocksList";
 
-import { ContainBlocksInterface } from "state/systemState";
+import { ContainBlocksInterface } from "state/globalState";
 
 function Column({ blocks, styles }: ContainBlocksInterface & { styles?: any }) {
   return (

@@ -2,12 +2,12 @@ import React from "react";
 import { Container } from "typedi";
 
 import { browserHistory } from "./common";
-import { SystemState } from "./state/systemState";
+import { GlobalState } from "./state/globalState";
 
-const systemState = Container.get(SystemState);
+const globalState = Container.get(GlobalState);
 
 function InitialRedirect() {
-  const { mainReference } = systemState.stateContainer.state;
+  const { mainReference } = globalState.systemStateContainer.state;
 
   React.useEffect(() => {
     if (browserHistory.location.pathname !== "/") return;

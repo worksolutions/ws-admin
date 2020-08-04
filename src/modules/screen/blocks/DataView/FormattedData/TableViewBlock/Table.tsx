@@ -13,7 +13,7 @@ import { TableViewDataSource } from "../../Table/types";
 import { TableViewOptions } from "../../Table/Presenter/types";
 import { useFormattedDataLoader } from "../libs";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 import { PaginationMeta } from "types/Pagination";
 

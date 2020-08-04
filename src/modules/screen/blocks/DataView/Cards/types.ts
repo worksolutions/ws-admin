@@ -1,6 +1,6 @@
 import { CardActionInterface, CardImageConfig, CardInterface } from "primitives/Card/types";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 import { AnyAction } from "types/Actions";
 

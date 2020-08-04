@@ -6,14 +6,14 @@ import { useActions } from "modules/context/actions/useActions";
 
 import { AuthTokenSaver } from "./authTokenSaver";
 
-import { SystemState } from "state/systemState";
+import { GlobalState } from "state/globalState";
 
-export const systemState = Container.get(SystemState);
+export const globalState = Container.get(GlobalState);
 
 function LogoutView() {
   const appContext = useAppContext();
 
-  const { userAuthenticate } = systemState.stateContainer.state;
+  const { userAuthenticate } = globalState.systemStateContainer.state;
   const { logout } = useActions(userAuthenticate.actions, appContext);
 
   async function removeToken() {

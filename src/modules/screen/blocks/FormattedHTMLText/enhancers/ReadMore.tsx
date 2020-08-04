@@ -20,7 +20,7 @@ import {
 
 import { EnhancerInterface } from "./index";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 type ReadMoreType = BlockInterface<
   EnhancerInterface<{ heading: string; image: string; imageAspectRatio: number; text: string; reference: string }>

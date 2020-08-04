@@ -14,7 +14,7 @@ import { insertContext } from "modules/context/insertContext";
 
 import PageHeaderStatus, { PageHeaderStatusInterface } from "./Status";
 
-import { ContainSlotsInterface } from "state/systemState";
+import { ContainSlotsInterface } from "state/globalState";
 
 export interface PageHeaderInterface {
   title: string;

@@ -5,7 +5,7 @@ import { Container } from "typedi";
 import { getContextTypeAndPathByParam } from "../contextParamParser";
 
 import { ScreenState } from "state/screenState";
-import { SystemState } from "state/systemState";
+import { GlobalState } from "state/globalState";
 
 interface UpdateStatePayload {
   path: string;
@@ -13,7 +13,7 @@ interface UpdateStatePayload {
 }
 
 const screenState = Container.get(ScreenState);
-const systemState = Container.get(SystemState);
+const globalState = Container.get(GlobalState);
 
 export function useAppContext() {
   const updateContext = (rawPayload: UpdateStatePayload) => {
@@ -24,14 +24,14 @@ export function useAppContext() {
         screenState.stateContainer.mergeStates(data);
         break;
       default:
-        systemState.stateContainer.mergeStates(data);
+        globalState.stateContainer.mergeStates(data);
         break;
     }
   };
 
   return {
     updateState: useCallback(updateContext, []),
-    context: { screen: screenState.stateContainer.state, system: systemState.stateContainer.state },
+    context: { screen: screenState.stateContainer.state, system: globalState.stateContainer.state },
   };
 }
 

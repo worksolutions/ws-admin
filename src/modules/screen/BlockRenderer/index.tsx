@@ -10,7 +10,7 @@ import globalEventBus from "modules/globalEventBus";
 
 import { loadBlockComponent } from "./libs";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 const renderedElements: Record<string, boolean> = {};
 

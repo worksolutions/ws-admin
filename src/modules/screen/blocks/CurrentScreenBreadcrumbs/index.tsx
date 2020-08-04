@@ -14,7 +14,7 @@ import { SecondaryMenuDataSourceInterface } from "../SecondarySideMenu/types";
 import Element from "./Element";
 import { useBreadcrumbsWay } from "./hooks";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function CurrentScreenBreadcrumbs({ dataSource }: BlockInterface) {
   const { data } = useDataSource<SecondaryMenuDataSourceInterface>(dataSource!);

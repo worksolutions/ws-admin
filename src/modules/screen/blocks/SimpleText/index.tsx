@@ -6,7 +6,7 @@ import Typography from "primitives/Typography";
 import { insertContext } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function SimpleText({
   options,

@@ -7,7 +7,7 @@ import { border, borderRadius, flexValue, overflowY } from "libs/styles";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function TabsBlock({ options }: BlockInterface<{ title: string; block: BlockInterface }[]>) {
   return (

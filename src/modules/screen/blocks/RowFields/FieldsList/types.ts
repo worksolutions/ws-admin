@@ -1,4 +1,4 @@
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 export enum FieldListItemMode {
   HORIZONTAL = "HORIZONTAL",

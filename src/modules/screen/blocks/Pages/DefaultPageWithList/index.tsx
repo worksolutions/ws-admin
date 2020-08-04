@@ -8,7 +8,7 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 
 import DefaultPageWrapper from "../common/DefaultPageWrapper";
 
-import { BlockInterface, ContainSlotsInterface } from "state/systemState";
+import { BlockInterface, ContainSlotsInterface } from "state/globalState";
 
 function DefaultPageWithList({ slots, options }: ContainSlotsInterface & BlockInterface<{ title: string }>) {
   return (

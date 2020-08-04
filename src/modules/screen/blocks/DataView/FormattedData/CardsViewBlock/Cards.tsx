@@ -10,7 +10,7 @@ import { CardsViewDataSource } from "../../Cards/types";
 import { useFormattedDataLoader } from "../libs";
 import CardsViewPresenter from "../../Cards/Presenter/CardsViewPresenter";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 import { PaginationMeta } from "types/Pagination";
 

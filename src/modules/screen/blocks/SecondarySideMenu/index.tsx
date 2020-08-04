@@ -8,7 +8,7 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 import Sidebar from "./Sidebar";
 import { SecondaryMenuDataSourceInterface } from "./types";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function SecondarySideMenu({ dataSource }: BlockInterface) {
   const { data, loadingContainer } = useDataSource<SecondaryMenuDataSourceInterface>(dataSource!);

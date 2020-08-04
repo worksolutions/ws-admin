@@ -7,7 +7,7 @@ import { flexValue } from "libs/styles";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
 
-import { ContainBlocksInterface } from "state/systemState";
+import { ContainBlocksInterface } from "state/globalState";
 
 function FullWidthWrapper({ blocks }: ContainBlocksInterface) {
   return (

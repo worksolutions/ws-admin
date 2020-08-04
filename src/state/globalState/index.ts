@@ -35,13 +35,18 @@ export interface CurrentUserInterface {
 }
 
 @Service({ global: true })
-export class SystemState {
+export class GlobalState {
   @Inject(() => RequestManager) private requestManager!: RequestManager;
 
   @observable
   @Inject(() => StateContainer)
   stateContainer!: StateContainer<{
     currentUser: CurrentUserInterface;
+  }>;
+
+  @observable
+  @Inject(() => StateContainer)
+  systemStateContainer!: StateContainer<{
     title: string;
     roles: string[];
     logo: string;
@@ -70,6 +75,6 @@ export class SystemState {
     return promisifyAPI(
       this.requestManager.createRequest("/admin/config", METHODS.GET, identityValueDecoder),
       this.loadingContainer.promisifyAPI,
-    ).then(this.stateContainer.setState);
+    ).then(this.systemStateContainer.setState);
   }
 }

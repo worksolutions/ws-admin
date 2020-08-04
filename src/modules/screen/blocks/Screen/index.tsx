@@ -6,7 +6,7 @@ import { useSetDocumentTitle } from "libs/hooks";
 import useScreenContextSynchronizer from "modules/context/hooks/useScreenContextSynchronizer";
 import BlockRenderer from "modules/screen/BlockRenderer";
 
-import { BlockInterface, ContainBlocksInterface } from "state/systemState";
+import { BlockInterface, ContainBlocksInterface } from "state/globalState";
 
 export interface ScreenInterface {
   reference: string;

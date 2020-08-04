@@ -8,7 +8,7 @@ import Dropdown from "primitives/Dropdown";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 export enum DropdownSizes {
   SMALL = "SMALL",

@@ -25,11 +25,11 @@ import { browserHistory } from "../common";
 
 import MenuSidebar, { sidebarWidth } from "./MenuSidebar";
 
-import { SystemState } from "state/systemState";
+import { GlobalState } from "state/globalState";
 
 import { AnyDataSource } from "types/DataSource";
 
-const systemState = Container.get(SystemState);
+const globalState = Container.get(GlobalState);
 
 export default cb(
   {
@@ -56,7 +56,7 @@ export default cb(
     },
   },
   function ({ children, logo }, { state: { menuElements } }) {
-    const { currentUser } = systemState.stateContainer.state;
+    const { currentUser } = globalState.stateContainer.state;
     return (
       <>
         <MenuSidebar

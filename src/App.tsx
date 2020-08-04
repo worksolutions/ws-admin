@@ -15,25 +15,26 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 import Layout from "./layout";
 import RedirectToMainReference from "./InitialRedirect";
 
-import { SystemState } from "state/systemState";
+import { GlobalState } from "state/globalState";
 
-const systemState = Container.get(SystemState);
+const globalState = Container.get(GlobalState);
 
 function App() {
   useEffect(() => {
-    systemState.loadConfig().then(() => {
-      const { userAuthenticate } = systemState.stateContainer.state;
+    globalState.loadConfig().then(() => {
+      const { userAuthenticate } = globalState.systemStateContainer.state;
       if (!userAuthenticate.authTokenSaveStrategy) return;
       new AuthTokenSaver(userAuthenticate.authTokenSaveStrategy).runDefaultTokenPipeline();
     });
   }, []);
-  useSetDocumentTitle(systemState.stateContainer.state.title || "Административная панель");
 
-  if (systemState.stateContainer.empty) {
+  const { state, empty } = globalState.systemStateContainer;
+
+  useSetDocumentTitle(state.title || "Административная панель");
+
+  if (empty) {
     return <Spinner size={132} />;
   }
-
-  const state = systemState.stateContainer.state;
 
   return (
     <>

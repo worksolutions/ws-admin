@@ -41,16 +41,16 @@ import globalEventBus from "../globalEventBus";
 
 import { AuthTokenSaver } from "./authTokenSaver";
 
-import { SystemState } from "state/systemState";
+import { GlobalState } from "state/globalState";
 
-const systemState = Container.get(SystemState);
+const globalState = Container.get(GlobalState);
 
 function AuthView({ reloadProfile }: { reloadProfile: () => void }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const appContext = useAppContext();
 
-  const { userAuthenticate, mainReference } = systemState.stateContainer.state;
+  const { userAuthenticate, mainReference } = globalState.systemStateContainer.state;
   const { authenticate } = useActions(userAuthenticate.actions, appContext);
 
   async function auth() {
@@ -66,7 +66,7 @@ function AuthView({ reloadProfile }: { reloadProfile: () => void }) {
       if (userAuthenticate.authTokenSaveStrategy) {
         new AuthTokenSaver(userAuthenticate.authTokenSaveStrategy).runAuthenticationTokenPipeline(data);
       }
-      await systemState.loadConfig();
+      await globalState.loadConfig();
       reloadProfile();
       browserHistory.replace(mainReference);
     } catch (e) {

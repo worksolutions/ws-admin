@@ -13,7 +13,7 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 import FieldsList from "../RowFields/FieldsList";
 import { FieldListItemType } from "../RowFields/FieldsList/types";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 function UserProfile({ dataSource }: BlockInterface<{ value: string }>) {
   const { data, loadingContainer } = useDataSource<{ avatarReference: string; name: string; email: string }>(

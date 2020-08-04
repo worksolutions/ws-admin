@@ -4,7 +4,7 @@ import { SortingOptionsInterface } from "modules/screen/blocks/Actions/Sorting";
 import { CardsViewInterface } from "../Cards/types";
 import { TableViewInterface } from "../Table/types";
 
-import { BlockInterface } from "state/systemState";
+import { BlockInterface } from "state/globalState";
 
 export interface CardsViewConfigInterface extends CardsViewInterface {
   options?: CardsViewInterface["options"] & {
