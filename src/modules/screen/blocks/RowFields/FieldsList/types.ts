@@ -10,6 +10,7 @@ export enum FieldListItemType {
   image = "image",
   iconLink = "icon-link",
   link = "link",
+  "edit:RadioGroup" = "edit:RadioGroup",
 }
 
 export interface FieldListItemInterface {
@@ -29,3 +30,5 @@ export type FieldListComponentInterface = BlockInterface<FieldListInterface> & {
   forceTitleWidth?: number;
   onCalculateTitleWidth?: (width: number) => void;
 };
+
+export type FieldListComponentViewMode = "static" | "dynamic";

@@ -134,6 +134,39 @@ module.exports = {
                       },
                     },
                   },
+                  subHeading: {
+                    type: "Filter",
+                    waitForId: "articles-context",
+                    options: [
+                      {
+                        name: "Фильтр",
+                        fields: [
+                          {
+                            title: "Статус",
+                            type: "edit:RadioGroup",
+                            options: {
+                              value: "{{screen:articles.filter.status}}",
+                              dataSource: {
+                                type: "static",
+                                options: [
+                                  { code: "any", title: "Любое значение" },
+                                  { code: "draft", title: "Черновик" },
+                                  { code: "published", title: "Опубликовано" },
+                                  { code: "unpublished", title: "Не опубликовано" },
+                                ],
+                              },
+                              actions: {
+                                change: {
+                                  type: "update-context",
+                                  context: "screen:articles.filter.status",
+                                },
+                              },
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  },
                   mainContent: {
                     type: "BlocksList",
                     blocks: [
@@ -141,6 +174,7 @@ module.exports = {
                         type: "ContextInitializer",
                         id: "articles-context",
                         options: [
+                          { path: "screen:articles.filter.status", value: "any" },
                           { path: "screen:articles.search", value: "" },
                           { path: "screen:articles.sorting", value: { id: "publishedAt", direction: "desc" } },
                         ],
@@ -212,6 +246,7 @@ module.exports = {
                                   perPage: "{{screen:articles.pagination.perPage}}",
                                   orderDirection: "{{screen:articles.sorting.direction}}",
                                   orderField: "{{screen:articles.sorting.id}}",
+                                  status: "{{screen:articles.filter.status}}",
                                 },
                               },
                             },
@@ -331,7 +366,7 @@ module.exports = {
                       {
                         title: "Атрибуты",
                         block: {
-                          type: "RowFields/GroupedFields",
+                          type: "RowFields/StaticGroupedFieldsList",
                           options: [
                             {
                               title: "Основные",
@@ -345,7 +380,6 @@ module.exports = {
                                   },
                                   {
                                     title: "Текст анонса",
-
                                     type: "text",
                                     options: { value: "{{screen:article.announce}}" },
                                   },

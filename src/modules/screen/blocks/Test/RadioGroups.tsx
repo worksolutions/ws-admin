@@ -5,10 +5,16 @@ import Wrapper from "primitives/Wrapper";
 
 import { ai, Aligns, flex, flexColumn, marginBottom } from "libs/styles";
 
-const items = ["Любой", "Вариант 1", "Вариант 2", "Вариант 3", "Вариант 4"];
+const items = [
+  { code: "1", title: "Любое значение" },
+  { code: "2", title: "Вариант 1" },
+  { code: "3", title: "Вариант 2" },
+  { code: "4", title: "Вариант 3" },
+  { code: "5", title: "Вариант 4" },
+];
 
 function RadioGroups() {
-  const [value, setValue] = React.useState(items[0]);
+  const [value, setValue] = React.useState(items[0].code);
   return (
     <Wrapper styles={[flex, flexColumn, ai(Aligns.START)]}>
       <RadioGroup

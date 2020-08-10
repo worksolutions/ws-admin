@@ -10,6 +10,7 @@ import { ai, Aligns, border, borderRadius, flex, marginRight } from "libs/styles
 import SimpleText from "modules/screen/blocks/SimpleText";
 import { insertContext } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
+import BlockRenderer from "modules/screen/BlockRenderer";
 
 import { FieldListItemType } from "../types";
 
@@ -54,6 +55,16 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
       </Wrapper>
     );
   },
+  "edit:RadioGroup": ({ options, styles }) => (
+    <BlockRenderer
+      type="Actions/RadioGroup"
+      styles={styles}
+      dataSource={options.dataSource}
+      actions={options.actions}
+      options={options}
+      spinnerSize={24}
+    />
+  ),
 };
 
 function FieldItemElementRenderer({ options, styles, type }: FieldItemElementRendererInterface) {

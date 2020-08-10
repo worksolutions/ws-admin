@@ -20,7 +20,7 @@ function VerticalFieldsList({ options, styles }: Omit<FieldListComponentInterfac
       {options!.fields.map((field, key) => (
         <Wrapper key={key} styles={[flex, flexColumn]}>
           <Typography styles={[flexShrink(0), marginBottom(16)]} color="gray-blue/05">
-            {field.title}:
+            {field.title}
           </Typography>
           <FieldItemElementRenderer type={field.type} options={field.options} styles={maxWidth(800)} />
         </Wrapper>

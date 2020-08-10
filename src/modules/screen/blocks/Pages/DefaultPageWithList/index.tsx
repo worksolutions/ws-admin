@@ -2,7 +2,7 @@ import React from "react";
 
 import Typography from "primitives/Typography";
 
-import { flexValue, overflow } from "libs/styles";
+import { flexValue, marginBottom, overflow } from "libs/styles";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
 
@@ -20,6 +20,7 @@ function DefaultPageWithList({ slots, options }: ContainSlotsInterface & BlockIn
         </>
       }
     >
+      {slots.subHeading && <BlockRenderer {...slots.subHeading} styles={[marginBottom(16)]} />}
       {slots.mainContent && <BlockRenderer {...slots.mainContent} styles={[flexValue(1), overflow("hidden")]} />}
     </DefaultPageWrapper>
   );

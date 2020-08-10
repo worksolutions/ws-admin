@@ -18,7 +18,7 @@ globalEventBus.on("BLOCK_WAS_RENDERED", ({ id, rendered }) => {
   renderedElements[id] = rendered;
 });
 
-function BlockRenderer(props: BlockInterface & { styles?: any; type?: string }) {
+function BlockRenderer(props: BlockInterface & { styles?: any; type?: string; spinnerSize?: number }) {
   const [BlockComponent, setBlockComponent] = useState<FC<BlockInterface>>();
   const update = useForceUpdate();
 
@@ -40,7 +40,7 @@ function BlockRenderer(props: BlockInterface & { styles?: any; type?: string }) 
   }, []);
 
   if (!BlockComponent) {
-    return <Spinner size={78} />;
+    return <Spinner size={props.spinnerSize || 78} />;
   }
 
   if (props.waitForId) {

@@ -10,9 +10,8 @@ import Avatar from "components/Avatar";
 import { ai, Aligns, border, borderRadius, flex, jc, marginRight, verticalPadding } from "libs/styles";
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
-
-import FieldsList from "../RowFields/FieldsList";
-import { FieldListItemInterface, FieldListItemType } from "../RowFields/FieldsList/types";
+import StaticFieldsList from "modules/screen/blocks/RowFields/FieldsList/StaticFieldsList";
+import { FieldListItemInterface, FieldListItemType } from "modules/screen/blocks/RowFields/FieldsList/types";
 
 import { BlockInterface, UserInterface } from "state/globalState";
 
@@ -36,7 +35,7 @@ function UserProfile({ dataSource }: BlockInterface<{ value: string }>) {
           <Avatar size={128} styles={marginRight(32)} reference={data.avatar} />
           <Wrapper>
             <Typography type="h2-bold">{data.name}</Typography>
-            <FieldsList
+            <StaticFieldsList
               useTitleWidthCalculation={false}
               options={{
                 fields: [

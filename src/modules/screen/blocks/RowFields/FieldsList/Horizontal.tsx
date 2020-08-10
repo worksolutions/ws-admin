@@ -4,10 +4,11 @@ import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 
 import {
+  ai,
+  Aligns,
   flex,
   flexColumn,
   flexShrink,
-  horizontalPadding,
   lastChild,
   marginBottom,
   marginRight,
@@ -19,16 +20,17 @@ import {
 
 import { useForceWidthStyles } from "../hooks";
 
-import { FieldListComponentInterface } from "./types";
+import { FieldListComponentInterface, FieldListComponentViewMode } from "./types";
 import FieldItemElementRenderer from "./Elements";
 
 function HorizontalFieldsList({
+  viewMode,
   options,
   forceTitleWidth,
   useTitleWidthCalculation,
   onCalculateTitleWidth,
   styles,
-}: FieldListComponentInterface) {
+}: FieldListComponentInterface & { viewMode: FieldListComponentViewMode }) {
   const { forceWidth, widthRefs } = useForceWidthStyles(onCalculateTitleWidth);
 
   const calculateWidth = (index: number) => (ref: HTMLElement) => {
@@ -40,7 +42,7 @@ function HorizontalFieldsList({
     <Wrapper styles={[flex, flexColumn, marginTop(16), lastChild(marginBottom(0)), styles]}>
       {options!.fields.map((field, key) => {
         return (
-          <Wrapper key={key} styles={[flex, marginBottom(16)]}>
+          <Wrapper key={key} styles={[flex, marginBottom(16), viewMode === "dynamic" && ai(Aligns.CENTER)]}>
             <Typography
               ref={useTitleWidthCalculation ? calculateWidth(key) : null}
               styles={[
@@ -53,7 +55,7 @@ function HorizontalFieldsList({
               ]}
               color="gray-blue/05"
             >
-              {field.title}:
+              {field.title}
             </Typography>
             <FieldItemElementRenderer type={field.type} options={field.options} styles={maxWidth(800)} />
           </Wrapper>

@@ -5,7 +5,7 @@ import Icon, { Icons } from "primitives/Icon";
 import Wrapper from "primitives/Wrapper";
 
 import { ai, Aligns, backgroundColor, flex, height, jc, overflow, width } from "libs/styles";
-import { useMeasureCallback } from "libs/hooks/useMeasureCallback";
+import { useMeasureCallback } from "libs/hooks/useMeasure";
 
 import { StyledComponentsAS } from "types/StyledComponentsAS";
 

@@ -2,19 +2,21 @@ import React from "react";
 
 import HorizontalFieldsList from "./Horizontal";
 import VerticalFieldsList from "./Vertical";
-import { FieldListComponentInterface, FieldListItemMode } from "./types";
+import { FieldListComponentInterface, FieldListComponentViewMode, FieldListItemMode } from "./types";
 
 function FieldsList({
+  viewMode,
   options,
   forceTitleWidth,
   onCalculateTitleWidth,
   useTitleWidthCalculation,
   styles,
-}: FieldListComponentInterface) {
+}: FieldListComponentInterface & { viewMode: FieldListComponentViewMode }) {
   const mode = options!.mode || FieldListItemMode.HORIZONTAL;
 
   return mode === FieldListItemMode.HORIZONTAL ? (
     <HorizontalFieldsList
+      viewMode={viewMode}
       useTitleWidthCalculation={useTitleWidthCalculation}
       styles={styles}
       options={options}

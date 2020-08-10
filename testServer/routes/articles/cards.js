@@ -2,6 +2,7 @@ const { assoc } = require("ramda");
 const moment = require("moment");
 
 const { prepareUrl, makeProxy } = require("../../libs");
+const matchStatusAndCode = require("./matchStatusAndCode");
 
 module.exports = (app) => {
   makeProxy(
@@ -49,8 +50,10 @@ module.exports = (app) => {
       };
     },
     ({ params }) => {
-      if (params.orderField === "publishedAt") return { params: assoc("orderField", "published_at", params) };
-      return {};
+      let result = params;
+      if (params.orderField === "publishedAt") result = assoc("orderField", "published_at", result);
+      result = assoc("status", matchStatusAndCode[result.status], result);
+      return { params: result };
     },
   );
 };
