@@ -8,7 +8,6 @@ import {
   backgroundColor,
   border,
   borderRadius,
-  borderTop,
   height,
   left,
   opacity,
@@ -60,5 +59,3 @@ function DroppedMenuWrapper({ children, opened }: { children: React.ReactNode; o
 }
 
 export default React.memo(DroppedMenuWrapper);
-
-//
