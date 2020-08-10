@@ -29,6 +29,7 @@ import {
 import Buttons from "./Buttons";
 import Dropdowns from "./Dropdowns";
 import Modals from "./Modals";
+import RadioGroups from "./RadioGroups";
 
 function TestPage() {
   const [inputValue, setInputValue] = React.useState("");
@@ -143,6 +144,9 @@ function TestPage() {
       </Wrapper>
       <Wrapper>
         <Modals />
+      </Wrapper>
+      <Wrapper>
+        <RadioGroups />
       </Wrapper>
     </Wrapper>
   );

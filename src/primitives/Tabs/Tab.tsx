@@ -28,23 +28,14 @@ interface TabInterface {
   title: string;
   active: boolean;
   onClick: () => void;
-  onWidthDetect: (width: number) => void;
 }
 
-export const calculateWidthDelayTime = 500;
 export const tabHorizontalPadding = 8;
 
-function Tab({ active: activeProp, title, onClick, onWidthDetect }: TabInterface) {
-  const ref = React.useRef<HTMLSpanElement>();
-
-  React.useEffect(() => {
-    setTimeout(() => onWidthDetect(ref.current!.getBoundingClientRect().width), calculateWidthDelayTime);
-  }, []);
-
+function Tab({ active: activeProp, title, onClick }: TabInterface) {
   return (
     <Wrapper
       as="button"
-      ref={ref}
       disabled={activeProp}
       styles={[
         disableOutline,

@@ -25,7 +25,7 @@ function ActionButton({
       size={ButtonSize.MEDIUM}
       iconLeft={options.icon}
       loading={resultActions.click.loadingContainer.loading}
-      onClick={() => resultActions.click.run(Math.random().toString())}
+      onClick={() => resultActions.click.run()}
     >
       {options.name}
     </Button>

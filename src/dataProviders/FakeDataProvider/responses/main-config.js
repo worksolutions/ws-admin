@@ -7,7 +7,7 @@ module.exports = {
       type: "static",
       options: [
         {
-          code: "content",
+          code: "content/articles",
           name: "Контент",
           icon: "grid-plus-outline",
         },
