@@ -42,4 +42,5 @@ export const list = {
   "edit-alt": require("./icons/edit-alt.svg"),
   delete: require("./icons/delete.svg"),
   "cross-big": require("./icons/cross-big.svg"),
+  calendar: require("./icons/calendar.svg"),
 };

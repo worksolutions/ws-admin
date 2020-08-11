@@ -30,9 +30,9 @@ import Buttons from "./Buttons";
 import Dropdowns from "./Dropdowns";
 import Modals from "./Modals";
 import RadioGroups from "./RadioGroups";
+import Inputs from "./Inputs";
 
 function TestPage() {
-  const [inputValue, setInputValue] = React.useState("");
   const [sorting, setSorting] = React.useState<SortingElementInterface>({
     id: "new",
   });
@@ -60,17 +60,7 @@ function TestPage() {
       <Buttons />
 
       <Wrapper>
-        <Input
-          tip="default"
-          iconRight="bullseye-arrow"
-          iconLeft="settings"
-          placeholder="one"
-          value={inputValue}
-          onChange={setInputValue}
-        />
-        <Input tip="error" placeholder="one" error value={inputValue} onChange={setInputValue} />
-        <Input tip="success" placeholder="one" success value={inputValue} onChange={setInputValue} />
-        <Password placeholder="one" value={inputValue} onChange={setInputValue} />
+        <Inputs />
       </Wrapper>
 
       <Wrapper>

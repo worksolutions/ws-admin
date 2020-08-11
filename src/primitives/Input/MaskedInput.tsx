@@ -11,7 +11,7 @@ import InputWrapper from "./InputWrapper";
 import { InputInterface } from "./Input";
 
 interface MaskedInputInterface extends InputInterface {
-  mask: ReturnType<typeof makeMask>;
+  mask: MaskType;
   guide?: boolean;
   showMaskWhenEmpty?: boolean;
   maskCharacter?: string;
@@ -67,6 +67,8 @@ export default React.memo(MaskedInput);
 
 export { InputSize } from "./InputWrapper";
 
-export const makeMask = function (elements: RegExp[]) {
+export const makeMask = function (elements: (RegExp | string)[]) {
   return { elements, maxLength: elements.length };
 };
+
+export type MaskType = ReturnType<typeof makeMask>;
