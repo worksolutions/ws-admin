@@ -1,4 +1,7 @@
 import React from "react";
+import useMeasureDirty from "react-use/esm/useMeasureDirty";
+
+import { asyncTimeout } from "../asyncTimeout";
 
 export function useScrollCallback(callback: (y: number, x: number) => void, triggerOnElementChange = false) {
   const element = React.useRef<HTMLElement | null>();
@@ -28,4 +31,35 @@ export function useScrollCallbackWasScrolledBoolean() {
   });
 
   return { setScrollableElement, scrolled };
+}
+
+export function useScrollToElement(center: boolean, behavior?: ScrollBehavior, position = "relative") {
+  const scrollRef = React.useRef<HTMLElement | null>(null);
+  const scrollToElementRef = React.useRef<HTMLElement | null>(null);
+  const size = useMeasureDirty(scrollRef as any);
+  const [run, setRun] = React.useState(false);
+
+  React.useEffect(() => {
+    scrollRef.current!.style.position = position;
+  }, []);
+
+  React.useEffect(() => {
+    if (!run) return;
+    if (size.height === 0) return;
+    const { offsetTop, offsetHeight } = scrollToElementRef.current!;
+    setRun(false);
+    if (center) {
+      scrollRef.current!.scrollTo({ behavior, top: offsetTop + offsetHeight / 2 - size.height / 2 });
+      return;
+    }
+    scrollRef.current!.scrollTo({ behavior, top: offsetTop });
+  }, [size, run]);
+
+  return {
+    scrollRef,
+    scrollToElementRef,
+    run() {
+      setRun(true);
+    },
+  };
 }

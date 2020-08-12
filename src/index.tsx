@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router";
 
+import "libs/date";
 import { RequestManager } from "libs/request";
 
 import "./style/index.css";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Ref } from "react";
 
 import Typography, { TypographyTypes } from "primitives/Typography";
 import Wrapper from "primitives/Wrapper";
@@ -104,6 +104,8 @@ export interface BaseInputWrapperInterface {
   size?: InputSize;
   error?: boolean;
   success?: boolean;
+  children?: React.ReactNode;
+  outerRef?: any;
 }
 
 function getInputVariant(error?: boolean, success?: boolean, disabled?: boolean) {
@@ -141,8 +143,10 @@ function InputWrapper({
   error,
   success,
   disabled,
+  renderComponent,
+  outerRef,
 }: BaseInputWrapperInterface & {
-  children: (styles: any) => JSX.Element;
+  renderComponent: (styles: any) => JSX.Element;
 }) {
   const styles = stylesForSize[size][getStylesNameOnIcons(!!iconLeft, !!iconRight)];
 
@@ -160,10 +164,10 @@ function InputWrapper({
   const colors = colorsByVariant[variant];
 
   return (
-    <Wrapper styles={[fullWidthProp && flexValue(1), outerStyles]}>
+    <Wrapper ref={outerRef} styles={[fullWidthProp && flexValue(1), outerStyles]}>
       <Title title={title} />
       <Wrapper styles={[fullWidth, backgroundColor(colors.background), borderRadius(6), position("relative")]}>
-        {children([
+        {renderComponent([
           TypographyTypes["body-regular"],
           transition("all 0.2s"),
           borderWidth(0),
@@ -182,6 +186,7 @@ function InputWrapper({
         ])}
         {leftIconElement}
         {rightIconElement}
+        {children}
       </Wrapper>
       <Tip tip={tip} color={colors.tip} />
     </Wrapper>

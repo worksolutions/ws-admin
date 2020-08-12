@@ -21,19 +21,22 @@ const Input = React.forwardRef(function (
 ) {
   const { onInputChange, inputValue } = useDebouncedInput(value, debounce, onChange);
   return (
-    <InputWrapper {...inputWrapperProps}>
-      {(inputStyles) => (
-        <Wrapper
-          ref={ref}
-          as="input"
-          disabled={inputWrapperProps.disabled}
-          styles={[inputStyles, styles]}
-          value={inputValue}
-          placeholder={placeholder}
-          onChange={eventValue(onInputChange)}
-        />
+    <InputWrapper
+      {...inputWrapperProps}
+      renderComponent={(inputStyles) => (
+        <>
+          <Wrapper
+            ref={ref}
+            as="input"
+            disabled={inputWrapperProps.disabled}
+            styles={[inputStyles, styles]}
+            value={inputValue}
+            placeholder={placeholder}
+            onChange={eventValue(onInputChange)}
+          />
+        </>
       )}
-    </InputWrapper>
+    />
   );
 });
 

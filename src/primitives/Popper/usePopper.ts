@@ -1,5 +1,5 @@
 import React from "react";
-import { createPopper, Instance } from "@popperjs/core";
+import { createPopper, Instance, VisualViewport, Window } from "@popperjs/core";
 import { Placement } from "@popperjs/core/lib/enums";
 import { PositioningStrategy } from "@popperjs/core/lib/types";
 
@@ -28,9 +28,13 @@ export default function usePopper(data?: PopperConfigInterface) {
   const [child, setChild] = React.useState<HTMLElement>();
   const [instance, setInstance] = React.useState<Instance | undefined>();
   const [placement, setPlacement] = React.useState<Placement>("bottom");
+  const popperScrollParentsHandler = React.useRef<() => void>(() => null);
 
   const destroy = (inputInstance: Instance | undefined) => {
     if (!inputInstance) return;
+    inputInstance.state.scrollParents.popper.forEach((element) =>
+      element.removeEventListener("scroll", popperScrollParentsHandler.current),
+    );
     inputInstance.destroy();
     setInstance(undefined);
   };
@@ -39,6 +43,10 @@ export default function usePopper(data?: PopperConfigInterface) {
     if (!child || !parent) return () => destroy(instance);
     const newInstance = createPopper(parent, child, getPopperData(data));
     setInstance(newInstance);
+    popperScrollParentsHandler.current = () => setPlacement(newInstance.state.placement);
+    newInstance.state.scrollParents.popper.forEach((element) =>
+      element.addEventListener("scroll", popperScrollParentsHandler.current),
+    );
     return () => destroy(newInstance);
   }, [parent, child]);
 

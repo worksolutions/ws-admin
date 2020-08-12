@@ -43,4 +43,6 @@ export const list = {
   delete: require("./icons/delete.svg"),
   "cross-big": require("./icons/cross-big.svg"),
   calendar: require("./icons/calendar.svg"),
+  "arrow-left-long": require("./icons/arrow-left-long.svg"),
+  "arrow-right-long": require("./icons/arrow-right-long.svg"),
 };

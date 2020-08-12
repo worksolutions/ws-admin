@@ -28,7 +28,7 @@ export interface TypographyInterface {
   className?: string;
   as?: StyledComponentsAS;
   type?: keyof typeof TypographyTypes;
-  color?: Colors;
+  color?: Colors | null;
   styles?: any;
   dots?: boolean;
   children: ReactNode;
@@ -47,7 +47,7 @@ const Typography = React.forwardRef(
       css={[
         display("inline-block"),
         type ? TypographyTypes[type] : null,
-        color(colorProp || "gray-blue/09"),
+        colorProp !== null && color(colorProp || "gray-blue/09"),
         dotsProp && textDots,
         styles,
       ]}

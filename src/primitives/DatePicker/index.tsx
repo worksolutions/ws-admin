@@ -1,52 +1,33 @@
 import React from "react";
+import { animated } from "react-spring";
+import { zIndex_popup } from "layout/zIndexes";
 import moment from "moment";
 
-import MaskedInput, { makeMask, MaskType } from "primitives/Input/MaskedInput";
+import MaskedInput from "primitives/Input/MaskedInput";
+import { InputInterface } from "primitives/Input/Input";
+import usePopper from "primitives/Popper/usePopper";
+import Wrapper from "primitives/Wrapper";
 
-import { width } from "libs/styles";
-import { useEffectSkipFirst } from "libs/hooks/common";
+import { opacity, width } from "libs/styles";
 
-import { InputInterface } from "../Input/Input";
+import HandleClickOutside from "../HandleClickOutside";
+import { useVisibilityAnimation } from "../Popper/useVisibilityAnimation";
 
-export enum DatePickerMode {
-  DATE,
-  TIME,
-  DATE_TIME,
-}
+import { configByMode, DatePickerMode } from "./config";
+import { useInnerValueChange } from "./useInnerValueChange";
+import Calendar from "./Calendar";
+
+export { DatePickerMode } from "./config";
 
 interface DatePickerInterface extends Omit<InputInterface, "value" | "onChange"> {
   initialValue?: string | null;
   allowEmpty?: boolean;
   mode?: DatePickerMode;
+  min?: string;
+  max?: string;
+  hasCurrentDayButton?: boolean;
   onChange: (value: string | null) => void;
 }
-
-const dateMaskCharacters = [/\d/, /\d/, ".", /\d/, /\d/, ".", /\d/, /\d/, /\d/, /\d/];
-const timeMaskCharacters = [/\d/, /\d/, ":", /\d/, /\d/];
-
-const configByMode: Record<
-  DatePickerMode,
-  { mask: MaskType; placeholder: string; width: number; momentRawFormat: string }
-> = {
-  [DatePickerMode.DATE]: {
-    width: 128,
-    placeholder: "__.__.____",
-    mask: makeMask(dateMaskCharacters),
-    momentRawFormat: "DD.MM.YYYY",
-  },
-  [DatePickerMode.TIME]: {
-    width: 92,
-    placeholder: "__:__",
-    mask: makeMask(timeMaskCharacters),
-    momentRawFormat: "HH:mm",
-  },
-  [DatePickerMode.DATE_TIME]: {
-    width: 172,
-    placeholder: "__.__.____ __:__",
-    mask: makeMask([...dateMaskCharacters, " ", ...timeMaskCharacters]),
-    momentRawFormat: "DD.MM.YYYY HH:mm",
-  },
-};
 
 const maskCharacter = "_";
 
@@ -56,49 +37,73 @@ function DatePicker({
   initialValue,
   outerStyles,
   allowEmpty = true,
+  min: minProp,
+  max: maxProp,
+  hasCurrentDayButton,
   onChange,
 }: DatePickerInterface) {
-  const [innerValue, setInnerValue] = React.useState(initialValue || "");
   const config = configByMode[mode];
+  const [inputValue, setInputValue] = React.useState(() => initialValue || "");
+  const [lastValidValue, setLastValidValue] = React.useState(() => inputValue || null);
   const [error, setError] = React.useState(false);
-  const innerValueIsEmpty = innerValue.length === 0;
 
-  useEffectSkipFirst(() => {
-    if (innerValueIsEmpty) {
-      if (allowEmpty) {
-        setError(false);
-        onChange(null);
-        return;
-      }
-      setError(true);
-      return;
-    }
+  const { min, max } = useInnerValueChange(inputValue, allowEmpty, {
+    maskCharacter,
+    config,
+    min: minProp,
+    max: maxProp,
+    onChange: (value) => {
+      setLastValidValue(value);
+      onChange(value);
+    },
+    setError,
+  });
 
-    const rawValue = innerValue.replace(new RegExp(maskCharacter, "g"), "");
+  const { opened, style, close, open } = useVisibilityAnimation();
 
-    if (rawValue.length === config.momentRawFormat.length) {
-      if (moment(rawValue, config.momentRawFormat).isValid()) {
-        setError(false);
-        onChange(innerValue);
-        return;
-      }
-      setError(true);
-      return;
-    }
-  }, [innerValue]);
+  const { initPopper, placement } = usePopper({ placement: "bottom-start" });
+
+  function initRef(input: HTMLInputElement | null) {
+    if (!input) return;
+    initPopper("parent")(input);
+    input.addEventListener("focus", () => open());
+  }
 
   return (
-    <MaskedInput
-      error={error}
-      value={innerValue}
-      mask={config.mask}
-      guide
-      maskCharacter={maskCharacter}
-      placeholder={placeholder || config.placeholder}
-      outerStyles={[width(config.width), outerStyles]}
-      iconRight="calendar"
-      onChange={setInnerValue}
-    />
+    <HandleClickOutside enabled={opened} onClickOutside={close}>
+      {(ref) => (
+        <MaskedInput
+          outerRef={ref}
+          ref={initRef}
+          error={error}
+          value={inputValue}
+          mask={config.mask}
+          guide
+          maskCharacter={maskCharacter}
+          placeholder={placeholder || config.placeholder}
+          outerStyles={[width(config.width), outerStyles]}
+          iconRight="calendar"
+          onChange={setInputValue}
+        >
+          <Wrapper
+            as={animated.div}
+            style={style}
+            styles={[zIndex_popup, opacity(opened ? 1 : 0.6)]}
+            ref={initPopper("child")}
+          >
+            <Calendar
+              min={min}
+              max={max}
+              value={lastValidValue}
+              placement={placement}
+              momentFormat={config.momentFormat}
+              hasCurrentDayButton={hasCurrentDayButton}
+              onChange={setInputValue}
+            />
+          </Wrapper>
+        </MaskedInput>
+      )}
+    </HandleClickOutside>
   );
 }
 

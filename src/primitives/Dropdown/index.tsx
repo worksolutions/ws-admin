@@ -16,6 +16,7 @@ import {
   flex,
   flexValue,
   focus,
+  fullWidth,
   hover,
   marginBottom,
   marginLeft,
@@ -56,6 +57,7 @@ export enum DropdownTitlePosition {
 }
 
 interface DropdownInterface<ITEM> {
+  outerStyles?: any;
   title?: string;
   titlePosition?: DropdownTitlePosition;
   size?: DropdownSize;
@@ -71,8 +73,9 @@ const dropdownWrapperStylesByTitlePosition: Record<DropdownTitlePosition, any> =
   [DropdownTitlePosition.TOP]: [firstChild(marginBottom(8))],
 };
 
-const Dropdown = React.forwardRef(function Dropdown(
+const Dropdown = React.forwardRef(function (
   {
+    outerStyles,
     size = DropdownSize.MEDIUM,
     title,
     titlePosition = DropdownTitlePosition.TOP,
@@ -91,7 +94,7 @@ const Dropdown = React.forwardRef(function Dropdown(
 
   return (
     <DroppedList
-      margin={4}
+      margin={6}
       itemSize={matchingDropdownSizeAndItemSize[size]}
       items={items?.map((item) => ({
         ...item,
@@ -102,11 +105,12 @@ const Dropdown = React.forwardRef(function Dropdown(
       onChange={(id) => onChange(id)}
     >
       {(state, parentRef, subChild) => (
-        <Wrapper styles={title && dropdownWrapperStylesByTitlePosition[titlePosition]}>
+        <Wrapper styles={[title && dropdownWrapperStylesByTitlePosition[titlePosition], outerStyles]}>
           {title && <Typography color="gray-blue/05">{title}</Typography>}
           <Wrapper
             as="button"
             styles={[
+              fullWidth,
               disableOutline,
               borderNone,
               pointer,

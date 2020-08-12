@@ -60,6 +60,11 @@ export const alignSelf = memoizeWith(identity, function (value: Aligns) {
     align-self: ${value};`;
 });
 
+export const alignContent = memoizeWith(identity, function (value: Aligns) {
+  return css`
+    align-content: ${value};`;
+});
+
 export const ai = memoizeWith(identity, function (value: Aligns) {
   return css`
     align-items: ${value};`;

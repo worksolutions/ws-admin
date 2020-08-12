@@ -5,10 +5,16 @@ import { sort, uniqWith } from "ramda";
 // @ts-ignore
 const config = moment.localeData("ru")["_config"] as LocaleSpecification;
 
+const weekdaysShort: string[] = config.weekdaysShort as any;
+
 moment.updateLocale("ru", {
   calendar: {
     ...config.calendar,
   },
+  week: {
+    dow: 1,
+  },
+  weekdaysShort: [weekdaysShort[1], ...weekdaysShort.slice(2), weekdaysShort[0]],
 });
 
 export enum DateMode {
@@ -29,3 +35,5 @@ export const sortDates = (dates: Moment[]): Moment[] => sort((a: Moment, b: Mome
 
 export const uniqDatesBy = (by?: unitOfTime.StartOf) => (dates: Moment[]): Moment[] =>
   uniqWith((prevDate, currDate) => prevDate.isSame(currDate, by), dates);
+
+export const today = moment();

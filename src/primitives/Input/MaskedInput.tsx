@@ -47,11 +47,14 @@ const MaskedInput = React.forwardRef(function (
   });
 
   return (
-    <InputWrapper {...inputWrapperProps}>
-      {(inputStyles) => (
+    <InputWrapper
+      {...inputWrapperProps}
+      renderComponent={(inputStyles) => (
         <Wrapper
-          length={2}
-          ref={provideRef(innerRef, ref)}
+          ref={provideRef((element) => {
+            if (element === ref.current) return;
+            provideRef(innerRef)(element);
+          }, ref)}
           as="input"
           disabled={inputWrapperProps.disabled}
           styles={[inputStyles, styles]}
@@ -59,7 +62,7 @@ const MaskedInput = React.forwardRef(function (
           onChange={onChangeMasked}
         />
       )}
-    </InputWrapper>
+    />
   );
 });
 

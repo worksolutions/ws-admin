@@ -31,8 +31,7 @@ const Password = React.forwardRef(function (
           onClick={toggleShowPassword}
         />
       }
-    >
-      {(inputStyles) => (
+      renderComponent={(inputStyles) => (
         <Wrapper
           ref={ref}
           as="input"
@@ -44,7 +43,7 @@ const Password = React.forwardRef(function (
           onChange={eventValue(onInputChange)}
         />
       )}
-    </InputWrapper>
+    />
   );
 });
 

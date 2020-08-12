@@ -1,18 +1,17 @@
 import React from "react";
-import { duration200Number } from "layout/durations";
-import { animated, useSpring } from "react-spring";
+import { animated } from "react-spring";
 import { elevation16 } from "style/shadows";
 import { useHover } from "react-use";
 import { Placement } from "@popperjs/core";
-import { zIndex_droppedList } from "layout/zIndexes";
+import { zIndex_popup } from "layout/zIndexes";
 
 import { backgroundColor, border, borderRadius, maxWidth, minWidth, padding, position } from "libs/styles";
 import { provideRef } from "libs/provideRef";
-import { useBoolean } from "libs/hooks/common";
 
 import Wrapper from "../Wrapper";
 import usePopper, { getPopperMarginStyleForPlacement } from "../Popper/usePopper";
 import HandleClickOutside from "../HandleClickOutside";
+import { useVisibilityAnimation } from "../Popper/useVisibilityAnimation";
 
 import List, { ListItemInterface, ListItemSize } from "./index";
 
@@ -83,12 +82,7 @@ function DroppedList({
   children,
   onChange,
 }: DroppedListInterface<any>) {
-  const [opened, open, close] = useBoolean(false);
-
-  const spring = useSpring({
-    config: { duration: duration200Number },
-    opacity: opened ? 1 : 0,
-  });
+  const { opened, style, close, open } = useVisibilityAnimation();
 
   const { initPopper, placement } = usePopper({ placement: placementProp });
 
@@ -100,11 +94,8 @@ function DroppedList({
       provideRef(ref, initPopper("parent")),
       <Wrapper
         as={animated.div}
-        style={{
-          opacity: spring.opacity,
-          visibility: spring.opacity.to((value) => (value === 0 ? "hidden" : "visible")),
-        }}
-        styles={[maxWidth(480), minWidth("calc(100% + 40px)"), zIndex_droppedList]}
+        style={style}
+        styles={[maxWidth(480), minWidth("calc(100% + 40px)"), zIndex_popup]}
         ref={initPopper("child")}
       >
         <Wrapper
