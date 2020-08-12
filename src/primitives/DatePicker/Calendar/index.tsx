@@ -21,13 +21,12 @@ import {
   marginBottom,
   marginRight,
   marginTop,
-  opacity,
   padding,
-  visibility,
   width,
 } from "libs/styles";
 import { useEffectSkipFirst } from "libs/hooks/common";
 import { today } from "libs/date";
+import { cb } from "libs/CB";
 
 import ButtonsList from "./ButtonsList";
 import { SwitchModeButton } from "./SwitchModeButton";
@@ -46,140 +45,156 @@ interface CalendarInterface {
 
 type ViewMode = "year" | "month" | "date";
 
-function Calendar({ min, max, placement, value, momentFormat, hasCurrentDayButton, onChange }: CalendarInterface) {
-  const years = React.useMemo(() => range(min.year(), max.year() + 1), []);
+export default cb(
+  {
+    useStateBuilder: ({ value, momentFormat, min, max }: CalendarInterface) => {
+      function calculateMomentValueFromIncomeValue() {
+        return value ? moment(value, momentFormat) : moment();
+      }
 
-  function calculateMomentValueFromIncomeValue() {
-    return value ? moment(value, momentFormat) : moment();
-  }
+      const [innerMomentValue, setInnerMomentValue] = React.useState(calculateMomentValueFromIncomeValue);
 
-  const [innerMomentValue, setInnerMomentValue] = React.useState(calculateMomentValueFromIncomeValue);
-  const selectedMomentValue = React.useMemo(() => (value ? moment(value, momentFormat) : null), [value]);
+      const year = React.useMemo(() => innerMomentValue.year(), [innerMomentValue]);
 
-  useEffectSkipFirst(() => {
-    setInnerMomentValue(calculateMomentValueFromIncomeValue);
-  }, [value]);
+      useEffectSkipFirst(() => {
+        setInnerMomentValue(calculateMomentValueFromIncomeValue);
+      }, [value]);
+      const months = useMonthCalculation(year, min, max);
 
-  const year = React.useMemo(() => innerMomentValue.year(), [innerMomentValue]);
-  const month = React.useMemo(() => innerMomentValue.month(), [innerMomentValue]);
+      return {
+        year,
+        months,
+        innerMomentValue,
+        setInnerMomentValue,
+      };
+    },
+    computed: {
+      years: ({ min, max }) => [() => range(min.year(), max.year() + 1), []],
+      selectedMomentValue: ({ value, momentFormat }) => [() => (value ? moment(value, momentFormat) : null), [value]],
+      month: (_, { innerMomentValue }) => [() => innerMomentValue.month(), [innerMomentValue]],
+      leftControlButtonDisabled: ({ min }, { innerMomentValue }) => [
+        () => innerMomentValue.isSameOrBefore(min, "month"),
+        [innerMomentValue],
+      ],
+      rightControlButtonDisabled: ({ max }, { innerMomentValue }) => [
+        () => innerMomentValue.isSameOrAfter(max, "month"),
+        [innerMomentValue],
+      ],
+    },
+  },
+  function Calendar(
+    { min, max, placement, momentFormat, hasCurrentDayButton, onChange },
+    {
+      state: { months, setInnerMomentValue, innerMomentValue, year },
+      computed: { years, selectedMomentValue, month, rightControlButtonDisabled, leftControlButtonDisabled },
+    },
+  ) {
+    const [mode, setMode] = React.useState<ViewMode>("date");
 
-  const months = useMonthCalculation(year, min, max);
-
-  const [mode, setMode] = React.useState<ViewMode>("date");
-
-  function toggleMode(newMode: ViewMode) {
-    if (newMode === mode) {
-      setMode("date");
-      return;
+    function toggleMode(newMode: ViewMode) {
+      if (newMode === mode) {
+        setMode("date");
+        return;
+      }
+      setMode(newMode);
     }
-    setMode(newMode);
-  }
 
-  const allControlButtonDisabled = mode !== "date";
+    const allControlButtonDisabled = mode !== "date";
 
-  const leftControlButtonDisabled = React.useMemo(() => innerMomentValue.isSameOrBefore(min, "month"), [
-    innerMomentValue,
-  ]);
-
-  const rightControlButtonDisabled = React.useMemo(() => innerMomentValue.isSameOrAfter(max, "month"), [
-    innerMomentValue,
-  ]);
-
-  return (
-    <Wrapper
-      styles={[
-        width(306),
-        getPopperMarginStyleForPlacement(placement, 4),
-        padding(12),
-        backgroundColor("white"),
-        border(1, "gray-blue/02"),
-        elevation16,
-        borderRadius(6),
-        flex,
-        flexColumn,
-      ]}
-    >
-      <Wrapper styles={[flex, flexValue(1), ai(Aligns.CENTER), marginBottom(12)]}>
-        <Button
-          disabled={allControlButtonDisabled || leftControlButtonDisabled}
-          styles={marginRight(8)}
-          type={ButtonType.ICON}
-          size={ButtonSize.MEDIUM}
-          iconLeft="arrow-left-long"
-          onClick={() => setInnerMomentValue(moment(innerMomentValue).subtract(1, "month"))}
-        />
-        <SwitchModeButton
-          styles={marginRight(8)}
-          opened={mode === "month"}
-          onClick={() => toggleMode("month")}
-          value={months[month]!}
-          width={108}
-        />
-        <SwitchModeButton
-          styles={marginRight(8)}
-          opened={mode === "year"}
-          onClick={() => toggleMode("year")}
-          value={year}
-          width={84}
-        />
-        <Button
-          disabled={allControlButtonDisabled || rightControlButtonDisabled}
-          type={ButtonType.ICON}
-          size={ButtonSize.MEDIUM}
-          iconLeft="arrow-right-long"
-          onClick={() => setInnerMomentValue(moment(innerMomentValue).add(1, "month"))}
-        />
-      </Wrapper>
-      {mode === "date" && (
-        <CalendarView
-          currentInnerValue={innerMomentValue}
-          selectedValue={selectedMomentValue}
-          onChange={(day) => onChange(moment(innerMomentValue).date(day).format(momentFormat))}
-        />
-      )}
-      {mode === "month" && (
-        <ButtonsList
-          items={months}
-          selectedItemIndex={month}
-          onClick={(month) => {
-            setInnerMomentValue(moment(innerMomentValue).month(month));
-            toggleMode("date");
-          }}
-        />
-      )}
-      {mode === "year" && (
-        <ButtonsList
-          items={years}
-          selectedItemIndex={years.indexOf(year)}
-          onClick={(index) => {
-            const newValue = moment(innerMomentValue).year(years[index]);
-            toggleMode("date");
-            if (newValue.isBefore(min)) {
-              setInnerMomentValue(min);
-              return;
-            }
-            if (newValue.isAfter(max)) {
-              setInnerMomentValue(max);
-              return;
-            }
-            setInnerMomentValue(newValue);
-          }}
-        />
-      )}
-      {hasCurrentDayButton && (
-        <Wrapper styles={[flex, jc(Aligns.CENTER)]}>
+    return (
+      <Wrapper
+        styles={[
+          width(306),
+          getPopperMarginStyleForPlacement(placement, 4),
+          padding(12),
+          backgroundColor("white"),
+          border(1, "gray-blue/02"),
+          elevation16,
+          borderRadius(6),
+          flex,
+          flexColumn,
+        ]}
+      >
+        <Wrapper styles={[flex, flexValue(1), ai(Aligns.CENTER), marginBottom(12)]}>
           <Button
-            styles={marginTop(4)}
+            disabled={allControlButtonDisabled || leftControlButtonDisabled}
+            styles={marginRight(8)}
+            type={ButtonType.ICON}
             size={ButtonSize.MEDIUM}
-            type={ButtonType.GHOST}
-            onClick={() => onChange(today.format(momentFormat))}
-          >
-            Сегодня {today.format(momentFormat)}
-          </Button>
+            iconLeft="arrow-left-long"
+            onClick={() => setInnerMomentValue(moment(innerMomentValue).subtract(1, "month"))}
+          />
+          <SwitchModeButton
+            styles={marginRight(8)}
+            opened={mode === "month"}
+            onClick={() => toggleMode("month")}
+            value={months[month]!}
+            width={108}
+          />
+          <SwitchModeButton
+            styles={marginRight(8)}
+            opened={mode === "year"}
+            onClick={() => toggleMode("year")}
+            value={year}
+            width={84}
+          />
+          <Button
+            disabled={allControlButtonDisabled || rightControlButtonDisabled}
+            type={ButtonType.ICON}
+            size={ButtonSize.MEDIUM}
+            iconLeft="arrow-right-long"
+            onClick={() => setInnerMomentValue(moment(innerMomentValue).add(1, "month"))}
+          />
         </Wrapper>
-      )}
-    </Wrapper>
-  );
-}
-
-export default React.memo(Calendar);
+        {mode === "date" && (
+          <CalendarView
+            currentInnerValue={innerMomentValue}
+            selectedValue={selectedMomentValue}
+            onChange={(day) => onChange(moment(innerMomentValue).date(day).format(momentFormat))}
+          />
+        )}
+        {mode === "month" && (
+          <ButtonsList
+            items={months}
+            selectedItemIndex={month}
+            onClick={(month) => {
+              setInnerMomentValue(moment(innerMomentValue).month(month));
+              toggleMode("date");
+            }}
+          />
+        )}
+        {mode === "year" && (
+          <ButtonsList
+            items={years}
+            selectedItemIndex={years.indexOf(year)}
+            onClick={(index) => {
+              const newValue = moment(innerMomentValue).year(years[index]);
+              toggleMode("date");
+              if (newValue.isBefore(min)) {
+                setInnerMomentValue(min);
+                return;
+              }
+              if (newValue.isAfter(max)) {
+                setInnerMomentValue(max);
+                return;
+              }
+              setInnerMomentValue(newValue);
+            }}
+          />
+        )}
+        {hasCurrentDayButton && (
+          <Wrapper styles={[flex, jc(Aligns.CENTER)]}>
+            <Button
+              styles={marginTop(4)}
+              size={ButtonSize.MEDIUM}
+              type={ButtonType.GHOST}
+              onClick={() => onChange(today.format(momentFormat))}
+            >
+              Сегодня {today.format(momentFormat)}
+            </Button>
+          </Wrapper>
+        )}
+      </Wrapper>
+    );
+  },
+);
