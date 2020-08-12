@@ -1,9 +1,11 @@
 import React from "react";
+import { assoc } from "ramda";
 
 import ImageWithDefault from "primitives/ImageWithDefault";
 import Icon from "primitives/Icon";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
 import Wrapper from "primitives/Wrapper";
+import { InputSize } from "primitives/Input/Input";
 
 import { ai, Aligns, border, borderRadius, flex, marginRight } from "libs/styles";
 
@@ -55,14 +57,22 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
       </Wrapper>
     );
   },
-  "edit:RadioGroup": ({ options, styles }) => (
+  "edit:RadioGroup": ({ options: { actions, dataSource, options }, styles }) => (
     <BlockRenderer
       type="Actions/RadioGroup"
       styles={styles}
-      dataSource={options.dataSource}
-      actions={options.actions}
+      dataSource={dataSource}
+      actions={actions}
       options={options}
       spinnerSize={24}
+    />
+  ),
+  "edit:Date": ({ options: { options, actions }, styles }) => (
+    <BlockRenderer
+      type="Actions/Date"
+      styles={styles}
+      actions={actions}
+      options={assoc("size", InputSize.MEDIUM, options)}
     />
   ),
 };

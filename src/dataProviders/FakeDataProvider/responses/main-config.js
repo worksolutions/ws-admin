@@ -145,7 +145,9 @@ module.exports = {
                             title: "Статус",
                             type: "edit:RadioGroup",
                             options: {
-                              value: "{{screen:articles.filter.status}}",
+                              options: {
+                                value: "{{screen:articles.filter.status}}",
+                              },
                               dataSource: {
                                 type: "static",
                                 options: [
@@ -163,6 +165,21 @@ module.exports = {
                               },
                             },
                           },
+                          {
+                            title: "Дата публикации",
+                            type: "edit:Date",
+                            options: {
+                              options: {
+                                value: "{{{screen:articles.filter.publishedAt}}}",
+                              },
+                              actions: {
+                                change: {
+                                  type: "update-context",
+                                  context: "screen:articles.filter.publishedAt",
+                                },
+                              },
+                            },
+                          },
                         ],
                       },
                     ],
@@ -175,6 +192,7 @@ module.exports = {
                         id: "articles-context",
                         options: [
                           { path: "screen:articles.filter.status", value: "any" },
+                          { path: "screen:articles.filter.publishedAt", value: null },
                           { path: "screen:articles.search", value: "" },
                           { path: "screen:articles.sorting", value: { id: "publishedAt", direction: "desc" } },
                         ],
@@ -247,6 +265,7 @@ module.exports = {
                                   orderDirection: "{{screen:articles.sorting.direction}}",
                                   orderField: "{{screen:articles.sorting.id}}",
                                   status: "{{screen:articles.filter.status}}",
+                                  publishedAt: "{{screen:articles.filter.publishedAt}}",
                                 },
                               },
                             },
@@ -263,6 +282,7 @@ module.exports = {
                                   perPage: "{{screen:articles.pagination.perPage}}",
                                   orderDirection: "{{screen:articles.sorting.direction}}",
                                   orderField: "{{screen:articles.sorting.id}}",
+                                  publishedAt: "{{screen:articles.filter.publishedAt}}",
                                 },
                               },
                             },

@@ -81,6 +81,8 @@ module.exports = (app) => {
     ({ params }) => {
       let result = params;
       if (params.orderField === "publishedAt") result = assoc("orderField", "published_at", result);
+      if (params.publishedAt)
+        result = assoc("publishedAt", moment.utc(params.publishedAt, "DD.MM.YYYY").unix(), result);
       result = assoc("status", matchStatusAndCode[result.status], result);
       return { params: result };
     },

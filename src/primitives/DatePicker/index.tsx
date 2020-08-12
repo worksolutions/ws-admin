@@ -64,7 +64,7 @@ export default cb(
     },
   },
   function DatePicker(
-    { placeholder, outerStyles, hasCurrentDayButton },
+    { size, placeholder, outerStyles, hasCurrentDayButton },
     { state: { config, inputValue, min, max, setInputValue, error, lastValidValue } },
   ) {
     const { opened, style, close, open } = useVisibilityAnimation();
@@ -80,6 +80,7 @@ export default cb(
       <HandleClickOutside enabled={opened} onClickOutside={close}>
         {(ref) => (
           <MaskedInput
+            size={size}
             outerRef={ref}
             ref={initRef}
             error={error}

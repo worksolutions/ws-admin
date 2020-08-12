@@ -11,6 +11,7 @@ export enum FieldListItemType {
   iconLink = "icon-link",
   link = "link",
   "edit:RadioGroup" = "edit:RadioGroup",
+  "edit:Date" = "edit:Date",
 }
 
 export interface FieldListItemInterface {
