@@ -75,7 +75,15 @@ function Calendar({ min, max, placement, value, momentFormat, hasCurrentDayButto
     setMode(newMode);
   }
 
-  const leftRightButtonCommonStyles = mode !== "date" && [opacity(0), visibility("hidden")];
+  const allControlButtonDisabled = mode !== "date";
+
+  const leftControlButtonDisabled = React.useMemo(() => innerMomentValue.isSameOrBefore(min, "month"), [
+    innerMomentValue,
+  ]);
+
+  const rightControlButtonDisabled = React.useMemo(() => innerMomentValue.isSameOrAfter(max, "month"), [
+    innerMomentValue,
+  ]);
 
   return (
     <Wrapper
@@ -93,7 +101,8 @@ function Calendar({ min, max, placement, value, momentFormat, hasCurrentDayButto
     >
       <Wrapper styles={[flex, flexValue(1), ai(Aligns.CENTER), marginBottom(12)]}>
         <Button
-          styles={[marginRight(8), leftRightButtonCommonStyles]}
+          disabled={allControlButtonDisabled || leftControlButtonDisabled}
+          styles={marginRight(8)}
           type={ButtonType.ICON}
           size={ButtonSize.MEDIUM}
           iconLeft="arrow-left-long"
@@ -114,7 +123,7 @@ function Calendar({ min, max, placement, value, momentFormat, hasCurrentDayButto
           width={84}
         />
         <Button
-          styles={leftRightButtonCommonStyles}
+          disabled={allControlButtonDisabled || rightControlButtonDisabled}
           type={ButtonType.ICON}
           size={ButtonSize.MEDIUM}
           iconLeft="arrow-right-long"
@@ -143,8 +152,17 @@ function Calendar({ min, max, placement, value, momentFormat, hasCurrentDayButto
           items={years}
           selectedItemIndex={years.indexOf(year)}
           onClick={(index) => {
-            setInnerMomentValue(moment(innerMomentValue).year(years[index]));
+            const newValue = moment(innerMomentValue).year(years[index]);
             toggleMode("date");
+            if (newValue.isBefore(min)) {
+              setInnerMomentValue(min);
+              return;
+            }
+            if (newValue.isAfter(max)) {
+              setInnerMomentValue(max);
+              return;
+            }
+            setInnerMomentValue(newValue);
           }}
         />
       )}
