@@ -47,7 +47,7 @@ type ViewMode = "year" | "month" | "date";
 
 export default cb(
   {
-    useStateBuilder: ({ value, momentFormat, min, max }: CalendarInterface) => {
+    useStateBuilder: ({ onChange, value, momentFormat, min, max }: CalendarInterface) => {
       function calculateMomentValueFromIncomeValue() {
         return value ? moment(value, momentFormat) : moment();
       }
@@ -60,16 +60,36 @@ export default cb(
         setInnerMomentValue(calculateMomentValueFromIncomeValue);
       }, [value]);
       const months = useMonthCalculation(year, min, max);
+      const years = React.useMemo(() => range(min.year(), max.year() + 1), []);
 
+      function clickOnTodayButton() {
+        setInnerMomentValue(today);
+        onChange(today.format(momentFormat));
+      }
+
+      function changeYear(year: number) {
+        const newValue = moment(innerMomentValue).year(year);
+        if (newValue.isBefore(min)) {
+          setInnerMomentValue(min);
+          return;
+        }
+        if (newValue.isAfter(max)) {
+          setInnerMomentValue(max);
+          return;
+        }
+        setInnerMomentValue(newValue);
+      }
       return {
+        years,
         year,
         months,
         innerMomentValue,
         setInnerMomentValue,
+        clickOnTodayButton,
+        changeYear,
       };
     },
     computed: {
-      years: ({ min, max }) => [() => range(min.year(), max.year() + 1), []],
       selectedMomentValue: ({ value, momentFormat }) => [() => (value ? moment(value, momentFormat) : null), [value]],
       month: (_, { innerMomentValue }) => [() => innerMomentValue.month(), [innerMomentValue]],
       leftControlButtonDisabled: ({ min }, { innerMomentValue }) => [
@@ -83,10 +103,10 @@ export default cb(
     },
   },
   function Calendar(
-    { min, max, placement, momentFormat, hasCurrentDayButton, onChange },
+    { placement, momentFormat, hasCurrentDayButton, onChange },
     {
-      state: { months, setInnerMomentValue, innerMomentValue, year },
-      computed: { years, selectedMomentValue, month, rightControlButtonDisabled, leftControlButtonDisabled },
+      state: { months, setInnerMomentValue, innerMomentValue, year, years, clickOnTodayButton, changeYear },
+      computed: { selectedMomentValue, month, rightControlButtonDisabled, leftControlButtonDisabled },
     },
   ) {
     const [mode, setMode] = React.useState<ViewMode>("date");
@@ -168,28 +188,14 @@ export default cb(
             items={years}
             selectedItemIndex={years.indexOf(year)}
             onClick={(index) => {
-              const newValue = moment(innerMomentValue).year(years[index]);
               toggleMode("date");
-              if (newValue.isBefore(min)) {
-                setInnerMomentValue(min);
-                return;
-              }
-              if (newValue.isAfter(max)) {
-                setInnerMomentValue(max);
-                return;
-              }
-              setInnerMomentValue(newValue);
+              changeYear(years[index]);
             }}
           />
         )}
         {hasCurrentDayButton && (
           <Wrapper styles={[flex, jc(Aligns.CENTER)]}>
-            <Button
-              styles={marginTop(4)}
-              size={ButtonSize.MEDIUM}
-              type={ButtonType.GHOST}
-              onClick={() => onChange(today.format(momentFormat))}
-            >
+            <Button styles={marginTop(4)} size={ButtonSize.MEDIUM} type={ButtonType.GHOST} onClick={clickOnTodayButton}>
               Сегодня {today.format(momentFormat)}
             </Button>
           </Wrapper>
