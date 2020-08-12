@@ -11,6 +11,7 @@ import {
   height,
   left,
   opacity,
+  overflow,
   padding,
   position,
   right,
@@ -39,7 +40,9 @@ function DroppedMenuWrapper({ children, opened }: { children: React.ReactNode; o
         top("calc(100% + 4px)"),
         borderRadius(8),
         backgroundColor("white"),
-        opened ? [elevation32, opacity(1), height(getOpenedBoxHeight(bounds.height))] : [opacity(0), height(0)],
+        opened
+          ? [elevation32, opacity(1), height(getOpenedBoxHeight(bounds.height))]
+          : [overflow("hidden"), opacity(0), height(0)],
       ]}
     >
       <Wrapper

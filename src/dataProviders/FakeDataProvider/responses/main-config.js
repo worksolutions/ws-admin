@@ -265,7 +265,7 @@ module.exports = {
                                   orderDirection: "{{screen:articles.sorting.direction}}",
                                   orderField: "{{screen:articles.sorting.id}}",
                                   status: "{{screen:articles.filter.status}}",
-                                  publishedAt: "{{screen:articles.filter.publishedAt}}",
+                                  publishedAt: "{{{screen:articles.filter.publishedAt}}}",
                                 },
                               },
                             },
