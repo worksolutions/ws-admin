@@ -282,7 +282,7 @@ module.exports = {
                                   perPage: "{{screen:articles.pagination.perPage}}",
                                   orderDirection: "{{screen:articles.sorting.direction}}",
                                   orderField: "{{screen:articles.sorting.id}}",
-                                  publishedAt: "{{screen:articles.filter.publishedAt}}",
+                                  publishedAt: "{{{screen:articles.filter.publishedAt}}}",
                                 },
                               },
                             },

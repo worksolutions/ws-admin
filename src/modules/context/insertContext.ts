@@ -19,9 +19,11 @@ export function insertContext(data: any, appContext: any, localContext = {}) {
       value: resultObject as any,
     };
   }
+
   if (is(String, data)) {
     return insertContextData(data, resultContext);
   }
+
   return { dependencies: [], value: data };
 }
 
@@ -48,9 +50,14 @@ function insertContextData(
   context: object,
 ): { value: string; dependencies: { contextType: string; path: string[] }[] } {
   if (text.includes(rawDataSymbols)) {
-    const result = getFromContext(text.slice(1, -1).slice(rawDataSymbols.length, -rawDataSymbols.length), context);
+    const isStringifyedData = text.startsWith('"') && text.endsWith('"');
+    const result = getFromContext(
+      (isStringifyedData ? text.slice(1, -1) : text).slice(rawDataSymbols.length, -rawDataSymbols.length),
+      context,
+    );
+
     return {
-      value: JSON.stringify(result.value),
+      value: isStringifyedData ? JSON.stringify(result.value) : result.value,
       dependencies: [{ contextType: result.contextType, path: result.path }],
     };
   }
