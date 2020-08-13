@@ -57,22 +57,22 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
       </Wrapper>
     );
   },
-  "edit:RadioGroup": ({ options: { actions, dataSource, options }, styles }) => (
+  "edit:RadioGroup": ({ options: { actions, dataSource, radioGroupOptions }, styles }) => (
     <BlockRenderer
       type="Actions/RadioGroup"
       styles={styles}
       dataSource={dataSource}
       actions={actions}
-      options={options}
+      options={radioGroupOptions}
       spinnerSize={24}
     />
   ),
-  "edit:Date": ({ options: { options, actions }, styles }) => (
+  "edit:Date": ({ options: { dateOptions, actions }, styles }) => (
     <BlockRenderer
       type="Actions/Date"
       styles={styles}
       actions={actions}
-      options={assoc("size", InputSize.MEDIUM, options)}
+      options={assoc("size", InputSize.MEDIUM, dateOptions)}
     />
   ),
 };

@@ -145,7 +145,7 @@ module.exports = {
                             title: "Статус",
                             type: "edit:RadioGroup",
                             options: {
-                              options: {
+                              radioGroupOptions: {
                                 value: "{{screen:articles.filter.status}}",
                               },
                               dataSource: {
@@ -169,7 +169,7 @@ module.exports = {
                             title: "Дата публикации",
                             type: "edit:Date",
                             options: {
-                              options: {
+                              dateOptions: {
                                 value: "{{{screen:articles.filter.publishedAt}}}",
                               },
                               actions: {
