@@ -1,9 +1,9 @@
 import { useSpring } from "react-spring";
-import { duration200Number } from "layout/durations";
+import { duration160Number } from "layout/durations";
 
 import { useBoolean } from "libs/hooks/common";
 
-export function useVisibilityAnimation(duration = duration200Number) {
+export function useVisibilityAnimation(duration = duration160Number) {
   const [opened, open, close] = useBoolean(false);
 
   const spring = useSpring({

@@ -1,6 +1,6 @@
 import React from "react";
 import { animated, useSpring } from "react-spring";
-import { duration200, duration200Number } from "layout/durations";
+import { duration160, duration160Number } from "layout/durations";
 import { useMeasure } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
@@ -61,7 +61,7 @@ const TreeElement = withPerformance(["toggle"])(function ({
       borderRadius(6),
       marginBottom(4),
       lastChild(marginBottom(0), "&"),
-      transition(`background-color ${duration200}`),
+      transition(`background-color ${duration160}`),
       flex,
       ai(Aligns.CENTER),
       disableDecoration,
@@ -88,7 +88,7 @@ const TreeElement = withPerformance(["toggle"])(function ({
         {(item.icon || hasSubElements) && (
           <Icon className="item-icon" color="blue/09" styles={[marginRight(8)]} icon={item.icon || "folder-outline"} />
         )}
-        <Typography dots styles={transition(`all ${duration200}`)} className="item-text" color="gray-blue/09">
+        <Typography dots styles={transition(`all ${duration160}`)} className="item-text" color="gray-blue/09">
           {item.name}
         </Typography>
       </>
@@ -108,7 +108,7 @@ export const RecursiveTreeElement = React.memo(function ({ item, level }: Recurs
   const [measureRef, bound] = useMeasure();
 
   const { height } = useSpring({
-    config: { duration: duration200Number },
+    config: { duration: duration160Number },
     from: { height: 0 },
     to: {
       height: opened ? bound.height : 0,

@@ -1,7 +1,7 @@
 import React, { Ref } from "react";
 import { Link, LinkProps } from "react-router-dom";
 import { isNil } from "ramda";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import { color, disableDecoration, hover, transition } from "libs/styles";
 import { getLinkIsNative } from "libs/linkIsNative";
@@ -14,7 +14,7 @@ export const blueTypographyLinkStyles = [color("blue/06")];
 
 export const blackTypographyLinkStyles = [
   TypographyTypes["body-semi-bold"],
-  transition(`color ${duration200}`),
+  transition(`color ${duration160}`),
   hover(color("gray-blue/07")),
   disableDecoration,
 ];

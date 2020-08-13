@@ -1,5 +1,5 @@
 import React from "react";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -53,7 +53,7 @@ function Tab({ active: activeProp, title, onClick }: TabInterface) {
       <Typography
         type="body-semi-bold"
         color={activeProp ? "gray-blue/09" : "gray-blue/05"}
-        styles={[transition(`border-bottom-color ${duration200}, color ${duration200}`), padding("8px 4px")]}
+        styles={[transition(`border-bottom-color ${duration160}, color ${duration160}`), padding("8px 4px")]}
       >
         {title}
       </Typography>

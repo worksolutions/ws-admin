@@ -18,7 +18,7 @@ import {
 } from "libs/styles";
 
 import Spinner from "../Spinner";
-import { duration200 } from "../../layout/durations";
+import { duration160 } from "../../layout/durations";
 
 import { buttonStylesMap } from "./styles";
 import { ButtonSize, ButtonType } from "./types";
@@ -53,7 +53,7 @@ interface ButtonWrapperInterface extends BaseButtonWrapperInterface {
   children: (styles: any, iconLeft: React.ReactNode, iconRight: React.ReactNode) => JSX.Element;
 }
 
-const transitionString = `border ${duration200}, box-shadow ${duration200}, opacity ${duration200}, visibility ${duration200}, background-color ${duration200}`;
+const transitionString = `border ${duration160}, box-shadow ${duration160}, opacity ${duration160}, visibility ${duration160}, background-color ${duration160}`;
 
 function ButtonWrapper({
   children,

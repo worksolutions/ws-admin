@@ -1,6 +1,6 @@
 import React, { Ref } from "react";
 import { isNil } from "ramda";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -72,7 +72,7 @@ const UnSelectedItem = withPerformance(["onClick"])(function ({
         borderRadius(6),
         border(1, "gray-blue/02"),
         backgroundColor("white"),
-        transition(`box-shadow ${duration200}, background-color ${duration200}`),
+        transition(`box-shadow ${duration160}, background-color ${duration160}`),
         hover(backgroundColor("gray-blue/01")),
         focus(boxShadow([0, 0, 0, 2, "blue/04"])),
       ]}

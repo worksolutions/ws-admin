@@ -1,6 +1,6 @@
 import React from "react";
 import { useMeasure } from "react-use";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 import { propEq } from "ramda";
 
 import ImageWithDefault from "primitives/ImageWithDefault";
@@ -46,7 +46,7 @@ function Card(card: CardComponentInterface & Record<string, any>) {
         flex,
         flexColumn,
         hover(child([opacity(1)], ".card-actions")),
-        child([transition(duration200), opacity(0)], ".card-actions"),
+        child([transition(duration160), opacity(0)], ".card-actions"),
         other.styles,
       ]}
     >

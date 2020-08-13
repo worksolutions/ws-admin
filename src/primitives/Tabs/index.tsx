@@ -1,6 +1,6 @@
 import React from "react";
 import { sum } from "ramda";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -38,7 +38,7 @@ function Tabs({ initialActive = 0, items, styles }: TabsInterface) {
           <Wrapper
             styles={[
               borderRadius(2),
-              transition(`left ${duration200}, width ${duration200}`),
+              transition(`left ${duration160}, width ${duration160}`),
               left(getLeft(widths, active)),
               position("absolute"),
               width(widths[active] - tabHorizontalPadding * 2),

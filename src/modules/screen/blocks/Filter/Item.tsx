@@ -1,5 +1,5 @@
 import React from "react";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -41,7 +41,7 @@ function FilterItem({ styles, applied, selected, name, onClick }: FilterItemInte
       styles={[
         inlineFlex,
         ai(Aligns.CENTER),
-        transition(`box-shadow ${duration200}, background-color ${duration200}`),
+        transition(`box-shadow ${duration160}, background-color ${duration160}`),
         disableOutline,
         borderNone,
         marginRight(8),
@@ -59,13 +59,13 @@ function FilterItem({ styles, applied, selected, name, onClick }: FilterItemInte
       <Typography
         type="body-semi-bold"
         color={selected || applied ? "white" : "gray-blue/07"}
-        styles={[transition(`color ${duration200}`)]}
+        styles={[transition(`color ${duration160}`)]}
       >
         {name}
       </Typography>
       <Icon
         styles={[
-          transition(`margin-left ${duration200}, width ${duration200}, min-width ${duration200}`),
+          transition(`margin-left ${duration160}, width ${duration160}, min-width ${duration160}`),
           applied ? [marginLeft(8)] : [width(0), minWidth(0)],
         ]}
         color="white"

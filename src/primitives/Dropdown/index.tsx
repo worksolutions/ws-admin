@@ -1,6 +1,6 @@
 import React, { Ref } from "react";
 import { flatten, prop, propEq } from "ramda";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import Icon from "primitives/Icon";
 
@@ -125,7 +125,7 @@ const Dropdown = React.forwardRef(function (
               padding(paddingForSize[size]),
               borderRadius(4),
               backgroundColor("gray-blue/01"),
-              transition(`all ${duration200}`),
+              transition(`all ${duration160}`),
               boxShadow([0, 0, 0, 1, "gray-blue/02"]),
               hover(boxShadow([0, 0, 0, 1, "gray-blue/03"])),
               focus(boxShadow([0, 0, 0, 2, "blue/04"])),
@@ -145,7 +145,7 @@ const Dropdown = React.forwardRef(function (
             <Icon
               icon="arrow-down"
               styles={[
-                transition(`all ${duration200}`),
+                transition(`all ${duration160}`),
                 transform(`rotateZ(${state.opened ? "180deg" : "0deg"})`),
                 marginLeft(4),
               ]}

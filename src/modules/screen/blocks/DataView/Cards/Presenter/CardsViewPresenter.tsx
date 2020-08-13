@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 import { elevation16 } from "style/shadows";
 
 import LayoutGrid from "primitives/LayoutGrid";
@@ -58,8 +58,8 @@ function CardsViewPresenter({ list, imageConfig }: { list: CardsViewDataSource; 
               disableDecoration,
               child([
                 fullHeight,
-                transition(`all ${duration200}`),
-                hover([elevation16, child([transition(`all ${duration200}`), color("gray-blue/07")], ".card-title")]),
+                transition(`all ${duration160}`),
+                hover([elevation16, child([transition(`all ${duration160}`), color("gray-blue/07")], ".card-title")]),
               ]),
             ]}
           >

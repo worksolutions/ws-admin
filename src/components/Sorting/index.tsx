@@ -1,6 +1,6 @@
 import React from "react";
 import { propEq } from "ramda";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
@@ -97,7 +97,7 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
                   focus(zIndex(1)),
                   child(
                     [
-                      transition(`all ${duration200}`),
+                      transition(`all ${duration160}`),
                       transform(selected.direction === SortingDirection.DESC ? "rotateZ(0deg)" : "scale(1, -1)"),
                     ],
                     ".icon",

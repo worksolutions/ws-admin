@@ -1,5 +1,5 @@
 import React from "react";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import Typography from "primitives/Typography";
 import Icon from "primitives/Icon";
@@ -48,7 +48,7 @@ export function SwitchModeButton({ value, onClick, width: widthProp, opened, sty
         jc(Aligns.SPACE_BETWEEN),
         pointer,
         backgroundColor("gray-blue/01"),
-        transition(`box-shadow ${duration200}, border-color ${duration200}`),
+        transition(`box-shadow ${duration160}, border-color ${duration160}`),
         border(1, "gray-blue/02"),
         hover(borderColor("gray-blue/03")),
         opened && boxShadow([0, 0, 0, 2, "blue/04"]),
@@ -59,7 +59,7 @@ export function SwitchModeButton({ value, onClick, width: widthProp, opened, sty
       <Typography>{value}</Typography>
       <Icon
         icon="arrow-down"
-        styles={[transition(`all ${duration200}`), transform(`rotateZ(${opened ? "180deg" : "0deg"})`)]}
+        styles={[transition(`all ${duration160}`), transform(`rotateZ(${opened ? "180deg" : "0deg"})`)]}
         color="gray-blue/07"
       />
     </Wrapper>

@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 import { zIndex_filterPanel } from "layout/zIndexes";
 import { elevation32 } from "style/shadows";
 
@@ -50,7 +50,7 @@ function FilterBlock({
             padding(8),
             backgroundColor("gray-blue/01"),
             jc(Aligns.SPACE_BETWEEN),
-            transition(`border-radius ${duration200}, box-shadow ${duration200}`),
+            transition(`border-radius ${duration160}, box-shadow ${duration160}`),
             borderRadius(8),
             opened && elevation32,
             border(1, "gray-blue/02"),
@@ -76,7 +76,7 @@ function FilterBlock({
             size={ButtonSize.MEDIUM}
             iconLeft="arrow-down"
             styles={[
-              child([transition(`transform ${duration200}`), transform(`rotateZ(${opened ? 180 : 0}deg)`)], "svg"),
+              child([transition(`transform ${duration160}`), transform(`rotateZ(${opened ? 180 : 0}deg)`)], "svg"),
             ]}
             onClick={opened ? close : open}
           />

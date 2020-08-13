@@ -1,7 +1,7 @@
 import React, { Ref } from "react";
 import { animated, to } from "react-spring";
 import { elevation8 } from "style/shadows";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 import { useHover } from "react-use";
 
 import Wrapper from "primitives/Wrapper";
@@ -77,7 +77,7 @@ const Resizer = React.forwardRef(function (
           <Wrapper
             as={animated.div}
             styles={[
-              transition(`background-color ${duration200}`),
+              transition(`background-color ${duration160}`),
               backgroundColor("gray-blue/02"),
               width(1),
               fullHeight,
@@ -96,7 +96,7 @@ const Resizer = React.forwardRef(function (
               elevation8,
               backgroundColor("white"),
               child(
-                [transition(`transform ${duration200}`), transform(`rotateZ(${contentIsClosed ? "0deg" : "180deg"})`)],
+                [transition(`transform ${duration160}`), transform(`rotateZ(${contentIsClosed ? "0deg" : "180deg"})`)],
                 ".icon",
               ),
             ]}

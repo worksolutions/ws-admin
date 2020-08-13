@@ -1,5 +1,5 @@
 import React from "react";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 import { elevation32 } from "style/shadows";
 
 import Wrapper from "primitives/Wrapper";
@@ -33,7 +33,7 @@ function DroppedMenuWrapper({ children, opened }: { children: React.ReactNode; o
   return (
     <Wrapper
       styles={[
-        transition(`opacity ${duration200}, height ${duration200}, box-shadow ${duration200}`),
+        transition(`opacity ${duration160}, height ${duration160}, box-shadow ${duration160}`),
         position("absolute"),
         left(-1),
         right(-1),

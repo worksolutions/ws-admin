@@ -1,6 +1,6 @@
 import React from "react";
 import { TableCellProps } from "react-table";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 import { zIndex_table_cell } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
@@ -59,7 +59,7 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
       <Wrapper
         className="table-cell-back"
         styles={[
-          transition(`background-color ${duration200}`),
+          transition(`background-color ${duration160}`),
           position("absolute"),
           left(0),
           top(0),

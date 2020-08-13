@@ -1,5 +1,5 @@
 import React from "react";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -34,7 +34,7 @@ function ClearInputWrapper({
       <Button
         styles={[
           marginLeft(8),
-          transition(`all ${duration200}`),
+          transition(`all ${duration160}`),
           needShow ? [width(24)] : [width(0), focus(emptyBoxShadow)],
           overflow("hidden"),
         ]}

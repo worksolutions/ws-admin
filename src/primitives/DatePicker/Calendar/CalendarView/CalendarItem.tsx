@@ -1,5 +1,5 @@
 import React from "react";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -80,7 +80,7 @@ function CalendarItem({
       <Typography
         color={null}
         styles={[
-          transition(`background-color ${duration200}, box-shadow ${duration200}, color ${duration200}`),
+          transition(`background-color ${duration160}, box-shadow ${duration160}, color ${duration160}`),
           flex,
           fullWidth,
           fullHeight,

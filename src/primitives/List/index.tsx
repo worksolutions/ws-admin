@@ -1,5 +1,5 @@
 import React, { Ref } from "react";
-import { duration200 } from "layout/durations";
+import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -90,7 +90,7 @@ function List({
               ai(Aligns.CENTER),
               borderRadius(4),
               horizontalPadding(8),
-              transition(`all ${duration200}`),
+              transition(`all ${duration160}`),
               enabled && [
                 pointer,
                 hover([backgroundColor("gray-blue/01"), boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)])]),
