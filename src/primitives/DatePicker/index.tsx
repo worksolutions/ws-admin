@@ -12,6 +12,7 @@ import { cb } from "libs/CB";
 
 import HandleClickOutside from "../HandleClickOutside";
 import { useVisibilityAnimation } from "../Popper/useVisibilityAnimation";
+import { useEffectSkipFirst } from "../../libs/hooks/common";
 
 import { configByMode, DatePickerMode } from "./config";
 import { useInnerValueChange } from "./useInnerValueChange";
@@ -44,6 +45,11 @@ export default cb(
       const config = configByMode[mode];
 
       const [inputValue, setInputValue] = React.useState(() => initialValue || "");
+
+      useEffectSkipFirst(() => {
+        setInputValue(initialValue || "");
+      }, [initialValue]);
+
       const [lastValidValue, setLastValidValue] = React.useState(() => inputValue || null);
 
       const [error, setError] = React.useState(false);

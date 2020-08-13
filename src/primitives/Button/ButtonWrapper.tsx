@@ -7,6 +7,7 @@ import {
   active,
   Aligns,
   borderRadius,
+  child,
   disableOutline,
   focus,
   hover,
@@ -15,6 +16,7 @@ import {
   pointer,
   position,
   transition,
+  willChange,
 } from "libs/styles";
 
 import Spinner from "../Spinner";
@@ -53,7 +55,23 @@ interface ButtonWrapperInterface extends BaseButtonWrapperInterface {
   children: (styles: any, iconLeft: React.ReactNode, iconRight: React.ReactNode) => JSX.Element;
 }
 
-const transitionString = `border ${duration160}, box-shadow ${duration160}, opacity ${duration160}, visibility ${duration160}, background-color ${duration160}`;
+const cssAnimateProperties = [
+  "color",
+  "fill",
+  "border",
+  "box-shadow",
+  "opacity",
+  "visibility",
+  "background-color",
+  "width",
+  "height",
+  "padding",
+];
+
+const transitionStyle = [
+  transition(cssAnimateProperties.map((val) => `${val} ${duration160}`).join(",")),
+  willChange(cssAnimateProperties.join(",")),
+];
 
 function ButtonWrapper({
   children,
@@ -114,7 +132,9 @@ function ButtonWrapper({
       position("relative"),
       inlineFlex,
       jc(Aligns.CENTER),
-      transition(transitionString),
+      transitionStyle,
+      child(transitionStyle, ".icon"),
+      child(transitionStyle, ".icon use"),
       TypographyTypes["button"],
       borderRadius(6),
       disableOutline,

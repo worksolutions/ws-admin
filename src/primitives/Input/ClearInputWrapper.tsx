@@ -1,27 +1,15 @@
 import React from "react";
-import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 
-import {
-  ai,
-  Aligns,
-  emptyBoxShadow,
-  flex,
-  flexValue,
-  focus,
-  marginLeft,
-  overflow,
-  transition,
-  width,
-} from "libs/styles";
+import { ai, Aligns, emptyBoxShadow, flex, focus, horizontalPadding, marginLeft, overflow, width } from "libs/styles";
 
 function ClearInputWrapper({
   children,
   needShow,
   clear,
-  size = ButtonSize.SMALL,
+  size = ButtonSize.MEDIUM,
 }: {
   children: JSX.Element;
   needShow: boolean;
@@ -33,9 +21,8 @@ function ClearInputWrapper({
       {children}
       <Button
         styles={[
-          marginLeft(8),
-          transition(`all ${duration160}`),
-          needShow ? [width(24)] : [width(0), focus(emptyBoxShadow)],
+          marginLeft(4),
+          needShow ? [width(32)] : [width(0), focus(emptyBoxShadow), horizontalPadding(0)],
           overflow("hidden"),
         ]}
         type={ButtonType.ICON}

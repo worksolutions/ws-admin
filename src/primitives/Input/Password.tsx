@@ -27,7 +27,7 @@ const Password = React.forwardRef(function (
           styles={[_defaultIconStyles, right(8)]}
           size={ButtonSize.SMALL}
           type={ButtonType.ICON}
-          iconLeft={showPassword ? "eye-on" : "eye-off"}
+          iconLeft={showPassword ? "eye-off" : "eye-on"}
           onClick={toggleShowPassword}
         />
       }

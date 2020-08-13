@@ -4,6 +4,7 @@ import { isNil } from "ramda";
 
 import DatePicker, { DatePickerMode } from "primitives/DatePicker";
 import { InputSize } from "primitives/Input/InputWrapper";
+import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
 import { useEffectSkipFirst } from "libs/hooks/common";
 
@@ -11,16 +12,13 @@ import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { insertContext } from "modules/context/insertContext";
 
-import ClearInputWrapper from "../../../../../primitives/Input/ClearInputWrapper";
-import Wrapper from "../../../../../primitives/Wrapper";
-
 import { BlockInterface } from "state/globalState";
 
 function ActionRadioGroup({
   options,
   actions,
   styles,
-}: BlockInterface<{ value: string; hasCurrentDayButton: boolean; size?: InputSize }, "change"> & {
+}: BlockInterface<{ value: string; hasCurrentDayButton: boolean; allowEmpty?: boolean; size?: InputSize }, "change"> & {
   styles?: any;
 }) {
   if (!actions?.change) return null;
@@ -36,10 +34,12 @@ function ActionRadioGroup({
   if (!resultActions.change) return null;
 
   return (
-    <ClearInputWrapper needShow={!!value} clear={() => setValue("")}>
+    <ClearInputWrapper needShow={!!value} clear={() => setValue(null)}>
       <DatePicker
         outerStyles={styles}
+        initialValue={value}
         size={options.size}
+        allowEmpty={options.allowEmpty}
         mode={DatePickerMode.DATE}
         hasCurrentDayButton={isNil(options.hasCurrentDayButton) ? true : options.hasCurrentDayButton}
         onChange={setValue}
