@@ -26,7 +26,7 @@ function FormattedDataView({ options, ...otherProps }: FormattedDataViewInterfac
       .then(() => setInitialized(true));
   }, []);
 
-  if (!initialized) return <Spinner size={36} />;
+  if (!initialized) return null;
 
   return <ViewPresenter options={options} {...otherProps} />;
 }
