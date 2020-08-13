@@ -6,6 +6,7 @@ import { elevation8 } from "style/shadows";
 
 import Wrapper from "primitives/Wrapper";
 import Dropdown, { DropdownSize, DropdownTitlePosition } from "primitives/Dropdown";
+import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
 import Pagination from "components/Pagination/Pagination";
 

@@ -27,6 +27,7 @@ import {
   textAlign,
   transform,
   transition,
+  whiteSpace,
   width,
 } from "libs/styles";
 import { provideRef } from "libs/provideRef";
@@ -106,7 +107,11 @@ const Dropdown = React.forwardRef(function (
     >
       {(state, parentRef, subChild) => (
         <Wrapper styles={[title && dropdownWrapperStylesByTitlePosition[titlePosition], outerStyles]}>
-          {title && <Typography color="gray-blue/05">{title}</Typography>}
+          {title && (
+            <Typography color="gray-blue/05" styles={whiteSpace("nowrap")}>
+              {title}
+            </Typography>
+          )}
           <Wrapper
             as="button"
             styles={[

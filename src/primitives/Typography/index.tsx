@@ -1,7 +1,17 @@
 import React, { ReactNode, Ref } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
-import { color, Colors, textDots, fontSize, fontWeight, letterSpacing, lineHeight, display } from "libs/styles";
+import {
+  color,
+  Colors,
+  textDots,
+  fontSize,
+  fontWeight,
+  letterSpacing,
+  lineHeight,
+  display,
+  getColor,
+} from "libs/styles";
 
 import { StyledComponentsAS } from "types/StyledComponentsAS";
 
@@ -47,7 +57,7 @@ const Typography = React.forwardRef(
       css={[
         display("inline-block"),
         type ? TypographyTypes[type] : null,
-        colorProp !== null && color(colorProp || "gray-blue/09"),
+        colorProp && color(colorProp),
         dotsProp && textDots,
         styles,
       ]}
@@ -64,3 +74,5 @@ Typography.defaultProps = {
 };
 
 export default React.memo(Typography);
+
+export const TypographyGlobalStyle = createGlobalStyle`*{color: ${getColor("gray-blue/09")}}`;

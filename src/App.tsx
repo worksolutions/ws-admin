@@ -4,6 +4,7 @@ import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
 
 import Spinner from "primitives/Spinner";
+import { TypographyGlobalStyle } from "primitives/Typography";
 
 import { useSetDocumentTitle } from "libs/hooks/special";
 
@@ -45,6 +46,7 @@ function App() {
         </Layout>
       </AuthModule>
       <ToastReceiver />
+      <TypographyGlobalStyle />
     </>
   );
 }

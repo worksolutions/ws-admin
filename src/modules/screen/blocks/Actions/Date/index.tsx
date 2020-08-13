@@ -11,6 +11,9 @@ import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { insertContext } from "modules/context/insertContext";
 
+import ClearInputWrapper from "../../../../../primitives/Input/ClearInputWrapper";
+import Wrapper from "../../../../../primitives/Wrapper";
+
 import { BlockInterface } from "state/globalState";
 
 function ActionRadioGroup({
@@ -33,13 +36,15 @@ function ActionRadioGroup({
   if (!resultActions.change) return null;
 
   return (
-    <DatePicker
-      outerStyles={styles}
-      size={options.size}
-      mode={DatePickerMode.DATE}
-      hasCurrentDayButton={isNil(options.hasCurrentDayButton) ? true : options.hasCurrentDayButton}
-      onChange={setValue}
-    />
+    <ClearInputWrapper needShow={!!value} clear={() => setValue("")}>
+      <DatePicker
+        outerStyles={styles}
+        size={options.size}
+        mode={DatePickerMode.DATE}
+        hasCurrentDayButton={isNil(options.hasCurrentDayButton) ? true : options.hasCurrentDayButton}
+        onChange={setValue}
+      />
+    </ClearInputWrapper>
   );
 }
 
