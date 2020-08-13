@@ -11,7 +11,7 @@ import { BlockInterface } from "state/globalState";
 
 function BackgroundTasks({ dataSource }: BlockInterface) {
   const { data } = useDataSource<BackgroundTasksDataSourceInterface>(dataSource!);
-  if (!data) return <Spinner size={36} />;
+  if (!data) return <Spinner />;
   return <BackgroundTasksComponent tasks={data} />;
 }
 

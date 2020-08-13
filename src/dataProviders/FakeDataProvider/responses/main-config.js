@@ -183,6 +183,18 @@ module.exports = {
                         ],
                       },
                     ],
+                    dataSource: {
+                      type: "context",
+                      options: {
+                        key: "screen:articles.filter",
+                      },
+                    },
+                    actions: {
+                      clear: {
+                        type: "update-context",
+                        context: "screen:articles.filter",
+                      },
+                    },
                   },
                   mainContent: {
                     type: "BlocksList",

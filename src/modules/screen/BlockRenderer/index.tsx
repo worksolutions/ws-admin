@@ -40,11 +40,11 @@ function BlockRenderer(props: BlockInterface & { styles?: any; type?: string; sp
   }, []);
 
   if (!BlockComponent) {
-    return <Spinner size={props.spinnerSize || 78} />;
+    return <Spinner size={props.spinnerSize} />;
   }
 
   if (props.waitForId) {
-    if (!renderedElements[props.waitForId]) return <Spinner size={78} />;
+    if (!renderedElements[props.waitForId]) return <Spinner size={props.spinnerSize} />;
   }
 
   return <BlockComponent {...props} />;

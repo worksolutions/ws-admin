@@ -19,6 +19,7 @@ import { AnyDataSource } from "types/DataSource";
 
 export interface DataSourceResultInterface<RESULT = any> {
   data: RESULT | null;
+  initialData: RESULT | null;
   loadingContainer: LoadingContainer;
   reload: () => void;
 }
@@ -26,6 +27,7 @@ export interface DataSourceResultInterface<RESULT = any> {
 export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
   const localStore = useLocalStore<DataSourceResultInterface<RESULT>>(() => ({
     data: null,
+    initialData: null,
     loadingContainer: new LoadingContainer(true),
     reload: runDataSourceFetcher,
   }));
@@ -34,6 +36,9 @@ export function useDataSource<RESULT = any>(dataSource: AnyDataSource) {
 
   function onDataReceived(data: any) {
     localStore.data = data;
+    if (!localStore.initialData) {
+      localStore.initialData = JSON.parse(JSON.stringify(data));
+    }
     localStore.loadingContainer.stopLoading();
     localStore.loadingContainer.clearErrors();
 

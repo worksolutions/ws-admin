@@ -8,7 +8,7 @@ import { useEffectSkipFirst } from "libs/hooks/common";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
-import { insertContext } from "modules/context/insertContext";
+import { insertContext, useStateFromContext } from "modules/context/insertContext";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import { BlockInterface } from "state/globalState";
@@ -29,8 +29,7 @@ function ActionRadioGroup({
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
   const itemsData = useDataSource<SuggestInterface[]>(dataSource!);
-  const [value, setValue] = React.useState(() => insertContext(options.value, appContext.context).value);
-
+  const [value, setValue] = useStateFromContext(options.value, appContext);
   useEffectSkipFirst(() => {
     resultActions.change.run(value);
   }, [value]);

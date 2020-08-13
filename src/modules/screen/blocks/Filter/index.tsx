@@ -3,10 +3,12 @@ import { observer } from "mobx-react-lite";
 import { duration160 } from "layout/durations";
 import { zIndex_filterPanel } from "layout/zIndexes";
 import { elevation32 } from "style/shadows";
+import { toJS } from "mobx";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import HandleClickOutside from "primitives/HandleClickOutside";
+import Spinner from "primitives/Spinner";
 
 import {
   ai,
@@ -18,13 +20,18 @@ import {
   flex,
   flexValue,
   jc,
+  marginTop,
   padding,
   position,
   transform,
   transition,
 } from "libs/styles";
 import { useBoolean } from "libs/hooks/common";
+import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
 
+import { useAppContext } from "modules/context/hooks/useAppContext";
+import { useActions } from "modules/context/actions/useActions";
+import { useDataSource } from "modules/context/dataSource/useDataSource";
 import DynamicFieldsList from "modules/screen/blocks/RowFields/FieldsList/DynamicFieldsList";
 import { FieldListItemInterface, FieldListItemMode } from "modules/screen/blocks/RowFields/FieldsList/types";
 
@@ -36,9 +43,17 @@ import { BlockInterface } from "state/globalState";
 function FilterBlock({
   styles,
   options,
-}: BlockInterface<{ name: string; fields: FieldListItemInterface[] }[]> & { styles?: any }) {
+  dataSource,
+  actions,
+}: BlockInterface<{ name: string; fields: FieldListItemInterface[] }[], "clear"> & { styles?: any }) {
   const [opened, open, close] = useBoolean(false);
   const [selectedFilterIndex, setSelectedFilterIndex] = React.useState(0);
+  const { data, initialData, loadingContainer } = useDataSource(dataSource!);
+  const resultActions = useActions(actions!, useAppContext());
+
+  if (loadingContainer.loading) return <Spinner />;
+
+  const dataAndInitialDataAreNotEqual = !isEqual(toJS(data), toJS(initialData));
 
   return (
     <HandleClickOutside enabled={opened} onClickOutside={close}>
@@ -66,7 +81,7 @@ function FilterBlock({
                 key={key}
                 name={filterItem.name}
                 selected
-                applied={false}
+                applied={dataAndInitialDataAreNotEqual}
                 onClick={() => setSelectedFilterIndex(key)}
               />
             ))}
@@ -85,6 +100,17 @@ function FilterBlock({
               useTitleWidthCalculation
               options={{ mode: FieldListItemMode.HORIZONTAL, fields: options![selectedFilterIndex].fields }}
             />
+            {resultActions.clear && dataAndInitialDataAreNotEqual && (
+              <Button
+                styles={marginTop(16)}
+                type={ButtonType.GHOST}
+                size={ButtonSize.SMALL}
+                iconLeft="cross-big"
+                onClick={() => resultActions.clear.run(initialData)}
+              >
+                Сбросить фильтр
+              </Button>
+            )}
           </DroppedMenuWrapper>
         </Wrapper>
       )}

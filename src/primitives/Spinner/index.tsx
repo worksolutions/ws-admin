@@ -26,7 +26,7 @@ const Spinner = function (props: SpinnerInterface) {
 };
 
 Spinner.defaultProps = {
-  size: 24,
+  size: 36,
   color: "gray-blue/09",
 };
 

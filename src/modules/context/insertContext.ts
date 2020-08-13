@@ -1,6 +1,8 @@
 import { hasPath, path, is, isNil, flatten } from "ramda";
+import React from "react";
 
 import { getContextTypeAndPathByParam } from "./contextParamParser";
+import { AppContextInterface } from "./hooks/useAppContext";
 
 export function insertContext(data: any, appContext: any, localContext = {}) {
   const resultContext = Object.assign({}, appContext, { local: localContext });
@@ -72,4 +74,19 @@ function insertContextData(
   });
 
   return result;
+}
+
+export function useStateFromContext(
+  incomeData: any,
+  appContext: AppContextInterface,
+  localContext = {},
+): [any, (data: any) => void] {
+  const data = insertContext(incomeData, appContext.context, localContext).value;
+  const [value, setValue] = React.useState(data);
+
+  React.useEffect(() => {
+    setValue(data);
+  }, [data]);
+
+  return [value, setValue];
 }

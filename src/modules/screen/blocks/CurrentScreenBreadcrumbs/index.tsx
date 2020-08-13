@@ -19,7 +19,7 @@ import { BlockInterface } from "state/globalState";
 function CurrentScreenBreadcrumbs({ dataSource }: BlockInterface) {
   const { data } = useDataSource<SecondaryMenuDataSourceInterface>(dataSource!);
   const breadcrumbsWay = useBreadcrumbsWay(data?.items || []);
-  if (!data) return <Spinner size={36} />;
+  if (!data) return <Spinner />;
   const lastBreadcrumbsWayIndex = breadcrumbsWay.length - 1;
 
   return (

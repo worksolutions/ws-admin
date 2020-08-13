@@ -16,7 +16,7 @@ function CardsView({ dataSource, options, onLoadingUpdate }: CardsViewInterface)
     onLoadingUpdate(loadingContainer.loading);
   }, [loadingContainer.loading]);
 
-  if (loadingContainer.loading) return <Spinner size={78} />;
+  if (loadingContainer.loading) return <Spinner />;
   if (!data) return null;
 
   return <CardsViewPresenter list={data} {...options!} />;

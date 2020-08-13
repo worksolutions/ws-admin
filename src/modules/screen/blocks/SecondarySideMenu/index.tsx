@@ -12,7 +12,7 @@ import { BlockInterface } from "state/globalState";
 
 function SecondarySideMenu({ dataSource }: BlockInterface) {
   const { data, loadingContainer } = useDataSource<SecondaryMenuDataSourceInterface>(dataSource!);
-  if (loadingContainer.loading) return <Spinner size={72} />;
+  if (loadingContainer.loading) return <Spinner />;
   return <Sidebar title={data!.title} items={data!.items} id={data!.id} />;
 }
 
