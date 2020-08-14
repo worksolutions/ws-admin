@@ -31,6 +31,6 @@ export const spinnerElement = (
         backgroundColor(createAlphaColor("white", 170)),
       ]}
     />
-    <Spinner size={40} />
+    <Spinner />
   </Wrapper>
 );

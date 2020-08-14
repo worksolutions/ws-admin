@@ -118,7 +118,7 @@ function ButtonWrapper({
   );
 
   const rightIconElement = loading ? (
-    <Spinner className="icon icon-right" size={24} />
+    <Spinner className="icon icon-right" />
   ) : (
     icons.iconRight && (
       <Icon className="icon icon-right" icon={icons.iconRight} width={icons.rightWidth} height={iconRightHeight} />

@@ -1,25 +1,53 @@
-.loader,
-.loader:after {
-    border-radius: 50%;
-}
 .loader {
     position: relative;
-    transform: translateZ(0);
-    animation: load 1.1s infinite linear;
+    margin: 0 auto;
+    width: 24px;
 }
-@-webkit-keyframes load {
-    0% {
-        transform: rotate(0deg);
-    }
+
+.loader:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+.loader .circular {
+    animation: rotate 2s linear infinite;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.loader .path {
+    stroke-dasharray: 1, 200;
+    stroke-width: 4px;
+    animation: dash 1.5s ease-in-out infinite;
+    stroke-linecap: round;
+}
+
+@keyframes rotate {
     100% {
         transform: rotate(360deg);
     }
 }
-@keyframes load {
+
+@keyframes dash {
     0% {
-        transform: rotate(0deg);
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
     }
     100% {
-        transform: rotate(360deg);
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
     }
 }
+
+

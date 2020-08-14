@@ -2,19 +2,18 @@ import React, { Ref } from "react";
 import { observer } from "mobx-react-lite";
 import ReactDOM from "react-dom";
 
-import Wrapper from "../../primitives/Wrapper";
-import { absoluteCenter, Colors } from "../../libs/styles";
-import Spinner from "../../primitives/Spinner";
+import Wrapper from "primitives/Wrapper";
+import Spinner from "primitives/Spinner";
+
+import { absoluteCenter, Colors } from "libs/styles";
 
 import { ProviderLogic, providerLogicStore } from "./LoadingProviderLogic";
 
 function LoadingProvider({
   children,
-  size,
   color,
 }: {
   children: (loadingProviderRef: Ref<HTMLElement | undefined>) => JSX.Element;
-  size?: number;
   color?: Colors;
 }) {
   const id = React.useMemo(() => providerLogicStore.generateId(), []);
@@ -54,7 +53,7 @@ function LoadingProvider({
       {realShowSpinner &&
         ReactDOM.createPortal(
           <Wrapper styles={absoluteCenter}>
-            <Spinner color={color} size={size} />
+            <Spinner color={color} />
           </Wrapper>,
           ref.current!,
         )}

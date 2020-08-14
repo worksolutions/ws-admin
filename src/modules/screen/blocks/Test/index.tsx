@@ -2,12 +2,11 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
-import Input from "primitives/Input/Input";
-import Password from "primitives/Input/Password";
 import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { ListItemId } from "primitives/List";
 import Tabs from "primitives/Tabs";
+import Spinner from "primitives/Spinner";
 
 import Sorting, { SortingElementInterface } from "components/Sorting";
 
@@ -57,6 +56,9 @@ function TestPage() {
         flexWrap,
       ]}
     >
+      <Wrapper>
+        <Spinner />
+      </Wrapper>
       <Buttons />
 
       <Wrapper>
