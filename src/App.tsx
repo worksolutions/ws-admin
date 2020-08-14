@@ -3,8 +3,10 @@ import React, { useEffect } from "react";
 import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
 
-import Spinner from "primitives/Spinner";
 import { TypographyGlobalStyle } from "primitives/Typography";
+
+import LoadingProvider from "components/LoadingContainer/LoadingProvider";
+import Loading from "components/LoadingContainer/Loading";
 
 import { useSetDocumentTitle } from "libs/hooks/special";
 
@@ -15,6 +17,8 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 
 import Layout from "./layout";
 import RedirectToMainReference from "./InitialRedirect";
+import Wrapper from "./primitives/Wrapper";
+import { fullHeight, fullWidth } from "./libs/styles";
 
 import { GlobalState } from "state/globalState";
 
@@ -34,20 +38,32 @@ function App() {
   useSetDocumentTitle(state.title || "Административная панель");
 
   if (empty) {
-    return <Spinner size={132} />;
+    return (
+      <LoadingProvider>
+        {(ref) => (
+          <Wrapper ref={ref} styles={[fullWidth, fullHeight]}>
+            <Loading />
+          </Wrapper>
+        )}
+      </LoadingProvider>
+    );
   }
 
   return (
-    <>
-      <AuthModule>
-        <Layout logo={state.logo} sidebarDataSource={state.sideMenu.dataSource}>
-          <BlockRenderer {...state.mainBlock} />
-          <RedirectToMainReference />
-        </Layout>
-      </AuthModule>
-      <ToastReceiver />
-      <TypographyGlobalStyle />
-    </>
+    <LoadingProvider>
+      {(ref) => (
+        <Wrapper ref={ref} styles={[fullWidth, fullHeight]}>
+          <AuthModule>
+            <Layout logo={state.logo} sidebarDataSource={state.sideMenu.dataSource}>
+              <BlockRenderer {...state.mainBlock} />
+              <RedirectToMainReference />
+            </Layout>
+          </AuthModule>
+          <ToastReceiver />
+          <TypographyGlobalStyle />
+        </Wrapper>
+      )}
+    </LoadingProvider>
   );
 }
 

@@ -1,8 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 
-import Spinner from "primitives/Spinner";
-
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import Sidebar from "./Sidebar";
@@ -12,7 +10,7 @@ import { BlockInterface } from "state/globalState";
 
 function SecondarySideMenu({ dataSource }: BlockInterface) {
   const { data, loadingContainer } = useDataSource<SecondaryMenuDataSourceInterface>(dataSource!);
-  if (loadingContainer.loading) return <Spinner />;
+  if (loadingContainer.loading) return null;
   return <Sidebar title={data!.title} items={data!.items} id={data!.id} />;
 }
 

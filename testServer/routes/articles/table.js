@@ -20,7 +20,7 @@ module.exports = (app) => {
               value: article.title,
               redirectReference: "/content/articles/" + article.id,
             },
-            publishedAt: moment.unix(article.publishedAt).format("DD MMMM YYYY"),
+            publishedAt: article.publishedAt ? moment.unix(article.publishedAt).format("DD MMMM YYYY") : "",
             actions: [
               {
                 mode: "dropdown",

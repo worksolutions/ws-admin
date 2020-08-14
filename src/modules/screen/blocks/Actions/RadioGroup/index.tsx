@@ -2,7 +2,8 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 
 import RadioGroup, { RadioGroupSize } from "primitives/RadioGroup";
-import Spinner from "primitives/Spinner";
+
+import Loading from "components/LoadingContainer/Loading";
 
 import { useEffectSkipFirst } from "libs/hooks/common";
 
@@ -34,7 +35,7 @@ function ActionRadioGroup({
     resultActions.change.run(value);
   }, [value]);
 
-  if (itemsData.loadingContainer.loading) return <Spinner />;
+  if (itemsData.loadingContainer.loading) return <Loading />;
   if (!resultActions.change) return null;
 
   return (

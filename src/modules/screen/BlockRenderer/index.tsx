@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 
-import Spinner from "primitives/Spinner";
+import Loading from "components/LoadingContainer/Loading";
 
 import { useEventEmitter } from "libs/events";
 import { useForceUpdate } from "libs/hooks/common";
@@ -40,11 +40,11 @@ function BlockRenderer(props: BlockInterface & { styles?: any; type?: string; sp
   }, []);
 
   if (!BlockComponent) {
-    return <Spinner size={props.spinnerSize} />;
+    return <Loading />;
   }
 
   if (props.waitForId) {
-    if (!renderedElements[props.waitForId]) return <Spinner size={props.spinnerSize} />;
+    if (!renderedElements[props.waitForId]) return <Loading />;
   }
 
   return <BlockComponent {...props} />;

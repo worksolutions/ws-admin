@@ -64,7 +64,6 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
       dataSource={dataSource}
       actions={actions}
       options={radioGroupOptions}
-      spinnerSize={24}
     />
   ),
   "edit:Date": ({ options: { dateOptions, actions }, styles }) => (

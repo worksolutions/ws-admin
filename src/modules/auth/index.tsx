@@ -5,7 +5,7 @@ import { assoc } from "ramda";
 import { browserHistory } from "common";
 import { Container } from "typedi";
 
-import Spinner from "primitives/Spinner";
+import Loading from "components/LoadingContainer/Loading";
 
 import { useEffectSkipFirst } from "libs/hooks/common";
 
@@ -14,7 +14,7 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 import AuthView from "./AuthView";
 import LogoutView from "./LogoutView";
 
-import { UserInterface, GlobalState } from "state/globalState";
+import { GlobalState, UserInterface } from "state/globalState";
 
 export const globalState = Container.get(GlobalState);
 
@@ -31,7 +31,7 @@ function AuthModule({ children }: { children: ReactNode }) {
     }
   }, [loadingContainer.errors]);
 
-  if (loadingContainer.loading) return <Spinner size={36} />;
+  if (loadingContainer.loading) return <Loading />;
 
   return (
     <Switch>
