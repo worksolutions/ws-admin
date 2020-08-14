@@ -221,6 +221,10 @@ export class RequestManager {
     return data;
   }
 
+  makeCancelName(url: string, method: METHODS) {
+    return `${method} ${url}`;
+  }
+
   // eslint-disable-next-line max-params
   createRequest<DecoderGenericType>(
     url: string,

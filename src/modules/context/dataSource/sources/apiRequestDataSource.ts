@@ -1,6 +1,6 @@
 import { Container } from "typedi";
 
-import { RequestManager } from "libs/request";
+import { REQUEST_CANCELLED, RequestManager } from "libs/request";
 import { identityValueDecoder } from "libs/request/defaultDecoders";
 import { prepareApiRequestBody } from "libs/requestLibs";
 
@@ -21,10 +21,19 @@ export default function apiRequestDataSource(
   const makeRequest = requestManager.createRequest(referenceWithContext.value, method, identityValueDecoder);
 
   const body = prepareApiRequestBody({ removeEmptyString }, bodyWithContext.value);
-
   return {
     referenceWithContext,
     bodyWithContext,
-    request: makeRequest({ body }),
+    request: new Promise((resolve, reject) => {
+      makeRequest({
+        body,
+        options: { cancelName: requestManager.makeCancelName(referenceWithContext.value, method) },
+      })
+        .then(resolve)
+        .catch((err) => {
+          if (err === REQUEST_CANCELLED) return;
+          reject(err);
+        });
+    }),
   };
 }
