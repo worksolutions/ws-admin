@@ -749,7 +749,7 @@ module.exports = {
                 slots: {
                   headingAction: {
                     type: "Actions/Button",
-                    options: { name: "Редактировать", icon: "plus-big", buttonType: "SECONDARY" },
+                    options: { name: "Редактировать", icon: "edit", buttonType: "SECONDARY" },
                     actions: {
                       click: {
                         type: "update-context",
