@@ -173,16 +173,6 @@ const ModalContent = observer(function ({
               horizontalPadding(modalHorizontalPadding),
             ]}
           >
-            {secondaryActionText && onSecondaryAction && (
-              <Button
-                size={ButtonSize.LARGE}
-                type={ButtonType.SECONDARY}
-                loading={secondaryActionLoading}
-                onClick={() => onSecondaryAction(close)}
-              >
-                {secondaryActionText}
-              </Button>
-            )}
             {primaryActionText && onPrimaryAction && (
               <Button
                 size={ButtonSize.LARGE}
@@ -191,6 +181,16 @@ const ModalContent = observer(function ({
                 onClick={() => onPrimaryAction(close)}
               >
                 {primaryActionText}
+              </Button>
+            )}
+            {secondaryActionText && onSecondaryAction && (
+              <Button
+                size={ButtonSize.LARGE}
+                type={ButtonType.SECONDARY}
+                loading={secondaryActionLoading}
+                onClick={() => onSecondaryAction(close)}
+              >
+                {secondaryActionText}
               </Button>
             )}
           </Wrapper>
