@@ -66,6 +66,7 @@ const cssAnimateProperties = [
   "width",
   "height",
   "padding",
+  "transform",
 ];
 
 const transitionStyle = [

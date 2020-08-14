@@ -26,7 +26,7 @@ import {
   transform,
   transition,
 } from "libs/styles";
-import { useBoolean } from "libs/hooks/common";
+import { useBoolean, useEffectSkipFirst } from "libs/hooks/common";
 import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
@@ -47,9 +47,17 @@ function FilterBlock({
   actions,
 }: BlockInterface<{ name: string; fields: FieldListItemInterface[] }[], "clear"> & { styles?: any }) {
   const [opened, open, close] = useBoolean(false);
-  const [selectedFilterIndex, setSelectedFilterIndex] = React.useState(0);
+  const [selectedFilterIndex, setSelectedFilterIndex] = React.useState(-1);
   const { data, initialData, loadingContainer } = useDataSource(dataSource!);
   const resultActions = useActions(actions!, useAppContext());
+
+  useEffectSkipFirst(() => {
+    if (selectedFilterIndex === -1) {
+      setSelectedFilterIndex(0);
+      return;
+    }
+    if (!opened) setSelectedFilterIndex(-1);
+  }, [opened]);
 
   if (loadingContainer.loading) return <Spinner />;
 
@@ -80,9 +88,12 @@ function FilterBlock({
               <FilterItem
                 key={key}
                 name={filterItem.name}
-                selected
+                selected={selectedFilterIndex === key}
                 applied={dataAndInitialDataAreNotEqual}
-                onClick={() => setSelectedFilterIndex(key)}
+                onClick={() => {
+                  setSelectedFilterIndex(key);
+                  open();
+                }}
               />
             ))}
           </Wrapper>
@@ -98,7 +109,10 @@ function FilterBlock({
           <DroppedMenuWrapper opened={opened}>
             <DynamicFieldsList
               useTitleWidthCalculation
-              options={{ mode: FieldListItemMode.HORIZONTAL, fields: options![selectedFilterIndex].fields }}
+              options={{
+                mode: FieldListItemMode.HORIZONTAL,
+                fields: selectedFilterIndex === -1 ? [] : options![selectedFilterIndex].fields,
+              }}
             />
             {resultActions.clear && dataAndInitialDataAreNotEqual && (
               <Button
