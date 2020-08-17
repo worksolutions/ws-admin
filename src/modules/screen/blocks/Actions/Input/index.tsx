@@ -6,26 +6,33 @@ import { Icons } from "primitives/Icon";
 import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
 import { useEffectSkipFirst } from "libs/hooks/common";
+import { maxWidth, minWidth, width } from "libs/styles";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { insertContext } from "modules/context/insertContext";
 
+import { defaultWidths, DefaultWidths } from "../widths";
+
 import { BlockInterface } from "state/globalState";
 
 export interface InputOptionsInterface {
+  cleanable?: boolean;
+  width?: DefaultWidths;
+  multiline?: boolean;
   placeholder?: string;
   iconLeft?: Icons;
   debounce?: number;
   value: string;
+  size?: InputSize;
 }
 
-type ActionInputType = BlockInterface<InputOptionsInterface, "change"> & {
+type ActionInputInterface = BlockInterface<InputOptionsInterface, "change"> & {
   styles?: any;
   onChange?: (text: string) => void;
 };
 
-function ActionInput({ actions, options, styles, onChange }: ActionInputType) {
+function ActionInput({ actions, options, styles, onChange }: ActionInputInterface) {
   if (!actions?.change) return null;
 
   const appContext = useAppContext();
@@ -38,15 +45,19 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputType) {
     resultActions.change.run(value);
   }, [value]);
 
+  const widthValue = defaultWidths[options?.width || DefaultWidths.SMALL];
+
   return (
-    <ClearInputWrapper needShow={!!value} clear={() => setValue("")}>
+    <ClearInputWrapper needShow={!!value && options?.cleanable} clear={() => setValue("")}>
       <Input
-        outerStyles={styles}
-        size={InputSize.MEDIUM}
+        outerStyles={[styles, width(widthValue)]}
+        styles={[minWidth(widthValue), maxWidth(widthValue)]}
+        size={options?.size}
         value={value}
-        placeholder={options?.placeholder}
+        placeholder={options?.placeholder || "Не заполнено"}
         iconLeft={options?.iconLeft}
         debounce={options?.debounce}
+        multiline={options?.multiline}
         onChange={setValue}
       />
     </ClearInputWrapper>

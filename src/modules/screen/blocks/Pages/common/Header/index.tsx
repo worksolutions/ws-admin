@@ -12,13 +12,13 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { insertContext } from "modules/context/insertContext";
 
-import PageHeaderStatus, { PageHeaderStatusInterface } from "./Status";
+import Status, { StatusInterface } from "./Status";
 
 import { ContainSlotsInterface } from "state/globalState";
 
 export interface PageHeaderInterface {
   title: string;
-  status?: PageHeaderStatusInterface;
+  status?: StatusInterface;
   externalReference?: string;
 }
 
@@ -37,7 +37,7 @@ function PageHeader({ slots, status, title, externalReference }: ContainSlotsInt
             <Button size={ButtonSize.MEDIUM} type={ButtonType.ICON} iconLeft="external-link-alt" />
           </TypographyLink>
         )}
-        {status && <PageHeaderStatus styles={marginLeft(16)} title={status.title} badgeColor={status.badgeColor} />}
+        {status && <Status styles={marginLeft(16)} title={status.title} badgeColor={status.badgeColor} />}
       </Wrapper>
       {slots.headingAction && <BlockRenderer {...slots.headingAction} />}
     </>

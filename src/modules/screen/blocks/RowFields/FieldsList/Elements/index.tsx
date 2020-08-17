@@ -1,11 +1,9 @@
 import React from "react";
-import { assoc } from "ramda";
 
 import ImageWithDefault from "primitives/ImageWithDefault";
 import Icon from "primitives/Icon";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
 import Wrapper from "primitives/Wrapper";
-import { InputSize } from "primitives/Input/Input";
 
 import { ai, Aligns, border, borderRadius, flex, marginRight } from "libs/styles";
 
@@ -67,12 +65,10 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
     />
   ),
   "edit:Date": ({ options: { dateOptions, actions }, styles }) => (
-    <BlockRenderer
-      type="Actions/Date"
-      styles={styles}
-      actions={actions}
-      options={assoc("size", InputSize.MEDIUM, dateOptions)}
-    />
+    <BlockRenderer type="Actions/Date" styles={styles} actions={actions} options={dateOptions} />
+  ),
+  "edit:Text": ({ options: { inputOptions, actions }, styles }) => (
+    <BlockRenderer type="Actions/Input" styles={styles} actions={actions} options={inputOptions} />
   ),
 };
 

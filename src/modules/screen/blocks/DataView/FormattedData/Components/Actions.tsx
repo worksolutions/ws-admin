@@ -12,6 +12,7 @@ import ActionSorting from "modules/screen/blocks/Actions/Sorting";
 
 import { FormattedDataViewInterface } from "../types";
 import { FormattedDataLocalStorageInitialValueType } from "../libs";
+import { InputSize } from "../../../../../../primitives/Input/InputWrapper";
 
 type ActionType = Pick<FormattedDataViewInterface, "actions" | "options"> & {
   styles?: any;
@@ -47,7 +48,17 @@ function Actions({
       ]}
     >
       {actions?.search && (
-        <ActionInput actions={{ change: actions.search }} options={options?.searchOptions} onChange={onSearchChange} />
+        <ActionInput
+          actions={{ change: actions.search }}
+          options={{
+            debounce: 600,
+            cleanable: true,
+            iconLeft: "search-big",
+            size: InputSize.MEDIUM,
+            ...options!.searchOptions,
+          }}
+          onChange={onSearchChange}
+        />
       )}
       {isCardsView && actions?.sorting && (
         <ActionSorting

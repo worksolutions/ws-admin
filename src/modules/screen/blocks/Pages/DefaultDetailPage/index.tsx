@@ -9,8 +9,7 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import DefaultPageWrapper from "../common/DefaultPageWrapper";
-
-import PageHeader, { PageHeaderInterface } from "./Header";
+import PageHeader, { PageHeaderInterface } from "../common/Header";
 
 import { BlockInterface, ContainSlotsInterface } from "state/globalState";
 
@@ -19,9 +18,10 @@ function DefaultPageWithList({
   options,
   dataSource,
 }: ContainSlotsInterface & BlockInterface<PageHeaderInterface>) {
-  const data = useDataSource(dataSource!);
-
-  if (data.loadingContainer.loading) return <Loading />;
+  if (dataSource) {
+    const data = useDataSource(dataSource);
+    if (data.loadingContainer.loading) return <Loading />;
+  }
 
   return (
     <DefaultPageWrapper

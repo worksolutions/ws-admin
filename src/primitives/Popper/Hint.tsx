@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
+import { duration160, duration160Number } from "layout/durations";
+import { zIndex_hint } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -36,8 +38,6 @@ interface HintInterface {
   margin?: number;
   children: (initParent: (ref: HTMLElement | null) => void, hint?: React.ReactNode) => JSX.Element;
 }
-
-const hideAnimationDelay = 200;
 
 const styledForType = {
   [HintType.black]: {
@@ -104,7 +104,7 @@ function Hint({
     const mouseLeaveHandler = () => {
       clearTimeout(showTimer);
       clearTimeout(hideTimer);
-      hideTimer = setTimeout(disableWasRendered, hideAnimationDelay);
+      hideTimer = setTimeout(disableWasRendered, duration160Number);
       close();
     };
 
@@ -125,9 +125,10 @@ function Hint({
         ref={initPopper("child")}
         styles={[
           opacity(force || opened ? 1 : 0),
-          transition(`opacity ${hideAnimationDelay}ms`),
+          transition(`opacity ${duration160}`),
           getPopperMarginStyleForPlacement(placement, marginProp!),
           themeStyles.container,
+          zIndex_hint,
         ]}
       >
         <Typography type="caption-regular" color={themeStyles.text.color} styles={[whiteSpace("nowrap")]}>

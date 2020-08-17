@@ -6,13 +6,15 @@ import Icon from "primitives/Icon";
 
 import { ai, Aligns, backgroundColor, borderRadius, Colors, flex, marginRight, padding } from "libs/styles";
 
-interface HeaderStatusBarInterface {
+interface StaticStatusBarInterface {
   styles?: any;
   title: string;
   badgeColor?: Colors;
+  editable?: boolean;
+  onChange?: () => void;
 }
 
-function HeaderStatusBar({ badgeColor, title, styles }: HeaderStatusBarInterface) {
+function StaticStatusBar({ badgeColor, title, styles }: StaticStatusBarInterface) {
   return (
     <Wrapper
       styles={[flex, ai(Aligns.CENTER), padding("6px 16px"), backgroundColor("gray-blue/01"), borderRadius(24), styles]}
@@ -25,4 +27,4 @@ function HeaderStatusBar({ badgeColor, title, styles }: HeaderStatusBarInterface
   );
 }
 
-export default React.memo(HeaderStatusBar);
+export default React.memo(StaticStatusBar);

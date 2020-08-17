@@ -39,4 +39,5 @@ export const list = {
   calendar: require("./icons/calendar.svg"),
   "arrow-left-long": require("./icons/arrow-left-long.svg"),
   "arrow-right-long": require("./icons/arrow-right-long.svg"),
+  "16-info-circle": require("./icons/16-info-circle.svg"),
 };

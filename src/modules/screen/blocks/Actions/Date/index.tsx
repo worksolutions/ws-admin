@@ -6,21 +6,30 @@ import DatePicker, { DatePickerMode } from "primitives/DatePicker";
 import { InputSize } from "primitives/Input/InputWrapper";
 import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
+import { width } from "libs/styles";
 import { useEffectSkipFirst } from "libs/hooks/common";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
-import { insertContext, useStateFromContext } from "modules/context/insertContext";
+import { useStateFromContext } from "modules/context/insertContext";
+
+import { DefaultWidths, defaultWidths } from "../widths";
 
 import { BlockInterface } from "state/globalState";
 
-function ActionRadioGroup({
-  options,
-  actions,
-  styles,
-}: BlockInterface<{ value: string; hasCurrentDayButton: boolean; allowEmpty?: boolean; size?: InputSize }, "change"> & {
+interface DateOptionsInterface {
+  cleanable?: boolean;
+  value: string;
+  hasCurrentDayButton: boolean;
+  allowEmpty?: boolean;
+  size?: InputSize;
+}
+
+type ActionDateInterface = BlockInterface<DateOptionsInterface, "change"> & {
   styles?: any;
-}) {
+};
+
+function ActionDate({ options, actions, styles }: ActionDateInterface) {
   if (!actions?.change) return null;
   if (!options) return null;
 
@@ -34,7 +43,7 @@ function ActionRadioGroup({
   if (!resultActions.change) return null;
 
   return (
-    <ClearInputWrapper needShow={!!value} clear={() => setValue(null)}>
+    <ClearInputWrapper needShow={!!value && options?.cleanable} clear={() => setValue(null)}>
       <DatePicker
         outerStyles={styles}
         initialValue={value}
@@ -48,4 +57,4 @@ function ActionRadioGroup({
   );
 }
 
-export default React.memo(observer(ActionRadioGroup));
+export default React.memo(observer(ActionDate));

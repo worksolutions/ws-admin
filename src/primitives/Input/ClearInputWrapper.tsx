@@ -12,7 +12,7 @@ function ClearInputWrapper({
   size = ButtonSize.MEDIUM,
 }: {
   children: JSX.Element;
-  needShow: boolean;
+  needShow?: boolean;
   clear: () => void;
   size?: ButtonSize;
 }) {
@@ -21,8 +21,9 @@ function ClearInputWrapper({
       {children}
       <Button
         styles={[
-          marginLeft(4),
-          needShow ? [width(32)] : [width(0), focus(emptyBoxShadow), horizontalPadding(0)],
+          needShow
+            ? [marginLeft(4), width(32)]
+            : [marginLeft(0), width(0), focus(emptyBoxShadow), horizontalPadding(0)],
           overflow("hidden"),
         ]}
         type={ButtonType.ICON}

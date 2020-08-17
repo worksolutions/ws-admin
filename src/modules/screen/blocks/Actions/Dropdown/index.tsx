@@ -10,22 +10,6 @@ import { useActions } from "modules/context/actions/useActions";
 
 import { BlockInterface } from "state/globalState";
 
-export enum DropdownSizes {
-  SMALL = "SMALL",
-  MEDIUM = "MEDIUM",
-  LARGE = "LARGE",
-  FULL_WIDTH = "FULL_WIDTH",
-  ADJUST_CONTENT = "ADJUST_CONTENT",
-}
-
-const sizes: Record<DropdownSizes, (sizes: UseMeasureRect) => string | number> = {
-  [DropdownSizes.SMALL]: () => 128,
-  [DropdownSizes.MEDIUM]: () => 288,
-  [DropdownSizes.LARGE]: () => 448,
-  [DropdownSizes.FULL_WIDTH]: () => "100%",
-  [DropdownSizes.ADJUST_CONTENT]: () => 0,
-};
-
 function ActionDropdown({ options }: BlockInterface<{}, "change">) {
   if (!options) return null;
 

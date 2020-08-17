@@ -4,20 +4,20 @@ import { observer } from "mobx-react-lite";
 import { insertContext } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 
-import HeaderStatusBar from "../../common/HeaderStatusBar";
+import StaticStatusBar from "./StaticStatusBar";
 
-export interface PageHeaderStatusInterface {
+export interface StatusInterface {
   title: string;
   badgeColor?: string;
 }
 
-function PageHeaderStatus({ title, styles, badgeColor }: PageHeaderStatusInterface & { styles?: any }) {
+function Status({ title, styles, badgeColor }: StatusInterface & { styles?: any }) {
   const appContext = useAppContext();
 
   const enhancedTitle = insertContext(title, appContext.context);
   const enhancedBadgeColor = insertContext(badgeColor, appContext.context);
 
-  return <HeaderStatusBar styles={styles} title={enhancedTitle.value} badgeColor={enhancedBadgeColor.value} />;
+  return <StaticStatusBar styles={styles} title={enhancedTitle.value} badgeColor={enhancedBadgeColor.value} />;
 }
 
-export default React.memo(observer(PageHeaderStatus));
+export default React.memo(observer(Status));

@@ -26,8 +26,11 @@ import {
   top,
   transform,
   transition,
+  willChange,
 } from "libs/styles";
 import { isString } from "libs/is";
+
+import { duration160 } from "../../layout/durations";
 
 export enum InputSize {
   MEDIUM = "medium",
@@ -131,6 +134,21 @@ function Tip({ tip, color }: { tip: string | undefined; color: Colors }) {
 
 export const _defaultIconStyles = [position("absolute"), top("50%"), transform("translateY(-50%)")];
 
+const cssAnimateProperties = [
+  "color",
+  "border",
+  "box-shadow",
+  "opacity",
+  "visibility",
+  "background-color",
+  "transform",
+];
+
+const transitionStyle = [
+  transition(cssAnimateProperties.map((val) => `${val} ${duration160}`).join(",")),
+  willChange(cssAnimateProperties.join(",")),
+];
+
 function InputWrapper({
   outerStyles,
   children,
@@ -169,7 +187,7 @@ function InputWrapper({
       <Wrapper styles={[fullWidth, backgroundColor(colors.background), borderRadius(6), position("relative")]}>
         {renderComponent([
           TypographyTypes["body-regular"],
-          transition("all 0.2s"),
+          transitionStyle,
           borderWidth(0),
           boxShadow([0, 0, 0, 1, colors.shadowColor]),
           borderRadius(6),
@@ -177,7 +195,7 @@ function InputWrapper({
           disableOutline,
           backgroundColor("transparent"),
           color("gray-blue/09"),
-          child([color(colors.placeholder), transition("all 0.2s")], "::placeholder"),
+          child([color(colors.placeholder), transition(`color ${duration160}`)], "::placeholder"),
           styles,
           variant === InputVariant.DEFAULT
             ? [hover(boxShadow([0, 0, 0, 1, "gray-blue/03"]))]

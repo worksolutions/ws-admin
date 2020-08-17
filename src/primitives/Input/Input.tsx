@@ -8,6 +8,7 @@ import { useDebouncedInput } from "libs/hooks/useDebouncedInput";
 import InputWrapper, { BaseInputWrapperInterface } from "./InputWrapper";
 
 export interface InputInterface extends BaseInputWrapperInterface {
+  multiline?: boolean;
   styles?: any;
   value: string;
   placeholder?: string;
@@ -16,7 +17,7 @@ export interface InputInterface extends BaseInputWrapperInterface {
 }
 
 const Input = React.forwardRef(function (
-  { value, onChange, placeholder, debounce = 100, styles, ...inputWrapperProps }: InputInterface,
+  { value, onChange, placeholder, multiline, debounce = 100, styles, ...inputWrapperProps }: InputInterface,
   ref: Ref<HTMLInputElement>,
 ) {
   const { onInputChange, inputValue } = useDebouncedInput(value, debounce, onChange);
@@ -27,7 +28,7 @@ const Input = React.forwardRef(function (
         <>
           <Wrapper
             ref={ref}
-            as="input"
+            {...(multiline ? { as: "textarea" } : { as: "input" })}
             disabled={inputWrapperProps.disabled}
             styles={[inputStyles, styles]}
             value={inputValue}

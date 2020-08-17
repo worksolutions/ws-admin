@@ -12,9 +12,12 @@ export enum FieldListItemType {
   link = "link",
   "edit:RadioGroup" = "edit:RadioGroup",
   "edit:Date" = "edit:Date",
+  "edit:Text" = "edit:Text",
 }
 
 export interface FieldListItemInterface {
+  required?: boolean;
+  hint?: string;
   title: string;
   type: FieldListItemType;
   options: Record<string, any>;
