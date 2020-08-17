@@ -172,7 +172,7 @@ module.exports = {
                             type: "edit:Date",
                             options: {
                               dateOptions: {
-                                value: "{{{screen:articles.filter.publishedAt}}}",
+                                value: "=screen:articles.filter.publishedAt",
                               },
                               actions: {
                                 change: {
@@ -264,7 +264,7 @@ module.exports = {
                                 },
                               ],
                               sortingOptions: {
-                                initialValue: "{{{screen:articles.sorting}}}",
+                                initialValue: "=screen:articles.sorting",
                               },
                             },
                             dataSource: {
@@ -279,7 +279,7 @@ module.exports = {
                                   orderDirection: "{{screen:articles.sorting.direction}}",
                                   orderField: "{{screen:articles.sorting.id}}",
                                   status: "{{screen:articles.filter.status}}",
-                                  publishedAt: "{{{screen:articles.filter.publishedAt}}}",
+                                  publishedAt: "=screen:articles.filter.publishedAt",
                                 },
                               },
                             },
@@ -297,7 +297,7 @@ module.exports = {
                                   orderDirection: "{{screen:articles.sorting.direction}}",
                                   orderField: "{{screen:articles.sorting.id}}",
                                   status: "{{screen:articles.filter.status}}",
-                                  publishedAt: "{{{screen:articles.filter.publishedAt}}}",
+                                  publishedAt: "=screen:articles.filter.publishedAt",
                                 },
                               },
                             },
@@ -311,7 +311,7 @@ module.exports = {
                                   { title: "по дате создания", id: "id", hasDirection: true },
                                   { title: "по дате публикации", id: "publishedAt", hasDirection: true },
                                 ],
-                                initialValue: "{{{screen:articles.sorting}}}",
+                                initialValue: "=screen:articles.sorting",
                               },
                             },
                           },
@@ -576,7 +576,7 @@ module.exports = {
                             },
                           ],
                           sortingOptions: {
-                            initialValue: "{{{screen:categories.sorting}}}",
+                            initialValue: "=screen:categories.sorting",
                           },
                         },
                         dataSource: {
@@ -693,7 +693,7 @@ module.exports = {
                             },
                           ],
                           sortingOptions: {
-                            initialValue: "{{{screen:users.sorting}}}",
+                            initialValue: "=screen:users.sorting",
                           },
                         },
                         dataSource: {
