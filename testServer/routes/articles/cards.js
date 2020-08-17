@@ -15,7 +15,7 @@ module.exports = (app) => {
           const action = {
             type: "redirect",
             options: {
-              reference: "/",
+              reference: "/content/articles/" + article.id + "/edit",
             },
           };
 
