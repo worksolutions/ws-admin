@@ -7,13 +7,15 @@ module.exports = {
       type: "static",
       options: [
         {
-          code: "content/articles",
+          matchPath: "/content",
+          redirectReference: "/content/articles",
           name: "Контент",
           icon: "grid-plus-outline",
         },
         {
-          code: "users/list",
-          name: "Пользователь",
+          matchPath: "/users",
+          redirectReference: "/users/list",
+          name: "Пользователи",
           icon: "account-multiple-outline",
         },
       ],

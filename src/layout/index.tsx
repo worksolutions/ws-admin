@@ -1,6 +1,7 @@
 import React from "react";
 import { matchPath, useLocation } from "react-router";
 import { Container } from "typedi";
+import { assoc } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 import { Icons } from "primitives/Icon";
@@ -31,23 +32,23 @@ import { AnyDataSource } from "types/DataSource";
 
 const globalState = Container.get(GlobalState);
 
+type SidebarItem = { matchPath: string; redirectReference: string; name: string; icon: Icons };
+
 export default cb(
   {
     observer: true,
     useStateBuilder(props: { children: React.ReactNode; logo: string; sidebarDataSource: AnyDataSource }) {
       const { pathname } = useLocation();
-      const [menuElements, setMenuElements] = React.useState<
-        { code: string; name: string; icon: Icons; selected: boolean; href: string }[]
-      >([]);
+      const [menuElements, setMenuElements] = React.useState<(SidebarItem & { selected: boolean })[]>([]);
 
-      const { data } = useDataSource(props.sidebarDataSource);
+      const { data } = useDataSource<SidebarItem[]>(props.sidebarDataSource);
+
       React.useEffect(() => {
         if (!data) return;
         setMenuElements(
-          data.map((item: any) => {
-            const href = "/" + item.code;
-            const selected = !!matchPath(pathname, { path: href });
-            return { ...item, href, selected };
+          data.map((item) => {
+            const selected = !!matchPath(pathname, { path: item.matchPath });
+            return assoc("selected", selected, item);
           }),
         );
       }, [data, pathname]);
@@ -63,7 +64,7 @@ export default cb(
           logo={logo}
           primaryItems={menuElements.map((element) => ({
             type: "button",
-            href: element.href,
+            href: element.redirectReference,
             selected: element.selected,
             hint: element.name,
             icon: element.icon,
