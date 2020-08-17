@@ -4,10 +4,25 @@ import { Hooks, useResizeColumns, useTable } from "react-table";
 import { isNil, last } from "ramda";
 import { useMeasure } from "react-use";
 import { elevation8 } from "style/shadows";
+import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
-import { flex, fullHeight, fullWidth, height, left, overflow, paddingBottom, position, right, top } from "libs/styles";
+import {
+  backgroundColor,
+  flex,
+  fullHeight,
+  fullWidth,
+  height,
+  left,
+  opacity,
+  overflow,
+  paddingBottom,
+  position,
+  right,
+  top,
+  transition,
+} from "libs/styles";
 import { provideRef } from "libs/provideRef";
 import { useScrollCallbackWasScrolledBoolean } from "libs/hooks/scroll";
 
@@ -81,7 +96,19 @@ function TableViewPresenter({ list, options, actions }: TableInterface) {
           />
         </TableComponent>
       </Wrapper>
-      {scrolled && <Wrapper styles={[position("absolute"), top(0), left(0), right(0), height(40), elevation8]} />}
+      <Wrapper
+        styles={[
+          transition(`opacity ${duration160}`),
+          position("absolute"),
+          top(0),
+          left(0),
+          right(0),
+          height(40),
+          backgroundColor("white"),
+          elevation8,
+          opacity(scrolled ? 1 : 0),
+        ]}
+      />
     </Wrapper>
   );
 }

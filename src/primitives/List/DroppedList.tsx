@@ -88,10 +88,10 @@ function DroppedList({
 
   const Component = ComponentForOpenMode[mode];
 
-  const renderChild = (ref: any) =>
+  const renderChild = (clickOutsideRef: any) =>
     children(
       { open, close, opened, toggle: () => (opened ? close() : open()) },
-      provideRef(ref, initPopper("parent")),
+      provideRef(clickOutsideRef, initPopper("parent")),
       <Wrapper
         as={animated.div}
         style={style}

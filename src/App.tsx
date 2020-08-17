@@ -3,14 +3,11 @@ import React, { useEffect } from "react";
 import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
 
-import { TypographyGlobalStyle } from "primitives/Typography";
-
 import LoadingProvider from "components/LoadingContainer/LoadingProvider";
 import Loading from "components/LoadingContainer/Loading";
 
 import { useSetDocumentTitle } from "libs/hooks/special";
 
-import ToastReceiver from "modules/ToastReceiver";
 import AuthModule from "modules/auth";
 import { AuthTokenSaver } from "modules/auth/authTokenSaver";
 import BlockRenderer from "modules/screen/BlockRenderer";
@@ -59,8 +56,6 @@ function App() {
               <RedirectToMainReference />
             </Layout>
           </AuthModule>
-          <ToastReceiver />
-          <TypographyGlobalStyle />
         </Wrapper>
       )}
     </LoadingProvider>

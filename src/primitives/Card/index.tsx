@@ -1,5 +1,4 @@
 import React from "react";
-import { useMeasure } from "react-use";
 import { duration160 } from "layout/durations";
 import { propEq } from "ramda";
 

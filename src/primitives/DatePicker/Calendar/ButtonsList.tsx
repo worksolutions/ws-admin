@@ -95,7 +95,7 @@ function ButtonsList({ items, selectedItemIndex, onClick }: ButtonsListInterface
         maxHeight(256),
         flex,
         flexWrap,
-        overflowY("scroll"),
+        overflowY("overlay"),
         alignContent(Aligns.START),
         child([marginRight(8), marginBottom(8)]),
         nthChild("3n + 1", marginLeft(12)),

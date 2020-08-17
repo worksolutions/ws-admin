@@ -2,17 +2,25 @@ import "reflect-metadata";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router";
+import "style/index.css";
+
+import { TypographyGlobalStyle } from "primitives/Typography";
 
 import "libs/date";
 import { RequestManager } from "libs/request";
 
-import "./style/index.css";
+import ToastReceiver from "modules/ToastReceiver";
+
 import App from "./App";
 import { browserHistory } from "./common";
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <App />
+    <>
+      <App />
+      <ToastReceiver />
+      <TypographyGlobalStyle />
+    </>
   </Router>,
   document.getElementById("root"),
 );
