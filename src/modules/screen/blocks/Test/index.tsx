@@ -7,6 +7,7 @@ import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { ListItemId } from "primitives/List";
 import Tabs from "primitives/Tabs";
 import Spinner from "primitives/Spinner";
+import Toggle from "primitives/Toggle";
 
 import Sorting, { SortingElementInterface } from "components/Sorting";
 
@@ -37,6 +38,7 @@ function TestPage() {
   });
 
   const [droppedItem, setDroppedItem] = React.useState<ListItemId>();
+  const [switched, setSwitched] = React.useState(false);
 
   return (
     <Wrapper
@@ -141,6 +143,11 @@ function TestPage() {
       </Wrapper>
       <Wrapper>
         <RadioGroups />
+      </Wrapper>
+      <Wrapper>
+        <Toggle enabled={switched} onChange={setSwitched} />
+        <Toggle text="asd" enabled={switched} onChange={setSwitched} />
+        <Toggle textOnRight text="asd" enabled={switched} onChange={setSwitched} />
       </Wrapper>
     </Wrapper>
   );
