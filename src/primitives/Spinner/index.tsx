@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-import { borderLeftColor, Colors, getColor } from "libs/styles";
+import { child, Colors, getColor } from "libs/styles";
 
 import "./style.css";
 
@@ -32,4 +32,9 @@ Spinner.defaultProps = {
 
 export default React.memo(Spinner);
 
-export const makeSpinnerColorStyle = (color: Colors) => borderLeftColor(color);
+const strokeColor = (color: Colors) =>
+  css`
+    stroke: ${getColor(color)};
+  `;
+
+export const makeSpinnerColorStyle = (color: Colors) => child(strokeColor(color), ".path");

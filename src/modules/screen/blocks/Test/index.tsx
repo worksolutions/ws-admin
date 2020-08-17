@@ -58,6 +58,8 @@ function TestPage() {
     >
       <Wrapper>
         <Spinner />
+        <Button loading>Авторизация</Button>
+        <Button loading>Автор</Button>
       </Wrapper>
       <Buttons />
 
