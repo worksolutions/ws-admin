@@ -37,12 +37,12 @@ function Modals() {
           <Wrapper styles={horizontalPadding(modalHorizontalPadding)}>
             <Typography>Тут некий контент</Typography>
             <Dropdown
-              selectedItemId={size}
+              selectedItemCode={size}
               placeholder="тест 1"
               items={[
-                { title: "SMALL", id: ModalSize.SMALL },
-                { title: "ADJUST_CONTENT", id: ModalSize.ADJUST_CONTENT },
-                { title: "FULL_WIDTH", id: ModalSize.FULL_WIDTH },
+                { title: "SMALL", code: ModalSize.SMALL },
+                { title: "ADJUST_CONTENT", code: ModalSize.ADJUST_CONTENT },
+                { title: "FULL_WIDTH", code: ModalSize.FULL_WIDTH },
               ]}
               onChange={setSize}
             />

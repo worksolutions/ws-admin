@@ -74,11 +74,11 @@ function insertContextData(
 }
 
 export function useStateFromContext(
-  incomeData: any,
+  contextPath: string,
   appContext: AppContextInterface,
   localContext = {},
 ): [any, (data: any) => void] {
-  const data = insertContext(incomeData, appContext.context, localContext).value;
+  const data = insertContext(contextPath, appContext.context, localContext).value;
   const [value, setValue] = React.useState(data);
 
   React.useEffect(() => {

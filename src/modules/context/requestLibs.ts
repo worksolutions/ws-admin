@@ -1,6 +1,6 @@
 import { filter } from "ramda";
 
-import { isPureObject } from "./is";
+import { isPureObject } from "libs/is";
 
 export function prepareApiRequestBody(config: { removeEmptyString: boolean }, body: any) {
   if (!isPureObject(body)) return body;

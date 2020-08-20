@@ -54,7 +54,7 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
       ignoreClickOutsideElements={[listRef.current]}
       margin={8}
       items={items.map((item) => ({
-        id: item.id,
+        code: item.id,
         title: item.title,
         rightContent:
           originalSelectedElement.id === item.id ? (

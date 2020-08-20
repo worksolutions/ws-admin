@@ -9,11 +9,11 @@ function Dropdowns() {
     <Wrapper>
       <Dropdown
         title="Сверху:"
-        selectedItemId={value}
+        selectedItemCode={value}
         placeholder="тест 1"
         items={[
-          { title: "Выбранный длинный пункт", id: "new" },
-          { title: "по дате", id: "date" },
+          { title: "Выбранный длинный пункт", code: "new" },
+          { title: "по дате", code: "date" },
         ]}
         onChange={setValue}
       />
@@ -21,30 +21,30 @@ function Dropdowns() {
         title="Сбоку:"
         titlePosition={DropdownTitlePosition.LEFT}
         size={DropdownSize.LARGE}
-        selectedItemId={value}
+        selectedItemCode={value}
         placeholder="тест 1"
         items={[
-          { title: "Выбранный длинный пункт", id: "new" },
-          { title: "по дате", id: "date" },
+          { title: "Выбранный длинный пункт", code: "new" },
+          { title: "по дате", code: "date" },
         ]}
         onChange={setValue}
       />
       <Dropdown
-        selectedItemId={value}
+        selectedItemCode={value}
         placeholder="тест 1"
         groupedItems={[
           {
             groupName: "Группа 1",
             items: [
-              { title: "по новизне", id: "new" },
-              { title: "по дате", id: "date" },
+              { title: "по новизне", code: "new" },
+              { title: "по дате", code: "date" },
             ],
           },
           {
             groupName: "Группа 2",
             items: [
-              { title: "по новизне", id: "new2" },
-              { title: "по дате", id: "date2" },
+              { title: "по новизне", code: "new2" },
+              { title: "по дате", code: "date2" },
             ],
           },
         ]}

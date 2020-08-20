@@ -86,10 +86,10 @@ function TestPage() {
           mode={DroppedListOpenMode.HOVER}
           margin={4}
           items={[
-            { title: "по новизне", id: "new" },
-            { title: "по дате создания", id: "date" },
+            { title: "по новизне", code: "new" },
+            { title: "по дате создания", code: "date" },
           ]}
-          onChange={(id) => setDroppedItem(id)}
+          onChange={(code) => setDroppedItem(code)}
         >
           {(state, parentRef, subChild) => (
             <Button
@@ -108,10 +108,10 @@ function TestPage() {
           mode={DroppedListOpenMode.CLICK}
           margin={4}
           items={[
-            { title: "по новизне", id: "new" },
-            { title: "по дате создания", id: "date" },
+            { title: "по новизне", code: "new" },
+            { title: "по дате создания", code: "date" },
           ]}
-          onChange={(id) => setDroppedItem(id)}
+          onChange={(code) => setDroppedItem(code)}
         >
           {(state, parentRef, subChild) => (
             <Button

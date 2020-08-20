@@ -8,16 +8,41 @@ module.exports = {
     {
       type: "ContextInitializer",
       id: "article-context",
-      options: [{ path: "screen:article", value: {} }],
+      options: [{ path: "screen:article", value: { status: "UN_PUBLISHED", title: "1234" } }],
     },
     {
-      type: "Pages/DefaultDetailPage",
+      type: "Pages/DefaultDetailEditPage",
       waitForId: "article-context",
       options: {
         title: "Статья",
         status: {
-          title: "{{screen:article.status.title}}",
-          badgeColor: "{{screen:article.status.badgeColor}}",
+          dataSource: {
+            type: "static",
+            options: [
+              { badgeColor: "orange/05", code: "UN_PUBLISHED", title: "Не опубликовано" },
+              { badgeColor: "green/05", code: "PUBLISHED", title: "Опубликовано" },
+            ],
+          },
+          options: {
+            value: "=screen:article.status",
+          },
+          actions: {
+            change: {
+              type: "update-context",
+              context: "screen:article.status",
+            },
+          },
+        },
+        saveOptions: {
+          modifiers: [
+            {
+              type: "element-disabler",
+              enableTrigger: {
+                type: "context-true-value",
+                context: ["screen:article.title"],
+              },
+            },
+          ],
         },
       },
       slots: {
@@ -175,17 +200,17 @@ module.exports = {
                         {
                           title: "Изображение анонса",
                           type: "image",
-                          options: { reference: "{{screen:article.announceImage.path}}", aspectRatio: 1.6 },
+                          options: { reference: "=screen:article.announceImage.path", aspectRatio: 1.6 },
                         },
                         {
                           title: "Изображение заголовка",
                           type: "image",
-                          options: { reference: "{{screen:article.contentImage.path}}", aspectRatio: 1.6 },
+                          options: { reference: "=screen:article.contentImage.path", aspectRatio: 1.6 },
                         },
                         {
                           title: "Фон",
                           type: "image",
-                          options: { reference: "{{screen:article.background.path}}", aspectRatio: 1.6 },
+                          options: { reference: "=screen:article.background.path", aspectRatio: 1.6 },
                         },
                       ],
                     },
@@ -198,7 +223,7 @@ module.exports = {
               block: {
                 type: "FormattedHTMLText",
                 options: {
-                  value: "{{screen:article.content}}",
+                  value: "=screen:article.content",
                 },
               },
             },
@@ -220,6 +245,24 @@ module.exports = {
             },
           ],
         },
+      },
+      actions: {
+        save: [
+          {
+            type: "api:request",
+            options: {
+              reference: "/create-article",
+              method: "post",
+              body: "=screen:article",
+            },
+          },
+          {
+            type: "redirect",
+            options: {
+              reference: "/content/articles/{{local:previousAction.id}}/edit",
+            },
+          },
+        ],
       },
     },
   ],

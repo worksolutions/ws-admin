@@ -3,6 +3,8 @@ import { isNil } from "ramda";
 import Decoder from "jsonous";
 import { Service } from "typedi";
 
+import { BaseError } from "../BaseError";
+
 import { errorLogger } from "./logger";
 
 export interface RequestConfigInterface {
@@ -32,27 +34,17 @@ export enum METHODS {
   DELETE = "delete",
 }
 
-export class RequestError {
+export class RequestError extends BaseError {
   static isRequestError(data: any): data is RequestError {
     return data instanceof RequestError;
   }
 
   constructor(
-    public error: { message: string; errors: Record<string, string> },
+    public error: typeof BaseError.prototype.error,
     public statusCode = 0,
     public axiosError: AxiosError = null!,
-  ) {}
-
-  hasAnyErrors() {
-    return Object.keys(this.error.errors).length !== 0;
-  }
-
-  getErrors() {
-    return this.error.errors;
-  }
-
-  getMessage() {
-    return this.error.message;
+  ) {
+    super(error);
   }
 }
 

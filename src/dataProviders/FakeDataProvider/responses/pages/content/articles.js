@@ -33,7 +33,7 @@ module.exports = {
                   type: "edit:RadioGroup",
                   options: {
                     radioGroupOptions: {
-                      value: "{{screen:articles.filter.status}}",
+                      value: "=screen:articles.filter.status",
                     },
                     dataSource: {
                       type: "static",
@@ -160,12 +160,12 @@ module.exports = {
                       reference: "/articles/table",
                       method: "get",
                       params: {
-                        title: "{{screen:articles.search}}",
-                        page: "{{screen:articles.pagination.page}}",
-                        perPage: "{{screen:articles.pagination.perPage}}",
-                        orderDirection: "{{screen:articles.sorting.direction}}",
-                        orderField: "{{screen:articles.sorting.id}}",
-                        status: "{{screen:articles.filter.status}}",
+                        title: "=screen:articles.search",
+                        page: "=screen:articles.pagination.page",
+                        perPage: "=screen:articles.pagination.perPage",
+                        orderDirection: "=screen:articles.sorting.direction",
+                        orderField: "=screen:articles.sorting.id",
+                        status: "=screen:articles.filter.status",
                         publishedAt: "=screen:articles.filter.publishedAt",
                       },
                     },
@@ -178,12 +178,12 @@ module.exports = {
                       reference: "/articles/cards",
                       method: "get",
                       params: {
-                        title: "{{screen:articles.search}}",
-                        page: "{{screen:articles.pagination.page}}",
-                        perPage: "{{screen:articles.pagination.perPage}}",
-                        orderDirection: "{{screen:articles.sorting.direction}}",
-                        orderField: "{{screen:articles.sorting.id}}",
-                        status: "{{screen:articles.filter.status}}",
+                        title: "=screen:articles.search",
+                        page: "=screen:articles.pagination.page",
+                        perPage: "=screen:articles.pagination.perPage",
+                        orderDirection: "=screen:articles.sorting.direction",
+                        orderField: "=screen:articles.sorting.id",
+                        status: "=screen:articles.filter.status",
                         publishedAt: "=screen:articles.filter.publishedAt",
                       },
                     },
@@ -204,7 +204,7 @@ module.exports = {
                 },
                 searchOptions: {
                   placeholder: "Найти",
-                  value: "{{screen:articles.search}}",
+                  value: "=screen:articles.search",
                 },
                 paginationView: {
                   options: {

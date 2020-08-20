@@ -12,9 +12,9 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 import { BlockInterface } from "state/globalState";
 
 function TabsBlock({ options }: BlockInterface<{ title: string; block: BlockInterface }[]>) {
-  return (
-    <Tabs
-      items={options!.map((tab) => ({
+  const tabs = React.useMemo(
+    () =>
+      options!.map((tab) => ({
         render: () => (
           <LoadingProvider>
             {(loadingProviderRef) => (
@@ -28,9 +28,11 @@ function TabsBlock({ options }: BlockInterface<{ title: string; block: BlockInte
           </LoadingProvider>
         ),
         title: tab.title,
-      }))}
-    />
+      })),
+    [],
   );
+
+  return <Tabs items={tabs} />;
 }
 
 export default React.memo(TabsBlock);

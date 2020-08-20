@@ -58,8 +58,8 @@ module.exports = {
                   reference: "/categories",
                   method: "get",
                   params: {
-                    page: "{{screen:categories.pagination.page}}",
-                    perPage: "{{screen:categories.pagination.perPage}}",
+                    page: "=screen:categories.pagination.page",
+                    perPage: "=screen:categories.pagination.perPage",
                   },
                 },
               },

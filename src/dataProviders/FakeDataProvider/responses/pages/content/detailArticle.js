@@ -10,10 +10,18 @@ module.exports = {
       options: {
         title: "Статья",
         status: {
-          title: "{{screen:article.status.title}}",
-          badgeColor: "{{screen:article.status.badgeColor}}",
+          dataSource: {
+            type: "static",
+            options: [
+              { badgeColor: "orange/05", code: "UN_PUBLISHED", title: "Не опубликовано" },
+              { badgeColor: "green/05", code: "PUBLISHED", title: "Опубликовано" },
+            ],
+          },
+          options: {
+            value: "=screen:article.status",
+          },
         },
-        externalReference: "{{screen:article.externalLink}}",
+        externalReference: "=screen:article.externalLink",
       },
       dataSource: {
         type: "api:request",
@@ -52,29 +60,29 @@ module.exports = {
                         {
                           title: "Название",
                           type: "text",
-                          options: { value: "{{screen:article.title}}" },
+                          options: { value: "=screen:article.title" },
                         },
                         {
                           title: "Текст анонса",
                           type: "text",
-                          options: { value: "{{screen:article.announce}}" },
+                          options: { value: "=screen:article.announce" },
                         },
                         {
                           title: "Дата публикации",
                           type: "text",
-                          options: { value: "{{screen:article.publishedAt}}" },
+                          options: { value: "=screen:article.publishedAt" },
                         },
                         {
                           title: "Категория",
                           type: "text",
-                          options: { value: "{{screen:article.category.name}}" },
+                          options: { value: "=screen:article.category.name" },
                         },
                         {
                           title: "Автор",
                           type: "icon-link",
                           options: {
                             title: "{{screen:article.author.name}} {{screen:article.author.surname}}",
-                            imageReference: "{{screen:article.author.image.path}}",
+                            imageReference: "=screen:article.author.image.path",
                             reference: "/user/{{screen:article.author.id}}",
                           },
                         },
@@ -89,22 +97,22 @@ module.exports = {
                         {
                           title: "Символьный код",
                           type: "text",
-                          options: { value: "{{screen:article.code}}" },
+                          options: { value: "=screen:article.code" },
                         },
                         {
                           title: "Заголовок",
                           type: "text",
-                          options: { value: "{{screen:article.tagTitle}}" },
+                          options: { value: "=screen:article.tagTitle" },
                         },
                         {
                           title: "Описание",
                           type: "text",
-                          options: { value: "{{screen:article.tagDescription}}" },
+                          options: { value: "=screen:article.tagDescription" },
                         },
                         {
                           title: "Ключевые слова",
                           type: "text",
-                          options: { value: "{{screen:article.keywords}}" },
+                          options: { value: "=screen:article.keywords" },
                         },
                       ],
                     },
@@ -117,17 +125,17 @@ module.exports = {
                         {
                           title: "Изображение анонса",
                           type: "image",
-                          options: { reference: "{{screen:article.announceImage.path}}", aspectRatio: 1.6 },
+                          options: { reference: "=screen:article.announceImage.path", aspectRatio: 1.6 },
                         },
                         {
                           title: "Изображение заголовка",
                           type: "image",
-                          options: { reference: "{{screen:article.contentImage.path}}", aspectRatio: 1.6 },
+                          options: { reference: "=screen:article.contentImage.path", aspectRatio: 1.6 },
                         },
                         {
                           title: "Фон",
                           type: "image",
-                          options: { reference: "{{screen:article.background.path}}", aspectRatio: 1.6 },
+                          options: { reference: "=screen:article.background.path", aspectRatio: 1.6 },
                         },
                       ],
                     },
@@ -140,7 +148,7 @@ module.exports = {
               block: {
                 type: "FormattedHTMLText",
                 options: {
-                  value: "{{screen:article.content}}",
+                  value: "=screen:article.content",
                 },
               },
             },

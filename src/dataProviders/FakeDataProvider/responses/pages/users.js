@@ -77,8 +77,8 @@ module.exports = {
                       reference: "/users",
                       method: "get",
                       params: {
-                        page: "{{screen:users.pagination.page}}",
-                        perPage: "{{screen:users.pagination.perPage}}",
+                        page: "=screen:users.pagination.page",
+                        perPage: "=screen:users.pagination.perPage",
                       },
                     },
                   },

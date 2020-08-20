@@ -4,18 +4,9 @@ const moment = require("moment");
 const { makeProxy, prepareUrl } = require("../../libs");
 
 const statusesByNumber = {
-  0: {
-    color: "orange/05",
-    title: "Не опубликовано",
-  },
-  1: {
-    color: "green/05",
-    title: "Опубликовано",
-  },
-  2: {
-    color: "orange/05",
-    title: "Не опубликовано",
-  },
+  0: "UN_PUBLISHED",
+  1: "PUBLISHED",
+  2: "UN_PUBLISHED",
 };
 
 module.exports = {
@@ -28,12 +19,7 @@ module.exports = {
       },
       app,
       async ({ data }, { originalRequestParams }) => {
-        const status = statusesByNumber[data.status];
-        data.status = {
-          title: status.title,
-          badgeColor: status.color,
-        };
-
+        data.status = statusesByNumber[data.status];
         if (data.publishedAt) data.publishedAt = moment.unix(data.publishedAt).format("DD.MM.YYYY");
         if (data.author && data.author.image) data.author.image.path = prepareUrl(data.author.image.path);
         if (data.announceImage) data.announceImage.path = prepareUrl(data.announceImage.path);

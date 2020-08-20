@@ -1,4 +1,5 @@
 import { browserHistory } from "common";
+import { assoc } from "ramda";
 
 import { asyncTimeout } from "libs/asyncTimeout";
 
@@ -12,10 +13,12 @@ import { ActionOptions, ActionType } from "types/Actions";
 export default async function redirect(
   appContext: AppContextStateInterface,
   actionOptions: ActionOptions[ActionType.REDIRECT],
-  inputData: ActionInputDataInterface,
+  { inputData, previousActionOutput }: ActionInputDataInterface,
 ): Promise<any> {
   const { reference, useReplace } = actionOptions;
   await asyncTimeout(actionOptions.delay || 0);
-  browserHistory[useReplace ? "replace" : "push"](insertContext(reference, appContext, inputData).value);
+  browserHistory[useReplace ? "replace" : "push"](
+    insertContext(reference, appContext, assoc("previousAction", previousActionOutput, inputData)).value,
+  );
   return Promise.resolve(null);
 }

@@ -6,7 +6,7 @@ import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { TypographyLink } from "primitives/Typography/TypographyLink";
 
-import { ai, Aligns, flex, marginLeft } from "libs/styles";
+import { ai, Aligns, flex, flexValue, marginLeft } from "libs/styles";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
 import { useAppContext } from "modules/context/hooks/useAppContext";
@@ -20,9 +20,16 @@ export interface PageHeaderInterface {
   title: string;
   status?: StatusInterface;
   externalReference?: string;
+  rightSideElement?: React.ReactNode;
 }
 
-function PageHeader({ slots, status, title, externalReference }: ContainSlotsInterface & PageHeaderInterface) {
+function PageHeader({
+  slots,
+  status,
+  title,
+  externalReference,
+  rightSideElement,
+}: ContainSlotsInterface & PageHeaderInterface) {
   const appContext = useAppContext();
 
   const enhancedTitle = insertContext(title, appContext.context);
@@ -30,16 +37,19 @@ function PageHeader({ slots, status, title, externalReference }: ContainSlotsInt
 
   return (
     <>
-      <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
+      <Wrapper styles={[flex, ai(Aligns.CENTER), flexValue(1)]}>
         <Typography type="h1-bold">{enhancedTitle.value}</Typography>
         {enhancedExternalReference.value && (
           <TypographyLink styles={marginLeft(16)} to={enhancedExternalReference.value} target="_blank">
             <Button size={ButtonSize.MEDIUM} type={ButtonType.ICON} iconLeft="external-link-alt" />
           </TypographyLink>
         )}
-        {status && <Status styles={marginLeft(16)} title={status.title} badgeColor={status.badgeColor} />}
+        {status && <Status styles={marginLeft(16)} status={status} />}
       </Wrapper>
-      {slots.headingAction && <BlockRenderer {...slots.headingAction} />}
+      <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
+        {rightSideElement}
+        {slots.headingAction && <BlockRenderer {...slots.headingAction} />}
+      </Wrapper>
     </>
   );
 }

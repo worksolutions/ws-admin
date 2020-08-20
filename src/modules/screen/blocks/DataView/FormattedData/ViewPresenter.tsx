@@ -117,8 +117,8 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
             titlePosition={DropdownTitlePosition.LEFT}
             title="Показывать по:"
             size={DropdownSize.MEDIUM}
-            items={options!.paginationView.options?.paginationItems.map((number) => ({ id: number, title: number }))}
-            selectedItemId={paginationViewData.data!.perPage}
+            items={options!.paginationView.options?.paginationItems.map((code) => ({ code, title: code }))}
+            selectedItemCode={paginationViewData.data!.perPage}
             onChange={async (value) => {
               await paginationViewActions.change.run({ page: 1, perPage: value });
               setLocalStorageValue({ ...localStorageValue, perPage: value as number });

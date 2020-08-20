@@ -27,10 +27,12 @@ export interface ActionInterface<T extends ActionType> {
   context?: string;
 }
 
-export type AnyAction =
+export type RealAnyAction =
   | ActionInterface<ActionType.API_REQUEST>
   | ActionInterface<ActionType.REDIRECT>
   | ActionInterface<ActionType.UPDATE_CONTEXT>;
+
+export type AnyAction = RealAnyAction | RealAnyAction[];
 
 export type ContainsActions<Actions> = {
   actions: Actions;

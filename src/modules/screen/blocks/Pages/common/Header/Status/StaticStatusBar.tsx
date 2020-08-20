@@ -10,8 +10,6 @@ interface StaticStatusBarInterface {
   styles?: any;
   title: string;
   badgeColor?: Colors;
-  editable?: boolean;
-  onChange?: () => void;
 }
 
 function StaticStatusBar({ badgeColor, title, styles }: StaticStatusBarInterface) {

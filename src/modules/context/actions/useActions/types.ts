@@ -1,1 +1,4 @@
-export type ActionInputDataInterface = any;
+export type ActionInputDataInterface = {
+  inputData: any;
+  previousActionOutput?: any;
+};

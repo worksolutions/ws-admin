@@ -10,7 +10,8 @@ import { maxWidth, minWidth, width } from "libs/styles";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
-import { insertContext } from "modules/context/insertContext";
+import { useStateFromContext } from "modules/context/insertContext";
+import { ContextModel, useStateContextModel } from "modules/model";
 
 import { defaultWidths, DefaultWidths } from "../widths";
 
@@ -38,7 +39,7 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputInterfac
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
 
-  const [value, setValue] = React.useState(() => insertContext(options!.value, appContext.context).value);
+  const [value, { disabled, error }, setValue] = useStateContextModel(options!.value, appContext);
 
   useEffectSkipFirst(() => {
     if (onChange) onChange(value);
@@ -58,6 +59,9 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputInterfac
         iconLeft={options?.iconLeft}
         debounce={options?.debounce}
         multiline={options?.multiline}
+        disabled={disabled}
+        error={!!error}
+        title={error}
         onChange={setValue}
       />
     </ClearInputWrapper>

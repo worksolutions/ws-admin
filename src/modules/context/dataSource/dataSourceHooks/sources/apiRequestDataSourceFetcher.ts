@@ -2,16 +2,16 @@ import { Container } from "typedi";
 
 import { REQUEST_CANCELLED, RequestManager } from "libs/request";
 import { identityValueDecoder } from "libs/request/defaultDecoders";
-import { prepareApiRequestBody } from "libs/requestLibs";
 
 import { insertContext } from "modules/context/insertContext";
 import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
+import { prepareApiRequestBody } from "modules/context/requestLibs";
 
 import { DataSourceInterface, DataSourceType } from "types/DataSource";
 
 const requestManager = Container.get(RequestManager);
 
-export default function apiRequestDataSource(
+function apiRequestDataSource(
   dataSource: DataSourceInterface<DataSourceType.API_REQUEST>,
   context: AppContextStateInterface,
 ) {
@@ -36,4 +36,17 @@ export default function apiRequestDataSource(
         });
     }),
   };
+}
+
+export default function apiRequestDataSourceFetcher(
+  dataSource: DataSourceInterface<DataSourceType.API_REQUEST>,
+  context: AppContextStateInterface,
+  {
+    onDataReceived,
+    onReceiveDataError,
+  }: { onDataReceived: (data: any) => void; onReceiveDataError: (data: any) => void },
+) {
+  const apiRequest = apiRequestDataSource(dataSource, context);
+  apiRequest.request.then(onDataReceived).catch(onReceiveDataError);
+  return apiRequest;
 }

@@ -5,7 +5,12 @@ import { useAppContext } from "modules/context/hooks/useAppContext";
 
 import { BlockInterface } from "state/globalState";
 
-function ContextInitializer({ options }: BlockInterface<{ path: string; value: any }[]>) {
+export interface ContextInitializerOption {
+  path: string;
+  value: any;
+}
+
+function ContextInitializer({ options }: BlockInterface<ContextInitializerOption[]>) {
   if (!options) return null;
   const appContext = useAppContext();
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { createPopper, Instance, VisualViewport, Window } from "@popperjs/core";
+import { createPopper, Instance } from "@popperjs/core";
 import { Placement } from "@popperjs/core/lib/enums";
 import { PositioningStrategy } from "@popperjs/core/lib/types";
 

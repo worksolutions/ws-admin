@@ -34,7 +34,7 @@ import {
 export type ListItemId = string | number;
 
 export interface ListItemInterface<ITEM> {
-  id: ITEM;
+  code: ITEM;
   leftContent?: JSX.Element | null;
   heading?: string | number;
   subtitle?: string | number;
@@ -74,12 +74,11 @@ function List({
 }: ListInterface<any>) {
   return (
     <Wrapper styles={[flex, flexColumn, outerStyles, firstChild(marginTop(4))]}>
-      {items.map(({ title, id, heading, leftContent, rightContent, subtitle, disabled }) => {
+      {items.map(({ title, code, heading, leftContent, rightContent, subtitle, disabled }) => {
         const enabled = !disabled;
         return (
           <Wrapper
-            key={id}
-            as="button"
+            key={code}
             styles={[
               backgroundColor("transparent"),
               disableOutline,
@@ -96,13 +95,13 @@ function List({
                 hover([backgroundColor("gray-blue/01"), boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)])]),
                 focus(boxShadow([0, 0, 0, 2, "blue/04"])),
               ],
-              activeItemId === id && [
+              activeItemId === code && [
                 backgroundColor("gray-blue/01"),
                 boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)]),
               ],
               styles,
             ]}
-            onClick={() => onClick && enabled && onClick(id)}
+            onClick={() => onClick && enabled && onClick(code)}
           >
             {leftContent}
             <Wrapper styles={[marginRight(8), flexValue(1), textAlign("left")]}>

@@ -34,7 +34,7 @@ import { provideRef } from "libs/provideRef";
 
 import Typography from "../Typography";
 import Wrapper from "../Wrapper";
-import { ListItemId, ListItemInterface, ListItemSize } from "../List";
+import { ListItemInterface, ListItemSize } from "../List";
 import DroppedList from "../List/DroppedList";
 
 export enum DropdownSize {
@@ -63,10 +63,10 @@ interface DropdownInterface<ITEM> {
   titlePosition?: DropdownTitlePosition;
   size?: DropdownSize;
   placeholder?: string;
-  selectedItemId?: ITEM;
+  selectedItemCode?: ITEM;
   items?: ListItemInterface<ITEM>[];
   groupedItems?: { groupName: string; items: ListItemInterface<ITEM>[] }[];
-  onChange: (id: ITEM) => void;
+  onChange: (code: ITEM) => void;
 }
 
 const dropdownWrapperStylesByTitlePosition: Record<DropdownTitlePosition, any> = {
@@ -81,7 +81,7 @@ const Dropdown = React.forwardRef(function (
     title,
     titlePosition = DropdownTitlePosition.TOP,
     placeholder,
-    selectedItemId,
+    selectedItemCode,
     groupedItems,
     items,
     onChange,
@@ -89,9 +89,9 @@ const Dropdown = React.forwardRef(function (
   ref: Ref<HTMLElement>,
 ) {
   const selectedItem = React.useMemo(() => {
-    if (items) return items.find(propEq("id", selectedItemId));
-    return flatten(groupedItems!.map(prop("items"))).find(propEq("id", selectedItemId));
-  }, [selectedItemId]);
+    if (items) return items.find(propEq("code", selectedItemCode));
+    return flatten(groupedItems!.map(prop("items"))).find(propEq("code", selectedItemCode));
+  }, [selectedItemCode]);
 
   return (
     <DroppedList
@@ -100,9 +100,9 @@ const Dropdown = React.forwardRef(function (
       items={items?.map((item) => ({
         ...item,
         rightContent:
-          selectedItemId === item.id ? <Icon icon="check" color="blue/06" /> : <Wrapper styles={width(24)} />,
+          selectedItemCode === item.code ? <Icon icon="check" color="blue/06" /> : <Wrapper styles={width(24)} />,
       }))}
-      selectedItemId={selectedItemId}
+      selectedItemId={selectedItemCode}
       onChange={(id) => onChange(id)}
     >
       {(state, parentRef, subChild) => (
@@ -134,9 +134,12 @@ const Dropdown = React.forwardRef(function (
             ref={provideRef(ref, parentRef)}
           >
             {selectedItem ? (
-              <Typography styles={[flexValue(1), textAlign("left")]} dots>
-                {selectedItem.title}
-              </Typography>
+              <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
+                {selectedItem.leftContent}
+                <Typography styles={[flexValue(1), textAlign("left"), selectedItem.leftContent && marginLeft(4)]} dots>
+                  {selectedItem.title}
+                </Typography>
+              </Wrapper>
             ) : (
               <Typography styles={[flexValue(1), textAlign("left")]} dots color="gray-blue/03">
                 {placeholder}

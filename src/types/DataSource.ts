@@ -1,7 +1,6 @@
 import { METHODS } from "libs/request";
 
 export enum DataSourceType {
-  LOCAL_STORAGE = "local-storage",
   STATIC = "static",
   API_REQUEST = "api:request",
   CONTEXT = "context",
@@ -9,7 +8,6 @@ export enum DataSourceType {
 
 type DataSourceOptions = {
   [DataSourceType.STATIC]: any;
-  [DataSourceType.LOCAL_STORAGE]: { key: string; initialValue: Record<string, any> };
   [DataSourceType.CONTEXT]: { key: string };
   [DataSourceType.API_REQUEST]: {
     reference: string;
@@ -35,5 +33,4 @@ export type ContainsDataSourceInterface<DataSource> = {
 export type AnyDataSource =
   | DataSourceInterface<DataSourceType.API_REQUEST>
   | DataSourceInterface<DataSourceType.CONTEXT>
-  | DataSourceInterface<DataSourceType.STATIC>
-  | DataSourceInterface<DataSourceType.LOCAL_STORAGE>;
+  | DataSourceInterface<DataSourceType.STATIC>;

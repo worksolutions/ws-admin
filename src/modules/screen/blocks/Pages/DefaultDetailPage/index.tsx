@@ -13,24 +13,15 @@ import PageHeader, { PageHeaderInterface } from "../common/Header";
 
 import { BlockInterface, ContainSlotsInterface } from "state/globalState";
 
-function DefaultPageWithList({
-  slots,
-  options,
-  dataSource,
-}: ContainSlotsInterface & BlockInterface<PageHeaderInterface>) {
-  if (dataSource) {
-    const data = useDataSource(dataSource);
-    if (data.loadingContainer.loading) return <Loading />;
-  }
-
+function DefaultDetailPage({ slots, options }: ContainSlotsInterface & BlockInterface<PageHeaderInterface>) {
   return (
     <DefaultPageWrapper
       heading={
         <PageHeader
           slots={slots}
           title={options!.title}
-          status={options!.status}
-          externalReference={options!.externalReference}
+          externalReference={options?.externalReference}
+          status={options?.status}
         />
       }
     >
@@ -39,4 +30,4 @@ function DefaultPageWithList({
   );
 }
 
-export default React.memo(observer(DefaultPageWithList));
+export default React.memo(observer(DefaultDetailPage));

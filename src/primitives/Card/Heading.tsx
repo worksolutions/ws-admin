@@ -44,13 +44,13 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
           mode={DroppedListOpenMode.HOVER}
           margin={4}
           items={actions.map((action) => ({
-            id: action.name,
+            code: action.name,
             title: action.name,
             disabled: action.loading,
             leftContent: action.icon ? <Icon icon={action.icon} color={action.iconColor} /> : null,
           }))}
-          onChange={async (id) => {
-            await onActionClick(id);
+          onChange={async (code) => {
+            await onActionClick(code);
             close();
           }}
         >
