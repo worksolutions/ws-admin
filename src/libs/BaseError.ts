@@ -10,7 +10,10 @@ const errorDecoder = succeed({})
   .assign("message", field("message", string))
   .assign(
     "errors",
-    keyValuePairs(string).map((pairs) => fromPairs(pairs)),
+    field(
+      "errors",
+      keyValuePairs(string).map((pairs) => fromPairs(pairs)),
+    ),
   );
 
 export class BaseError {

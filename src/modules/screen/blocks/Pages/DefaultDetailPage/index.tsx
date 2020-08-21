@@ -13,7 +13,16 @@ import PageHeader, { PageHeaderInterface } from "../common/Header";
 
 import { BlockInterface, ContainSlotsInterface } from "state/globalState";
 
-function DefaultDetailPage({ slots, options }: ContainSlotsInterface & BlockInterface<PageHeaderInterface>) {
+function DefaultDetailPage({
+  slots,
+  options,
+  dataSource,
+}: ContainSlotsInterface & BlockInterface<PageHeaderInterface>) {
+  if (dataSource) {
+    const data = useDataSource(dataSource);
+    if (data.loadingContainer.loading) return <Loading />;
+  }
+
   return (
     <DefaultPageWrapper
       heading={

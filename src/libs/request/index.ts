@@ -39,11 +39,7 @@ export class RequestError extends BaseError {
     return data instanceof RequestError;
   }
 
-  constructor(
-    public error: typeof BaseError.prototype.error,
-    public statusCode = 0,
-    public axiosError: AxiosError = null!,
-  ) {
+  constructor(error: typeof BaseError.prototype.error, public statusCode = 0, public axiosError: AxiosError = null!) {
     super(error);
   }
 }

@@ -80,10 +80,15 @@ const connectMultiActionFunctionAndAppContext = (actions: RealAnyAction[], appCo
   const run = (inputData: any) => {
     loadingContainer.clearErrors();
     loadingContainer.setLoading(true);
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
       let previousActionOutput: any = null;
       for (let i = 0; i < patchedActions.length; i++) {
-        previousActionOutput = await patchedActions[i].run(inputData, previousActionOutput);
+        try {
+          previousActionOutput = await patchedActions[i].run(inputData, previousActionOutput);
+        } catch (e) {
+          reject(e);
+          return;
+        }
       }
       loadingContainer.setLoading(false);
       resolve(previousActionOutput);

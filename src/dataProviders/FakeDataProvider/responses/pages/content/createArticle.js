@@ -13,6 +13,10 @@ module.exports = {
     {
       type: "Pages/DefaultDetailEditPage",
       waitForId: "article-context",
+      dataSource: {
+        type: "context",
+        options: { key: "screen:article" },
+      },
       options: {
         title: "Статья",
         status: {
@@ -34,6 +38,7 @@ module.exports = {
           },
         },
         saveOptions: {
+          context: "screen:article",
           modifiers: [
             {
               type: "element-disabler",

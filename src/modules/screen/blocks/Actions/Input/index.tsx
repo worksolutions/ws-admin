@@ -61,7 +61,7 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputInterfac
         multiline={options?.multiline}
         disabled={disabled}
         error={!!error}
-        title={error}
+        tip={error}
         onChange={setValue}
       />
     </ClearInputWrapper>

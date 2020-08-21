@@ -12,10 +12,18 @@ export function useStateContextModel(
   appContext: AppContextInterface,
 ): [any, ContextModel, (data: any) => void] {
   const [stateValue, setStateValue] = useStateFromContext(contextPath, appContext);
-  const [modelValue] = useStateFromContext(createModelContextPath(contextPath), appContext);
-  return React.useMemo(() => [stateValue, new ContextModel(modelValue.disabled, modelValue.error), setStateValue], [
-    stateValue,
-  ]);
+  const [modelValue, setModelValue] = useStateFromContext(createModelContextPath(contextPath), appContext);
+  return React.useMemo(
+    () => [
+      stateValue,
+      new ContextModel(modelValue.disabled, modelValue.error),
+      (newValue) => {
+        setStateValue(newValue);
+        setModelValue(new ContextModel(modelValue.disabled, undefined));
+      },
+    ],
+    [stateValue, modelValue],
+  );
 }
 
 export function createModelContextPath(baseContextPath: string) {

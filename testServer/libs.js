@@ -17,8 +17,7 @@ exports.prepareUrl = function (url) {
 exports.makeProxy = function (
   { expressMethodHandlerName, handleUrl, realServerUrl },
   app,
-  modifyResponse,
-  modifyRequest,
+  { modifyResponse, modifyRequest, modifyError } = {},
 ) {
   app[expressMethodHandlerName](handleUrl, (req, res) => {
     let chunks = "";
@@ -61,8 +60,18 @@ exports.makeProxy = function (
           res.status(500).json(error("proxy - internal server error"));
           return;
         }
-        res.status(response.status).send(response.data);
+        res.status(response.status);
+        if (modifyError) {
+          const newData = modifyError(response.data);
+          res.send(ramda.isNil(newData) ? response.data : newData);
+          return;
+        }
+        res.send(response.data);
       }
     });
   });
+};
+
+exports.convertServerErrorsToClientErrors = function (errors) {
+  return Object.fromEntries(Object.entries(errors).map(([key, value]) => [key, value[0]]));
 };

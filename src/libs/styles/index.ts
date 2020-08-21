@@ -50,6 +50,11 @@ export const transform = memoizeWith(identity, function (transform: string) {
     transform: ${transform};`;
 });
 
+export const transformOrigin = memoizeWith(identity, function (transformOrigin: string) {
+  return css`
+    transform-origin: ${transformOrigin};`;
+});
+
 export const zIndex = memoizeWith(identity, function (value: number) {
   return css`
     z-index: ${value};`;

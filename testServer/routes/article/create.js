@@ -1,4 +1,4 @@
-const { makeProxy } = require("../../libs");
+const { makeProxy, convertServerErrorsToClientErrors } = require("../../libs");
 
 const numbersByStatuses = {
   UN_PUBLISHED: 0,
@@ -13,13 +13,18 @@ module.exports = (app) => {
       handleUrl: "/api/create-article",
     },
     app,
-    async (...args) => {
-      console.log(args);
-      return null;
-    },
-    ({ data }) => {
-      data.status = numbersByStatuses[data.status];
-      return { data };
+    {
+      modifyResponse: async (...args) => {
+        console.log(args);
+        return null;
+      },
+      modifyRequest: ({ data }) => {
+        data.status = numbersByStatuses[data.status];
+        return { data };
+      },
+      modifyError: (err) => {
+        err.errors = convertServerErrorsToClientErrors(err.errors);
+      },
     },
   );
 };

@@ -1,4 +1,5 @@
-import React, { Ref } from "react";
+import React from "react";
+import { duration160 } from "layout/durations";
 
 import Typography, { TypographyTypes } from "primitives/Typography";
 import Wrapper from "primitives/Wrapper";
@@ -16,10 +17,13 @@ import {
   flexValue,
   focus,
   fullWidth,
+  height,
   hover,
   left,
   marginBottom,
   marginTop,
+  opacity,
+  overflow,
   padding,
   position,
   right,
@@ -29,8 +33,6 @@ import {
   willChange,
 } from "libs/styles";
 import { isString } from "libs/is";
-
-import { duration160 } from "../../layout/durations";
 
 export enum InputSize {
   MEDIUM = "medium",
@@ -73,7 +75,7 @@ const colorsByVariant: Record<
     background: "red/01",
     shadowColor: "red/05",
     tip: "red/07",
-    placeholder: "gray-blue/04",
+    placeholder: "red/03",
   },
   [InputVariant.SUCCESS]: {
     background: "green/01",
@@ -124,10 +126,19 @@ function Title({ title }: Record<"title", string | undefined>) {
 }
 
 function Tip({ tip, color }: { tip: string | undefined; color: Colors }) {
-  if (!tip) return null;
+  const hasTip = !!tip;
+
   return (
-    <Typography type="caption-regular" color={color} styles={[marginTop(4)]}>
-      {tip}
+    <Typography
+      type="caption-regular"
+      color={color}
+      styles={[
+        overflow("hidden"),
+        transition(`margin ${duration160}, opacity ${duration160}, height ${duration160}`),
+        hasTip ? [height("auto"), opacity(1), marginTop(4)] : [height(0), opacity(0), marginTop(0)],
+      ]}
+    >
+      {tip || "\u00A0"}
     </Typography>
   );
 }
@@ -171,6 +182,7 @@ function InputWrapper({
   const leftIconElement = iconLeft && (
     <Icon styles={[_defaultIconStyles, left(8)]} color="gray-blue/05" icon={iconLeft} />
   );
+
   const rightIconElement = isString(iconRight) ? (
     <Icon styles={[_defaultIconStyles, right(8)]} color="gray-blue/07" icon={iconRight} />
   ) : (
@@ -200,7 +212,7 @@ function InputWrapper({
           variant === InputVariant.DEFAULT
             ? [hover(boxShadow([0, 0, 0, 1, "gray-blue/03"]))]
             : [boxShadow([0, 0, 0, 2, colors.shadowColor])],
-          focus([boxShadow([0, 0, 0, 2, "blue/05"]), child(color("gray-blue/03"), "::placeholder")]),
+          focus([boxShadow([0, 0, 0, 2, "blue/05"])]),
         ])}
         {leftIconElement}
         {rightIconElement}

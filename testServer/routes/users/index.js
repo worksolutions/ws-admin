@@ -1,10 +1,8 @@
 const { makeProxy, prepareUrl } = require("../../libs");
 
 module.exports.users = (app) => {
-  makeProxy(
-    { realServerUrl: "/api/users", expressMethodHandlerName: "get", handleUrl: "/api/users" },
-    app,
-    ({ data, meta }) => {
+  makeProxy({ realServerUrl: "/api/users", expressMethodHandlerName: "get", handleUrl: "/api/users" }, app, {
+    modifyResponse: ({ data, meta }) => {
       return {
         list: data.map((user) => ({
           id: user.id,
@@ -31,5 +29,5 @@ module.exports.users = (app) => {
         pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
       };
     },
-  );
+  });
 };

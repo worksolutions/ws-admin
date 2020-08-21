@@ -32,7 +32,7 @@ export type RealAnyAction =
   | ActionInterface<ActionType.REDIRECT>
   | ActionInterface<ActionType.UPDATE_CONTEXT>;
 
-export type AnyAction = RealAnyAction | RealAnyAction[];
+export type AnyAction = RealAnyAction[] | RealAnyAction;
 
 export type ContainsActions<Actions> = {
   actions: Actions;

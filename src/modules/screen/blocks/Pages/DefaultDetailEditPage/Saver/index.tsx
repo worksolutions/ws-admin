@@ -7,18 +7,20 @@ import { ai, Aligns, flex, marginLeft } from "libs/styles";
 
 interface SaverInterface {
   saveDisabled: boolean;
+  saveLoading: boolean;
   onDiscard: () => void;
   onApply?: () => void;
   onSave?: () => void;
 }
 
-function Saver({ onDiscard, saveDisabled, onApply, onSave }: SaverInterface) {
+function Saver({ saveLoading, onDiscard, saveDisabled, onApply, onSave }: SaverInterface) {
   return (
     <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
       <Button type={ButtonType.SECONDARY} size={ButtonSize.MEDIUM} styles={marginLeft(16)} onClick={onDiscard}>
         Отменить
       </Button>
       <Button
+        loading={saveLoading}
         iconLeft="check"
         type={ButtonType.SECONDARY}
         size={ButtonSize.MEDIUM}
