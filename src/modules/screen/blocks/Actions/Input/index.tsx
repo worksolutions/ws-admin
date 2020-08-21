@@ -24,7 +24,7 @@ export interface InputOptionsInterface {
   placeholder?: string;
   iconLeft?: Icons;
   debounce?: number;
-  value: string;
+  context: string;
   size?: InputSize;
 }
 
@@ -38,8 +38,11 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputInterfac
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
-
-  const [value, { disabled, error }, setValue] = useStateContextModel(options!.value, appContext);
+  const {
+    value,
+    model: { disabled, error },
+    setValue,
+  } = useStateContextModel(options!.context, appContext);
 
   useEffectSkipFirst(() => {
     if (onChange) onChange(value);

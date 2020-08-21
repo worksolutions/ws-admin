@@ -11,7 +11,7 @@ import { ViewMetaData } from "../../types";
 
 import TableViewBlock from "./Table";
 
-import { AnyAction } from "types/Actions";
+import { AnyRawAction } from "types/Actions";
 
 interface TableViewBlockInterface {
   notFound: React.ReactNode;
@@ -19,7 +19,7 @@ interface TableViewBlockInterface {
   id: string;
   options: TableViewConfigInterface;
   setMetaData: (meta: ViewMetaData) => void;
-  actions: { sorting: AnyAction };
+  actions: { sorting: AnyRawAction };
 }
 
 function TableViewBlockWrapper({ id, options, notFound, spinner, setMetaData, actions }: TableViewBlockInterface) {

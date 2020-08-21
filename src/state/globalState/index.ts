@@ -11,7 +11,7 @@ import { StateContainer } from "../stateContainer";
 import { LoadingContainer } from "../loadingContainer";
 import { FieldListItemType } from "../../modules/screen/blocks/RowFields/FieldsList/types";
 
-import { AnyAction, ContainsActions } from "types/Actions";
+import { AnyRawAction, ContainsRawActions } from "types/Actions";
 import { AnyDataSource, ContainsDataSourceInterface } from "types/DataSource";
 
 export type BlockInterface<O extends Record<string, any> = {}, A extends string = string> = {
@@ -19,7 +19,7 @@ export type BlockInterface<O extends Record<string, any> = {}, A extends string 
   options?: O | null;
   id?: string;
   waitForId?: string;
-} & Partial<ContainsActions<Record<A, AnyAction>>>;
+} & Partial<ContainsRawActions<Record<A, AnyRawAction>>>;
 
 export type ContainBlocksInterface = {
   blocks: BlockInterface[];
@@ -62,10 +62,10 @@ export class GlobalState {
       title: string;
       authTokenSaveStrategy?: AuthTokenSaveStrategy;
     } & ContainsDataSourceInterface<AnyDataSource> &
-      ContainsActions<{
-        authenticate: AnyAction;
-        resetPassword: AnyAction;
-        logout: AnyAction;
+      ContainsRawActions<{
+        authenticate: AnyRawAction;
+        resetPassword: AnyRawAction;
+        logout: AnyRawAction;
       }>;
   }>;
 

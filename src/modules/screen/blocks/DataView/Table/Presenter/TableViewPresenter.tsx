@@ -36,7 +36,7 @@ import { useTableScroller } from "./libs/useTableScroller";
 import { useResizeTableContent } from "./Components/Header/resizeHook";
 import { TableViewColumn, TableViewOptions } from "./types";
 
-import { AnyAction } from "types/Actions";
+import { AnyRawAction } from "types/Actions";
 
 const createResizeHook = (columns: TableViewColumn[]) => (hooks: Hooks) => {
   hooks.useInstanceBeforeDimensions.push(({ headers }) => {
@@ -51,7 +51,7 @@ const createResizeHook = (columns: TableViewColumn[]) => (hooks: Hooks) => {
 interface TableInterface {
   list: TableViewDataSource;
   options: TableViewOptions;
-  actions: { sorting: AnyAction };
+  actions: { sorting: AnyRawAction };
 }
 
 function TableViewPresenter({ list, options, actions }: TableInterface) {

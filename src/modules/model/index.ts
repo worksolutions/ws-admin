@@ -10,18 +10,26 @@ export class ContextModel {
 export function useStateContextModel(
   contextPath: string,
   appContext: AppContextInterface,
-): [any, ContextModel, (data: any) => void] {
+  initialize = false,
+): { value: any; model: ContextModel; setModel: (newModel: ContextModel) => void; setValue: (data: any) => void } {
   const [stateValue, setStateValue] = useStateFromContext(contextPath, appContext);
   const [modelValue, setModelValue] = useStateFromContext(createModelContextPath(contextPath), appContext);
+
+  React.useEffect(() => {
+    if (!initialize) return;
+    setModelValue(new ContextModel(false));
+  }, []);
+
   return React.useMemo(
-    () => [
-      stateValue,
-      new ContextModel(modelValue.disabled, modelValue.error),
-      (newValue) => {
+    () => ({
+      value: stateValue,
+      model: new ContextModel(modelValue.disabled, modelValue.error),
+      setModel: setModelValue,
+      setValue: (newValue) => {
         setStateValue(newValue);
         setModelValue(new ContextModel(modelValue.disabled, undefined));
       },
-    ],
+    }),
     [stateValue, modelValue],
   );
 }

@@ -1,4 +1,7 @@
 import React from "react";
+import { toJS } from "mobx";
+
+import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
 
 import { DataSourceResultInterface } from "./dataSourceHooks/common";
 import useApiRequestDataSource from "./dataSourceHooks/useApiRequestDataSource";
@@ -28,4 +31,8 @@ export function useDataSource<RESULT = any>(
   if (!dataSource) return useEmptyDataSource<RESULT>();
   if (dataSource.type === DataSourceType.API_REQUEST) return useApiRequestDataSource(dataSource, initialData);
   return useNotApiRequestDataSource(dataSource);
+}
+
+export function dataAndInitialDataAreEquals(data: any, initialData: any) {
+  return isEqual(toJS(data), toJS(initialData));
 }

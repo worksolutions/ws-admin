@@ -8,11 +8,11 @@ import { insertContext } from "modules/context/insertContext";
 
 import { ActionInputDataInterface } from "../types";
 
-import { ActionOptions, ActionType } from "types/Actions";
+import { RawActionOptions, ActionType } from "types/Actions";
 
 export default async function redirect(
   appContext: AppContextStateInterface,
-  actionOptions: ActionOptions[ActionType.REDIRECT],
+  actionOptions: RawActionOptions[ActionType.REDIRECT],
   { inputData, previousActionOutput }: ActionInputDataInterface,
 ): Promise<any> {
   const { reference, useReplace } = actionOptions;

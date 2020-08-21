@@ -8,7 +8,7 @@ module.exports = {
     {
       type: "ContextInitializer",
       id: "article-context",
-      options: [{ path: "screen:article", value: { status: "UN_PUBLISHED", title: "1234" } }],
+      options: [{ path: "screen:article", value: { status: "UN_PUBLISHED" } }],
     },
     {
       type: "Pages/DefaultDetailEditPage",
@@ -39,15 +39,7 @@ module.exports = {
         },
         saveOptions: {
           context: "screen:article",
-          modifiers: [
-            {
-              type: "element-disabler",
-              enableTrigger: {
-                type: "context-true-value",
-                context: ["screen:article.title"],
-              },
-            },
-          ],
+          requiredContextFields: ["screen:article.title"],
         },
       },
       slots: {
@@ -72,7 +64,7 @@ module.exports = {
                             inputOptions: {
                               width: "large",
                               size: "large",
-                              value: "=screen:article.title",
+                              context: "screen:article.title",
                             },
                             actions: {
                               change: {
@@ -82,144 +74,144 @@ module.exports = {
                             },
                           },
                         },
-                        {
-                          title: "Текст анонса",
-                          type: "edit:Text",
-                          options: {
-                            inputOptions: {
-                              width: "large",
-                              size: "large",
-                              multiline: true,
-                              value: "=screen:article.announce",
-                            },
-                            actions: {
-                              change: {
-                                type: "update-context",
-                                context: "screen:article.announce",
-                              },
-                            },
-                          },
-                        },
-                        {
-                          title: "Дата публикации",
-                          type: "edit:Date",
-                          options: {
-                            dateOptions: {
-                              width: "large",
-                              size: "large",
-                              value: "=screen:article.publishedAt",
-                            },
-                            actions: {
-                              change: {
-                                type: "update-context",
-                                context: "screen:article.publishedAt",
-                              },
-                            },
-                          },
-                        },
-                        {
-                          title: "Категория",
-                          type: "text",
-                          options: { value: "Выбор категории" },
-                        },
-                        {
-                          title: "Автор",
-                          type: "text",
-                          options: { value: "Выбор автора" },
-                        },
+                        // {
+                        //   title: "Текст анонса",
+                        //   type: "edit:Text",
+                        //   options: {
+                        //     inputOptions: {
+                        //       width: "large",
+                        //       size: "large",
+                        //       multiline: true,
+                        //       value: "=screen:article.announce",
+                        //     },
+                        //     actions: {
+                        //       change: {
+                        //         type: "update-context",
+                        //         context: "screen:article.announce",
+                        //       },
+                        //     },
+                        //   },
+                        // },
+                        // {
+                        //   title: "Дата публикации",
+                        //   type: "edit:Date",
+                        //   options: {
+                        //     dateOptions: {
+                        //       width: "large",
+                        //       size: "large",
+                        //       value: "=screen:article.publishedAt",
+                        //     },
+                        //     actions: {
+                        //       change: {
+                        //         type: "update-context",
+                        //         context: "screen:article.publishedAt",
+                        //       },
+                        //     },
+                        //   },
+                        // },
+                        // {
+                        //   title: "Категория",
+                        //   type: "text",
+                        //   options: { value: "Выбор категории" },
+                        // },
+                        // {
+                        //   title: "Автор",
+                        //   type: "text",
+                        //   options: { value: "Выбор автора" },
+                        // },
                       ],
                     },
                   },
-                  {
-                    title: "Мета",
-                    fieldList: {
-                      mode: "HORIZONTAL",
-                      fields: [
-                        {
-                          title: "Символьный код",
-                          type: "edit:Text",
-                          required: true,
-                          hint: "тест 132",
-                          options: {
-                            inputOptions: {
-                              width: "large",
-                              size: "large",
-                              value: "=screen:article.code",
-                            },
-                            actions: {
-                              change: {
-                                type: "update-context",
-                                context: "screen:article.code",
-                              },
-                            },
-                          },
-                        },
-                        {
-                          title: "Заголовок",
-                          type: "edit:Text",
-                          options: {
-                            inputOptions: {
-                              width: "large",
-                              size: "large",
-                              value: "=screen:article.tagTitle",
-                            },
-                            actions: {
-                              change: {
-                                type: "update-context",
-                                context: "screen:article.tagTitle",
-                              },
-                            },
-                          },
-                        },
-                        {
-                          title: "Описание",
-                          type: "edit:Text",
-                          options: {
-                            inputOptions: {
-                              width: "large",
-                              size: "large",
-                              multiline: true,
-                              value: "=screen:article.tagDescription",
-                            },
-                            actions: {
-                              change: {
-                                type: "update-context",
-                                context: "screen:article.tagDescription",
-                              },
-                            },
-                          },
-                        },
-                        {
-                          title: "Ключевые слова",
-                          type: "text",
-                          options: { value: "Тут выбор ключевых слов" },
-                        },
-                      ],
-                    },
-                  },
-                  {
-                    title: "Изображения",
-                    fieldList: {
-                      mode: "VERTICAL",
-                      fields: [
-                        {
-                          title: "Изображение анонса",
-                          type: "image",
-                          options: { reference: "=screen:article.announceImage.path", aspectRatio: 1.6 },
-                        },
-                        {
-                          title: "Изображение заголовка",
-                          type: "image",
-                          options: { reference: "=screen:article.contentImage.path", aspectRatio: 1.6 },
-                        },
-                        {
-                          title: "Фон",
-                          type: "image",
-                          options: { reference: "=screen:article.background.path", aspectRatio: 1.6 },
-                        },
-                      ],
-                    },
-                  },
+                  // {
+                  //   title: "Мета",
+                  //   fieldList: {
+                  //     mode: "HORIZONTAL",
+                  //     fields: [
+                  //       {
+                  //         title: "Символьный код",
+                  //         type: "edit:Text",
+                  //         required: true,
+                  //         hint: "тест 132",
+                  //         options: {
+                  //           inputOptions: {
+                  //             width: "large",
+                  //             size: "large",
+                  //             value: "=screen:article.code",
+                  //           },
+                  //           actions: {
+                  //             change: {
+                  //               type: "update-context",
+                  //               context: "screen:article.code",
+                  //             },
+                  //           },
+                  //         },
+                  //       },
+                  //       {
+                  //         title: "Заголовок",
+                  //         type: "edit:Text",
+                  //         options: {
+                  //           inputOptions: {
+                  //             width: "large",
+                  //             size: "large",
+                  //             value: "=screen:article.tagTitle",
+                  //           },
+                  //           actions: {
+                  //             change: {
+                  //               type: "update-context",
+                  //               context: "screen:article.tagTitle",
+                  //             },
+                  //           },
+                  //         },
+                  //       },
+                  //       {
+                  //         title: "Описание",
+                  //         type: "edit:Text",
+                  //         options: {
+                  //           inputOptions: {
+                  //             width: "large",
+                  //             size: "large",
+                  //             multiline: true,
+                  //             value: "=screen:article.tagDescription",
+                  //           },
+                  //           actions: {
+                  //             change: {
+                  //               type: "update-context",
+                  //               context: "screen:article.tagDescription",
+                  //             },
+                  //           },
+                  //         },
+                  //       },
+                  //       {
+                  //         title: "Ключевые слова",
+                  //         type: "text",
+                  //         options: { value: "Тут выбор ключевых слов" },
+                  //       },
+                  //     ],
+                  //   },
+                  // },
+                  // {
+                  //   title: "Изображения",
+                  //   fieldList: {
+                  //     mode: "VERTICAL",
+                  //     fields: [
+                  //       {
+                  //         title: "Изображение анонса",
+                  //         type: "image",
+                  //         options: { reference: "=screen:article.announceImage.path", aspectRatio: 1.6 },
+                  //       },
+                  //       {
+                  //         title: "Изображение заголовка",
+                  //         type: "image",
+                  //         options: { reference: "=screen:article.contentImage.path", aspectRatio: 1.6 },
+                  //       },
+                  //       {
+                  //         title: "Фон",
+                  //         type: "image",
+                  //         options: { reference: "=screen:article.background.path", aspectRatio: 1.6 },
+                  //       },
+                  //     ],
+                  //   },
+                  // },
                 ],
               },
             },
@@ -268,6 +260,12 @@ module.exports = {
             },
           },
         ],
+        discard: {
+          type: "redirect",
+          options: {
+            reference: "/content/articles",
+          },
+        },
       },
     },
   ],

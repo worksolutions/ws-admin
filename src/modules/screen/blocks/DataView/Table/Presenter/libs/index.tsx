@@ -11,7 +11,7 @@ import { insertContext } from "modules/context/insertContext";
 import TableCell from "../Components/Body/Cell";
 import { TableViewColumn, TableViewOptions } from "../types";
 
-import { AnyAction } from "types/Actions";
+import { AnyRawAction } from "types/Actions";
 import { SortingDirection } from "types/Sorting";
 
 const createCell = (column: TableViewColumn, tableViewOptions: TableViewOptions) => ({
@@ -72,7 +72,7 @@ export function useSortingLogic(
     nextSorting,
   };
 }
-export function useSorting(initialValue: string, changeAction?: AnyAction) {
+export function useSorting(initialValue: string, changeAction?: AnyRawAction) {
   if (!changeAction) {
     return { currentSortingField: { id: null, direction: SortingDirection.DESC }, nextSorting: () => null };
   }

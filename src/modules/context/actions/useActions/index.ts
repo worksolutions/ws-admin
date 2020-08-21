@@ -13,30 +13,32 @@ import { ActionInputDataInterface } from "./types";
 
 import { LoadingContainer } from "state/loadingContainer";
 
-import { ActionInterface, ActionType, AnyAction, RealAnyAction } from "types/Actions";
+import { RawActionInterface, ActionType, AnyRawAction, RealAnyRawAction } from "types/Actions";
 
 const actionFunctionsByActionType = {
-  [ActionType.API_REQUEST]: (appContext: AppContextInterface, { options }: ActionInterface<ActionType.API_REQUEST>) => (
-    input: ActionInputDataInterface,
-  ) => {
+  [ActionType.API_REQUEST]: (
+    appContext: AppContextInterface,
+    { options }: RawActionInterface<ActionType.API_REQUEST>,
+  ) => (input: ActionInputDataInterface) => {
     return apiRequestAction(appContext.context, options, input);
   },
 
-  [ActionType.REDIRECT]: (appContext: AppContextInterface, { options }: ActionInterface<ActionType.REDIRECT>) => (
+  [ActionType.REDIRECT]: (appContext: AppContextInterface, { options }: RawActionInterface<ActionType.REDIRECT>) => (
     input: ActionInputDataInterface,
   ) => {
     return redirectAction(appContext.context, options, input);
   },
 
-  [ActionType.UPDATE_CONTEXT]: (appContext: AppContextInterface, { options }: ActionInterface<ActionType.REDIRECT>) => (
-    input: ActionInputDataInterface,
-  ) => {
+  [ActionType.UPDATE_CONTEXT]: (
+    appContext: AppContextInterface,
+    { options }: RawActionInterface<ActionType.REDIRECT>,
+  ) => (input: ActionInputDataInterface) => {
     return updateContext(appContext.context, options, input);
   },
 };
 
 const connectActionFunctionAndAppContext = (
-  action: RealAnyAction,
+  action: RealAnyRawAction,
   actionFunction: (inputData: ActionInputDataInterface) => Promise<any>,
   appContext: AppContextInterface,
 ) => {
@@ -67,7 +69,7 @@ const connectActionFunctionAndAppContext = (
   };
 };
 
-const connectMultiActionFunctionAndAppContext = (actions: RealAnyAction[], appContext: AppContextInterface) => {
+const connectMultiActionFunctionAndAppContext = (actions: RealAnyRawAction[], appContext: AppContextInterface) => {
   const loadingContainer = new LoadingContainer();
   const patchedActions = actions.map((action) =>
     connectActionFunctionAndAppContext(
@@ -108,7 +110,7 @@ const connectMultiActionFunctionAndAppContext = (actions: RealAnyAction[], appCo
   };
 };
 
-export function useActions<T extends Record<string, AnyAction>>(
+export function useActions<T extends Record<string, AnyRawAction>>(
   actions: T,
   appContext: AppContextInterface,
 ): Record<keyof T, { run: (inputData?: any) => Promise<any>; loadingContainer: LoadingContainer; type: string }> {
@@ -130,4 +132,13 @@ export function useActions<T extends Record<string, AnyAction>>(
 
     return result;
   });
+}
+
+export type ActionInterface = ReturnType<typeof useActions>[any];
+
+export function mergeActions<F extends Record<string, AnyRawAction>, S extends Record<string, AnyRawAction>>(
+  firstActions: F,
+  secondsActions: S,
+) {
+  return { ...firstActions, ...secondsActions };
 }

@@ -29,7 +29,7 @@ export function useNotApiRequestDataSource<RESULT = any>(dataSource: AnyDataSour
       initialData: clone(data),
       loadingContainer: new LoadingContainer(false),
       reload: () => null,
-      updateInitial: (data) => (localStore.initialData = data),
+      updateInitial: (data) => (localStore.initialData = clone(data)),
     };
   });
 

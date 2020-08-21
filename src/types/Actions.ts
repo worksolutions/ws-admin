@@ -1,4 +1,4 @@
-import { METHODS } from "../libs/request";
+import { METHODS } from "libs/request";
 
 export enum ActionType {
   API_REQUEST = "api:request",
@@ -6,7 +6,7 @@ export enum ActionType {
   UPDATE_CONTEXT = "update-context",
 }
 
-export type ActionOptions = {
+export type RawActionOptions = {
   [ActionType.API_REQUEST]: {
     removeEmptyString?: boolean;
     reference: string;
@@ -21,19 +21,19 @@ export type ActionOptions = {
   [ActionType.UPDATE_CONTEXT]: {};
 };
 
-export interface ActionInterface<T extends ActionType> {
+export interface RawActionInterface<T extends ActionType> {
   type: T;
-  options: ActionOptions[T];
+  options: RawActionOptions[T];
   context?: string;
 }
 
-export type RealAnyAction =
-  | ActionInterface<ActionType.API_REQUEST>
-  | ActionInterface<ActionType.REDIRECT>
-  | ActionInterface<ActionType.UPDATE_CONTEXT>;
+export type RealAnyRawAction =
+  | RawActionInterface<ActionType.API_REQUEST>
+  | RawActionInterface<ActionType.REDIRECT>
+  | RawActionInterface<ActionType.UPDATE_CONTEXT>;
 
-export type AnyAction = RealAnyAction[] | RealAnyAction;
+export type AnyRawAction = RealAnyRawAction[] | RealAnyRawAction;
 
-export type ContainsActions<Actions> = {
+export type ContainsRawActions<Actions> = {
   actions: Actions;
 };

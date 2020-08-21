@@ -1,10 +1,9 @@
-import { hasPath, path, is, isNil, flatten } from "ramda";
-import React from "react";
+import { flatten, hasPath, is, isNil, path } from "ramda";
 
 import { getContextTypeAndPathByParam } from "./contextParamParser";
 import { AppContextInterface } from "./hooks/useAppContext";
 
-export function insertContext(data: any, appContext: any, localContext = {}) {
+export function insertContext(data: any, appContext: AppContextInterface["context"], localContext = {}) {
   const resultContext = Object.assign({}, appContext, { local: localContext });
   if (is(Object, data)) {
     const enhancedFields = Object.entries(data).map(([key, value]) => ({
@@ -78,12 +77,13 @@ export function useStateFromContext(
   appContext: AppContextInterface,
   localContext = {},
 ): [any, (data: any) => void] {
-  const data = insertContext(contextPath, appContext.context, localContext).value;
-  const [value, setValue] = React.useState(data);
-
-  React.useEffect(() => {
-    setValue(data);
-  }, [data]);
-
-  return [value, setValue];
+  const data = insertContext("=" + contextPath, appContext.context, localContext).value;
+  return [
+    data,
+    (data) =>
+      appContext.updateState({
+        path: contextPath,
+        data,
+      }),
+  ];
 }

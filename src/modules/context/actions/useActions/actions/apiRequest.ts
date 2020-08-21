@@ -10,13 +10,13 @@ import { prepareApiRequestBody } from "modules/context/requestLibs";
 
 import { ActionInputDataInterface } from "../types";
 
-import { ActionOptions, ActionType } from "types/Actions";
+import { RawActionOptions, ActionType } from "types/Actions";
 
 const requestManager = Container.get(RequestManager);
 
 export default function apiRequest(
   appContext: AppContextStateInterface,
-  actionOptions: ActionOptions[ActionType.API_REQUEST],
+  actionOptions: RawActionOptions[ActionType.API_REQUEST],
   { inputData }: ActionInputDataInterface,
 ): Promise<any> {
   const { method, body, reference, removeEmptyString = true } = actionOptions;

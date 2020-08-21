@@ -6,14 +6,11 @@ import DatePicker, { DatePickerMode } from "primitives/DatePicker";
 import { InputSize } from "primitives/Input/InputWrapper";
 import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
-import { width } from "libs/styles";
 import { useEffectSkipFirst } from "libs/hooks/common";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { useStateFromContext } from "modules/context/insertContext";
-
-import { DefaultWidths, defaultWidths } from "../widths";
 
 import { BlockInterface } from "state/globalState";
 

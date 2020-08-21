@@ -2,12 +2,12 @@ import { CardActionInterface, CardImageConfig, CardInterface } from "primitives/
 
 import { BlockInterface } from "state/globalState";
 
-import { AnyAction } from "types/Actions";
+import { AnyRawAction } from "types/Actions";
 
 export type CardsViewInterface = BlockInterface<{ imageConfig: CardImageConfig }> & {
   onLoadingUpdate?: (loading: boolean) => void;
 };
 
 export type CardsViewDataSource = (Omit<CardInterface, "actions"> & {
-  actions?: (Omit<CardActionInterface, "handler"> & { action: AnyAction })[];
+  actions?: (Omit<CardActionInterface, "handler"> & { action: AnyRawAction })[];
 })[];

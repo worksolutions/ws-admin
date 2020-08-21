@@ -9,7 +9,7 @@ import { useActions } from "modules/context/actions/useActions";
 
 import { CardsViewDataSource } from "../types";
 
-import { AnyAction } from "types/Actions";
+import { AnyRawAction } from "types/Actions";
 
 function CardComponent(card: CardsViewDataSource[0] & { imageConfig: CardImageConfig }) {
   const { id, statuses, actions, heading, title, image, imageConfig } = card;
@@ -17,7 +17,7 @@ function CardComponent(card: CardsViewDataSource[0] & { imageConfig: CardImageCo
 
   const patchedActions = useActions(
     React.useMemo(() => {
-      const result: Record<string, AnyAction> = {};
+      const result: Record<string, AnyRawAction> = {};
       actions?.forEach((action, index) => {
         result[index.toString()] = action.action;
       });
