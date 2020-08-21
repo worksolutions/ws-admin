@@ -17,11 +17,11 @@ import {
   flexValue,
   focus,
   fullWidth,
-  height,
   hover,
   left,
   marginBottom,
   marginTop,
+  maxHeight,
   opacity,
   overflow,
   padding,
@@ -129,17 +129,18 @@ function Tip({ tip, color }: { tip: string | undefined; color: Colors }) {
   const hasTip = !!tip;
 
   return (
-    <Typography
-      type="caption-regular"
-      color={color}
+    <Wrapper
       styles={[
         overflow("hidden"),
-        transition(`margin ${duration160}, opacity ${duration160}, height ${duration160}`),
-        hasTip ? [height("auto"), opacity(1), marginTop(4)] : [height(0), opacity(0), marginTop(0)],
+        tip ? maxHeight("auto") : maxHeight(0),
+        transition(`opacity ${duration160}`),
+        hasTip ? opacity(1) : opacity(0),
       ]}
     >
-      {tip || "\u00A0"}
-    </Typography>
+      <Typography styles={marginTop(4)} type="caption-regular" color={color}>
+        {tip || "\u00A0"}
+      </Typography>
+    </Wrapper>
   );
 }
 

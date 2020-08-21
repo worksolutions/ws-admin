@@ -33,7 +33,7 @@ module.exports = {
                   type: "edit:RadioGroup",
                   options: {
                     radioGroupOptions: {
-                      value: "=screen:articles.filter.status",
+                      context: "screen:articles.filter.status",
                     },
                     dataSource: {
                       type: "static",
@@ -59,7 +59,7 @@ module.exports = {
                     dateOptions: {
                       cleanable: true,
                       size: "medium",
-                      value: "=screen:articles.filter.publishedAt",
+                      context: "screen:articles.filter.publishedAt",
                     },
                     actions: {
                       change: {
@@ -204,7 +204,7 @@ module.exports = {
                 },
                 searchOptions: {
                   placeholder: "Найти",
-                  value: "=screen:articles.search",
+                  context: "screen:articles.search",
                 },
                 paginationView: {
                   options: {

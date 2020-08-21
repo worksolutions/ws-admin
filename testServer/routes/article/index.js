@@ -47,6 +47,8 @@ module.exports = {
               reference: prepareUrl(`/blog/${article.code}`),
             })}#`;
           });
+
+          return data;
         },
       },
     );

@@ -10,8 +10,7 @@ import { maxWidth, minWidth, width } from "libs/styles";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
-import { useStateFromContext } from "modules/context/insertContext";
-import { ContextModel, useStateContextModel } from "modules/model";
+import { useStateContextModel } from "modules/model";
 
 import { defaultWidths, DefaultWidths } from "../widths";
 
