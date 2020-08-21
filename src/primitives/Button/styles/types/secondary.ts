@@ -19,5 +19,5 @@ export const secondaryDisabled = [
   color("gray-blue/03"),
   boxShadow([0, 0, 0, 1, "gray-blue/01"]),
   child(fillColor("gray-blue/03"), ".icon use"),
-  child(fillColor("gray-blue/03"), ".loader"),
+  child(makeSpinnerColorStyle("gray-blue/03"), ".loader"),
 ];

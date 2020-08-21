@@ -60,8 +60,18 @@ function TestPage() {
     >
       <Wrapper>
         <Spinner />
-        <Button loading>Авторизация</Button>
-        <Button loading>Автор</Button>
+        <Button loading onClick={console.log}>
+          Авторизация
+        </Button>
+        <Button loading disabled iconLeft="delete" onClick={console.log}>
+          Автор
+        </Button>
+        <Button loading disabled type={ButtonType.SECONDARY} iconLeft="delete" onClick={console.log}>
+          Автор
+        </Button>
+        <Button loading disabled type={ButtonType.GHOST} iconLeft="delete" onClick={console.log}>
+          Автор
+        </Button>
       </Wrapper>
       <Buttons />
 
