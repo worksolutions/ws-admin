@@ -10,7 +10,7 @@ const emptyFieldError = "Поле обязательно для заполнен
 
 export function useDetailRequiredFieldsChecker(requiredContextFields: string[] = []) {
   const appContext = useAppContext();
-  const requiredValues = requiredContextFields.map((field) => useStateContextModel(field, appContext, true));
+  const requiredValues = requiredContextFields.map((field) => useStateContextModel(field, appContext));
 
   return React.useCallback(() => {
     let correct = true;
