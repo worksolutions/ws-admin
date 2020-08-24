@@ -21,13 +21,15 @@ module.exports = (app) => {
 
   app.get("/api/admin/config", (_req, res) => res.json(mainConfig));
 
-  makeProxy({ handleUrl: "/api/users/profile", expressMethodHandlerName: "get" }, app, ({ user }) => {
-    if (!user.image) return;
-    user.avatar = prepareUrl(user.image.path);
-    user.name = `${user.name} ${user.surname}`;
-    user.postName = user.position;
-    user.customFields = [{ title: "Должность", type: "text", options: { value: user.postName } }];
-    return user;
+  makeProxy({ handleUrl: "/api/users/profile", expressMethodHandlerName: "get" }, app, {
+    modifyResponse: ({ user }) => {
+      if (!user.image) return;
+      user.avatar = prepareUrl(user.image.path);
+      user.name = `${user.name} ${user.surname}`;
+      user.postName = user.position;
+      user.customFields = [{ title: "Должность", type: "text", options: { value: user.postName } }];
+      return user;
+    },
   });
 
   articlesCardsRouter(app);
