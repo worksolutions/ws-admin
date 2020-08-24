@@ -1,11 +1,10 @@
 import React from "react";
 import { HeaderGroup, UseResizeColumnsColumnProps } from "react-table";
 import { observer } from "mobx-react-lite";
-import { zIndex_table_header } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 
-import { flex, fullWidth, maxWidth, width } from "libs/styles";
+import { flex, fullWidth, maxWidth, width, zIndex } from "libs/styles";
 
 import { UseSortingType } from "../../libs";
 import { halfOfCellDefaultHorizontalPadding } from "../../libs/paddings";
@@ -28,7 +27,7 @@ function Header({ trHeaderGroup, sorting, id, tableHeight }: HeaderInterface) {
   const { headerRef, fixedSizes, headerWidths } = useResizeTableMain(id, trHeaderGroup.headers, 1);
 
   return (
-    <Wrapper as="thead" styles={zIndex_table_header}>
+    <Wrapper as="thead" styles={zIndex(1)}>
       <Wrapper
         as="tr"
         {...trHeaderGroup.getHeaderGroupProps()}

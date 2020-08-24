@@ -65,11 +65,6 @@ export const transition = memoizeWith(identity, function (value: string) {
     transition: ${value};`;
 });
 
-export const willChange = memoizeWith(identity, function (value: string) {
-  return css`
-    will-change: ${value};`;
-});
-
 export const verticalScroll = css`
   overflow-y: auto;
 `;

@@ -2,11 +2,12 @@ import React from "react";
 
 import Typography from "primitives/Typography";
 
-import { flexValue, marginBottom, overflow } from "libs/styles";
+import { marginBottom } from "libs/styles";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
 
 import DefaultPageWrapper from "../common/DefaultPageWrapper";
+import { defaultContentStyles } from "../common/styles";
 
 import { BlockInterface, ContainSlotsInterface } from "state/globalState";
 
@@ -21,7 +22,7 @@ function DefaultPageWithList({ slots, options }: ContainSlotsInterface & BlockIn
       }
     >
       {slots.subHeading && <BlockRenderer {...slots.subHeading} styles={[marginBottom(16)]} />}
-      {slots.mainContent && <BlockRenderer {...slots.mainContent} styles={[flexValue(1), overflow("hidden")]} />}
+      {slots.mainContent && <BlockRenderer {...slots.mainContent} styles={defaultContentStyles} />}
     </DefaultPageWrapper>
   );
 }

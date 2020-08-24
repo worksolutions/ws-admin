@@ -30,7 +30,6 @@ import {
   top,
   transform,
   transition,
-  willChange,
 } from "libs/styles";
 import { isString } from "libs/is";
 
@@ -156,10 +155,7 @@ const cssAnimateProperties = [
   "transform",
 ];
 
-const transitionStyle = [
-  transition(cssAnimateProperties.map((val) => `${val} ${duration160}`).join(",")),
-  willChange(cssAnimateProperties.join(",")),
-];
+const transitionStyle = transition(cssAnimateProperties.map((val) => `${val} ${duration160}`).join(","));
 
 function InputWrapper({
   outerStyles,

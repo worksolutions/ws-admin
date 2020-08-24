@@ -1,11 +1,5 @@
 import { zIndex } from "libs/styles";
 
-export const zIndex_filterPanel = zIndex(4);
-export const zIndex_formattedDataView_actionsPanel = zIndex(3);
-export const zIndex_table_cell = zIndex(-1);
-export const zIndex_table_resizeLine = zIndex(1);
-export const zIndex_table_header = zIndex(1);
-export const zIndex_popup = zIndex(2);
-export const zIndex_hint = zIndex(2);
-export const zIndex_menuSidebar = zIndex(3);
-export const zIndex_modal = zIndex(10);
+export const zIndex_popup = zIndex(6);
+export const zIndex_hint = zIndex(7);
+export const zIndex_modal = zIndex(8);

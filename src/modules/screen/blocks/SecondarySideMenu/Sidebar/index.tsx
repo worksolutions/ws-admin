@@ -28,6 +28,7 @@ import {
   paddingLeft,
   position,
   width,
+  zIndex,
 } from "libs/styles";
 
 import { SidebarItemInterface } from "../types";
@@ -50,7 +51,7 @@ function SecondaryMenuSidebar({ title, items, id }: SecondaryMenuSidebarInterfac
         ref={measureRef as any}
         localStorageKey={id}
         initialWidth={272}
-        styles={[backgroundColor("gray-blue/01"), position("fixed")]}
+        styles={[zIndex(4), backgroundColor("gray-blue/01"), position("fixed")]}
       >
         <Wrapper
           styles={[

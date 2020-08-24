@@ -3,13 +3,12 @@ import { observer } from "mobx-react-lite";
 
 import Loading from "components/LoadingContainer/Loading";
 
-import { flexValue, overflow } from "libs/styles";
-
 import BlockRenderer from "modules/screen/BlockRenderer";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import DefaultPageWrapper from "../common/DefaultPageWrapper";
 import PageHeader, { PageHeaderInterface } from "../common/Header";
+import { defaultContentStyles } from "../common/styles";
 
 import { BlockInterface, ContainSlotsInterface } from "state/globalState";
 
@@ -34,7 +33,7 @@ function DefaultDetailPage({
         />
       }
     >
-      {slots.mainContent && <BlockRenderer {...slots.mainContent} styles={[flexValue(1), overflow("hidden")]} />}
+      {slots.mainContent && <BlockRenderer {...slots.mainContent} styles={defaultContentStyles} />}
     </DefaultPageWrapper>
   );
 }

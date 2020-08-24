@@ -17,6 +17,7 @@ import {
   marginLeft,
   pointer,
   width,
+  zIndex,
 } from "libs/styles";
 import { cb } from "libs/CB";
 
@@ -115,6 +116,7 @@ export default cb(
             marginLeft(sidebarWidth),
             width(`calc(100% - ${sidebarWidth}px)`),
             ai(Aligns.START),
+            zIndex(1),
           ]}
         >
           {currentUser && children}

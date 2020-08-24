@@ -1,4 +1,5 @@
 import React from "react";
+import { duration160 } from "layout/durations";
 
 import { TypographyTypes } from "primitives/Typography";
 import Icon, { Icons } from "primitives/Icon";
@@ -16,11 +17,9 @@ import {
   pointer,
   position,
   transition,
-  willChange,
 } from "libs/styles";
 
 import Spinner from "../Spinner";
-import { duration160 } from "../../layout/durations";
 
 import { buttonStylesMap } from "./styles";
 import { ButtonSize, ButtonType } from "./types";
@@ -69,10 +68,7 @@ const cssAnimateProperties = [
   "transform",
 ];
 
-const transitionStyle = [
-  transition(cssAnimateProperties.map((val) => `${val} ${duration160}`).join(",")),
-  willChange(cssAnimateProperties.join(",")),
-];
+const transitionStyle = transition(cssAnimateProperties.map((val) => `${val} ${duration160}`).join(","));
 
 function ButtonWrapper({
   children,

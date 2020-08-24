@@ -1,6 +1,5 @@
 import React from "react";
 import { elevation16Raw } from "style/shadows";
-import { zIndex_menuSidebar } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -21,6 +20,7 @@ import {
   padding,
   position,
   width,
+  zIndex,
 } from "libs/styles";
 
 import { BaseIconButtonInterface, IconLink } from "./Element";
@@ -57,7 +57,7 @@ function MenuSidebar({ logo, primaryItems, secondaryItems }: MenuSidebarInterfac
         width(sidebarWidth),
         flex,
         flexColumn,
-        zIndex_menuSidebar,
+        zIndex(5),
         boxShadow([0, 0, 0, 1, "gray-blue/02"], ...elevation16Raw),
       ]}
     >

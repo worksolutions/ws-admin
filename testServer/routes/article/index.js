@@ -27,6 +27,8 @@ module.exports = {
           if (data.contentImage) data.contentImage.path = prepareUrl(data.contentImage.path);
           if (data.background) data.background.path = prepareUrl(data.background.path);
 
+          if (!data.content) return data;
+
           data.content = data.content.replace(/\/storage/g, prepareUrl("/storage"));
 
           const articles = await getSubArticlesContent(data.content, (code) => {

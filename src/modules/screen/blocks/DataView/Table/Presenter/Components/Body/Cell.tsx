@@ -1,7 +1,6 @@
 import React from "react";
 import { TableCellProps } from "react-table";
 import { duration160 } from "layout/durations";
-import { zIndex_table_cell } from "layout/zIndexes";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -17,6 +16,7 @@ import {
   verticalAlign,
   verticalPadding,
   width,
+  zIndex,
 } from "libs/styles";
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 
@@ -65,7 +65,7 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
           top(0),
           right(0),
           bottom(0),
-          zIndex_table_cell,
+          zIndex(-1),
         ]}
       />
       {component}

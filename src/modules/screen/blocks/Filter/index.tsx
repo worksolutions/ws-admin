@@ -1,7 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { duration160 } from "layout/durations";
-import { zIndex_filterPanel } from "layout/zIndexes";
 import { elevation32 } from "style/shadows";
 import { toJS } from "mobx";
 
@@ -25,6 +24,7 @@ import {
   position,
   transform,
   transition,
+  zIndex,
 } from "libs/styles";
 import { useBoolean, useEffectSkipFirst } from "libs/hooks/common";
 import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
@@ -69,7 +69,7 @@ function FilterBlock({
         <Wrapper
           ref={ref}
           styles={[
-            zIndex_filterPanel,
+            zIndex(2),
             padding(8),
             backgroundColor("gray-blue/01"),
             jc(Aligns.SPACE_BETWEEN),
