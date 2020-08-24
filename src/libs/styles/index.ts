@@ -41,10 +41,6 @@ export const boxShadow = memoizeWith(
   },
 ) as (...config: BoxShadow[]) => any;
 
-export const emptyBoxShadow = css`
-  box-shadow: none;
-`;
-
 export const transform = memoizeWith(identity, function (transform: string) {
   return css`
     transform: ${transform};`;
@@ -260,3 +256,4 @@ export const content = (value: string) => css`
 export const verticalAlign = (value: string) => css`
   vertical-align: ${value};
 `;
+export { borderNone } from "./cleaner";

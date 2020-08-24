@@ -37,7 +37,7 @@ interface DroppedListInterface<ITEM> {
   onChange: (id: ITEM, close: () => void) => void;
 }
 
-const ComponentForOpenMode: Record<
+const ComponentByOpenMode: Record<
   DroppedListOpenMode,
   (props: {
     opened: boolean;
@@ -71,6 +71,11 @@ const ComponentForOpenMode: Record<
   },
 };
 
+const toggleByOpenMode: Record<DroppedListOpenMode, (opened: boolean, open: () => void, close: () => void) => void> = {
+  [DroppedListOpenMode.CLICK]: (opened, open, close) => (opened ? close() : open()),
+  [DroppedListOpenMode.HOVER]: () => undefined,
+};
+
 function DroppedList({
   mode = DroppedListOpenMode.CLICK,
   placement: placementProp = "bottom-start",
@@ -82,15 +87,16 @@ function DroppedList({
   children,
   onChange,
 }: DroppedListInterface<any>) {
-  const { opened, style, close, open } = useVisibilityAnimation();
+  const { style, opened, close, open } = useVisibilityAnimation();
 
   const { initPopper, placement } = usePopper({ placement: placementProp });
 
-  const Component = ComponentForOpenMode[mode];
+  const Component = ComponentByOpenMode[mode];
+  const toggle = toggleByOpenMode[mode];
 
   const renderChild = (clickOutsideRef: any) =>
     children(
-      { open, close, opened, toggle: () => (opened ? close() : open()) },
+      { open, close, opened, toggle: () => toggle(opened, open, close) },
       provideRef(clickOutsideRef, initPopper("parent")),
       <Wrapper
         as={animated.div}

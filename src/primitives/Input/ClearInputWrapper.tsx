@@ -3,7 +3,9 @@ import React from "react";
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 
-import { ai, Aligns, emptyBoxShadow, flex, focus, horizontalPadding, marginLeft, overflow, width } from "libs/styles";
+import { ai, Aligns, flex, focus, horizontalPadding, marginLeft, overflow, width } from "libs/styles";
+
+import { emptyBoxShadow } from "../../libs/styles/cleaner";
 
 function ClearInputWrapper({
   children,

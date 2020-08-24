@@ -93,7 +93,7 @@ function TestPage() {
       </Wrapper>
       <Wrapper>
         <DroppedList
-          mode={DroppedListOpenMode.CLICK}
+          mode={DroppedListOpenMode.HOVER}
           margin={4}
           items={[
             { title: "по новизне", code: "new" },

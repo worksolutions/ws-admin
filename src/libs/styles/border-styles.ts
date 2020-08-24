@@ -22,10 +22,6 @@ export function borderColor(color: Colors | AlphaColor) {
   `;
 }
 
-export const borderNone = css`
-  border: 0;
-`;
-
 export function borderBottom(size: number, color: Colors | AlphaColor) {
   return css`
     border-bottom: ${size}px solid ${getColor(color)};
