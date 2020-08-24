@@ -22,7 +22,7 @@ interface CalendarViewInterface {
 function getDaysRange(value: Moment) {
   const firstDayInMonthWeekday = moment(value).date(1).weekday();
   const emptyDaysToFillFirstWeek: null[] = (range(0, firstDayInMonthWeekday) as any).fill(null!);
-  return [...emptyDaysToFillFirstWeek, ...range(1, value.daysInMonth())];
+  return [...emptyDaysToFillFirstWeek, ...range(1, value.daysInMonth() + 1)];
 }
 
 function CalendarView({ currentInnerValue, selectedValue, onChange }: CalendarViewInterface) {
