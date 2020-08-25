@@ -231,7 +231,7 @@ function InputWrapper({
             disableOutline,
             backgroundColor("transparent"),
             color("gray-blue/09"),
-            child([color(colors.placeholder), transition(`color ${duration160}`)], "::placeholder"),
+            child([color(colors.placeholder), transition(`color ${duration160}`)], "::placeholder, .placeholder"),
             styles,
             variant === InputVariant.DEFAULT
               ? [hover(boxShadow([0, 0, 0, 1, "gray-blue/03"]))]

@@ -153,7 +153,12 @@ const Dropdown = function (
                   </Typography>
                 </Wrapper>
               ) : (
-                <Typography styles={[flexValue(1), textAlign("left")]} dots color="gray-blue/03">
+                <Typography
+                  className="placeholder"
+                  styles={[flexValue(1), textAlign("left")]}
+                  dots
+                  color="gray-blue/04"
+                >
                   {placeholder}
                 </Typography>
               )}
