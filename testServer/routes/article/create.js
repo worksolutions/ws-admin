@@ -14,13 +14,11 @@ module.exports = (app) => {
     },
     app,
     {
-      modifyResponse: async (...args) => {
-        console.log(args);
-        return null;
-      },
+      modifyResponse: async ({ data }) => ({ id: data.id }),
       modifyRequest: ({ data }) => {
-        data.status = numbersByStatuses[data.status];
-        return { data };
+        const newData = JSON.parse(data);
+        newData.status = numbersByStatuses[newData.status];
+        return { data: newData };
       },
       modifyError: (err) => {
         err.errors = convertServerErrorsToClientErrors(err.errors);

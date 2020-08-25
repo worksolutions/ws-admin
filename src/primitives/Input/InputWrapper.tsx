@@ -114,6 +114,8 @@ export interface BaseInputWrapperInterface {
   fullWidth?: boolean;
   iconLeft?: InputIconProp;
   iconRight?: InputIconProp;
+  iconLeftStyles?: any;
+  iconRightStyles?: any;
   disabled?: boolean;
   title?: string;
   titlePosition?: InputTitlePosition;
@@ -198,6 +200,8 @@ function InputWrapper({
   tip,
   iconLeft,
   iconRight,
+  iconLeftStyles,
+  iconRightStyles,
   error,
   success,
   disabled,
@@ -207,8 +211,8 @@ function InputWrapper({
 }: BaseInputWrapperInterface & {
   renderComponent: (styles: any) => JSX.Element;
 }) {
-  const leftIconElement = makeIconElement(iconLeft, "gray-blue/05", left(8));
-  const rightIconElement = makeIconElement(iconRight, "gray-blue/07", right(8));
+  const leftIconElement = makeIconElement(iconLeft, "gray-blue/05", [left(8), iconLeftStyles]);
+  const rightIconElement = makeIconElement(iconRight, "gray-blue/07", [right(8), iconRightStyles]);
 
   const styles = stylesForSize[size][getStylesNameOnIcons(!!iconLeft, !!iconRight)];
 

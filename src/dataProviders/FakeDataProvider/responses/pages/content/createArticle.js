@@ -147,8 +147,31 @@ module.exports = {
                         {
                           title: "Автор",
                           required: true,
-                          type: "text",
-                          options: { value: "Выбор автора" },
+                          type: "edit:Dropdown",
+                          options: {
+                            dropdownOptions: {
+                              width: "small",
+                              size: "large",
+                              context: "screen:article.author",
+                            },
+                            dataSource: {
+                              type: "api:request",
+                              options: {
+                                reference: "/users-list",
+                                method: "get",
+                                params: {
+                                  page: "1",
+                                  perPage: "100",
+                                },
+                              },
+                            },
+                            actions: {
+                              change: {
+                                type: "update-context",
+                                context: "screen:article.author",
+                              },
+                            },
+                          },
                         },
                       ],
                     },
@@ -162,7 +185,7 @@ module.exports = {
                           title: "Символьный код",
                           required: true,
                           type: "edit:Text",
-                          hint: "тест 132",
+                          hint: "Допустимы только символы английского алфавита, цифры и дефис",
                           options: {
                             inputOptions: {
                               width: "large",

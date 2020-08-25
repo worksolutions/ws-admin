@@ -30,4 +30,14 @@ module.exports.users = (app) => {
       };
     },
   });
+  makeProxy({ realServerUrl: "/api/users", expressMethodHandlerName: "get", handleUrl: "/api/users-list" }, app, {
+    modifyResponse: ({ data }) => {
+      return data.map((user) => ({
+        code: user.id,
+        title: user.name + " " + user.surname,
+        leftContent: user.image.path ? prepareUrl(user.image.path) : null,
+        subtitle: `${user.position} • ${user.email}`,
+      }));
+    },
+  });
 };

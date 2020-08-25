@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import Dropdown from "primitives/Dropdown/Dropdown";
 import { InputSize } from "primitives/Input/InputWrapper";
+import { DropdownItem } from "primitives/Dropdown/types";
 
 import Loading from "components/LoadingContainer/Loading";
 
@@ -18,8 +19,6 @@ import { defaultWidths, DefaultWidths } from "../widths";
 
 import { BlockInterface } from "state/globalState";
 
-import SuggestInterface from "types/SuggestInterface";
-
 function ActionDropdown({
   options,
   actions,
@@ -33,7 +32,7 @@ function ActionDropdown({
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
-  const { data, loadingContainer } = useDataSource<SuggestInterface[]>(dataSource!);
+  const { data, loadingContainer } = useDataSource<DropdownItem<any>[]>(dataSource!);
   const {
     value,
     model: { disabled, error },

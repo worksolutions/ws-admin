@@ -16,11 +16,13 @@ import {
   focus,
   horizontalPadding,
   hover,
+  jc,
   marginBottom,
   marginLeft,
   marginRight,
   marginTop,
   minHeight,
+  overflow,
   pointer,
   textAlign,
   transition,
@@ -84,7 +86,11 @@ type ListItemComponent<CODE extends string | number> = {
 function makeIcon(icon?: InputIconProp, styles?: any) {
   const content = icon ? isString(icon) ? <Icon icon={icon} /> : icon : null;
   if (!content) return null;
-  return <Wrapper styles={[flex, styles]}>{content}</Wrapper>;
+  return (
+    <Wrapper styles={[flex, borderRadius("100%"), overflow("hidden"), ai(Aligns.CENTER), jc(Aligns.CENTER), styles]}>
+      {content}
+    </Wrapper>
+  );
 }
 
 function ListItem<CODE extends string | number>({

@@ -37,9 +37,7 @@ module.exports = (app) => {
     { realServerUrl: "/api/categories", expressMethodHandlerName: "get", handleUrl: "/api/categories-list" },
     app,
     {
-      modifyResponse: ({ data }) => {
-        return data.map((category) => ({ code: category.code, title: category.name }));
-      },
+      modifyResponse: ({ data }) => data.map((category) => ({ code: category.id, title: category.name })),
     },
   );
 };

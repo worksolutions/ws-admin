@@ -13,9 +13,11 @@ import {
   flexValue,
   focus,
   hover,
+  jc,
   marginLeft,
   marginRight,
   marginTop,
+  overflow,
   paddingBottom,
   paddingLeft,
   pointer,
@@ -129,6 +131,7 @@ const Dropdown = function (
           outerRef={provideRef(ref, parentRef)}
           size={size}
           {...inputWrapperProps}
+          iconLeftStyles={[borderRadius("100%"), overflow("hidden")]}
           onClick={state.toggle}
           iconLeft={selectedItem?.leftContent}
           iconRight={
