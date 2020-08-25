@@ -23,7 +23,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noUnusedLocals": false,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noEmit": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true

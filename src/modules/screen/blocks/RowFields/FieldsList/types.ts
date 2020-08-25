@@ -13,6 +13,7 @@ export enum FieldListItemType {
   "edit:RadioGroup" = "edit:RadioGroup",
   "edit:Date" = "edit:Date",
   "edit:Text" = "edit:Text",
+  "edit:Dropdown" = "edit:Dropdown",
 }
 
 export interface FieldListItemInterface {

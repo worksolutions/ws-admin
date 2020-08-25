@@ -5,7 +5,18 @@ import ReactDOM from "react-dom";
 import Wrapper from "primitives/Wrapper";
 import Spinner from "primitives/Spinner";
 
-import { absoluteCenter, Colors } from "libs/styles";
+import {
+  absoluteCenter,
+  backgroundColor,
+  bottom,
+  Colors,
+  createAlphaColor,
+  left,
+  position,
+  right,
+  top,
+  zIndex,
+} from "libs/styles";
 
 import { ProviderLogic, providerLogicStore } from "./LoadingProviderLogic";
 
@@ -52,8 +63,20 @@ function LoadingProvider({
       {children(ref)}
       {realShowSpinner &&
         ReactDOM.createPortal(
-          <Wrapper styles={absoluteCenter}>
-            <Spinner color={color} />
+          <Wrapper
+            styles={[
+              zIndex(1),
+              position("absolute"),
+              left(0),
+              right(0),
+              top(0),
+              bottom(0),
+              backgroundColor(createAlphaColor("white", 160)),
+            ]}
+          >
+            <Wrapper styles={absoluteCenter}>
+              <Spinner color={color} />
+            </Wrapper>
           </Wrapper>,
           ref.current!,
         )}

@@ -2,9 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
-import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
-import Button, { ButtonSize, ButtonType } from "primitives/Button";
-import { ListItemId } from "primitives/List";
+import Button, { ButtonType } from "primitives/Button";
 import Tabs from "primitives/Tabs";
 import Spinner from "primitives/Spinner";
 import Toggle from "primitives/Toggle";
@@ -21,7 +19,6 @@ import {
   flexWrap,
   marginBottom,
   marginRight,
-  marginTop,
   padding,
   paddingRight,
 } from "libs/styles";
@@ -31,13 +28,13 @@ import Dropdowns from "./Dropdowns";
 import Modals from "./Modals";
 import RadioGroups from "./RadioGroups";
 import Inputs from "./Inputs";
+import DroppedListTest from "./DroppedListTest";
 
 function TestPage() {
   const [sorting, setSorting] = React.useState<SortingElementInterface>({
     id: "new",
   });
 
-  const [droppedItem, setDroppedItem] = React.useState<ListItemId>();
   const [switched, setSwitched] = React.useState(false);
 
   return (
@@ -91,53 +88,7 @@ function TestPage() {
           }}
         />
       </Wrapper>
-      <Wrapper>
-        <DroppedList
-          mode={DroppedListOpenMode.HOVER}
-          margin={4}
-          items={[
-            { title: "по новизне", code: "new" },
-            { title: "по дате создания", code: "date" },
-          ]}
-          onChange={(code) => setDroppedItem(code)}
-        >
-          {(state, parentRef, subChild) => (
-            <Button
-              ref={parentRef}
-              className="card-actions"
-              type={ButtonType.ICON}
-              size={ButtonSize.SMALL}
-              iconLeft="kebab-horizontal"
-              onClick={state.toggle}
-            >
-              {subChild}
-            </Button>
-          )}
-        </DroppedList>
-        <DroppedList
-          mode={DroppedListOpenMode.CLICK}
-          margin={4}
-          items={[
-            { title: "по новизне", code: "new" },
-            { title: "по дате создания", code: "date" },
-          ]}
-          onChange={(code) => setDroppedItem(code)}
-        >
-          {(state, parentRef, subChild) => (
-            <Button
-              styles={marginTop(50)}
-              ref={parentRef}
-              className="card-actions"
-              type={ButtonType.ICON}
-              size={ButtonSize.SMALL}
-              iconLeft="kebab-horizontal"
-              onClick={state.toggle}
-            >
-              {subChild}
-            </Button>
-          )}
-        </DroppedList>
-      </Wrapper>
+      <DroppedListTest />
       <Dropdowns />
       <Wrapper>
         <Tabs

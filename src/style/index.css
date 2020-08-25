@@ -1,5 +1,7 @@
 @import "~normalize.css/normalize.css";
 
+@import "./scrollbars.css";
+
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
 
 * {
@@ -19,31 +21,3 @@ html, body, #root {
     height: 100%;
 }
 
-
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-* {
-    scrollbar-color: #E4E8EE transparent;
-    scrollbar-width: thin;
-}
-
-*:hover {
-    scrollbar-color: #798EA8 transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #E4E8EE;
-    border-radius: 20px;
-    cursor: pointer;
-    min-height: 40px;
-    min-width: 40px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: #798EA8;
-}
-
-::-webkit-scrollbar-track {}

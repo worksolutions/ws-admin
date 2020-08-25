@@ -11,6 +11,7 @@ import {
   lineHeight,
   display,
   getColor,
+  whiteSpace,
 } from "libs/styles";
 
 import { StyledComponentsAS } from "types/StyledComponentsAS";
@@ -35,6 +36,7 @@ TypographyTypes["caption-semi-bold"] = [...TypographyTypes["caption-regular"], f
 TypographyTypes["overline-bold"] = [...TypographyTypes["overline-medium"], fontWeight("bold")];
 
 export interface TypographyInterface {
+  noWrap?: boolean;
   className?: string;
   as?: StyledComponentsAS;
   type?: keyof typeof TypographyTypes;
@@ -47,7 +49,18 @@ export interface TypographyInterface {
 
 const Typography = React.forwardRef(
   (
-    { as, className, styles, children, type, color: colorProp, dots: dotsProp, onClick, ...props }: TypographyInterface,
+    {
+      as,
+      noWrap,
+      className,
+      styles,
+      children,
+      type,
+      color: colorProp,
+      dots: dotsProp,
+      onClick,
+      ...props
+    }: TypographyInterface,
     ref: Ref<HTMLSpanElement>,
   ) => (
     <TypographyWrapper
@@ -59,6 +72,7 @@ const Typography = React.forwardRef(
         type ? TypographyTypes[type] : null,
         colorProp && color(colorProp),
         dotsProp && textDots,
+        noWrap && whiteSpace("nowrap"),
         styles,
       ]}
       onClick={onClick}

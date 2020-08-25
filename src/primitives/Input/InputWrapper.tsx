@@ -6,6 +6,8 @@ import Wrapper from "primitives/Wrapper";
 import Icon, { Icons } from "primitives/Icon";
 
 import {
+  ai,
+  Aligns,
   backgroundColor,
   borderRadius,
   borderWidth,
@@ -14,12 +16,15 @@ import {
   color,
   Colors,
   disableOutline,
+  firstChild,
+  flex,
   flexValue,
   focus,
   fullWidth,
   hover,
   left,
   marginBottom,
+  marginRight,
   marginTop,
   maxHeight,
   opacity,
@@ -36,6 +41,11 @@ import { isString } from "libs/is";
 export enum InputSize {
   MEDIUM = "medium",
   LARGE = "large",
+}
+
+export enum InputTitlePosition {
+  TOP,
+  LEFT,
 }
 
 enum InputVariant {
@@ -101,15 +111,17 @@ export interface BaseInputWrapperInterface {
   outerStyles?: any;
   fullWidth?: boolean;
   iconLeft?: Icons;
-  iconRight?: Icons | JSX.Element;
+  iconRight?: Icons | ((styles: any) => JSX.Element);
   disabled?: boolean;
   title?: string;
+  titlePosition?: InputTitlePosition;
   tip?: string;
   size?: InputSize;
   error?: boolean;
   success?: boolean;
   children?: React.ReactNode;
   outerRef?: any;
+  onClick?: () => void;
 }
 
 function getInputVariant(error?: boolean, success?: boolean, disabled?: boolean) {
@@ -119,9 +131,9 @@ function getInputVariant(error?: boolean, success?: boolean, disabled?: boolean)
   return InputVariant.DEFAULT;
 }
 
-function Title({ title }: Record<"title", string | undefined>) {
+function Title({ title, styles }: { title?: string | number; styles?: any }) {
   if (!title) return null;
-  return <Typography styles={[marginBottom(8)]}>{title}</Typography>;
+  return <Typography styles={[styles]}>{title}</Typography>;
 }
 
 function Tip({ tip, color }: { tip: string | undefined; color: Colors }) {
@@ -143,7 +155,7 @@ function Tip({ tip, color }: { tip: string | undefined; color: Colors }) {
   );
 }
 
-export const _defaultIconStyles = [position("absolute"), top("50%"), transform("translateY(-50%)")];
+const defaultIconStyles = [position("absolute"), top("50%"), transform("translateY(-50%)")];
 
 const cssAnimateProperties = [
   "color",
@@ -157,11 +169,17 @@ const cssAnimateProperties = [
 
 const transitionStyle = transition(cssAnimateProperties.map((val) => `${val} ${duration160}`).join(","));
 
+export const wrapperStylesByTitlePosition: Record<InputTitlePosition, { wrapper?: any; title?: any }> = {
+  [InputTitlePosition.LEFT]: { wrapper: [flex, ai(Aligns.CENTER)], title: marginRight(8) },
+  [InputTitlePosition.TOP]: { title: marginBottom(8) },
+};
+
 function InputWrapper({
   outerStyles,
   children,
   fullWidth: fullWidthProp,
   title,
+  titlePosition = InputTitlePosition.TOP,
   size = InputSize.LARGE,
   tip,
   iconLeft,
@@ -171,50 +189,61 @@ function InputWrapper({
   disabled,
   renderComponent,
   outerRef,
+  onClick,
 }: BaseInputWrapperInterface & {
   renderComponent: (styles: any) => JSX.Element;
 }) {
   const styles = stylesForSize[size][getStylesNameOnIcons(!!iconLeft, !!iconRight)];
 
   const leftIconElement = iconLeft && (
-    <Icon styles={[_defaultIconStyles, left(8)]} color="gray-blue/05" icon={iconLeft} />
+    <Icon styles={[defaultIconStyles, left(8)]} color="gray-blue/05" icon={iconLeft} />
   );
 
-  const rightIconElement = isString(iconRight) ? (
-    <Icon styles={[_defaultIconStyles, right(8)]} color="gray-blue/07" icon={iconRight} />
-  ) : (
-    iconRight
-  );
+  const rightIconElement = iconRight ? (
+    isString(iconRight) ? (
+      <Icon styles={[defaultIconStyles, right(8)]} color="gray-blue/07" icon={iconRight} />
+    ) : (
+      iconRight([defaultIconStyles, right(8)])
+    )
+  ) : null;
 
   const variant = getInputVariant(error, success, disabled);
 
   const colors = colorsByVariant[variant];
 
+  const positioningStyles = wrapperStylesByTitlePosition[titlePosition];
+
   return (
-    <Wrapper ref={outerRef} styles={[fullWidthProp && flexValue(1), outerStyles]}>
-      <Title title={title} />
-      <Wrapper styles={[fullWidth, backgroundColor(colors.background), borderRadius(6), position("relative")]}>
-        {renderComponent([
-          TypographyTypes["body-regular"],
-          transitionStyle,
-          borderWidth(0),
-          boxShadow([0, 0, 0, 1, colors.shadowColor]),
-          borderRadius(6),
-          fullWidth,
-          disableOutline,
-          backgroundColor("transparent"),
-          color("gray-blue/09"),
-          child([color(colors.placeholder), transition(`color ${duration160}`)], "::placeholder"),
-          styles,
-          variant === InputVariant.DEFAULT
-            ? [hover(boxShadow([0, 0, 0, 1, "gray-blue/03"]))]
-            : [boxShadow([0, 0, 0, 2, colors.shadowColor])],
-          focus([boxShadow([0, 0, 0, 2, "blue/05"])]),
-        ])}
-        {leftIconElement}
-        {rightIconElement}
-        {children}
+    <Wrapper styles={[fullWidthProp && flexValue(1), outerStyles]} onClick={onClick}>
+      <Wrapper styles={positioningStyles.wrapper}>
+        <Title styles={positioningStyles.title} title={title} />
+        <Wrapper
+          ref={outerRef}
+          styles={[fullWidth, backgroundColor(colors.background), borderRadius(6), position("relative")]}
+        >
+          {renderComponent([
+            TypographyTypes["body-regular"],
+            transitionStyle,
+            borderWidth(0),
+            boxShadow([0, 0, 0, 1, colors.shadowColor]),
+            borderRadius(6),
+            fullWidth,
+            disableOutline,
+            backgroundColor("transparent"),
+            color("gray-blue/09"),
+            child([color(colors.placeholder), transition(`color ${duration160}`)], "::placeholder"),
+            styles,
+            variant === InputVariant.DEFAULT
+              ? [hover(boxShadow([0, 0, 0, 1, "gray-blue/03"]))]
+              : [boxShadow([0, 0, 0, 2, colors.shadowColor])],
+            focus([boxShadow([0, 0, 0, 2, "blue/05"])]),
+          ])}
+          {leftIconElement}
+          {rightIconElement}
+          {children}
+        </Wrapper>
       </Wrapper>
+
       <Tip tip={tip} color={colors.tip} />
     </Wrapper>
   );

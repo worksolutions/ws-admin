@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 module.exports = {
   type: "Screen",
   options: {
@@ -63,8 +64,8 @@ module.exports = {
                       fields: [
                         {
                           title: "Название",
-                          type: "edit:Text",
                           required: true,
+                          type: "edit:Text",
                           options: {
                             inputOptions: {
                               width: "large",
@@ -116,14 +117,37 @@ module.exports = {
                         },
                         {
                           title: "Категория",
-                          type: "text",
                           required: true,
-                          options: { value: "Выбор категории" },
+                          type: "edit:Dropdown",
+                          options: {
+                            dropdownOptions: {
+                              width: "small",
+                              size: "large",
+                              context: "screen:article.category",
+                            },
+                            dataSource: {
+                              type: "api:request",
+                              options: {
+                                reference: "/categories-list",
+                                method: "get",
+                                params: {
+                                  page: "1",
+                                  perPage: "100",
+                                },
+                              },
+                            },
+                            actions: {
+                              change: {
+                                type: "update-context",
+                                context: "screen:article.category",
+                              },
+                            },
+                          },
                         },
                         {
                           title: "Автор",
-                          type: "text",
                           required: true,
+                          type: "text",
                           options: { value: "Выбор автора" },
                         },
                       ],
@@ -136,8 +160,8 @@ module.exports = {
                       fields: [
                         {
                           title: "Символьный код",
-                          type: "edit:Text",
                           required: true,
+                          type: "edit:Text",
                           hint: "тест 132",
                           options: {
                             inputOptions: {

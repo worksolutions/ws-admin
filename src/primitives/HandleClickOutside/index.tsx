@@ -8,6 +8,7 @@ export interface HandleClickOutsideInterface {
   children: (ref: { current: HTMLElement | null }) => JSX.Element;
 }
 
+const emptyFunc = () => null;
 const HandleClickOutside = function ({
   children,
   ignoreElements,
@@ -15,12 +16,13 @@ const HandleClickOutside = function ({
   onClickOutside,
 }: HandleClickOutsideInterface) {
   const ref = React.useRef<HTMLElement>(null);
-  useClickAway(ref, (event) => {
-    if (!enabled) return;
+  const handler = (event: Event) => {
     if (ignoreElements?.filter(Boolean).find((ignorableElement) => ignorableElement!.contains(event.target as any)))
       return;
     onClickOutside();
-  });
+  };
+
+  useClickAway(ref, enabled ? handler : emptyFunc);
 
   return children(ref);
 };

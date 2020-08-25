@@ -1,26 +1,33 @@
 import React from "react";
 import { animated } from "react-spring";
-import { elevation16 } from "style/shadows";
+import { elevation16Raw } from "style/shadows";
 import { useHover } from "react-use";
 import { Placement } from "@popperjs/core";
 import { zIndex_popup } from "layout/zIndexes";
 
-import { backgroundColor, border, borderRadius, maxWidth, minWidth, padding, position } from "libs/styles";
+import { backgroundColor, borderRadius, boxShadow, cursor, maxWidth, minWidth, padding, position } from "libs/styles";
 import { provideRef } from "libs/provideRef";
+import stopPropagation from "libs/stopPropagation";
+import { useEffectSkipFirst } from "libs/hooks/common";
 
 import Wrapper from "../Wrapper";
 import usePopper, { getPopperMarginStyleForPlacement } from "../Popper/usePopper";
 import HandleClickOutside from "../HandleClickOutside";
 import { useVisibilityAnimation } from "../Popper/useVisibilityAnimation";
 
-import List, { ListItemInterface, ListItemSize } from "./index";
+import List from "./index";
+import { ListItemInterface, ListItemSize } from "./ListItem";
 
 export enum DroppedListOpenMode {
   HOVER,
   CLICK,
 }
 
-interface DroppedListInterface<ITEM> {
+interface DroppedListInterface<ITEM extends string | number> {
+  emptyText?: string;
+  topComponent?: React.ReactNode;
+  bottomComponent?: React.ReactNode;
+  includeMinWidthCalculation?: boolean;
   mode?: DroppedListOpenMode;
   placement?: Placement;
   itemSize?: ListItemSize;
@@ -35,6 +42,7 @@ interface DroppedListInterface<ITEM> {
     subChild: JSX.Element,
   ) => JSX.Element;
   onChange: (id: ITEM, close: () => void) => void;
+  onClose?: () => void;
 }
 
 const ComponentByOpenMode: Record<
@@ -77,6 +85,10 @@ const toggleByOpenMode: Record<DroppedListOpenMode, (opened: boolean, open: () =
 };
 
 function DroppedList({
+  emptyText,
+  topComponent,
+  bottomComponent,
+  includeMinWidthCalculation = true,
   mode = DroppedListOpenMode.CLICK,
   placement: placementProp = "bottom-start",
   itemSize,
@@ -86,8 +98,15 @@ function DroppedList({
   margin: marginProp,
   children,
   onChange,
+  onClose,
 }: DroppedListInterface<any>) {
   const { style, opened, close, open } = useVisibilityAnimation();
+
+  useEffectSkipFirst(() => {
+    if (opened) return;
+    if (!onClose) return;
+    onClose();
+  }, [opened]);
 
   const { initPopper, placement } = usePopper({ placement: placementProp });
 
@@ -101,21 +120,29 @@ function DroppedList({
       <Wrapper
         as={animated.div}
         style={style}
-        styles={[maxWidth(480), minWidth("calc(100% + 40px)"), zIndex_popup]}
         ref={initPopper("child")}
+        styles={[
+          cursor("default"),
+          maxWidth(480),
+          minWidth("100%"),
+          includeMinWidthCalculation && minWidth("calc(100% + 40px)"),
+          zIndex_popup,
+        ]}
+        onClick={stopPropagation()}
       >
         <Wrapper
           styles={[
             getPopperMarginStyleForPlacement(placement, marginProp),
             backgroundColor("white"),
-            border(1, "gray-blue/02"),
-            elevation16,
+            boxShadow(...elevation16Raw, [0, 0, 0, 1, "gray-blue/02"]),
             borderRadius(6),
             padding("4px 8px"),
           ]}
         >
+          {topComponent}
           {items ? (
             <List
+              emptyText={emptyText}
               itemSize={itemSize}
               titleDots
               activeItemId={selectedItemId}
@@ -123,6 +150,7 @@ function DroppedList({
               onClick={(id) => onChange(id, close)}
             />
           ) : null}
+          {bottomComponent}
         </Wrapper>
       </Wrapper>,
     );
@@ -134,4 +162,6 @@ function DroppedList({
   );
 }
 
-export default React.memo(DroppedList) as <ITEM>(props: DroppedListInterface<ITEM>) => JSX.Element;
+export default React.memo(DroppedList) as <ITEM extends string | number>(
+  props: DroppedListInterface<ITEM>,
+) => JSX.Element;

@@ -70,6 +70,15 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
   "edit:Text": ({ options: { inputOptions, actions }, styles }) => (
     <BlockRenderer type="Actions/Input" styles={styles} actions={actions} options={inputOptions} />
   ),
+  "edit:Dropdown": ({ options: { dropdownOptions, dataSource, actions }, styles }) => (
+    <BlockRenderer
+      type="Actions/Dropdown"
+      styles={styles}
+      actions={actions}
+      options={dropdownOptions}
+      dataSource={dataSource}
+    />
+  ),
 };
 
 function FieldItemElementRenderer({ options, styles, type }: FieldItemElementRendererInterface) {

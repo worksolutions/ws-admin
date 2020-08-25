@@ -16,7 +16,6 @@ import {
   opacity,
   padding,
   transition,
-  whiteSpace,
 } from "libs/styles";
 import { useBoolean } from "libs/hooks/common";
 
@@ -131,7 +130,7 @@ function Hint({
           zIndex_hint,
         ]}
       >
-        <Typography type="caption-regular" color={themeStyles.text.color} styles={[whiteSpace("nowrap")]}>
+        <Typography type="caption-regular" color={themeStyles.text.color} noWrap>
           {text}
         </Typography>
       </Wrapper>

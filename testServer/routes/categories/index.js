@@ -33,4 +33,13 @@ module.exports = (app) => {
       };
     },
   });
+  makeProxy(
+    { realServerUrl: "/api/categories", expressMethodHandlerName: "get", handleUrl: "/api/categories-list" },
+    app,
+    {
+      modifyResponse: ({ data }) => {
+        return data.map((category) => ({ code: category.code, title: category.name }));
+      },
+    },
+  );
 };

@@ -5,10 +5,9 @@ import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 
 import eventValue from "libs/decorators/eventValue";
-import { right } from "libs/styles";
 import { useDebouncedInput } from "libs/hooks/useDebouncedInput";
 
-import InputWrapper, { _defaultIconStyles } from "./InputWrapper";
+import InputWrapper from "./InputWrapper";
 import { InputInterface } from "./Input";
 
 interface InputPasswordInterface extends Omit<InputInterface, "iconRight"> {}
@@ -22,15 +21,15 @@ const Password = React.forwardRef(function (
   return (
     <InputWrapper
       {...inputWrapperProps}
-      iconRight={
+      iconRight={(styles) => (
         <Button
-          styles={[_defaultIconStyles, right(8)]}
+          styles={styles}
           size={ButtonSize.SMALL}
           type={ButtonType.ICON}
           iconLeft={showPassword ? "eye-off" : "eye-on"}
           onClick={toggleShowPassword}
         />
-      }
+      )}
       renderComponent={(inputStyles) => (
         <Wrapper
           ref={ref}

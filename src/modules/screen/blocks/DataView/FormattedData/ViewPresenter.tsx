@@ -5,8 +5,8 @@ import { useSetState } from "react-use";
 import { elevation8 } from "style/shadows";
 
 import Wrapper from "primitives/Wrapper";
-import Dropdown, { DropdownSize, DropdownTitlePosition } from "primitives/Dropdown";
-import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
+import Dropdown from "primitives/Dropdown/Dropdown";
+import { InputSize, InputTitlePosition } from "primitives/Input/InputWrapper";
 
 import Pagination from "components/Pagination/Pagination";
 
@@ -114,10 +114,10 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
       {showPagination && (
         <Wrapper styles={[flex, jc(Aligns.SPACE_BETWEEN), padding(16), borderTop(1, "gray-blue/02")]}>
           <Dropdown
-            titlePosition={DropdownTitlePosition.LEFT}
+            titlePosition={InputTitlePosition.LEFT}
             title="Показывать по:"
-            size={DropdownSize.MEDIUM}
-            items={options!.paginationView.options?.paginationItems.map((code) => ({ code, title: code }))}
+            size={InputSize.MEDIUM}
+            items={options!.paginationView.options?.paginationItems.map((code) => ({ code, title: code.toString() }))}
             selectedItemCode={paginationViewData.data!.perPage}
             onChange={async (value) => {
               await paginationViewActions.change.run({ page: 1, perPage: value });

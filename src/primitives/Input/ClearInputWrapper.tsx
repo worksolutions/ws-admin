@@ -7,24 +7,32 @@ import { ai, Aligns, flex, focus, horizontalPadding, marginLeft, overflow, width
 
 import { emptyBoxShadow } from "../../libs/styles/cleaner";
 
+const buttonWidthBySize: Record<ButtonSize, number> = {
+  [ButtonSize.LARGE]: 32,
+  [ButtonSize.MEDIUM]: 32,
+  [ButtonSize.SMALL]: 24,
+};
+
 function ClearInputWrapper({
   children,
   needShow,
   clear,
   size = ButtonSize.MEDIUM,
+  styles,
 }: {
   children: JSX.Element;
   needShow?: boolean;
   clear: () => void;
   size?: ButtonSize;
+  styles?: any;
 }) {
   return (
-    <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
+    <Wrapper styles={[flex, ai(Aligns.CENTER), styles]}>
       {children}
       <Button
         styles={[
           needShow
-            ? [marginLeft(4), width(32)]
+            ? [marginLeft(4), width(buttonWidthBySize[size])]
             : [marginLeft(0), width(0), focus(emptyBoxShadow), horizontalPadding(0)],
           overflow("hidden"),
         ]}

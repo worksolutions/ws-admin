@@ -4,7 +4,7 @@ import Wrapper from "primitives/Wrapper";
 import Button from "primitives/Button";
 import Modal, { modalHorizontalPadding, ModalSize } from "primitives/Modal";
 import Typography from "primitives/Typography";
-import Dropdown from "primitives/Dropdown";
+import Dropdown from "primitives/Dropdown/Dropdown";
 
 import { horizontalPadding } from "libs/styles";
 

@@ -1,12 +1,10 @@
 import React from "react";
 import { assoc } from "ramda";
 
-import Wrapper from "primitives/Wrapper";
-import Typography from "primitives/Typography";
 import Icon from "primitives/Icon";
-import Dropdown from "primitives/Dropdown";
+import Dropdown from "primitives/Dropdown/Dropdown";
 
-import { ai, Aligns, backgroundColor, borderRadius, Colors, flex, marginRight, padding } from "libs/styles";
+import { Colors, marginRight } from "libs/styles";
 
 import SuggestInterface from "types/SuggestInterface";
 

@@ -1,34 +1,68 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { UseMeasureRect } from "react-use/lib/useMeasure";
 
-import { Icons } from "primitives/Icon";
-import Dropdown from "primitives/Dropdown";
+import Dropdown from "primitives/Dropdown/Dropdown";
+import { InputSize } from "primitives/Input/InputWrapper";
+
+import Loading from "components/LoadingContainer/Loading";
+
+import { useEffectSkipFirst } from "libs/hooks/common";
+import { maxWidth, minWidth, width } from "libs/styles";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
+import { useDataSource } from "modules/context/dataSource/useDataSource";
+import { useStateContextModel } from "modules/model";
+
+import { defaultWidths, DefaultWidths } from "../widths";
 
 import { BlockInterface } from "state/globalState";
 
-function ActionDropdown({ options }: BlockInterface<{}, "change">) {
+import SuggestInterface from "types/SuggestInterface";
+
+function ActionDropdown({
+  options,
+  actions,
+  dataSource,
+  styles,
+}: BlockInterface<{ context: string; width?: DefaultWidths; size?: InputSize }, "change"> & {
+  styles?: any;
+}) {
+  if (!actions?.change) return null;
   if (!options) return null;
 
-  return null;
+  const appContext = useAppContext();
+  const resultActions = useActions(actions, appContext);
+  const { data, loadingContainer } = useDataSource<SuggestInterface[]>(dataSource!);
+  const {
+    value,
+    model: { disabled, error },
+    setValue,
+  } = useStateContextModel(options!.context, appContext);
 
-  // const appContext = useAppContext();
-  // const resultActions = useActions(actions, appContext);
-  //
-  // return (
-  //   <Dropdown
-  //     type={ButtonType.PRIMARY}
-  //     size={ButtonSize.MEDIUM}
-  //     iconLeft={options.icon}
-  //     loading={resultActions.click.loadingContainer.loading}
-  //     onClick={() => resultActions.click.run()}
-  //   >
-  //     {options.name}
-  //   </Dropdown>
-  // );
+  useEffectSkipFirst(() => {
+    resultActions.change.run(value);
+  }, [value]);
+
+  if (loadingContainer.loading) return <Loading />;
+  if (!resultActions.change) return null;
+
+  const widthValue = defaultWidths[options?.width || DefaultWidths.SMALL];
+
+  return (
+    <Dropdown
+      outerStyles={[styles, width(widthValue)]}
+      styles={[minWidth(widthValue), maxWidth(widthValue)]}
+      selectedItemCode={value}
+      size={options!.size}
+      placeholder="Не выбрано"
+      items={data!}
+      disabled={disabled}
+      error={!!error}
+      tip={error}
+      onChange={setValue}
+    />
+  );
 }
 
 export default React.memo(observer(ActionDropdown));
