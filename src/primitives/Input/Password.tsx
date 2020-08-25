@@ -21,15 +21,14 @@ const Password = React.forwardRef(function (
   return (
     <InputWrapper
       {...inputWrapperProps}
-      iconRight={(styles) => (
+      iconRight={
         <Button
-          styles={styles}
           size={ButtonSize.SMALL}
           type={ButtonType.ICON}
           iconLeft={showPassword ? "eye-off" : "eye-on"}
           onClick={toggleShowPassword}
         />
-      )}
+      }
       renderComponent={(inputStyles) => (
         <Wrapper
           ref={ref}

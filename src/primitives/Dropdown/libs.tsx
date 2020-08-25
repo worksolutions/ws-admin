@@ -1,12 +1,10 @@
 import React from "react";
 import { propEq } from "ramda";
 
-import { marginRight, width } from "libs/styles";
 import { useEffectSkipFirst } from "libs/hooks/common";
 import searchInString from "libs/searchInString";
 
 import Icon, { Icons } from "../Icon";
-import Wrapper from "../Wrapper";
 import { InputSize } from "../Input/InputWrapper";
 import { ButtonSize } from "../Button";
 import { ListItemInterface, ListItemSize } from "../List/ListItem";
@@ -16,18 +14,17 @@ import { DropdownItem } from "./types";
 export function useItems<CODE extends string | number>(selectedItemCode: CODE, items: DropdownItem<CODE>[] = []) {
   const [search, setSearch] = React.useState("");
 
-  const selectedItem = React.useMemo(() => items.find(propEq("code", selectedItemCode))!, [selectedItemCode]);
+  const selectedItem = React.useMemo(() => items.find(propEq("code", selectedItemCode)), [selectedItemCode]);
 
   const [searchedItems, setSearchedItems] = React.useState(items);
 
-  const resultItems = React.useMemo(
+  const resultItems: DropdownItem<CODE>[] = React.useMemo(
     () =>
       searchedItems.map((item) => ({
         ...item,
-        rightContent:
-          selectedItemCode === item.code ? <Icon icon="check" color="blue/06" /> : <Wrapper styles={width(24)} />,
+        rightContent: selectedItemCode === item.code ? <Icon icon="check" color="blue/06" /> : undefined,
       })),
-    [searchedItems],
+    [searchedItems, selectedItemCode],
   );
 
   useEffectSkipFirst(() => {
@@ -58,7 +55,7 @@ export const matchDropdownSizeAndSearchSize: Record<
 
 export function makeOptionalActionItem(title: string, icon?: Icons): ListItemInterface<any> {
   return {
-    leftContent: <Icon icon={icon} styles={marginRight(8)} />,
+    leftContent: <Icon icon={icon} />,
     code: "_",
     title,
   };

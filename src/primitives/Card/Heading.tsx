@@ -47,7 +47,7 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
             code: action.name,
             title: action.name,
             disabled: action.loading,
-            leftContent: action.icon ? <Icon icon={action.icon} color={action.iconColor} /> : null,
+            leftContent: action.icon ? <Icon icon={action.icon} color={action.iconColor} /> : undefined,
           }))}
           onChange={async (code) => {
             await onActionClick(code);

@@ -25,6 +25,7 @@ import {
 } from "libs/styles";
 import { provideRef } from "libs/provideRef";
 import { emptyBoxShadow } from "libs/styles/cleaner";
+import { isString } from "libs/is";
 
 import Icon from "../Icon";
 import ListItem from "../List/ListItem";
@@ -33,7 +34,7 @@ import Wrapper from "../Wrapper";
 import DroppedList from "../List/DroppedList";
 import Input, { InputSize } from "../Input/Input";
 import ClearInputWrapper from "../Input/ClearInputWrapper";
-import InputWrapper, { InputTitlePosition } from "../Input/InputWrapper";
+import InputWrapper from "../Input/InputWrapper";
 
 import { DropdownInterface } from "./types";
 import {
@@ -129,26 +130,19 @@ const Dropdown = function (
           size={size}
           {...inputWrapperProps}
           onClick={state.toggle}
-          iconRight={(styles) => (
+          iconLeft={selectedItem?.leftContent}
+          iconRight={
             <Icon
               icon="arrow-down"
-              styles={[
-                styles,
-                transition(`all ${duration160}`),
-                transform(`translateY(-50%) rotateZ(${state.opened ? "180deg" : "0deg"})`),
-              ]}
+              styles={[transition(`all ${duration160}`), transform(`rotateZ(${state.opened ? "180deg" : "0deg"})`)]}
               color="gray-blue/07"
             />
-          )}
+          }
           renderComponent={(styles) => (
             <Wrapper as="button" styles={[styles, stylesProp, pointer]}>
               {selectedItem ? (
                 <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
-                  {selectedItem.leftContent}
-                  <Typography
-                    styles={[flexValue(1), textAlign("left"), selectedItem.leftContent && marginLeft(4)]}
-                    dots
-                  >
+                  <Typography styles={[flexValue(1), textAlign("left")]} dots>
                     {selectedItem.title}
                   </Typography>
                 </Wrapper>

@@ -56,12 +56,7 @@ function Sorting({ items, selected, styles, onChange }: SortingInterface) {
       items={items.map((item) => ({
         code: item.id,
         title: item.title,
-        rightContent:
-          originalSelectedElement.id === item.id ? (
-            <Icon icon="check" color="blue/06" />
-          ) : (
-            <Wrapper styles={width(24)} />
-          ),
+        rightContent: originalSelectedElement.id === item.id ? <Icon icon="check" color="blue/06" /> : undefined,
       }))}
       onChange={(id, close) => {
         close();

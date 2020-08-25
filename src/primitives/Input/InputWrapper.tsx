@@ -1,5 +1,6 @@
 import React from "react";
 import { duration160 } from "layout/durations";
+import { useMeasure } from "react-use";
 
 import Typography, { TypographyTypes } from "primitives/Typography";
 import Wrapper from "primitives/Wrapper";
@@ -16,7 +17,6 @@ import {
   color,
   Colors,
   disableOutline,
-  firstChild,
   flex,
   flexValue,
   focus,
@@ -107,11 +107,13 @@ function getStylesNameOnIcons(hasLeftIcon: boolean, hasRightIcon: boolean): keyo
   return "withoutIcons";
 }
 
+export type InputIconProp = Icons | JSX.Element | undefined;
+
 export interface BaseInputWrapperInterface {
   outerStyles?: any;
   fullWidth?: boolean;
-  iconLeft?: Icons;
-  iconRight?: Icons | ((styles: any) => JSX.Element);
+  iconLeft?: InputIconProp;
+  iconRight?: InputIconProp;
   disabled?: boolean;
   title?: string;
   titlePosition?: InputTitlePosition;
@@ -174,6 +176,14 @@ export const wrapperStylesByTitlePosition: Record<InputTitlePosition, { wrapper?
   [InputTitlePosition.TOP]: { title: marginBottom(8) },
 };
 
+function makeIconElement(icon: InputIconProp, defaultColor: Colors, styles: any) {
+  return icon ? (
+    <Wrapper styles={[defaultIconStyles, styles]}>
+      {isString(icon) ? <Icon color={defaultColor} icon={icon} /> : icon}
+    </Wrapper>
+  ) : undefined;
+}
+
 function InputWrapper({
   outerStyles,
   children,
@@ -193,19 +203,10 @@ function InputWrapper({
 }: BaseInputWrapperInterface & {
   renderComponent: (styles: any) => JSX.Element;
 }) {
+  const leftIconElement = makeIconElement(iconLeft, "gray-blue/05", left(8));
+  const rightIconElement = makeIconElement(iconRight, "gray-blue/07", right(8));
+
   const styles = stylesForSize[size][getStylesNameOnIcons(!!iconLeft, !!iconRight)];
-
-  const leftIconElement = iconLeft && (
-    <Icon styles={[defaultIconStyles, left(8)]} color="gray-blue/05" icon={iconLeft} />
-  );
-
-  const rightIconElement = iconRight ? (
-    isString(iconRight) ? (
-      <Icon styles={[defaultIconStyles, right(8)]} color="gray-blue/07" icon={iconRight} />
-    ) : (
-      iconRight([defaultIconStyles, right(8)])
-    )
-  ) : null;
 
   const variant = getInputVariant(error, success, disabled);
 

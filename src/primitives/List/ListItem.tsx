@@ -11,11 +11,13 @@ import {
   createAlphaColor,
   disableOutline,
   flex,
+  flexColumn,
   flexValue,
   focus,
   horizontalPadding,
   hover,
   marginBottom,
+  marginLeft,
   marginRight,
   marginTop,
   minHeight,
@@ -23,18 +25,21 @@ import {
   textAlign,
   transition,
 } from "libs/styles";
+import { isString } from "libs/is";
 
 import Wrapper from "../Wrapper";
 import Typography from "../Typography";
+import Icon from "../Icon";
+import { InputIconProp } from "../Input/InputWrapper";
 
 import SuggestInterface from "types/SuggestInterface";
 
 export interface ListItemInterface<ITEM extends string | number> extends SuggestInterface<ITEM> {
-  leftContent?: JSX.Element | null;
+  leftContent?: InputIconProp;
+  rightContent?: InputIconProp;
   heading?: string | number;
   subtitle?: string | number;
   disabled?: boolean;
-  rightContent?: JSX.Element | null;
 }
 
 export enum ListItemSize {
@@ -76,6 +81,12 @@ type ListItemComponent<CODE extends string | number> = {
   styles?: any;
 };
 
+function makeIcon(icon?: InputIconProp, styles?: any) {
+  const content = icon ? isString(icon) ? <Icon icon={icon} /> : icon : null;
+  if (!content) return null;
+  return <Wrapper styles={[flex, styles]}>{content}</Wrapper>;
+}
+
 function ListItem<CODE extends string | number>({
   item: { title, leftContent, code, disabled, heading, rightContent, subtitle },
   itemSize,
@@ -86,20 +97,31 @@ function ListItem<CODE extends string | number>({
   styles,
 }: ListItemComponent<CODE>) {
   const enabled = !disabled;
+  const leftIcon = makeIcon(leftContent, marginRight(8));
+  const rightIcon = makeIcon(rightContent, marginLeft(8));
+
   return (
     <Wrapper
       styles={[getItemStyles(itemSize, enabled, isActiveItem), styles]}
       onClick={() => onClick && enabled && onClick(code)}
     >
-      {leftContent}
-      <Wrapper styles={[marginRight(8), flexValue(1), textAlign("left")]}>
-        {heading && <Typography type="caption-regular">{heading}</Typography>}
+      {leftIcon}
+      <Wrapper styles={[flexValue(1), textAlign("left"), flex, flexColumn]}>
+        {heading && (
+          <Typography type="caption-regular" noWrap>
+            {heading}
+          </Typography>
+        )}
         <Typography dots={titleDots} noWrap styles={titleStyles}>
           {title}
         </Typography>
-        {subtitle && <Typography type="caption-regular">{subtitle}</Typography>}
+        {subtitle && (
+          <Typography color="gray-blue/05" type="caption-regular" noWrap>
+            {subtitle}
+          </Typography>
+        )}
       </Wrapper>
-      {rightContent}
+      {rightIcon}
     </Wrapper>
   );
 }

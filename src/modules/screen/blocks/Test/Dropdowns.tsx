@@ -40,8 +40,12 @@ function Dropdowns() {
             selectedItemCode={value}
             placeholder="тест 1"
             items={[
-              { title: "Выбранный длинный пункт", code: "new" },
-              { title: "по дате", code: "date" },
+              {
+                title: "Выбранный длинный пункт",
+                code: "new",
+                subtitle: "Еще один тайтл • email@worksolutions.ru",
+                leftContent: "user",
+              },
             ]}
             onChange={setValue}
             optionalAction={{ title: "Добавить категорию", icon: "plus-big", onClick: open }}
