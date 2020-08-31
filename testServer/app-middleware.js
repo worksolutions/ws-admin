@@ -9,7 +9,7 @@ const { error, prepareUrl, makeProxy } = require("./libs");
 const articlesCardsRouter = require("./routes/articles/cards");
 const articlesTableRouter = require("./routes/articles/table");
 const articleRouter = require("./routes/article");
-const createArticleRouter = require("./routes/article/create");
+const createArticleRouter = require("./routes/article/createAndUpdate");
 const categoriesRouter = require("./routes/categories");
 const usersRouter = require("./routes/users");
 
@@ -34,11 +34,11 @@ module.exports = (app) => {
 
   articlesCardsRouter(app);
   articlesTableRouter(app);
-  articleRouter.article(app);
-  articleRouter.relatedArticles(app);
   createArticleRouter(app);
+  articleRouter(app);
+  articleRouter(app);
   categoriesRouter(app);
-  usersRouter.users(app);
+  usersRouter(app);
 
   makeProxy({ handleUrl: "/api", expressMethodHandlerName: "use" }, app);
 

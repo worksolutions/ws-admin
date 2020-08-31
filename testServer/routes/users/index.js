@@ -1,6 +1,6 @@
 const { makeProxy, prepareUrl } = require("../../libs");
 
-module.exports.users = (app) => {
+module.exports = (app) => {
   makeProxy({ realServerUrl: "/api/users", expressMethodHandlerName: "get", handleUrl: "/api/users" }, app, {
     modifyResponse: ({ data, meta }) => {
       return {

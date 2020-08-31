@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
 
+import Wrapper from "primitives/Wrapper";
+
 import LoadingProvider from "components/LoadingContainer/LoadingProvider";
 import Loading from "components/LoadingContainer/Loading";
 
@@ -14,7 +16,6 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 
 import Layout from "./layout";
 import RedirectToMainReference from "./InitialRedirect";
-import Wrapper from "./primitives/Wrapper";
 import { fullHeight, fullWidth } from "./libs/styles";
 
 import { GlobalState } from "state/globalState";

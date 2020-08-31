@@ -56,7 +56,7 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputInterfac
         outerStyles={[styles, width(widthValue)]}
         styles={[minWidth(widthValue), maxWidth(widthValue)]}
         size={options?.size}
-        value={value}
+        value={value || ""}
         placeholder={options?.placeholder || "Не заполнено"}
         iconLeft={options?.iconLeft}
         debounce={options?.debounce}

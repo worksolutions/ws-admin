@@ -2,7 +2,11 @@ import { path as ramdaPath } from "ramda";
 
 import { isString } from "./is";
 
+export function splitByPoint(path: string) {
+  return path.split(".");
+}
+
 export function path(fullPath: string | string[], obj: any): any {
-  if (isString(fullPath)) return ramdaPath(fullPath.split("."), obj);
+  if (isString(fullPath)) return ramdaPath(splitByPoint("."), obj);
   return ramdaPath(fullPath, obj);
 }

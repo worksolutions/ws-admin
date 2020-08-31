@@ -2,6 +2,7 @@ import "reflect-metadata";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router";
+import "mobx-react-lite/batchingForReactDom";
 import "style/index.css";
 
 import { TypographyGlobalStyle } from "primitives/Typography";

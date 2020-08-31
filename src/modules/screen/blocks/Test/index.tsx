@@ -6,21 +6,25 @@ import Button, { ButtonType } from "primitives/Button";
 import Tabs from "primitives/Tabs";
 import Spinner from "primitives/Spinner";
 import Toggle from "primitives/Toggle";
+import Typography from "primitives/Typography";
 
 import Sorting, { SortingElementInterface } from "components/Sorting";
 
 import {
   ai,
   Aligns,
+  backgroundColor,
   borderRight,
   child,
   flex,
   flexColumn,
   flexWrap,
+  height,
   marginBottom,
   marginRight,
   padding,
   paddingRight,
+  width,
 } from "libs/styles";
 
 import Buttons from "./Buttons";
@@ -91,13 +95,36 @@ function TestPage() {
       <DroppedListTest />
       <Dropdowns />
       <Wrapper>
-        <Tabs
-          items={[
-            { render: () => <div>1</div>, title: "Атрибуты" },
-            { render: () => <div />, title: "Текст" },
-            { render: () => <div />, title: "Статьи по теме" },
-          ]}
-        />
+        <Wrapper>
+          <Tabs
+            items={[
+              {
+                render: () => (
+                  <Wrapper styles={[width(200), height(100), backgroundColor("red/03")]}>
+                    <Typography>1</Typography>
+                  </Wrapper>
+                ),
+                title: "Атрибуты",
+              },
+              {
+                render: () => (
+                  <Wrapper styles={[width(200), height(100), backgroundColor("green/03")]}>
+                    <Typography>2</Typography>
+                  </Wrapper>
+                ),
+                title: "Текст",
+              },
+              {
+                render: () => (
+                  <Wrapper styles={[width(200), height(100), backgroundColor("blue/03")]}>
+                    <Typography>3</Typography>
+                  </Wrapper>
+                ),
+                title: "Статьи по теме",
+              },
+            ]}
+          />
+        </Wrapper>
       </Wrapper>
       <Wrapper>
         <Modals />

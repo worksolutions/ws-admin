@@ -9,6 +9,7 @@ export enum ActionType {
 export type RawActionOptions = {
   [ActionType.API_REQUEST]: {
     removeEmptyString?: boolean;
+    removeNullableFields?: boolean;
     reference: string;
     method: METHODS;
     body?: Record<string, number | string>;

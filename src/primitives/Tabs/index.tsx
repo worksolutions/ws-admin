@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { sum } from "ramda";
 import { duration160 } from "layout/durations";
 
@@ -27,6 +27,13 @@ function Tabs({ initialActive = 0, items, styles }: TabsInterface) {
   const { ref, widths } = useChildrenWidthDetector();
 
   const Component = items[active].render;
+  const element = <Component />;
+  const elementsCache = React.useRef<ReactNode[]>([]);
+
+  React.useEffect(() => {
+    if (elementsCache.current[active]) return;
+    elementsCache.current[active] = element;
+  }, [active]);
 
   return (
     <>
@@ -49,7 +56,7 @@ function Tabs({ initialActive = 0, items, styles }: TabsInterface) {
           />
         )}
       </Wrapper>
-      <Component />
+      {elementsCache.current[active] || element}
     </>
   );
 }

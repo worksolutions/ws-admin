@@ -1,5 +1,7 @@
 import { isNil, path } from "ramda";
 
+import { splitByPoint } from "libs/path";
+
 import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
 import { getContextTypeAndPathByParam } from "modules/context/contextParamParser";
 
@@ -10,6 +12,6 @@ export default function contextDataSource(
   context: AppContextStateInterface,
 ) {
   const dependency = getContextTypeAndPathByParam(dataSource.options.key);
-  const value: any = path([dependency.type, ...dependency.path.split(".")], context);
+  const value: any = path([dependency.type, ...splitByPoint(dependency.path)], context);
   return isNil(value) ? null : value;
 }

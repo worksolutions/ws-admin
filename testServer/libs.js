@@ -73,5 +73,6 @@ exports.makeProxy = function (
 };
 
 exports.convertServerErrorsToClientErrors = function (errors) {
+  if (!errors) return {};
   return Object.fromEntries(Object.entries(errors).map(([key, value]) => [key, value[0]]));
 };

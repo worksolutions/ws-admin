@@ -4,8 +4,11 @@ import Wrapper from "primitives/Wrapper";
 import Input from "primitives/Input/Input";
 import Password from "primitives/Input/Password";
 import DatePicker, { DatePickerMode } from "primitives/DatePicker";
+import MaskedInput, { makeMask } from "primitives/Input/MaskedInput";
 
 import { ai, Aligns, flex, flexColumn, marginBottom } from "libs/styles";
+
+const mask = makeMask([/\d/, /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, /\d/]);
 
 function Inputs() {
   const [inputValue, setInputValue] = React.useState("");
@@ -37,6 +40,27 @@ function Inputs() {
         onChange={setInputValue}
       />
       <Password outerStyles={marginBottom(16)} placeholder="one" value={inputValue} onChange={setInputValue} />
+      <MaskedInput
+        outerStyles={marginBottom(16)}
+        tip="tip1"
+        title="masked input"
+        guide
+        showMaskWhenEmpty
+        value={inputValue}
+        mask={mask}
+        onChange={setInputValue}
+      />
+      <MaskedInput
+        outerStyles={marginBottom(16)}
+        error
+        tip="tip2"
+        title="error masked input"
+        guide
+        showMaskWhenEmpty
+        value={inputValue}
+        mask={mask}
+        onChange={setInputValue}
+      />
       <DatePicker mode={DatePickerMode.DATE} hasCurrentDayButton onChange={console.log} />
     </Wrapper>
   );

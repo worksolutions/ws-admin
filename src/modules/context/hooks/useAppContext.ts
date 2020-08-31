@@ -2,6 +2,8 @@ import { assocPath } from "ramda";
 import { useCallback } from "react";
 import { Container } from "typedi";
 
+import { splitByPoint } from "libs/path";
+
 import { getContextTypeAndPathByParam } from "../contextParamParser";
 
 import { ScreenState } from "state/screenState";
@@ -18,7 +20,7 @@ const globalState = Container.get(GlobalState);
 export function useAppContext() {
   const updateContext = (rawPayload: UpdateStatePayload) => {
     const { payload, contextType } = getUpdateStateInfoFromPayload(rawPayload);
-    const data = assocPath(payload.path.split("."), payload.data, {});
+    const data = assocPath(splitByPoint(payload.path), payload.data, {});
     switch (contextType) {
       case "screen":
         screenState.stateContainer.mergeStates(data);
