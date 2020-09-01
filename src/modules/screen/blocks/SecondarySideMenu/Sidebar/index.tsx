@@ -16,6 +16,7 @@ import {
   flex,
   flexColumn,
   flexGrow,
+  flexValue,
   fullWidth,
   height,
   jc,
@@ -67,7 +68,7 @@ function SecondaryMenuSidebar({ title, items, id }: SecondaryMenuSidebarInterfac
           <Wrapper styles={[padding("0 0 12px 8px")]}>
             <ClearInputWrapper needShow={!!search} clear={() => setSearch("")}>
               <Input
-                fullWidth
+                outerStyles={flexValue(1)}
                 size={InputSize.MEDIUM}
                 iconLeft="search-big"
                 placeholder="Найти раздел"

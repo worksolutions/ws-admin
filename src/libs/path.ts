@@ -7,6 +7,6 @@ export function splitByPoint(path: string) {
 }
 
 export function path(fullPath: string | string[], obj: any): any {
-  if (isString(fullPath)) return ramdaPath(splitByPoint("."), obj);
+  if (isString(fullPath)) return ramdaPath(splitByPoint(fullPath), obj);
   return ramdaPath(fullPath, obj);
 }

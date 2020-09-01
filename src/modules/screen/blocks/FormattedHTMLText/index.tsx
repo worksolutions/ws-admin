@@ -31,7 +31,7 @@ function FormattedHTMLText({ options, styles }: BlockInterface<{ value: string }
   const text = insertContext(options!.value, useAppContext().context);
   const ref = React.useRef<HTMLDivElement>();
 
-  const enhancers = React.useMemo(() => modifyTextWithEnhancers(text.value), [text.value]);
+  const enhancers = React.useMemo(() => modifyTextWithEnhancers(text.value || ""), [text.value]);
 
   React.useEffect(() => {
     ref.current!.innerHTML = enhancers.text;
@@ -62,7 +62,6 @@ function FormattedHTMLText({ options, styles }: BlockInterface<{ value: string }
             overflow("hidden"),
             htmlStyles,
           ]}
-          dangerouslySetInnerHTML={{ __html: text.value }}
         />
       </Wrapper>
       {enhancers.enhancers.map((enhancer, key) => (

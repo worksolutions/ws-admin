@@ -13,9 +13,7 @@ module.exports = (app) => {
     },
     app,
     {
-      modifyResponse: async ({ data }, { originalRequestParams }) => {
-        return await modifyArticleResponse(data, originalRequestParams);
-      },
+      modifyResponse: async ({ data }, { originalRequestParams }) => modifyArticleResponse(data, originalRequestParams),
     },
   );
 

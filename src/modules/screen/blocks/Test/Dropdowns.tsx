@@ -5,9 +5,27 @@ import Wrapper from "primitives/Wrapper";
 import Modal from "primitives/Modal";
 import Typography from "primitives/Typography";
 import { InputSize, InputTitlePosition } from "primitives/Input/InputWrapper";
+import Combobox from "primitives/Combobox/Combobox";
 
 function Dropdowns() {
   const [value, setValue] = React.useState<string | number | undefined>("new");
+  const [comboValues, setComboValues] = React.useState<string[]>([]);
+
+  const [comboboxItems, setComboboxItems] = React.useState(() => [
+    {
+      title: "Курьерская служба доставки",
+      code: "1",
+    },
+    {
+      title: "Самовывоз",
+      code: "2",
+    },
+    {
+      title: "Почта России",
+      code: "3",
+    },
+  ]);
+
   return (
     <Wrapper>
       <Dropdown
@@ -57,6 +75,13 @@ function Dropdowns() {
       >
         {() => <Typography>Hello</Typography>}
       </Modal>
+      <Combobox
+        placeholder="Выберите способы доставки"
+        selectedItemCodes={comboValues}
+        items={comboboxItems}
+        onChange={setComboValues}
+        onChangeItemsList={setComboboxItems}
+      />
       {/*<Dropdown*/}
       {/*  selectedItemCode={value}*/}
       {/*  placeholder="тест 1"*/}
