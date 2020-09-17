@@ -4,7 +4,7 @@ import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 import LayoutGrid from "primitives/LayoutGrid";
 
-import { ai, Aligns, flex, flexColumn, flexShrink, horizontalPadding, marginBottom, maxWidth } from "libs/styles";
+import { flex, flexColumn, flexShrink, horizontalPadding, marginBottom, marginTop, maxWidth } from "libs/styles";
 
 import { FieldListComponentInterface } from "./types";
 import FieldItemElementRenderer from "./Elements";
@@ -12,10 +12,10 @@ import FieldItemElementRenderer from "./Elements";
 function VerticalFieldsList({ options, styles }: Omit<FieldListComponentInterface, "useTitleWidthCalculation">) {
   return (
     <LayoutGrid
-      marginRight={16}
-      marginTop={16}
+      marginBetweenElements={16}
+      eachChildStyles={marginTop(16)}
       minWidth={242}
-      styles={[horizontalPadding(12), ai(Aligns.STRETCH), styles]}
+      styles={[horizontalPadding(12), styles]}
     >
       {options!.fields.map((field, key) => (
         <Wrapper key={key} styles={[flex, flexColumn]}>

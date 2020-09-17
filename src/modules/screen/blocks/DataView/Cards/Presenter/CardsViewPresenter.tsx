@@ -20,6 +20,7 @@ import {
   horizontalPadding,
   hover,
   jc,
+  marginBottom,
   marginTop,
   transition,
 } from "libs/styles";
@@ -40,10 +41,10 @@ function CardsViewPresenter({ list, imageConfig }: { list: CardsViewDataSource; 
   return (
     <LayoutGrid
       className="cards-view-presenter"
-      marginBottom={16}
-      marginRight={16}
+      eachChildStyles={marginBottom(16)}
+      marginBetweenElements={16}
       minWidth={242}
-      styles={[marginTop(16), horizontalPadding(8), ai(Aligns.STRETCH)]}
+      styles={[marginTop(16), horizontalPadding(16), ai(Aligns.STRETCH)]}
     >
       {list.map((card) => {
         const cardComponent = <CardComponent {...card} imageConfig={imageConfig} />;
