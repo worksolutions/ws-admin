@@ -1,4 +1,5 @@
 const moment = require("moment");
+const { prop } = require("ramda");
 const { makeProxy, convertServerErrorsToClientErrors } = require("../../libs");
 const { modifyArticleResponse } = require("./libs");
 
@@ -11,6 +12,7 @@ function modifyRequest(data) {
   const newData = JSON.parse(data);
   newData.status = numbersByStatuses[newData.status];
   if (newData.publishedAt) newData.publishedAt = moment(newData.publishedAt, "DD.MM.YYYY").unix();
+  if (newData.keywords) newData.keywords = newData.keywords.map(prop("title")).join(", ");
   return newData;
 }
 
