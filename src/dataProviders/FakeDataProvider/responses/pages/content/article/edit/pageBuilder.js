@@ -220,8 +220,19 @@ module.exports = function (context, getActions) {
                       },
                       {
                         title: "Ключевые слова",
-                        type: "text",
-                        options: { value: "Тут выбор ключевых слов" },
+                        type: "edit:Tokens",
+                        options: {
+                          tokenOptions: {
+                            width: "large",
+                            context: `${context}.keywords`,
+                          },
+                          actions: {
+                            change: {
+                              type: "update-context",
+                              context: `${context}.keywords`,
+                            },
+                          },
+                        },
                       },
                     ],
                   },

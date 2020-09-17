@@ -1,8 +1,9 @@
-import { action, computed, observable } from "mobx";
+import { action, computed, observable, toJS } from "mobx";
 import { Service } from "typedi";
 import set from "lodash/set";
-import merge from "lodash/merge";
 import { path } from "ramda";
+
+import { isPureObject } from "libs/is";
 
 @Service({ transient: true })
 export class StateContainer<T = Record<string, any>> {
@@ -10,6 +11,16 @@ export class StateContainer<T = Record<string, any>> {
     const container = new StateContainer();
     container.setState(null!);
     return container;
+  }
+
+  private static deepMergeStates(toState: any, fromState: any) {
+    Object.entries(fromState).forEach(([name, value]) => {
+      if (isPureObject(value) && isPureObject(toState[name])) {
+        StateContainer.deepMergeStates(toState[name], value);
+        return;
+      }
+      toState[name] = value;
+    });
   }
 
   @observable state: T = {} as T;
@@ -29,7 +40,7 @@ export class StateContainer<T = Record<string, any>> {
 
   @action.bound
   mergeStates(value: object) {
-    merge(this.state, value);
+    StateContainer.deepMergeStates(this.state, value);
   }
 
   @action.bound

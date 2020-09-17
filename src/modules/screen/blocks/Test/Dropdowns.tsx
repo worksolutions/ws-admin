@@ -1,4 +1,5 @@
 import React from "react";
+import { remove, propEq } from "ramda";
 
 import Dropdown from "primitives/Dropdown/Dropdown";
 import Wrapper from "primitives/Wrapper";
@@ -6,6 +7,9 @@ import Modal from "primitives/Modal";
 import Typography from "primitives/Typography";
 import { InputSize, InputTitlePosition } from "primitives/Input/InputWrapper";
 import Combobox from "primitives/Combobox/Combobox";
+import TokenList from "primitives/TokenList";
+
+import { maxWidth } from "../../../../libs/styles";
 
 function Dropdowns() {
   const [value, setValue] = React.useState<string | number | undefined>("new");
@@ -81,6 +85,13 @@ function Dropdowns() {
         items={comboboxItems}
         onChange={setComboValues}
         onChangeItemsList={setComboboxItems}
+      />
+      <TokenList
+        outerStyles={maxWidth(300)}
+        placeholder="некий список"
+        items={comboboxItems}
+        onCreate={(title) => setComboboxItems([...comboboxItems, { code: Math.random().toString(), title }])}
+        onRemove={(code) => setComboboxItems(remove(comboboxItems.findIndex(propEq("code", code)), 1, comboboxItems))}
       />
       {/*<Dropdown*/}
       {/*  selectedItemCode={value}*/}

@@ -1,21 +1,16 @@
 import React, { Ref } from "react";
 import { v4 as uuidV4 } from "uuid";
-import { propEq, remove, without } from "ramda";
+import { without } from "ramda";
 
 import DropdownContainer, { createDropdownRightIcon } from "primitives/Dropdown/DropdownContainer";
+import TokenList from "primitives/TokenList";
 
-import { flex, flexWrap, height, marginRight, padding, pointer } from "libs/styles";
+import { padding, paddingRight, pointer } from "libs/styles";
 import { provideRef } from "libs/provideRef";
-import eventValue from "libs/decorators/eventValue";
 
-import Wrapper from "../Wrapper";
 import { InputSize } from "../Input/Input";
-import InputWrapper, { createDefaultInputStyles } from "../Input/InputWrapper";
-import { DroppedListStateController } from "../List/DroppedList";
-import Form from "../Form";
 
 import { ComboboxInterface } from "./types";
-import Token from "./Token";
 
 const Combobox = function (
   {
@@ -33,22 +28,14 @@ const Combobox = function (
   }: ComboboxInterface<string>,
   ref: Ref<HTMLElement>,
 ) {
-  const handleInputRef = (state: DroppedListStateController) => (ref: HTMLInputElement | null) => {
-    if (!ref) return;
-    ref.addEventListener("focus", state.open);
-  };
-
-  const [value, setValue] = React.useState("");
-
   function onSelectItem(code: string) {
     onChange([...selectedItemCodes, code]);
   }
 
-  function onCreateToken() {
+  function onCreateToken(title: string) {
     const code = uuidV4();
-    onChangeItemsList([...items, { code, title: value }]);
+    onChangeItemsList([...items, { code, title }]);
     onSelectItem(code);
-    setValue("");
   }
 
   function onRemoveToken(code: string) {
@@ -68,32 +55,22 @@ const Combobox = function (
       onChange={onSelectItem}
     >
       {(selectedItems) => (state, parentRef, subChild) => (
-        <InputWrapper
-          outerStyles={[outerStyles, pointer]}
-          outerRef={provideRef(ref, parentRef)}
-          size={InputSize.LARGE}
-          {...inputWrapperProps}
-          onClick={state.open}
-          iconRight={createDropdownRightIcon(state.opened)}
-          renderComponent={(styles) => (
-            <Wrapper styles={[styles, flex, flexWrap, padding("8px 40px 8px 8px"), stylesProp]}>
-              {selectedItems.map(({ code, title }) => (
-                <Token key={code} styles={marginRight(8)} title={title} remove={() => onRemoveToken(code)} />
-              ))}
-              <Form styles={height(24)} onSubmit={onCreateToken}>
-                <Wrapper
-                  as="input"
-                  placeholder={selectedItems.length === 0 ? placeholder : ""}
-                  styles={createDefaultInputStyles()}
-                  ref={handleInputRef(state)}
-                  value={value}
-                  onChange={eventValue(setValue)}
-                />
-              </Form>
-              {subChild}
-            </Wrapper>
-          )}
-        />
+        <>
+          <TokenList
+            outerStyles={[outerStyles, pointer]}
+            ref={provideRef(ref, parentRef)}
+            styles={[stylesProp, paddingRight(40)]}
+            items={selectedItems}
+            placeholder={placeholder}
+            iconRight={createDropdownRightIcon(state.opened)}
+            onClick={state.open}
+            {...inputWrapperProps}
+            onCreate={onCreateToken}
+            onRemove={onRemoveToken}
+          >
+            {subChild}
+          </TokenList>
+        </>
       )}
     </DropdownContainer>
   );

@@ -25,6 +25,9 @@ module.exports = (app) => {
     {
       modifyResponse: async ({ data }, { originalRequestParams }) => {
         const article = await modifyArticleResponse(data, originalRequestParams);
+        if (article.keywords) {
+          article.keywords = article.keywords.split(", ").map((code) => ({ code, title: code }));
+        }
         if (article.category) {
           article.category = article.category.id;
         }

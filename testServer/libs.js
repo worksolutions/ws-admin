@@ -1,5 +1,6 @@
 const axios = require("axios");
 const ramda = require("ramda");
+const path = require("path");
 
 exports.error = function (msg, errors = {}) {
   return {
@@ -75,4 +76,15 @@ exports.makeProxy = function (
 exports.convertServerErrorsToClientErrors = function (errors) {
   if (!errors) return {};
   return Object.fromEntries(Object.entries(errors).map(([key, value]) => [key, value[0]]));
+};
+
+const fakeConfigFolder = "/src/dataProviders/FakeDataProvider/responses";
+
+exports.configPath = require.resolve(path.join("..", fakeConfigFolder, "main-config.js"));
+
+exports.removeConfigCache = function () {
+  Object.keys(require.cache).forEach((key) => {
+    if (!key.includes(fakeConfigFolder)) return;
+    delete require.cache[key];
+  });
 };

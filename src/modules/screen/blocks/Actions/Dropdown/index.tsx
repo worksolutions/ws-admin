@@ -24,7 +24,7 @@ function ActionDropdown({
   actions,
   dataSource,
   styles,
-}: BlockInterface<{ context: string; width?: DefaultWidths; size?: InputSize }, "change"> & {
+}: BlockInterface<{ context: string; width?: DefaultWidths; size?: InputSize; placeholder?: string }, "change"> & {
   styles?: any;
 }) {
   if (!actions?.change) return null;
@@ -54,7 +54,7 @@ function ActionDropdown({
       styles={[minWidth(widthValue), maxWidth(widthValue)]}
       selectedItemCode={value}
       size={options!.size}
-      placeholder="Не выбрано"
+      placeholder={options?.placeholder || "Не выбрано"}
       items={data!}
       disabled={disabled}
       error={!!error}

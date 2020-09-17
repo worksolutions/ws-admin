@@ -79,6 +79,15 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
       dataSource={dataSource}
     />
   ),
+  "edit:Tokens": ({ options: { tokenOptions, dataSource, actions }, styles }) => (
+    <BlockRenderer
+      type="Actions/Tokens"
+      styles={styles}
+      actions={actions}
+      options={tokenOptions}
+      dataSource={dataSource}
+    />
+  ),
 };
 
 function FieldItemElementRenderer({ options, styles, type }: FieldItemElementRendererInterface) {

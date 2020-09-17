@@ -193,6 +193,7 @@ function makeIconElement(icon: InputIconProp, defaultColor: Colors, styles: any)
 export const createDefaultInputStyles = memoizeWith(
   (placeholderColor) => placeholderColor || "",
   (placeholderColor: Colors = "gray-blue/04") => [
+    padding(0),
     TypographyTypes["body-regular"],
     transitionStyle,
     borderWidth(0),

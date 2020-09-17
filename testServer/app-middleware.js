@@ -5,7 +5,7 @@ moment.locale("ru");
 
 dotenv.config({ path: __dirname + "/../.env" });
 
-const { error, prepareUrl, makeProxy } = require("./libs");
+const { error, prepareUrl, makeProxy, configPath, removeConfigCache } = require("./libs");
 const articlesCardsRouter = require("./routes/articles/cards");
 const articlesTableRouter = require("./routes/articles/table");
 const articleRouter = require("./routes/article");
@@ -13,13 +13,14 @@ const createArticleRouter = require("./routes/article/createAndUpdate");
 const categoriesRouter = require("./routes/categories");
 const usersRouter = require("./routes/users");
 
-const mainConfig = require("../src/dataProviders/FakeDataProvider/responses/main-config");
-
 module.exports = (app) => {
   app.use(cookieParser());
   app.use((req, res, next) => setTimeout(next, 200));
 
-  app.get("/api/admin/config", (_req, res) => res.json(mainConfig));
+  app.get("/api/admin/config", (_req, res) => {
+    res.json(require(configPath));
+    removeConfigCache();
+  });
 
   makeProxy({ handleUrl: "/api/users/profile", expressMethodHandlerName: "get" }, app, {
     modifyResponse: ({ user }) => {
