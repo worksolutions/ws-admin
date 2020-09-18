@@ -3,7 +3,7 @@ import { css } from "styled-components";
 import { CSSProperties } from "react";
 
 import { identity } from "./identity";
-import { AlphaColor, Colors, getColor, GradientColor } from "./colors-style";
+import { AllAvailableColorsType, Colors, getColor } from "./colors-style";
 
 export const stringOrPixels = (value: number | string) => (is(String, value) ? value : `${value}px`);
 
@@ -22,7 +22,7 @@ export type BoxShadow = [
   number | string,
   number | string,
   number | string,
-  Colors | GradientColor | AlphaColor,
+  AllAvailableColorsType,
   boolean?,
 ];
 
@@ -256,4 +256,9 @@ export const content = (value: string) => css`
 export const verticalAlign = (value: string) => css`
   vertical-align: ${value};
 `;
+
+export const animation = (value: any, time: string, type?: string) => css`
+  animation: ${time} ${value} ${type || ""};
+`;
+
 export { borderNone } from "./cleaner";
