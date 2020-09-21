@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -19,8 +20,6 @@ import {
   willChange,
   zIndex,
 } from "libs/styles";
-
-import { duration160 } from "../../layout/durations";
 
 interface ProgressBarProps {
   value: number;
