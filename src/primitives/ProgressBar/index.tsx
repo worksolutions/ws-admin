@@ -14,10 +14,13 @@ import {
   overflow,
   position,
   top,
+  transition,
   width,
   willChange,
   zIndex,
 } from "libs/styles";
+
+import { duration160 } from "../../layout/durations";
 
 interface ProgressBarProps {
   value: number;
@@ -49,6 +52,7 @@ function ProgressBar({ value, styles }: ProgressBarProps) {
           backgroundColor("blue/05"),
           progressWidth,
           zIndex(-1),
+          transition(`width ${duration160}`),
         ]}
       />
     </Wrapper>
