@@ -33,8 +33,7 @@ import {
 import { withPerformance } from "libs/CB/changeDetectionStrategy/withPerformance";
 import { usePrevious, useToggle } from "libs/hooks/common";
 
-import { SidebarItemInterface } from "../types";
-
+import { SidebarItemInterface } from "./index";
 import { useTreeElementIsActive } from "./libs";
 
 const oneLevelPaddingLeft = 32;

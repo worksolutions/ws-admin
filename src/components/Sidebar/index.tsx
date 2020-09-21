@@ -6,6 +6,7 @@ import Typography from "primitives/Typography";
 import Resizer from "primitives/Resizer";
 import Input, { InputSize } from "primitives/Input/Input";
 import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
+import { Icons } from "primitives/Icon";
 
 import {
   ai,
@@ -32,9 +33,14 @@ import {
   zIndex,
 } from "libs/styles";
 
-import { SidebarItemInterface } from "../types";
-
 import { RecursiveTreeElement } from "./RecursiveTreeElement";
+
+export interface SidebarItemInterface {
+  name: string;
+  reference: string;
+  icon?: Icons;
+  subElements?: SidebarItemInterface[];
+}
 
 export interface SecondaryMenuSidebarInterface {
   title: string;
