@@ -256,4 +256,9 @@ export const content = (value: string) => css`
 export const verticalAlign = (value: string) => css`
   vertical-align: ${value};
 `;
+
+export const willChange = (value: CSSProperties["willChange"]) => css`
+  will-change: value;
+`;
+
 export { borderNone } from "./cleaner";
