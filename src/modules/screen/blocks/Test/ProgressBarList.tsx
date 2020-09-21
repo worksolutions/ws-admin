@@ -3,21 +3,18 @@ import React from "react";
 import ProgressBar from "primitives/ProgressBar";
 import Wrapper from "primitives/Wrapper";
 
-import { Aligns, child, flex, flexColumn, jc, margin, marginBottom } from "libs/styles";
+import { flex, width } from "libs/styles";
 
-export default function f() {
+export default function () {
   const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
-    if (progress >= 1) {
-      setProgress(0);
-      return;
-    }
-    setProgress(progress + 0.02);
+    if (progress >= 1) return;
+    setProgress(progress + 0.01);
   }, [progress]);
 
   return (
-    <Wrapper styles={[flex, child([flex, flexColumn, jc(Aligns.CENTER), margin(10), child(marginBottom(10))])]}>
+    <Wrapper styles={[flex, width(200)]}>
       <ProgressBar value={progress} />
     </Wrapper>
   );
