@@ -2,6 +2,7 @@ import "reflect-metadata";
 import React, { useEffect } from "react";
 import { Container } from "typedi";
 import { observer } from "mobx-react-lite";
+import { Route, Switch } from "react-router";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -10,13 +11,11 @@ import Loading from "components/LoadingContainer/Loading";
 
 import { useSetDocumentTitle } from "libs/hooks/special";
 
-import AuthModule from "modules/auth";
 import { AuthTokenSaver } from "modules/auth/authTokenSaver";
-import BlockRenderer from "modules/screen/BlockRenderer";
 
-import Layout from "./layout";
-import RedirectToMainReference from "./InitialRedirect";
 import { fullHeight, fullWidth } from "./libs/styles";
+import TestPage from "./modules/screen/blocks/Test";
+import AuthPage from "./modules/auth/AuthPage";
 
 import { GlobalState } from "state/globalState";
 
@@ -51,12 +50,10 @@ function App() {
     <LoadingProvider>
       {(ref) => (
         <Wrapper ref={ref} styles={[fullWidth, fullHeight]}>
-          <AuthModule>
-            <Layout logo={state.logo} sidebarDataSource={state.sideMenu.dataSource}>
-              <BlockRenderer {...state.mainBlock} />
-              <RedirectToMainReference />
-            </Layout>
-          </AuthModule>
+          <Switch>
+            <Route path="/test" component={TestPage} />
+            <Route path="/" component={AuthPage} />
+          </Switch>
         </Wrapper>
       )}
     </LoadingProvider>
