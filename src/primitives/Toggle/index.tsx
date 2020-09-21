@@ -18,7 +18,6 @@ import {
   marginRight,
   pointer,
   position,
-  right,
   top,
   transition,
   width,
@@ -26,7 +25,6 @@ import {
 
 import Wrapper from "../Wrapper";
 import Typography from "../Typography";
-import { elevation8 } from "../../style/shadows";
 
 interface ToggleInterface {
   styles?: any;
