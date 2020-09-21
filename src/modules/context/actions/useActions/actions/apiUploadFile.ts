@@ -15,7 +15,7 @@ const requestManager = Container.get(RequestManager);
 export default function apiUploadFile(
   appContext: AppContextStateInterface,
   actionOptions: RawActionOptions[ActionType.API_UPLOAD_FILE],
-  { inputData, discardEventEmitter }: ActionInputDataInterface,
+  { inputData, eventEmitter }: ActionInputDataInterface,
 ): Promise<any> {
   const { reference } = actionOptions;
 
@@ -28,12 +28,20 @@ export default function apiUploadFile(
     cancelToken.cancel(REQUEST_CANCELLED);
   };
 
-  discardEventEmitter.on("DISCARD", discardHandler);
+  eventEmitter.on("DISCARD", discardHandler);
 
   const body = new FormData();
   body.append("file", inputData.rawFile);
 
-  return makeRequest({ body, options: { cancelToken } }).finally(() => {
-    discardEventEmitter.removeListener("DISCARD", discardHandler);
+  return makeRequest({
+    body,
+    options: {
+      cancelToken,
+      progressReceiver: (progress) => {
+        eventEmitter.emit("PROGRESS", progress);
+      },
+    },
+  }).finally(() => {
+    eventEmitter.removeListener("DISCARD", discardHandler);
   });
 }

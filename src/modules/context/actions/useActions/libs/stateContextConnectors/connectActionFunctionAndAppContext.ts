@@ -1,9 +1,10 @@
 import { BaseError } from "libs/BaseError";
 import { EventEmitter } from "libs/events";
+import { ProgressContainer } from "libs/ProgressContainer";
 
 import { AppContextInterface } from "modules/context/hooks/useAppContext";
 
-import { ActionDiscardEventEmitterEvents, ActionInputDataInterface } from "../../types";
+import { ActionEventEmitterEvents, ActionInputDataInterface } from "../../types";
 
 import { LoadingContainer } from "state/loadingContainer";
 
@@ -15,12 +16,16 @@ export const connectActionFunctionAndAppContext = (
   appContext: AppContextInterface,
 ) => {
   const loadingContainer = new LoadingContainer();
-  const discardEventEmitter = new EventEmitter<ActionDiscardEventEmitterEvents>();
+  const progressContainer = new ProgressContainer();
+  const eventEmitter = new EventEmitter<ActionEventEmitterEvents>();
+
+  eventEmitter.on("PROGRESS", progressContainer.setProgress);
 
   const run = (inputData: any, previousActionOutput?: any) => {
     loadingContainer.clearErrors();
     loadingContainer.startLoading();
-    return actionFunction({ inputData, previousActionOutput, discardEventEmitter })
+    eventEmitter.emit("PROGRESS", 0);
+    return actionFunction({ inputData, previousActionOutput, eventEmitter })
       .then((actionOutputData) => {
         loadingContainer.stopLoading();
         if (action.context) appContext.updateState({ path: action.context, data: actionOutputData });
@@ -33,17 +38,21 @@ export const connectActionFunctionAndAppContext = (
         loadingContainer.setDefaultError(error.message);
         loadingContainer.stopLoading();
         throw baseError;
+      })
+      .finally(() => {
+        eventEmitter.removeListener("PROGRESS", progressContainer.setProgress);
       });
   };
 
   const discard = () => {
-    discardEventEmitter.emit("DISCARD", null);
+    eventEmitter.emit("DISCARD", null);
   };
 
   return {
     loadingContainer,
     run,
     discard,
+    progressContainer,
     type: action.type,
   };
 };

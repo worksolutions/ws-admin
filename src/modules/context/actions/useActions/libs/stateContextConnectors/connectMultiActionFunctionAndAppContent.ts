@@ -1,6 +1,7 @@
 import { prop } from "ramda";
 
 import { BaseError } from "libs/BaseError";
+import { ProgressContainer } from "libs/ProgressContainer";
 
 import { AppContextInterface } from "modules/context/hooks/useAppContext";
 
@@ -17,6 +18,7 @@ export const connectMultiActionFunctionAndAppContext = (
   appContext: AppContextInterface,
 ) => {
   const loadingContainer = new LoadingContainer();
+  const progressContainer = new ProgressContainer();
   const patchedActions = actions.map((action) =>
     connectActionFunctionAndAppContext(
       action,
@@ -52,6 +54,7 @@ export const connectMultiActionFunctionAndAppContext = (
   return {
     loadingContainer,
     run,
+    progressContainer,
     discard: () => {
       throw new BaseError({ message: "Метод отмены множественных действий не реализован!", errors: {} });
     },

@@ -258,7 +258,7 @@ export const verticalAlign = (value: string) => css`
 `;
 
 export const willChange = (value: CSSProperties["willChange"]) => css`
-  will-change: value;
+  will-change: ${value};
 `;
 
 export const animation = (value: any, time: string, type?: string) => css`

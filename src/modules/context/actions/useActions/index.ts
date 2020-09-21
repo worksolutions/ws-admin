@@ -1,6 +1,7 @@
 import { useLocalStore } from "mobx-react-lite";
 
 import { isArray } from "libs/is";
+import { ProgressContainer } from "libs/ProgressContainer";
 
 import { AppContextInterface } from "modules/context/hooks/useAppContext";
 
@@ -17,7 +18,13 @@ export function useActions<T extends Record<string, AnyRawAction>>(
   appContext: AppContextInterface,
 ): Record<
   keyof T,
-  { run: (inputData?: any) => Promise<any>; discard: () => void; loadingContainer: LoadingContainer; type: string }
+  {
+    loadingContainer: LoadingContainer;
+    type: string;
+    progressContainer: ProgressContainer;
+    run: (inputData?: any) => Promise<any>;
+    discard: () => void;
+  }
 > {
   return useLocalStore(() => {
     if (!actions) return {};

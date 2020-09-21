@@ -21,13 +21,21 @@ import LoadingProgress from "./LoadingProgress";
 
 interface BaseWrapperInterface {
   styles?: any;
+  progress: number;
   loading: boolean;
   children: JSX.Element;
   openNativeFileDialog?: () => void;
   discardUploading: () => void;
 }
 
-function BaseWrapper({ styles, children, loading, openNativeFileDialog, discardUploading }: BaseWrapperInterface) {
+function BaseWrapper({
+  styles,
+  children,
+  progress,
+  loading,
+  openNativeFileDialog,
+  discardUploading,
+}: BaseWrapperInterface) {
   return (
     <Wrapper
       styles={[
@@ -45,7 +53,7 @@ function BaseWrapper({ styles, children, loading, openNativeFileDialog, discardU
       ]}
       onClick={openNativeFileDialog}
     >
-      {loading ? <LoadingProgress discard={discardUploading} /> : children}
+      {loading ? <LoadingProgress progress={progress} discard={discardUploading} /> : children}
     </Wrapper>
   );
 }
