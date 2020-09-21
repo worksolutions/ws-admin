@@ -10,6 +10,19 @@ function ToastList() {
     <>
       <Button onClick={() => globalEventBus.emit("ADD_TOAST", { text: "hello" })}>Default</Button>
       <Button onClick={() => globalEventBus.emit("ADD_TOAST", { text: "hello errored", error: true })}>Error</Button>
+      <Button
+        onClick={() =>
+          globalEventBus.emit("ADD_TOAST", {
+            text: "hello errored",
+            cancelButton: {
+              onClick: console.log,
+              text: "Отмена123",
+            },
+          })
+        }
+      >
+        Cancel
+      </Button>
     </>
   );
 }
