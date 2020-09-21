@@ -103,6 +103,11 @@ export const testItems: SidebarItemInterface[] = [
     reference: "/test/toggle",
     subElements: [],
   },
+  {
+    name: "Toast",
+    reference: "/test/toast",
+    subElements: [],
+  },
   // {
   //   name: "Checkbox",
   //   reference: "/test/checkbox",

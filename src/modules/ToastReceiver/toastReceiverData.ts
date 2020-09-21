@@ -1,13 +1,7 @@
 import { action, observable } from "mobx";
 import { without } from "ramda";
 
-interface BaseToastInterface {
-  text: string;
-  cancelButton?: {
-    text: string;
-    onClick: () => void;
-  };
-}
+import { BaseToastInterface } from "../globalEventBus";
 
 interface ToastInterface {
   id: number;

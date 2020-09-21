@@ -22,6 +22,7 @@ import Toggle from "./Toggle";
 import Sorting from "./Sorting";
 import Tabs from "./Tabs";
 import ProgressBarList from "./ProgressBarList";
+import ToastList from "./ToastList";
 
 function TestPage() {
   return (
@@ -42,6 +43,7 @@ function TestPage() {
           <Route path="/test/sorting" component={Sorting} />
           <Route path="/test/tabs" component={Tabs} />
           <Route path="/test/progress-bar" component={ProgressBarList} />
+          <Route path="/test/toast" component={ToastList} />
         </Switch>
       </Wrapper>
     </>
