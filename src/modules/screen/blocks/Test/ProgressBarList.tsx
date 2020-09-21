@@ -9,8 +9,9 @@ export default function () {
   const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
-    if (progress >= 1) return;
-    setProgress(progress + 0.01);
+    const interval = setInterval(() => setProgress(progress + 0.005), 0.1);
+    if (progress >= 1) clearInterval(interval);
+    return () => clearInterval(interval);
   }, [progress]);
 
   return (
