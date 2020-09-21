@@ -4,7 +4,7 @@ import { isNil, prop } from "ramda";
 import { isArray, isString } from "libs/is";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
-import { ContextModel, useStateContextModel } from "modules/model";
+import { ContextModelInterface, useStateContextModel } from "modules/model";
 
 const emptyFieldError = "Поле обязательно для заполнения";
 
@@ -16,7 +16,7 @@ export function useDetailRequiredFieldsChecker(requiredContextFields: string[] =
     let correct = true;
     requiredValues.forEach(({ value, model, setModel }) => {
       const setError = (error: boolean) => {
-        setModel(new ContextModel(model.disabled, error ? emptyFieldError : undefined));
+        setModel({ disabled: model.disabled, error: error ? emptyFieldError : undefined } as ContextModelInterface);
         if (error) {
           correct = false;
         }

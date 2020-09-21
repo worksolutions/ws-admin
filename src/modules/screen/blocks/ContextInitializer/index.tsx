@@ -10,7 +10,7 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 import { BlockInterface } from "state/globalState";
 
 type ContextInitializerOptions = {
-  block: BlockInterface;
+  block?: BlockInterface;
   static?: { path: string; value: any }[];
 };
 
@@ -29,7 +29,7 @@ function ContextInitializer({ options, dataSource }: BlockInterface<ContextIniti
   if (!staticDataInitialized) return <Loading />;
   if (data && data.loadingContainer.loading) return <Loading />;
 
-  return <BlockRenderer {...options!.block} />;
+  return options!.block ? <BlockRenderer {...options!.block} /> : null;
 }
 
 export default React.memo(observer(ContextInitializer));

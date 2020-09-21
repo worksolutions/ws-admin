@@ -18,12 +18,23 @@ export enum FieldListItemType {
   "edit:Image" = "edit:Image",
 }
 
+export enum FieldListItemModifierType {
+  TOGGLE = "toggle",
+}
+
+export interface FieldListItemModifierInterface {
+  type: FieldListItemModifierType;
+  title: string;
+  context: string;
+}
+
 export interface FieldListItemInterface {
   required?: boolean;
   hint?: string;
   title: string;
   type: FieldListItemType;
   options: Record<string, any>;
+  modifier?: FieldListItemModifierInterface;
 }
 
 export type FieldListInterface = {

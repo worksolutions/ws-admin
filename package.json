@@ -42,6 +42,7 @@
     "react-with-gesture": "4.0.8",
     "reflect-metadata": "0.1.13",
     "styled-components": "4.3.2",
+    "transliteration": "^2.1.11",
     "typedi": "0.8.0",
     "uuid": "^8.3.0"
   },

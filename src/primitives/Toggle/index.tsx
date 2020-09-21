@@ -45,7 +45,7 @@ function Toggle({ styles, enabled, text, textOnRight, onChange }: ToggleInterfac
       ]}
       onClick={() => onChange(!enabled)}
     >
-      {!textOnRight && text && <Typography styles={marginRight(16)}>{text}</Typography>}
+      {!textOnRight && text && <Typography styles={marginRight(8)}>{text}</Typography>}
       <Wrapper
         className="switch"
         styles={[
@@ -73,7 +73,7 @@ function Toggle({ styles, enabled, text, textOnRight, onChange }: ToggleInterfac
           ]}
         />
       </Wrapper>
-      {textOnRight && text && <Typography styles={marginLeft(16)}>{text}</Typography>}
+      {textOnRight && text && <Typography styles={marginLeft(8)}>{text}</Typography>}
     </Wrapper>
   );
 }
