@@ -1,4 +1,5 @@
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const moment = require("moment");
 moment.locale("ru");
@@ -12,9 +13,13 @@ const articleRouter = require("./routes/article");
 const createArticleRouter = require("./routes/article/createAndUpdate");
 const categoriesRouter = require("./routes/categories");
 const usersRouter = require("./routes/users");
+const filesRouter = require("./routes/files");
 
 module.exports = (app) => {
   app.use(cookieParser());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+
   app.use((req, res, next) => setTimeout(next, 200));
 
   app.get("/api/admin/config", (_req, res) => {
@@ -40,6 +45,7 @@ module.exports = (app) => {
   articleRouter(app);
   categoriesRouter(app);
   usersRouter(app);
+  filesRouter(app);
 
   makeProxy({ handleUrl: "/api", expressMethodHandlerName: "use" }, app);
 

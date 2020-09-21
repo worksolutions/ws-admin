@@ -15,6 +15,7 @@ export enum FieldListItemType {
   "edit:Text" = "edit:Text",
   "edit:Dropdown" = "edit:Dropdown",
   "edit:Tokens" = "edit:Tokens",
+  "edit:Image" = "edit:Image",
 }
 
 export interface FieldListItemInterface {

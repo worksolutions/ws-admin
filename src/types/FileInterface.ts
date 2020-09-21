@@ -1,8 +1,6 @@
 export default interface FileInterface {
-  link: string;
+  path: string;
   name: string;
-  bytes: number;
+  size: number;
   rawFile?: File;
-  loading?: boolean;
-  error?: string | boolean;
 }

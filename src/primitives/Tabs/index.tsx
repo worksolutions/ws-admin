@@ -4,7 +4,18 @@ import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
-import { backgroundColor, borderRadius, bottom, flex, height, left, position, transition, width } from "libs/styles";
+import {
+  backgroundColor,
+  borderRadius,
+  bottom,
+  flex,
+  height,
+  left,
+  position,
+  transition,
+  width,
+  zIndex,
+} from "libs/styles";
 import { useChildrenWidthDetector } from "libs/hooks/useChildrenWidthDetector";
 
 import Tab, { tabHorizontalPadding } from "./Tab";
@@ -37,7 +48,7 @@ function Tabs({ initialActive = 0, items, styles }: TabsInterface) {
 
   return (
     <>
-      <Wrapper ref={ref} styles={[flex, position("relative"), styles]}>
+      <Wrapper ref={ref} styles={[flex, position("relative"), zIndex(1), styles]}>
         {items.map(({ title }, key) => (
           <Tab key={key} active={active === key} title={title} onClick={() => setActive(key)} />
         ))}

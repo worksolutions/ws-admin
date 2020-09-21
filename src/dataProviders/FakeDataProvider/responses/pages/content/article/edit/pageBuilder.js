@@ -244,18 +244,65 @@ module.exports = function (context, getActions) {
                     fields: [
                       {
                         title: "Изображение анонса",
-                        type: "image",
-                        options: { reference: `=${context}.announceImage.path`, aspectRatio: 1.6 },
+                        type: "edit:Image",
+                        options: {
+                          imageOptions: {
+                            aspectRatio: 1.6,
+                            context: `${context}.announceImage`,
+                          },
+                          actions: {
+                            change: {
+                              type: "update-context",
+                              context: `${context}.announceImage`,
+                            },
+                            upload: {
+                              type: "api:uploadFile",
+                              options: {
+                                reference: "/file_storage/store",
+                              },
+                            },
+                          },
+                        },
                       },
                       {
                         title: "Изображение заголовка",
-                        type: "image",
-                        options: { reference: `=${context}.contentImage.path`, aspectRatio: 1.6 },
+                        type: "edit:Image",
+                        options: {
+                          imageOptions: {
+                            aspectRatio: 1.6,
+                            context: `${context}.contentImage`,
+                          },
+                          actions: {
+                            change: {
+                              type: "update-context",
+                              context: `${context}.contentImage`,
+                            },
+                            upload: {
+                              type: "api:uploadFile",
+                              options: {
+                                reference: "/file_storage/store",
+                              },
+                            },
+                          },
+                        },
                       },
                       {
                         title: "Фон",
-                        type: "image",
-                        options: { reference: `=${context}.background.path`, aspectRatio: 1.6 },
+                        type: "edit:Image",
+                        options: {
+                          imageOptions: {
+                            aspectRatio: 1.6,
+                            context: `${context}.background`,
+                          },
+                          actions: {
+                            upload: {
+                              type: "api:uploadFile",
+                              options: {
+                                reference: "/file_storage/store",
+                              },
+                            },
+                          },
+                        },
                       },
                     ],
                   },
@@ -305,6 +352,9 @@ module.exports = function (context, getActions) {
       tagDescription: `=${context}.tagDescription`,
       tagTitle: `=${context}.tagTitle`,
       publishedAt: `=${context}.publishedAt`,
+      background: `=${context}.background.id`,
+      contentImage: `=${context}.contentImage.id`,
+      announceImage: `=${context}.announceImage.id`,
     }),
   };
 };

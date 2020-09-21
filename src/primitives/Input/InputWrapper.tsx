@@ -1,6 +1,5 @@
 import React from "react";
 import { duration160 } from "layout/durations";
-import { useMeasure } from "react-use";
 import { memoizeWith } from "ramda";
 
 import Typography, { TypographyTypes } from "primitives/Typography";
@@ -38,6 +37,7 @@ import {
   transition,
 } from "libs/styles";
 import { isString } from "libs/is";
+import { nbspString } from "libs/nbsp";
 
 export enum InputSize {
   MEDIUM = "medium",
@@ -157,7 +157,7 @@ function Tip({ tip, color }: { tip: string | undefined; color: Colors }) {
       ]}
     >
       <Typography styles={marginTop(4)} type="caption-regular" color={color}>
-        {tip || "\u00A0"}
+        {tip || nbspString}
       </Typography>
     </Wrapper>
   );

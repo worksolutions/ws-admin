@@ -18,58 +18,51 @@ exports.prepareUrl = function (url) {
 exports.makeProxy = function (
   { expressMethodHandlerName, handleUrl, realServerUrl },
   app,
-  { modifyResponse, modifyRequest, modifyError } = {},
+  { middlewares = [], modifyResponse, modifyRequest, modifyError } = {},
 ) {
-  app[expressMethodHandlerName](handleUrl, (req, res) => {
-    let chunks = "";
-    req.on("data", (chunk) => {
-      chunks += chunk;
-    });
-    req.on("end", async () => {
-      try {
-        const resultUrl = (ramda.is(Function, realServerUrl) ? realServerUrl(req) : realServerUrl) || req.originalUrl;
-        const headers = {
-          ...ramda.omit(["host"], req.headers),
-          origin: process.env.DEV_API_HOST,
-        };
-        const originalRequestParams = {
-          method: req.method,
-          baseURL: process.env.DEV_API_HOST,
-          params: req.query,
-          data: chunks,
-          ...(modifyRequest ? modifyRequest({ params: req.query, data: chunks }) : {}),
-          headers,
-        };
+  app[expressMethodHandlerName](handleUrl, ...middlewares, async (req, res) => {
+    try {
+      const resultUrl = (ramda.is(Function, realServerUrl) ? realServerUrl(req) : realServerUrl) || req.originalUrl;
+      const headers = {
+        ...ramda.omit(["host"], req.headers),
+        origin: process.env.DEV_API_HOST,
+      };
+      const requestParams = {
+        method: req.method,
+        baseURL: process.env.DEV_API_HOST,
+        params: req.query,
+        data: req.body,
+        headers,
+        ...(modifyRequest ? modifyRequest({ params: req.query, data: req.body, request: req, headers }) : {}),
+      };
+      const response = await axios(resultUrl, requestParams);
 
-        const response = await axios(resultUrl, originalRequestParams);
-
-        if (modifyResponse) {
-          const result = await modifyResponse(response.data, {
-            status: response.status,
-            resultUrl,
-            originalRequestParams,
-          });
-          if (!ramda.isNil(result)) {
-            response.data = result;
-          }
+      if (modifyResponse) {
+        const result = await modifyResponse(response.data, {
+          status: response.status,
+          resultUrl,
+          originalRequestParams: requestParams,
+        });
+        if (!ramda.isNil(result)) {
+          response.data = result;
         }
-        res.status(response.status).send(response.data);
-      } catch (e) {
-        const { response } = e;
-        if (!response) {
-          console.log(e);
-          res.status(500).json(error("proxy - internal server error"));
-          return;
-        }
-        res.status(response.status);
-        if (modifyError) {
-          const newData = modifyError(response.data);
-          res.send(ramda.isNil(newData) ? response.data : newData);
-          return;
-        }
-        res.send(response.data);
       }
-    });
+      res.status(response.status).send(response.data);
+    } catch (e) {
+      const { response } = e;
+      if (!response) {
+        console.log(e);
+        res.status(500).json(error("proxy - internal server error"));
+        return;
+      }
+      res.status(response.status);
+      if (modifyError) {
+        const newData = modifyError(response.data);
+        res.send(ramda.isNil(newData) ? response.data : newData);
+        return;
+      }
+      res.send(response.data);
+    }
   });
 };
 

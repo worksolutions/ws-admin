@@ -21,14 +21,20 @@ const statusesByNumber = {
   2: "UN_PUBLISHED",
 };
 
+function convertImage(image) {
+  image.path = prepareUrl(image.path);
+  image.name = image.originalName + "." + image.path.split(".").pop();
+  return image;
+}
+
 module.exports = {
   async modifyArticleResponse(data, originalRequestParams) {
     data.status = statusesByNumber[data.status];
     if (data.publishedAt) data.publishedAt = moment.unix(data.publishedAt).format("DD.MM.YYYY");
     if (data.author && data.author.image) data.author.image.path = prepareUrl(data.author.image.path);
-    if (data.announceImage) data.announceImage.path = prepareUrl(data.announceImage.path);
-    if (data.contentImage) data.contentImage.path = prepareUrl(data.contentImage.path);
-    if (data.background) data.background.path = prepareUrl(data.background.path);
+    if (data.announceImage) data.announceImage = convertImage(data.announceImage);
+    if (data.contentImage) data.contentImage = convertImage(data.contentImage);
+    if (data.background) data.background = convertImage(data.background);
 
     if (!data.content) return data;
 

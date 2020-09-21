@@ -2,6 +2,7 @@ import { METHODS } from "libs/request";
 
 export enum ActionType {
   API_REQUEST = "api:request",
+  API_UPLOAD_FILE = "api:uploadFile",
   REDIRECT = "redirect",
   UPDATE_CONTEXT = "update-context",
 }
@@ -13,6 +14,9 @@ export type RawActionOptions = {
     reference: string;
     method: METHODS;
     body?: Record<string, number | string>;
+  };
+  [ActionType.API_UPLOAD_FILE]: {
+    reference: string;
   };
   [ActionType.REDIRECT]: {
     reference: string;

@@ -9,11 +9,11 @@ const numbersByStatuses = {
 };
 
 function modifyRequest(data) {
-  const newData = JSON.parse(data);
-  newData.status = numbersByStatuses[newData.status];
-  if (newData.publishedAt) newData.publishedAt = moment(newData.publishedAt, "DD.MM.YYYY").unix();
-  if (newData.keywords) newData.keywords = newData.keywords.map(prop("title")).join(", ");
-  return newData;
+  data.status = numbersByStatuses[data.status];
+  if (data.publishedAt) data.publishedAt = moment(data.publishedAt, "DD.MM.YYYY").unix();
+  if (data.keywords) data.keywords = data.keywords.map(prop("title")).join(", ");
+  if (data.relatedArticles) data.relatedArticles = data.relatedArticles.map(prop("id"));
+  return data;
 }
 
 module.exports = (app) => {

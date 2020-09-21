@@ -4,6 +4,10 @@ export function isString(arg: any): arg is string {
   return is(String, arg);
 }
 
+export function isNumber(arg: any): arg is number {
+  return is(Number, arg);
+}
+
 export function isFunction(arg: any): arg is Function {
   return is(Function, arg);
 }

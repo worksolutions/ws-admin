@@ -41,4 +41,5 @@ export const list = {
   "arrow-right-long": require("./icons/arrow-right-long.svg"),
   "16-info-circle": require("./icons/16-info-circle.svg"),
   "save-outline": require("./icons/save-outline.svg"),
+  "attachment-big": require("./icons/attachment-big.svg"),
 };
