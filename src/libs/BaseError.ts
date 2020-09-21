@@ -36,4 +36,11 @@ export class BaseError {
   getMessage() {
     return this.error.message;
   }
+
+  getErrorOrMessage() {
+    const errors = this.getErrors();
+    const keys = Object.keys(errors);
+    if (keys.length === 0) return this.getMessage();
+    return errors[keys[0]];
+  }
 }
