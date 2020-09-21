@@ -21,6 +21,7 @@ import RadioGroups from "./RadioGroups";
 import Buttons from "./Buttons";
 import Checkbox from "./Checkbox";
 import TypographyList from "./TypographyList";
+import ProgressBarList from "./ProgressBarList";
 
 function TestPage() {
   const [sorting, setSorting] = React.useState<SortingElementInterface>({
@@ -43,6 +44,7 @@ function TestPage() {
           <Route path="/test/modal" component={() => <Modals />} />
           <Route path="/test/radio-group" component={() => <RadioGroups />} />
           <Route path="/test/checkbox" component={() => <Checkbox />} />
+          <Route path="/test/progress-bar" component={() => <ProgressBarList />} />
           <Route
             path="/test/toggle"
             component={() => (

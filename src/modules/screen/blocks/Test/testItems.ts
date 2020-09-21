@@ -59,6 +59,11 @@ export const testItems: SidebarItemInterface[] = [
     subElements: [],
   },
   {
+    name: "ProgressBar",
+    reference: "/test/progress-bar",
+    subElements: [],
+  },
+  {
     name: "Spinner",
     reference: "/test/spinner",
     subElements: [],
