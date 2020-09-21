@@ -22,12 +22,6 @@ export default function () {
           Body -- 14px-20px / SemiBold
         </Typography>
         <Typography type="body-regular">Body -- 14px-20px / Regular-Italic</Typography>
-        <hr />
-        {/*  <Typography>Body 2 -- 16px-20px / Regular</Typography>*/}
-        {/*  <Typography>Body 2 -- 16px-20px / SemiBold</Typography>*/}
-        {/*  <Typography>Body 2 -- 16px-20px / Regular-Underline</Typography>*/}
-        {/*  <Typography>Body 2 -- 16px-20px / SemiBold</Typography>*/}
-        {/*  <Typography>Body 2 -- 16px-20px / Regular-Italic</Typography>*/}
       </Wrapper>
 
       <Wrapper>
