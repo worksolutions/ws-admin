@@ -21,6 +21,7 @@ import TypographyList from "./TypographyList";
 import Toggle from "./Toggle";
 import Sorting from "./Sorting";
 import Tabs from "./Tabs";
+import ProgressBarList from "./ProgressBarList";
 
 function TestPage() {
   return (
@@ -40,6 +41,7 @@ function TestPage() {
           <Route path="/test/toggle" component={Toggle} />
           <Route path="/test/sorting" component={Sorting} />
           <Route path="/test/tabs" component={Tabs} />
+          <Route path="/test/progress-bar" component={ProgressBarList} />
         </Switch>
       </Wrapper>
     </>

@@ -257,6 +257,10 @@ export const verticalAlign = (value: string) => css`
   vertical-align: ${value};
 `;
 
+export const willChange = (value: CSSProperties["willChange"]) => css`
+  will-change: value;
+`;
+
 export const animation = (value: any, time: string, type?: string) => css`
   animation: ${time} ${value} ${type || ""};
 `;
