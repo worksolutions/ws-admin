@@ -1,5 +1,6 @@
 import { action, observable } from "mobx";
 import { without } from "ramda";
+import { keyframes } from "styled-components";
 
 import { BaseToastInterface } from "../globalEventBus";
 
@@ -9,7 +10,27 @@ interface ToastInterface {
   toast: BaseToastInterface;
 }
 
-class ToastReceiverData {
+export const show = keyframes`
+  from {
+    margin-top: 40px;
+    margin-bottom: -40px;
+  }
+  to {
+    margin-top: 24px;
+    margin-bottom: 40px;
+  }
+`;
+
+export const hide = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
+export class ToastReceiverData {
   static defaultAutoRemoveTime = 4000;
 
   @observable toasts: ToastInterface[] = [];
