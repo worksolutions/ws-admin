@@ -1,12 +1,12 @@
 import { EventEmitter } from "libs/events";
 
-export interface ActionInputDataInterface extends WithActionDiscardEventEmitterInterface {
+export interface ActionInputDataInterface extends WithActionEventEmitterInterface {
   inputData: any;
   previousActionOutput?: any;
 }
 
-export type ActionDiscardEventEmitterEvents = { DISCARD: null };
+export type ActionEventEmitterEvents = { DISCARD: null; PROGRESS: number };
 
-interface WithActionDiscardEventEmitterInterface {
-  discardEventEmitter: EventEmitter<ActionDiscardEventEmitterEvents>;
+interface WithActionEventEmitterInterface {
+  eventEmitter: EventEmitter<ActionEventEmitterEvents>;
 }

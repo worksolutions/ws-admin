@@ -57,6 +57,7 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
       <BaseWrapper
         styles={styles}
         loading={resultActions.upload.loadingContainer.loading}
+        progress={resultActions.upload.progressContainer.progressValue}
         discardUploading={discardUploading}
       >
         <WithImage
@@ -75,6 +76,7 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
     <BaseWrapper
       styles={[styles, dropping && boxShadow([0, 0, 0, 2, "blue/04"])]}
       loading={resultActions.upload.loadingContainer.loading}
+      progress={resultActions.upload.progressContainer.progressValue}
       openNativeFileDialog={openNativeFileDialog}
       discardUploading={discardUploading}
     >
