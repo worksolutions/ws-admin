@@ -15,12 +15,12 @@ function apiRequestDataSource(
   dataSource: DataSourceInterface<DataSourceType.API_REQUEST>,
   context: AppContextStateInterface,
 ) {
-  const { method, params, reference, removeEmptyString = true } = dataSource.options;
+  const { method, params, reference, removeEmptyString = true, removeNullableFields = true } = dataSource.options;
   const referenceWithContext = insertContext(reference, context);
   const bodyWithContext = insertContext(params, context);
   const makeRequest = requestManager.createRequest(referenceWithContext.value, method, identityValueDecoder);
 
-  const body = prepareApiRequestBody({ removeEmptyString }, bodyWithContext.value);
+  const body = prepareApiRequestBody({ removeEmptyString, removeNullableFields }, bodyWithContext.value);
   return {
     referenceWithContext,
     bodyWithContext,

@@ -13,7 +13,7 @@ function DroppedListTest() {
     <Wrapper>
       <DroppedList
         mode={DroppedListOpenMode.HOVER}
-        selectedItemId={droppedItem}
+        selectedItemIds={[droppedItem]}
         margin={4}
         items={[
           { title: "по новизне", code: "new" },
@@ -35,7 +35,7 @@ function DroppedListTest() {
         )}
       </DroppedList>
       <DroppedList
-        selectedItemId={droppedItem}
+        selectedItemIds={[droppedItem]}
         mode={DroppedListOpenMode.CLICK}
         margin={4}
         items={[

@@ -19,7 +19,7 @@ export default function apiRequest(
   actionOptions: RawActionOptions[ActionType.API_REQUEST],
   { inputData }: ActionInputDataInterface,
 ): Promise<any> {
-  const { method, body, reference, removeEmptyString = true } = actionOptions;
+  const { method, body, reference, removeEmptyString = true, removeNullableFields = true } = actionOptions;
 
   const makeRequest = requestManager.createRequest(
     insertContext(reference, appContext, inputData).value,
@@ -27,15 +27,12 @@ export default function apiRequest(
     identityValueDecoder,
   );
 
-  const preparedBody = prepareApiRequestBody({ removeEmptyString }, body);
-
-  if (isPureObject(inputData)) {
-    return makeRequest({
-      body: insertContext(Object.assign({}, preparedBody, inputData), appContext, inputData).value,
-    });
-  }
+  const preparedBody = prepareApiRequestBody({ removeEmptyString, removeNullableFields }, body);
+  const newBody = isPureObject(inputData)
+    ? insertContext(Object.assign({}, preparedBody, inputData), appContext, inputData).value
+    : insertContext(preparedBody, appContext, inputData).value;
 
   return makeRequest({
-    body: insertContext(preparedBody, appContext, inputData).value,
+    body: prepareApiRequestBody({ removeEmptyString, removeNullableFields }, newBody),
   });
 }

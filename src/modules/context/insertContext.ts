@@ -1,5 +1,7 @@
 import { flatten, hasPath, is, isNil, path } from "ramda";
 
+import { splitByPoint } from "libs/path";
+
 import { getContextTypeAndPathByParam } from "./contextParamParser";
 import { AppContextInterface } from "./hooks/useAppContext";
 
@@ -32,7 +34,7 @@ function getFromContext(resultMatch: string, context: object) {
   const { type, path: pathWithoutType } = getContextTypeAndPathByParam(resultMatch);
   // @ts-ignore
   const typeContext = context[type];
-  const arrPath = pathWithoutType.split(".");
+  const arrPath = splitByPoint(pathWithoutType);
   const value = path(arrPath, typeContext) as string;
   const pathExists = hasPath(arrPath, typeContext);
   return {
@@ -51,11 +53,11 @@ function insertContextData(
   context: object,
 ): { value: string; dependencies: { contextType: string; path: string[] }[] } {
   if (text.includes(rawDataSymbols)) {
-    const isStringifyedData = text.startsWith('"') && text.endsWith('"');
-    const result = getFromContext((isStringifyedData ? text.slice(1, -1) : text).slice(rawDataSymbols.length), context);
+    const isStringifiedData = text.startsWith('"') && text.endsWith('"');
+    const result = getFromContext((isStringifiedData ? text.slice(1, -1) : text).slice(rawDataSymbols.length), context);
 
     return {
-      value: isStringifyedData ? JSON.stringify(result.value) : result.value,
+      value: isStringifiedData ? JSON.stringify(result.value) : result.value,
       dependencies: [{ contextType: result.contextType, path: result.path }],
     };
   }

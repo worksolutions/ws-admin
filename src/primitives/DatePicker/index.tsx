@@ -10,6 +10,7 @@ import Wrapper from "primitives/Wrapper";
 import { opacity, width } from "libs/styles";
 import { cb } from "libs/CB";
 import { useEffectSkipFirst } from "libs/hooks/common";
+import { provideRef } from "libs/provideRef";
 
 import HandleClickOutside from "../HandleClickOutside";
 import { useVisibilityAnimation } from "../Popper/useVisibilityAnimation";
@@ -70,7 +71,7 @@ export default cb(
     },
   },
   function DatePicker(
-    { size, placeholder, outerStyles, hasCurrentDayButton },
+    { tip, error: errorProp, size, placeholder, outerStyles, hasCurrentDayButton },
     { state: { config, inputValue, min, max, setInputValue, error, lastValidValue } },
   ) {
     const { opened, style, close, open } = useVisibilityAnimation();
@@ -82,14 +83,26 @@ export default cb(
       input.addEventListener("focus", () => open());
     }
 
+    function inputRef(input: HTMLInputElement | null) {
+      if (!input) return;
+      initPopper("parent")(input);
+      input.addEventListener("focus", () => open());
+    }
+
+    function inputOuterRef(element: HTMLElement | null) {
+      if (!element) return;
+      element.addEventListener("click", () => open());
+    }
+
     return (
       <HandleClickOutside enabled={opened} onClickOutside={close}>
         {(ref) => (
           <MaskedInput
             size={size}
-            outerRef={ref}
-            ref={initRef}
-            error={error}
+            outerRef={provideRef(ref, inputOuterRef)}
+            ref={inputRef}
+            error={error || errorProp}
+            tip={tip}
             value={inputValue}
             mask={config.mask}
             guide

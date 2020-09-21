@@ -1,10 +1,21 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { sum } from "ramda";
 import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
-import { backgroundColor, borderRadius, bottom, flex, height, left, position, transition, width } from "libs/styles";
+import {
+  backgroundColor,
+  borderRadius,
+  bottom,
+  flex,
+  height,
+  left,
+  position,
+  transition,
+  width,
+  zIndex,
+} from "libs/styles";
 import { useChildrenWidthDetector } from "libs/hooks/useChildrenWidthDetector";
 
 import Tab, { tabHorizontalPadding } from "./Tab";
@@ -27,10 +38,17 @@ function Tabs({ initialActive = 0, items, styles }: TabsInterface) {
   const { ref, widths } = useChildrenWidthDetector();
 
   const Component = items[active].render;
+  const element = <Component />;
+  const elementsCache = React.useRef<ReactNode[]>([]);
+
+  React.useEffect(() => {
+    if (elementsCache.current[active]) return;
+    elementsCache.current[active] = element;
+  }, [active]);
 
   return (
     <>
-      <Wrapper ref={ref} styles={[flex, position("relative"), styles]}>
+      <Wrapper ref={ref} styles={[flex, position("relative"), zIndex(1), styles]}>
         {items.map(({ title }, key) => (
           <Tab key={key} active={active === key} title={title} onClick={() => setActive(key)} />
         ))}
@@ -49,7 +67,7 @@ function Tabs({ initialActive = 0, items, styles }: TabsInterface) {
           />
         )}
       </Wrapper>
-      <Component />
+      {elementsCache.current[active] || element}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { duration160 } from "layout/durations";
-import { useMeasure } from "react-use";
+import { memoizeWith } from "ramda";
 
 import Typography, { TypographyTypes } from "primitives/Typography";
 import Wrapper from "primitives/Wrapper";
@@ -18,8 +18,8 @@ import {
   Colors,
   disableOutline,
   flex,
-  flexValue,
   focus,
+  fullHeight,
   fullWidth,
   hover,
   left,
@@ -37,6 +37,7 @@ import {
   transition,
 } from "libs/styles";
 import { isString } from "libs/is";
+import { nbspString } from "libs/nbsp";
 
 export enum InputSize {
   MEDIUM = "medium",
@@ -111,7 +112,6 @@ export type InputIconProp = Icons | JSX.Element | undefined;
 
 export interface BaseInputWrapperInterface {
   outerStyles?: any;
-  fullWidth?: boolean;
   iconLeft?: InputIconProp;
   iconRight?: InputIconProp;
   iconLeftStyles?: any;
@@ -138,7 +138,7 @@ function getInputVariant(error?: boolean, success?: boolean, disabled?: boolean)
 function Title({ title, styles }: { title?: string | number; styles?: any }) {
   if (!title) return null;
   return (
-    <Typography styles={styles} noWrap>
+    <Typography styles={styles} color="gray-blue/05" noWrap>
       {title}
     </Typography>
   );
@@ -157,7 +157,7 @@ function Tip({ tip, color }: { tip: string | undefined; color: Colors }) {
       ]}
     >
       <Typography styles={marginTop(4)} type="caption-regular" color={color}>
-        {tip || "\u00A0"}
+        {tip || nbspString}
       </Typography>
     </Wrapper>
   );
@@ -190,10 +190,26 @@ function makeIconElement(icon: InputIconProp, defaultColor: Colors, styles: any)
   ) : undefined;
 }
 
+export const createDefaultInputStyles = memoizeWith(
+  (placeholderColor) => placeholderColor || "",
+  (placeholderColor: Colors = "gray-blue/04") => [
+    padding(0),
+    TypographyTypes["body-regular"],
+    transitionStyle,
+    borderWidth(0),
+    borderRadius(6),
+    fullWidth,
+    fullHeight,
+    disableOutline,
+    backgroundColor("transparent"),
+    color("gray-blue/09"),
+    child([color(placeholderColor), transition(`color ${duration160}`)], "::placeholder, .placeholder"),
+  ],
+);
+
 function InputWrapper({
   outerStyles,
   children,
-  fullWidth: fullWidthProp,
   title,
   titlePosition = InputTitlePosition.TOP,
   size = InputSize.LARGE,
@@ -223,7 +239,7 @@ function InputWrapper({
   const positioningStyles = wrapperStylesByTitlePosition[titlePosition];
 
   return (
-    <Wrapper styles={[fullWidthProp && flexValue(1), outerStyles]} onClick={onClick}>
+    <Wrapper styles={outerStyles} onClick={onClick}>
       <Wrapper styles={positioningStyles.wrapper}>
         <Title styles={positioningStyles.title} title={title} />
         <Wrapper
@@ -231,16 +247,8 @@ function InputWrapper({
           styles={[fullWidth, backgroundColor(colors.background), borderRadius(6), position("relative")]}
         >
           {renderComponent([
-            TypographyTypes["body-regular"],
-            transitionStyle,
-            borderWidth(0),
+            createDefaultInputStyles(colors.placeholder),
             boxShadow([0, 0, 0, 1, colors.shadowColor]),
-            borderRadius(6),
-            fullWidth,
-            disableOutline,
-            backgroundColor("transparent"),
-            color("gray-blue/09"),
-            child([color(colors.placeholder), transition(`color ${duration160}`)], "::placeholder, .placeholder"),
             styles,
             variant === InputVariant.DEFAULT
               ? [hover(boxShadow([0, 0, 0, 1, "gray-blue/03"]))]

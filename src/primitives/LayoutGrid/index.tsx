@@ -1,7 +1,18 @@
 import React from "react";
 import { useMeasure } from "react-use";
 
-import { child, flex, flexValue, flexWrap, marginBottom, marginLeft, marginRight, marginTop, width } from "libs/styles";
+import {
+  child,
+  flex,
+  flexValue,
+  flexWrap,
+  marginBottom,
+  marginLeft,
+  marginRight,
+  marginTop,
+  nthChild,
+  width,
+} from "libs/styles";
 
 import Wrapper from "../Wrapper";
 
@@ -21,27 +32,23 @@ function getElementsCountInRow(rowWidth: number) {
 interface LayoutGridInterface {
   className?: string;
   styles?: any;
+  eachChildStyles?: any;
   minWidth: number;
-  marginRight: number;
-  marginTop?: number;
-  marginBottom?: number;
+  marginBetweenElements: number;
   children: React.ReactNode[];
 }
 
 const elementSizeForRowCount = ["0", "100%", "50%", "33.333%", "25%", "20%", "16.6666%"];
 
-function LayoutGrid({
-  className,
-  styles,
-  marginTop: marginTopProp,
-  marginBottom: marginBottomProp,
-  marginRight: marginRightProp,
-  children,
-}: LayoutGridInterface) {
+function LayoutGrid({ className, styles, marginBetweenElements, eachChildStyles, children }: LayoutGridInterface) {
   const [measureRef, measures] = useMeasure();
-  const newWidth = React.useMemo(() => elementSizeForRowCount[getElementsCountInRow(measures.width)], [measures.width]);
 
-  const marginHalf = marginRightProp / 2;
+  const { elementsCountInRow, width: newWidth } = React.useMemo(() => {
+    const elementsCountInRow = getElementsCountInRow(measures.width);
+    return { elementsCountInRow, width: elementSizeForRowCount[elementsCountInRow] };
+  }, [measures.width]);
+
+  const halfMarginBetweenElements = marginBetweenElements / 2;
 
   return (
     <Wrapper
@@ -52,12 +59,13 @@ function LayoutGrid({
         flexValue(1),
         flexWrap,
         child([
-          width(`calc(${newWidth} - ${marginRightProp}px)`),
-          marginBottomProp && marginBottom(marginBottomProp),
-          marginTopProp && marginTop(marginTopProp),
-          marginLeft(marginHalf),
-          marginRight(marginHalf),
+          width(`calc(${newWidth} - ${marginBetweenElements}px + ${marginBetweenElements}px / ${elementsCountInRow})`),
+          marginLeft(halfMarginBetweenElements),
+          marginRight(halfMarginBetweenElements),
+          eachChildStyles,
         ]),
+        nthChild(`${elementsCountInRow}n + 1`, marginLeft(0)),
+        nthChild(`${elementsCountInRow}n`, marginRight(0)),
         styles,
       ]}
     >

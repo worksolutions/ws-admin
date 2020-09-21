@@ -39,7 +39,7 @@ module.exports = {
             click: {
               type: "redirect",
               options: {
-                reference: "/test",
+                reference: "/content/articles/{{screen:articleId}}/edit",
               },
             },
           },

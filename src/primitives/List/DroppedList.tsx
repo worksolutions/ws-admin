@@ -23,7 +23,14 @@ export enum DroppedListOpenMode {
   CLICK,
 }
 
-interface DroppedListInterface<ITEM extends string | number> {
+export interface DroppedListStateController {
+  toggle: () => void;
+  opened: boolean;
+  open: () => void;
+  close: () => void;
+}
+
+export interface DroppedListInterface<ITEM extends string | number> {
   emptyText?: string;
   topComponent?: React.ReactNode;
   bottomComponent?: React.ReactNode;
@@ -33,14 +40,10 @@ interface DroppedListInterface<ITEM extends string | number> {
   itemSize?: ListItemSize;
   ignoreClickOutsideElements?: (HTMLElement | undefined | null)[];
   margin: number;
-  selectedItemId?: ITEM;
+  selectedItemIds?: (ITEM | null | undefined)[];
   items?: ListItemInterface<ITEM>[];
   groupedItems?: { groupName: string; items: ListItemInterface<ITEM>[] }[];
-  children: (
-    state: { toggle: () => void; opened: boolean; open: () => void; close: () => void },
-    parentRef: any,
-    subChild: JSX.Element,
-  ) => JSX.Element;
+  children: (state: DroppedListStateController, parentRef: any, subChild: JSX.Element) => JSX.Element;
   onChange: (id: ITEM, close: () => void) => void;
   onClose?: () => void;
 }
@@ -92,7 +95,7 @@ function DroppedList({
   mode = DroppedListOpenMode.CLICK,
   placement: placementProp = "bottom-start",
   itemSize,
-  selectedItemId,
+  selectedItemIds = [],
   ignoreClickOutsideElements,
   items,
   margin: marginProp,
@@ -145,7 +148,7 @@ function DroppedList({
               emptyText={emptyText}
               itemSize={itemSize}
               titleDots
-              activeItemId={selectedItemId}
+              activeItemIds={selectedItemIds}
               items={items}
               onClick={(id) => onChange(id, close)}
             />

@@ -16,7 +16,7 @@ interface ListInterface<ITEM extends string | number> {
   titleStyles?: any;
   titleDots?: boolean;
   dividerColor?: Colors;
-  activeItemId?: ITEM;
+  activeItemIds: (ITEM | null | undefined)[];
   items: ListItemInterface<ITEM>[];
   onClick?: (id: ITEM) => void;
 }
@@ -25,7 +25,7 @@ function List({
   outerStyles,
   itemSize = ListItemSize.LARGE,
   emptyText,
-  activeItemId,
+  activeItemIds,
   titleDots,
   titleStyles,
   items,
@@ -47,7 +47,7 @@ function List({
             titleDots={titleDots}
             titleStyles={titleStyles}
             item={item}
-            isActiveItem={activeItemId === item.code}
+            isActiveItem={activeItemIds.includes(item.code)}
             onClick={onClick}
           />
         ))

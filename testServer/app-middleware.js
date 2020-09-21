@@ -1,25 +1,31 @@
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const moment = require("moment");
 moment.locale("ru");
 
 dotenv.config({ path: __dirname + "/../.env" });
 
-const { error, prepareUrl, makeProxy } = require("./libs");
+const { error, prepareUrl, makeProxy, configPath, removeConfigCache } = require("./libs");
 const articlesCardsRouter = require("./routes/articles/cards");
 const articlesTableRouter = require("./routes/articles/table");
 const articleRouter = require("./routes/article");
-const createArticleRouter = require("./routes/article/create");
+const createArticleRouter = require("./routes/article/createAndUpdate");
 const categoriesRouter = require("./routes/categories");
 const usersRouter = require("./routes/users");
-
-const mainConfig = require("../src/dataProviders/FakeDataProvider/responses/main-config");
+const filesRouter = require("./routes/files");
 
 module.exports = (app) => {
   app.use(cookieParser());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+
   app.use((req, res, next) => setTimeout(next, 200));
 
-  app.get("/api/admin/config", (_req, res) => res.json(mainConfig));
+  app.get("/api/admin/config", (_req, res) => {
+    res.json(require(configPath));
+    removeConfigCache();
+  });
 
   makeProxy({ handleUrl: "/api/users/profile", expressMethodHandlerName: "get" }, app, {
     modifyResponse: ({ user }) => {
@@ -34,11 +40,12 @@ module.exports = (app) => {
 
   articlesCardsRouter(app);
   articlesTableRouter(app);
-  articleRouter.article(app);
-  articleRouter.relatedArticles(app);
   createArticleRouter(app);
+  articleRouter(app);
+  articleRouter(app);
   categoriesRouter(app);
-  usersRouter.users(app);
+  usersRouter(app);
+  filesRouter(app);
 
   makeProxy({ handleUrl: "/api", expressMethodHandlerName: "use" }, app);
 

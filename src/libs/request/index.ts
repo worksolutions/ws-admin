@@ -14,6 +14,7 @@ export interface RequestConfigInterface {
 export interface OptionsInterface {
   urlParams?: { [name: string]: string | number };
   cancelName?: string;
+  cancelToken?: CancelTokenSource;
   progressReceiver?: (progress: number) => void;
 }
 
@@ -48,6 +49,10 @@ type RequestData = AxiosRequestConfig & { url: string };
 
 @Service({ global: true })
 export class RequestManager {
+  static makeCancelToken() {
+    return axios.CancelToken.source();
+  }
+
   static baseURL = "";
   static loggerEnabled = false;
 
@@ -76,7 +81,7 @@ export class RequestManager {
     requestOptions: OptionsInterface,
     requestConfig: RequestConfigInterface,
   ) {
-    const { urlParams, cancelName, progressReceiver } = requestOptions;
+    const { urlParams, cancelName, cancelToken, progressReceiver } = requestOptions;
     const { contentType } = requestConfig;
 
     const requestData: RequestData = {
@@ -90,6 +95,8 @@ export class RequestManager {
       if (cancelForRequest) cancelForRequest.cancel(REQUEST_CANCELLED);
       RequestManager.cancellations[cancelName] = axios.CancelToken.source();
       requestData.cancelToken = RequestManager.cancellations[cancelName].token;
+    } else if (cancelToken) {
+      requestData.cancelToken = cancelToken.token;
     }
 
     requestData.headers = { accept: "application/json" };
@@ -140,7 +147,8 @@ export class RequestManager {
       return [data, null];
     } catch (_originalAxiosError) {
       const axiosError: AxiosError = _originalAxiosError;
-      if (axiosError.message === REQUEST_CANCELLED) return [null, REQUEST_CANCELLED];
+      if (axiosError.message === REQUEST_CANCELLED)
+        return [null, new RequestError({ message: REQUEST_CANCELLED, errors: {} }, -1, axiosError)];
 
       RequestManager.applyAllErrorMiddleware(requestData, _originalAxiosError);
 

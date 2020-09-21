@@ -1,8 +1,6 @@
 import React from "react";
 import useMeasureDirty from "react-use/esm/useMeasureDirty";
 
-import { asyncTimeout } from "../asyncTimeout";
-
 export function useScrollCallback(callback: (y: number, x: number) => void, triggerOnElementChange = false) {
   const element = React.useRef<HTMLElement | null>();
   const run = () => {

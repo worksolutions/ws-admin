@@ -17,8 +17,6 @@ import { AnyDataSource, ContainsDataSourceInterface } from "types/DataSource";
 export type BlockInterface<O extends Record<string, any> = {}, A extends string = string> = {
   dataSource?: AnyDataSource;
   options?: O | null;
-  id?: string;
-  waitForId?: string;
 } & Partial<ContainsRawActions<Record<A, AnyRawAction>>>;
 
 export type ContainBlocksInterface = {

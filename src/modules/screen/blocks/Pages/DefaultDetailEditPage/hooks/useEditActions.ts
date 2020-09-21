@@ -1,5 +1,7 @@
-import { mergeActions, useActions } from "modules/context/actions/useActions";
+import { useActions } from "modules/context/actions/useActions";
 import { useAppContext } from "modules/context/hooks/useAppContext";
+
+import { mergeActions } from "../../../../../context/actions/useActions/libs/mergeActions";
 
 import { ActionType, AnyRawAction } from "types/Actions";
 

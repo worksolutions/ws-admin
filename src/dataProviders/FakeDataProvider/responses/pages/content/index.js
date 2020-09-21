@@ -7,8 +7,9 @@ module.exports = {
   blocks: [
     require("./secondaryMenu"),
     require("./articles"),
-    require("./detailArticle"),
-    require("./createArticle"),
+    require("./article/detailArticle"),
+    require("./article/edit/create"),
+    require("./article/edit/edit"),
     require("./categories"),
   ],
 };

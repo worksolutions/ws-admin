@@ -2,9 +2,9 @@ import { css } from "styled-components";
 import { memoizeWith } from "ramda";
 
 import { identity } from "./identity";
-import { AlphaColor, Colors, getColor, stringOrPixels } from "./index";
+import { AllAvailableColorsType, getColor, stringOrPixels } from "./index";
 
-export function border(size: number, color: Colors | AlphaColor, mode = "solid") {
+export function border(size: number, color: AllAvailableColorsType, mode = "solid") {
   return css`
     border: ${size}px ${mode} ${getColor(color)};
   `;
@@ -16,37 +16,37 @@ export function borderWidth(size: number) {
   `;
 }
 
-export function borderColor(color: Colors | AlphaColor) {
+export function borderColor(color: AllAvailableColorsType) {
   return css`
     border-color: ${getColor(color)};
   `;
 }
 
-export function borderBottom(size: number, color: Colors | AlphaColor) {
+export function borderBottom(size: number, color: AllAvailableColorsType) {
   return css`
     border-bottom: ${size}px solid ${getColor(color)};
   `;
 }
 
-export function borderLeft(size: number, color: Colors | AlphaColor) {
+export function borderLeft(size: number, color: AllAvailableColorsType) {
   return css`
     border-left: ${size}px solid ${getColor(color)};
   `;
 }
 
-export function borderTop(size: number, color: Colors | AlphaColor) {
+export function borderTop(size: number, color: AllAvailableColorsType) {
   return css`
     border-top: ${size}px solid ${getColor(color)};
   `;
 }
 
-export function borderRight(size: number, color: Colors | AlphaColor) {
+export function borderRight(size: number, color: AllAvailableColorsType) {
   return css`
     border-right: ${size}px solid ${getColor(color)};
   `;
 }
 
-export function borderLeftColor(color: Colors | AlphaColor) {
+export function borderLeftColor(color: AllAvailableColorsType) {
   return css`
     border-left-color: ${getColor(color)};
   `;

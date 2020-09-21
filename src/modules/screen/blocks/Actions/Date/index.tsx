@@ -10,7 +10,7 @@ import { useEffectSkipFirst } from "libs/hooks/common";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
-import { useStateFromContext } from "modules/context/insertContext";
+import { useStateContextModel } from "modules/model";
 
 import { BlockInterface } from "state/globalState";
 
@@ -32,7 +32,12 @@ function ActionDate({ options, actions, styles }: ActionDateInterface) {
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
-  const [value, setValue] = useStateFromContext(options.context, appContext);
+  const {
+    value,
+    model: { disabled, error },
+    setValue,
+  } = useStateContextModel(options!.context, appContext);
+
   useEffectSkipFirst(() => {
     resultActions.change.run(value);
   }, [value]);
@@ -42,6 +47,9 @@ function ActionDate({ options, actions, styles }: ActionDateInterface) {
   return (
     <ClearInputWrapper needShow={!!value && options?.cleanable} clear={() => setValue(null)}>
       <DatePicker
+        disabled={disabled}
+        error={!!error}
+        tip={error}
         outerStyles={styles}
         initialValue={value}
         size={options.size}

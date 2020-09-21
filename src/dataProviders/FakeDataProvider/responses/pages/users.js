@@ -124,7 +124,7 @@ module.exports = {
               actions: {
                 click: {
                   type: "update-context",
-                  context: "global:currentUser.name",
+                  context: "",
                 },
               },
             },
