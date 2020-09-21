@@ -1,9 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 
+import Sidebar from "components/Sidebar";
+
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
-import Sidebar from "./Sidebar";
 import { SecondaryMenuDataSourceInterface } from "./types";
 
 import { BlockInterface } from "state/globalState";
