@@ -3,7 +3,7 @@ import { CSSProperties } from "react";
 
 import { memoizeWithContext } from "../memoizeWithContext";
 import { isString } from "../is";
-import { sortByFirstItem } from "../sorting";
+import { sortObjectEntriesByKey } from "../sorting";
 
 type AnimationArguments = {
   name: Keyframes;
@@ -19,7 +19,7 @@ type AnimationArguments = {
 const makeAnimation = ({ name, ...data }: AnimationArguments) => [
   name,
   " " +
-    sortByFirstItem(Object.entries(data))
+    sortObjectEntriesByKey(Object.entries(data))
       .map((el) => el[1])
       .join(" "),
 ];

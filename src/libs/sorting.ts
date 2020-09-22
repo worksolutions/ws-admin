@@ -1,2 +1,1 @@
-// @ts-ignore
-export const sortByFirstItem = (arr: [string, any][]) => arr.sort((a, b) => a[0] - b[0]);
+export const sortObjectEntriesByKey = (arr: [string, any][]) => [...arr].sort((a, b) => (a[0] >= b[0] ? 1 : -1));
