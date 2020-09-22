@@ -3,37 +3,47 @@ import React from "react";
 import { useStateFromContext } from "../context/insertContext";
 import { AppContextInterface } from "../context/hooks/useAppContext";
 
-export class ContextModel {
-  constructor(public disabled?: boolean, public error?: string) {}
+export interface ContextModelInterface {
+  disabled: boolean;
+  error: string | undefined;
 }
 
 export function useStateContextModel(
   contextPath: string,
   appContext: AppContextInterface,
   initialize = false,
-): { value: any; model: ContextModel; setModel: (newModel: ContextModel) => void; setValue: (data: any) => void } {
+): {
+  value: any;
+  model: ContextModelInterface;
+  setModel: (newModel: ContextModelInterface) => void;
+  setValue: (data: any) => void;
+} {
   const [stateValue, setStateValue] = useStateFromContext(contextPath, appContext);
-  const [modelValue, setModelValue] = useStateFromContext(createModelContextPath(contextPath), appContext);
+  const [modelValue, setModelValue] = useStateFromContext(makeModelContextPath(contextPath), appContext) as [
+    ContextModelInterface,
+    (model: ContextModelInterface) => void,
+  ];
 
   React.useEffect(() => {
     if (!initialize) return;
-    setModelValue(new ContextModel(false));
+    setModelValue({ disabled: false, error: undefined });
   }, []);
 
-  return React.useMemo(
-    () => ({
+  return React.useMemo(() => {
+    return {
       value: stateValue,
-      model: new ContextModel(modelValue.disabled, modelValue.error),
+      model: modelValue,
       setModel: setModelValue,
       setValue: (newValue) => {
         setStateValue(newValue);
-        setModelValue(new ContextModel(modelValue.disabled, undefined));
+        setModelValue({ disabled: modelValue.disabled, error: undefined });
       },
-    }),
-    [stateValue, modelValue],
-  );
+    };
+  }, [stateValue, modelValue]);
 }
 
-export function createModelContextPath(baseContextPath: string) {
-  return baseContextPath + "--model";
+export const modelContextPathPostfix = "--model";
+
+export function makeModelContextPath(baseContextPath: string) {
+  return baseContextPath + modelContextPathPostfix;
 }

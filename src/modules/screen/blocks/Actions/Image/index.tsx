@@ -4,10 +4,13 @@ import { mergeRight } from "ramda";
 
 import { useFileSelector } from "libs/hooks/files/useFileSelector";
 import { boxShadow } from "libs/styles";
+import { AcceptTypes } from "libs/hooks/files/helpers/inputAccept";
+import { RequestError } from "libs/request";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { useStateContextModel } from "modules/model";
+import globalEventBus from "modules/globalEventBus";
 
 import WithImage from "./WithImage";
 import WithoutImage from "./WithoutImage";
@@ -32,14 +35,16 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
 
-  const {
-    value,
-    model: { disabled, error },
-    setValue,
-  } = useStateContextModel(options!.context, appContext);
+  const { value, setValue } = useStateContextModel(options!.context, appContext);
 
   function uploadFile(file: FileInterface) {
-    resultActions.upload.run(file).then(mergeRight(file)).then(setValue);
+    resultActions.upload
+      .run(file)
+      .then(mergeRight(file))
+      .then(setValue)
+      .catch((err: RequestError) => {
+        globalEventBus.emit("ADD_TOAST", { error: true, text: err.getErrorOrMessage() });
+      });
   }
 
   function removeFile() {
@@ -50,7 +55,7 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
     resultActions.upload.discard();
   }
 
-  const { dropAreaProps, openNativeFileDialog, dropping } = useFileSelector(uploadFile);
+  const { dropAreaProps, openNativeFileDialog, dropping } = useFileSelector(uploadFile, [AcceptTypes.IMAGE]);
 
   if (value?.path) {
     return (

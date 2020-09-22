@@ -1,25 +1,53 @@
 export enum ModifierType {
-  ELEMENT_DISABLER = "element-disabler",
-  CONTEXT_MODIFIER = "context-modifier",
+  UPPER_CASE = "upper-case",
+  TRANSLITERATION = "transliteration",
+  MODEL_DISABLER = "model-disabler",
+  COPY_CONTEXT = "copy-context",
 }
 
 export type ModifierOptionsByType = {
-  [ModifierType.ELEMENT_DISABLER]: {};
-  [ModifierType.CONTEXT_MODIFIER]: { from: string; to: string };
+  [ModifierType.UPPER_CASE]: { context: string };
+  [ModifierType.TRANSLITERATION]: { fromContext: string; toContext: string };
+  [ModifierType.MODEL_DISABLER]: { context: string };
+  [ModifierType.COPY_CONTEXT]: { fromContext: string; toContext: string };
 };
 
 export enum ModifierEnableTriggerType {
   ALWAYS = "always",
-  CONTEXT_TRUE_VALUE = "context-true-value",
-  CONTEXT_FALSE_VALUE = "context-false-value",
+  IF_CONTEXT_TRUE_VALUE = "if-context-true-value",
 }
 
-export interface ModifierInterface {
-  type: ModifierType;
-  enableTrigger: {
-    type: ModifierEnableTriggerType;
-    context?: string | string[];
-    mode?: "and" | "or";
-  };
-  options: ModifierOptionsByType[ModifierType.CONTEXT_MODIFIER] | ModifierOptionsByType[ModifierType.ELEMENT_DISABLER];
-}
+export type ModifierEnableTriggerAlways = {
+  type: ModifierEnableTriggerType.ALWAYS;
+};
+
+export type ModifierEnableTriggerMode = "and" | "or" | undefined;
+
+export type ModifierEnableTriggerIfContextTrueValue = {
+  type: ModifierEnableTriggerType.IF_CONTEXT_TRUE_VALUE;
+  context: string | string[];
+  mode: ModifierEnableTriggerMode;
+};
+
+export type ModifierEnableTrigger = ModifierEnableTriggerAlways | ModifierEnableTriggerIfContextTrueValue;
+
+export type ModifierInterface = {
+  enableTrigger: ModifierEnableTrigger;
+} & (
+  | {
+      type: ModifierType.UPPER_CASE;
+      options: ModifierOptionsByType[ModifierType.UPPER_CASE];
+    }
+  | {
+      type: ModifierType.TRANSLITERATION;
+      options: ModifierOptionsByType[ModifierType.TRANSLITERATION];
+    }
+  | {
+      type: ModifierType.COPY_CONTEXT;
+      options: ModifierOptionsByType[ModifierType.COPY_CONTEXT];
+    }
+  | {
+      type: ModifierType.MODEL_DISABLER;
+      options: ModifierOptionsByType[ModifierType.MODEL_DISABLER];
+    }
+);

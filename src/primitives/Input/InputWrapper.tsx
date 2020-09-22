@@ -73,31 +73,35 @@ const stylesForSize = {
 
 const colorsByVariant: Record<
   InputVariant,
-  { background: Colors; shadowColor: Colors; tip: Colors; placeholder: Colors }
+  { background: Colors; shadowColor: Colors; tip: Colors; placeholder: Colors; color: Colors }
 > = {
   [InputVariant.DEFAULT]: {
     background: "gray-blue/01",
     shadowColor: "gray-blue/02",
     tip: "gray-blue/07",
     placeholder: "gray-blue/04",
+    color: "gray-blue/09",
   },
   [InputVariant.ERROR]: {
     background: "red/01",
     shadowColor: "red/05",
     tip: "red/07",
     placeholder: "red/03",
+    color: "gray-blue/09",
   },
   [InputVariant.SUCCESS]: {
     background: "green/01",
     shadowColor: "green/05",
     tip: "green/07",
     placeholder: "gray-blue/04",
+    color: "gray-blue/09",
   },
   [InputVariant.DISABLED]: {
     background: "gray-blue/01",
     shadowColor: "transparent",
     tip: "gray-blue/07",
-    placeholder: "gray-blue/03",
+    placeholder: "gray-blue/02",
+    color: "gray-blue/03",
   },
 };
 
@@ -202,7 +206,6 @@ export const createDefaultInputStyles = memoizeWith(
     fullHeight,
     disableOutline,
     backgroundColor("transparent"),
-    color("gray-blue/09"),
     child([color(placeholderColor), transition(`color ${duration160}`)], "::placeholder, .placeholder"),
   ],
 );
@@ -248,6 +251,7 @@ function InputWrapper({
         >
           {renderComponent([
             createDefaultInputStyles(colors.placeholder),
+            color(colors.color),
             boxShadow([0, 0, 0, 1, colors.shadowColor]),
             styles,
             variant === InputVariant.DEFAULT

@@ -14,6 +14,8 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 
 import { FieldListItemType } from "../types";
 
+import RenderFieldListItemModifier from "./modifiers";
+
 interface FieldItemElementRendererInterface {
   styles?: any;
   options: Record<string, any>;
@@ -67,8 +69,11 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any;
   "edit:Date": ({ options: { dateOptions, actions }, styles }) => (
     <BlockRenderer type="Actions/Date" styles={styles} actions={actions} options={dateOptions} />
   ),
-  "edit:Text": ({ options: { inputOptions, actions }, styles }) => (
-    <BlockRenderer type="Actions/Input" styles={styles} actions={actions} options={inputOptions} />
+  "edit:Text": ({ options: { inputOptions, actions, modifier }, styles }) => (
+    <>
+      <BlockRenderer type="Actions/Input" styles={styles} actions={actions} options={inputOptions} />
+      <RenderFieldListItemModifier modifier={modifier} />
+    </>
   ),
   "edit:Dropdown": ({ options: { dropdownOptions, dataSource, actions }, styles }) => (
     <BlockRenderer

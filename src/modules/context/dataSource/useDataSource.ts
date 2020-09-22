@@ -32,7 +32,3 @@ export function useDataSource<RESULT = any>(
   if (dataSource.type === DataSourceType.API_REQUEST) return useApiRequestDataSource(dataSource, initialData);
   return useNotApiRequestDataSource(dataSource);
 }
-
-export function dataAndInitialDataAreEquals(data: any, initialData: any) {
-  return isEqual(toJS(data), toJS(initialData));
-}
