@@ -4,7 +4,7 @@ import { entriesObjectMap } from "libs/entriesObjectMap";
 import { insertContext } from "modules/context/insertContext";
 import { ActionInterface } from "modules/context/actions/useActions";
 import { useAppContext } from "modules/context/hooks/useAppContext";
-import { ContextModelInterface, createModelContextPath } from "modules/model";
+import { makeModelContextPath } from "modules/model";
 
 export function useDetailSaver(
   { save, change }: Record<"save" | "change", ActionInterface>,
@@ -17,11 +17,11 @@ export function useDetailSaver(
     } catch (error) {
       if (!(error instanceof BaseError)) return;
       const mappedErrors = entriesObjectMap(error.getErrors(), ([key, error]) => [
-        createModelContextPath(key),
+        makeModelContextPath(key),
         {
-          disabled: insertContext("=" + createModelContextPath(key), appContext.context).value,
+          disabled: insertContext("=" + makeModelContextPath(key), appContext.context).value,
           error,
-        } as ContextModelInterface,
+        },
       ]);
       await change.run(mappedErrors);
     }

@@ -4,8 +4,8 @@ import { useStateFromContext } from "../context/insertContext";
 import { AppContextInterface } from "../context/hooks/useAppContext";
 
 export interface ContextModelInterface {
-  disabled?: boolean;
-  error?: string;
+  disabled: boolean;
+  error: string | undefined;
 }
 
 export function useStateContextModel(
@@ -19,11 +19,14 @@ export function useStateContextModel(
   setValue: (data: any) => void;
 } {
   const [stateValue, setStateValue] = useStateFromContext(contextPath, appContext);
-  const [modelValue, setModelValue] = useStateFromContext(createModelContextPath(contextPath), appContext);
+  const [modelValue, setModelValue] = useStateFromContext(makeModelContextPath(contextPath), appContext) as [
+    ContextModelInterface,
+    (model: ContextModelInterface) => void,
+  ];
 
   React.useEffect(() => {
     if (!initialize) return;
-    setModelValue({ disabled: false } as ContextModelInterface);
+    setModelValue({ disabled: false, error: undefined });
   }, []);
 
   return React.useMemo(() => {
@@ -33,12 +36,14 @@ export function useStateContextModel(
       setModel: setModelValue,
       setValue: (newValue) => {
         setStateValue(newValue);
-        setModelValue({ disabled: modelValue.disabled } as ContextModelInterface);
+        setModelValue({ disabled: modelValue.disabled, error: undefined });
       },
     };
   }, [stateValue, modelValue]);
 }
 
-export function createModelContextPath(baseContextPath: string) {
-  return baseContextPath + "--model";
+export const modelContextPathPostfix = "--model";
+
+export function makeModelContextPath(baseContextPath: string) {
+  return baseContextPath + modelContextPathPostfix;
 }
