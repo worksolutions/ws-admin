@@ -16,6 +16,8 @@ import {
   border,
   borderRadius,
   borderTop,
+  child,
+  display,
   flex,
   flexColumn,
   flexValue,
@@ -27,11 +29,13 @@ import {
 import { useScrollCallbackWasScrolledBoolean } from "libs/hooks/scroll";
 import { useLocalStorage } from "libs/hooks/special";
 
+import DefaultContainerWrapper from "modules/screen/blocks/Layout/DefaultContainerWrapper";
+
 import { ViewMetaData } from "../types";
 
 import TableViewBlockWrapper from "./TableViewBlock";
 import CardsViewBlockWrapper from "./CardsViewBlock";
-import Actions from "./Components/Actions";
+import { renderAdditionalActions, renderMainActions } from "./Components/Actions";
 import { notFoundElement } from "./Components/notFound";
 import { spinnerElement } from "./Components/spinner";
 import { getFormattedDataLocalStorageInitialValue, usePagination } from "./libs";
@@ -81,43 +85,64 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
 
   return (
     <Wrapper
-      styles={[flex, ai(Aligns.STRETCH), flexValue(1), borderRadius(8), border(1, "gray-blue/02"), flexColumn, styles]}
+      styles={[
+        flex,
+        ai(Aligns.STRETCH),
+        flexValue(1),
+        borderRadius(8),
+        border(1, "gray-blue/02"),
+        flexColumn,
+        child(display("none"), ".plug-header"),
+        styles,
+      ]}
     >
-      <Actions
-        styles={[isCardsView ? [cardsScrolled && elevation8] : [paddingBottom(8)]]}
-        options={options}
-        actions={actions}
-        isCardsView={isCardsView}
-        storage={localStorageValue}
-        setStorage={setLocalStorageValue}
-        showModeChangerButton={showModeChangerButton}
-        onSearchChange={onSearchChange}
+      <DefaultContainerWrapper
+        headerStyles={[isCardsView ? [cardsScrolled && elevation8] : [paddingBottom(8)]]}
+        header={renderMainActions({
+          options,
+          actions,
+          isCardsView,
+          onSearchChange,
+        })}
+        headerAction={renderAdditionalActions({
+          isCardsView,
+          setStorage: setLocalStorageValue,
+          showModeChangerButton,
+          storage: localStorageValue,
+        })}
+        main={
+          <>
+            {isCardsView ? (
+              <CardsViewBlockWrapper
+                ref={setCardsScrollableElement}
+                setMetaData={setMetaData}
+                notFound={notFound}
+                spinner={spinner}
+                options={options!.cardsView}
+              />
+            ) : (
+              <TableViewBlockWrapper
+                id={options!.id}
+                options={options!.tableView}
+                notFound={notFound}
+                spinner={spinner}
+                actions={actions!}
+                setMetaData={setMetaData}
+              />
+            )}
+          </>
+        }
       />
-      {isCardsView ? (
-        <CardsViewBlockWrapper
-          ref={setCardsScrollableElement}
-          setMetaData={setMetaData}
-          notFound={notFound}
-          spinner={spinner}
-          options={options!.cardsView}
-        />
-      ) : (
-        <TableViewBlockWrapper
-          id={options!.id}
-          options={options!.tableView}
-          notFound={notFound}
-          spinner={spinner}
-          actions={actions!}
-          setMetaData={setMetaData}
-        />
-      )}
       {showPagination && (
         <Wrapper styles={[flex, jc(Aligns.SPACE_BETWEEN), padding(16), borderTop(1, "gray-blue/02")]}>
           <Dropdown
             titlePosition={InputTitlePosition.LEFT}
             title="Показывать по:"
             size={InputSize.MEDIUM}
-            items={options!.paginationView.options?.paginationItems.map((code) => ({ code, title: code.toString() }))}
+            items={options!.paginationView.options?.paginationItems.map((code) => ({
+              code,
+              title: code.toString(),
+            }))}
             selectedItemCode={paginationViewData.data!.perPage}
             onChange={async (value) => {
               await paginationViewActions.change.run({ page: 1, perPage: value });

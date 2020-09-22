@@ -15,7 +15,14 @@ function apiRequestDataSource(
   dataSource: DataSourceInterface<DataSourceType.API_REQUEST>,
   context: AppContextStateInterface,
 ) {
-  const { method, params, reference, removeEmptyString = true, removeNullableFields = true } = dataSource.options;
+  const {
+    method,
+    params,
+    reference,
+    removeEmptyString = true,
+    removeNullableFields = true,
+    cancellable = true,
+  } = dataSource.options;
   const referenceWithContext = insertContext(reference, context);
   const bodyWithContext = insertContext(params, context);
   const makeRequest = requestManager.createRequest(referenceWithContext.value, method, identityValueDecoder);
@@ -27,7 +34,9 @@ function apiRequestDataSource(
     request: new Promise((resolve, reject) => {
       makeRequest({
         body,
-        options: { cancelName: requestManager.makeCancelName(referenceWithContext.value, method) },
+        options: {
+          cancelName: cancellable ? requestManager.makeCancelName(referenceWithContext.value, method) : undefined,
+        },
       })
         .then(resolve)
         .catch((err) => {
