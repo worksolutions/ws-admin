@@ -15,7 +15,16 @@ type AnimationArguments = {
   playState?: CSSProperties["animationPlayState"];
 };
 
-const makeAnimation = ({ name, ...data }: AnimationArguments) => [name, " " + Object.values(data).sort().join(" ")];
+// @ts-ignore
+const sortByFirstItem = (arr: [string, any][]) => arr.sort((a, b) => a[0] - b[0]);
+
+const makeAnimation = ({ name, ...data }: AnimationArguments) => [
+  name,
+  " " +
+    sortByFirstItem(Object.entries(data))
+      .map((el) => el[1])
+      .join(" "),
+];
 
 export const animation = memoizeWithContext(
   function (a: AnimationArguments[]) {
