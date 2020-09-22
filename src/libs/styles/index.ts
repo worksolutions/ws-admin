@@ -261,24 +261,5 @@ export const willChange = (value: CSSProperties["willChange"]) => css`
   will-change: ${value};
 `;
 
-type AnimationArguments = {
-  name?: any;
-  duration?: CSSProperties["animationDuration"];
-  timingFunction?: CSSProperties["animationTimingFunction"];
-  delay?: CSSProperties["animationDelay"];
-  iterationCount?: CSSProperties["animationIterationCount"];
-  direction?: CSSProperties["animationDirection"];
-  fillMode?: CSSProperties["animationFillMode"];
-  playState?: CSSProperties["animationPlayState"];
-};
-
-const makeAnimation = ({ name, ...data }: AnimationArguments) => [name, " " + Object.values(data).join(" ")];
-
-export const animation = (animations: AnimationArguments[]) => {
-  const result = animations.map(makeAnimation);
-  return css`
-    animation: ${result.map((el, index) => [index === 0 ? "" : ", ", ...el])};
-  `;
-};
-
 export { borderNone } from "./cleaner";
+export { animation } from "./animations";

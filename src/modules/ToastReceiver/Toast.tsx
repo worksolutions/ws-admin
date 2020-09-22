@@ -38,7 +38,6 @@ interface ToastPropsInterface extends BaseToastInterface {
 function Toast({ index, text, error, cancelButton, removeToast }: ToastPropsInterface) {
   return (
     <Wrapper
-      ref={() => console.log("render", index)}
       styles={[
         flex,
         jc(Aligns.CENTER),
