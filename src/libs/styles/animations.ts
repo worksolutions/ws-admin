@@ -1,10 +1,8 @@
 import { css, Keyframes } from "styled-components";
 import { CSSProperties } from "react";
-import { head } from "ramda";
 
 import { memoizeWithContext } from "../memoizeWithContext";
 import { isString } from "../is";
-import { sortObjectEntriesByKey } from "../sorting";
 
 type AnimationArguments = {
   name: Keyframes;
@@ -17,9 +15,17 @@ type AnimationArguments = {
   playState?: CSSProperties["animationPlayState"];
 };
 
-const makeAnimation = ({ name, ...data }: AnimationArguments) => {
-  const animationPropsArray = sortObjectEntriesByKey(Object.entries(data)).map(head);
-  return [name, " " + animationPropsArray.join(" ")];
+const makeAnimation = ({
+  name,
+  duration,
+  timingFunction,
+  delay,
+  iterationCount,
+  direction,
+  fillMode,
+  playState,
+}: AnimationArguments) => {
+  return [name, " " + [duration, timingFunction, delay, iterationCount, direction, fillMode, playState].join(" ")];
 };
 
 export const animation = memoizeWithContext(
