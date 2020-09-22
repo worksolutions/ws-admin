@@ -1,5 +1,6 @@
 import { css, Keyframes } from "styled-components";
 import { CSSProperties } from "react";
+import { head } from "ramda";
 
 import { memoizeWithContext } from "../memoizeWithContext";
 import { isString } from "../is";
@@ -16,13 +17,10 @@ type AnimationArguments = {
   playState?: CSSProperties["animationPlayState"];
 };
 
-const makeAnimation = ({ name, ...data }: AnimationArguments) => [
-  name,
-  " " +
-    sortObjectEntriesByKey(Object.entries(data))
-      .map((el) => el[1])
-      .join(" "),
-];
+const makeAnimation = ({ name, ...data }: AnimationArguments) => {
+  const animationPropsArray = sortObjectEntriesByKey(Object.entries(data)).map(head);
+  return [name, " " + animationPropsArray.join(" ")];
+};
 
 export const animation = memoizeWithContext(
   function (a: AnimationArguments[]) {
