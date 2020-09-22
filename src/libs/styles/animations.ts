@@ -3,6 +3,7 @@ import { CSSProperties } from "react";
 
 import { memoizeWithContext } from "../memoizeWithContext";
 import { isString } from "../is";
+import { sortByFirstItem } from "../sorting";
 
 type AnimationArguments = {
   name: Keyframes;
@@ -14,9 +15,6 @@ type AnimationArguments = {
   fillMode?: CSSProperties["animationFillMode"];
   playState?: CSSProperties["animationPlayState"];
 };
-
-// @ts-ignore
-const sortByFirstItem = (arr: [string, any][]) => arr.sort((a, b) => a[0] - b[0]);
 
 const makeAnimation = ({ name, ...data }: AnimationArguments) => [
   name,
