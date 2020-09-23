@@ -4,6 +4,7 @@ import { Placement } from "@popperjs/core/lib/enums";
 import { PositioningStrategy } from "@popperjs/core/lib/types";
 
 import { marginBottom, marginLeft, marginRight, marginTop } from "libs/styles";
+import { useBoolean } from "libs/hooks/common";
 
 const initialData: PopperConfigInterface = {
   placement: "auto",
@@ -13,6 +14,7 @@ const initialData: PopperConfigInterface = {
 export interface PopperConfigInterface {
   placement?: Placement;
   strategy?: PositioningStrategy;
+  showOnHover?: boolean;
 }
 
 function getPopperData(inputData?: PopperConfigInterface) {
@@ -23,8 +25,9 @@ function getPopperData(inputData?: PopperConfigInterface) {
   };
 }
 
-export default function usePopper(data?: PopperConfigInterface) {
+export default function usePopper({ showOnHover = true, ...data }: PopperConfigInterface) {
   const [parent, setParent] = React.useState<HTMLElement>();
+  const [popperVisible, showPopper, hidePopper] = useBoolean(() => !showOnHover);
   const [child, setChild] = React.useState<HTMLElement>();
   const [instance, setInstance] = React.useState<Instance | undefined>();
   const [placement, setPlacement] = React.useState<Placement>("bottom");
@@ -55,6 +58,9 @@ export default function usePopper(data?: PopperConfigInterface) {
   }, [instance]);
 
   return {
+    popperVisible,
+    showPopper,
+    hidePopper,
     placement,
     initPopper: (forObject: "parent" | "child") => (ref: HTMLElement | null) => {
       if (!ref) return;

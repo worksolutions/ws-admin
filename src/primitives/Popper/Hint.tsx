@@ -73,8 +73,7 @@ function Hint({
   type = HintType.black,
   margin: marginProp,
 }: HintInterface) {
-  const { initPopper, placement } = usePopper(popperConfig);
-  const [opened, open, close] = useBoolean(() => !showOnHover);
+  const { placement, popperVisible, showPopper, hidePopper, initPopper } = usePopper({ ...popperConfig, showOnHover });
   const [wasRendered, enableWasRendered, disableWasRendered] = useBoolean(() => !showOnHover);
   const [element, setElement] = useState<HTMLElement>();
 
@@ -96,7 +95,7 @@ function Hint({
       clearTimeout(hideTimer);
       showTimer = setTimeout(() => {
         enableWasRendered();
-        open();
+        showPopper();
       }, showDelay);
     };
 
@@ -104,7 +103,7 @@ function Hint({
       clearTimeout(showTimer);
       clearTimeout(hideTimer);
       hideTimer = setTimeout(disableWasRendered, duration160Number);
-      close();
+      hidePopper();
     };
 
     element.addEventListener("mouseenter", mouseEnterHandler);
@@ -114,7 +113,7 @@ function Hint({
       element.removeEventListener("mouseenter", mouseEnterHandler);
       element.removeEventListener("mouseleave", mouseLeaveHandler);
     };
-  }, [close, disableWasRendered, element, enableWasRendered, open, showDelay]);
+  }, [hidePopper, disableWasRendered, element, enableWasRendered, showPopper, showDelay]);
 
   const themeStyles = styledForType[type];
 
@@ -123,7 +122,7 @@ function Hint({
       <Wrapper
         ref={initPopper("child")}
         styles={[
-          opacity(force || opened ? 1 : 0),
+          opacity(force || popperVisible ? 1 : 0),
           transition(`opacity ${duration160}`),
           getPopperMarginStyleForPlacement(placement, marginProp!),
           themeStyles.container,
