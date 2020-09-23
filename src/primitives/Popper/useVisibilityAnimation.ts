@@ -3,9 +3,9 @@ import { duration160Number } from "layout/durations";
 
 import { useBoolean } from "libs/hooks/common";
 
-export function useVisibilityAnimation(opened: boolean, duration = duration160Number) {
+export function useVisibilityAnimation(opened: boolean) {
   const spring = useSpring({
-    config: { duration },
+    config: { duration: duration160Number },
     opacity: opened ? 1 : 0,
   });
 

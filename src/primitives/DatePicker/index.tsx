@@ -74,30 +74,30 @@ export default cb(
     { tip, error: errorProp, size, placeholder, outerStyles, hasCurrentDayButton },
     { state: { config, inputValue, min, max, setInputValue, error, lastValidValue } },
   ) {
-    const { placement, popperVisible, showPopper, hidePopper, initPopper } = usePopper({
+    const { placement, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
       placement: "bottom-start",
     });
-    const { style } = useVisibilityAnimation(popperVisible);
+    const { style } = useVisibilityAnimation(wasRendered);
 
     function initRef(input: HTMLInputElement | null) {
       if (!input) return;
       initPopper("parent")(input);
-      input.addEventListener("focus", () => showPopper());
+      input.addEventListener("focus", () => enableWasRendered());
     }
 
     function inputRef(input: HTMLInputElement | null) {
       if (!input) return;
       initPopper("parent")(input);
-      input.addEventListener("focus", () => showPopper());
+      input.addEventListener("focus", () => enableWasRendered());
     }
 
     function inputOuterRef(element: HTMLElement | null) {
       if (!element) return;
-      element.addEventListener("click", () => showPopper());
+      element.addEventListener("click", () => enableWasRendered());
     }
 
     return (
-      <HandleClickOutside enabled={popperVisible} onClickOutside={hidePopper}>
+      <HandleClickOutside enabled={wasRendered} onClickOutside={disableWasRendered}>
         {(ref) => (
           <MaskedInput
             size={size}
@@ -115,11 +115,11 @@ export default cb(
             onChange={setInputValue}
           >
             <>
-              {popperVisible && (
+              {wasRendered && (
                 <Wrapper
                   as={animated.div}
                   style={style}
-                  styles={[zIndex_popup, opacity(popperVisible ? 1 : 0.6)]}
+                  styles={[zIndex_popup, opacity(wasRendered ? 1 : 0.6)]}
                   ref={initPopper("child")}
                 >
                   <Calendar

@@ -27,7 +27,7 @@ function getPopperData(inputData?: PopperConfigInterface) {
 
 export default function usePopper({ showOnHover = true, ...data }: PopperConfigInterface) {
   const [parent, setParent] = React.useState<HTMLElement>();
-  const [popperVisible, showPopper, hidePopper] = useBoolean(() => !showOnHover);
+  const [wasRendered, enableWasRendered, disableWasRendered] = useBoolean(() => !showOnHover);
   const [child, setChild] = React.useState<HTMLElement>();
   const [instance, setInstance] = React.useState<Instance | undefined>();
   const [placement, setPlacement] = React.useState<Placement>("bottom");
@@ -58,10 +58,10 @@ export default function usePopper({ showOnHover = true, ...data }: PopperConfigI
   }, [instance]);
 
   return {
-    popperVisible,
-    showPopper,
-    hidePopper,
     placement,
+    wasRendered,
+    enableWasRendered,
+    disableWasRendered,
     initPopper: (forObject: "parent" | "child") => (ref: HTMLElement | null) => {
       if (!ref) return;
       if (forObject === "child") {
