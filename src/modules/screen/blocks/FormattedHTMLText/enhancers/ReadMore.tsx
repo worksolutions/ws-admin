@@ -22,11 +22,11 @@ import { EnhancerInterface } from "./index";
 
 import { BlockInterface } from "state/globalState";
 
-type ReadMoreType = BlockInterface<
+type ReadAlsoType = BlockInterface<
   EnhancerInterface<{ heading: string; image: string; imageAspectRatio: number; text: string; reference: string }>
 >;
 
-function ReadMore({ options }: ReadMoreType) {
+function ReadAlso({ options }: ReadAlsoType) {
   const container = React.useMemo(() => document.getElementById(options!.id)!, []);
 
   if (!container || !options) return null;
@@ -54,4 +54,4 @@ function ReadMore({ options }: ReadMoreType) {
   );
 }
 
-export default React.memo(ReadMore);
+export default React.memo(ReadAlso);
