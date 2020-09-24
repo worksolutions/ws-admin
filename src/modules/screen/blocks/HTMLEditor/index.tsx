@@ -8,6 +8,8 @@ import { Aligns, backgroundColor, flex, fullWidth, jc, minHeight } from "libs/st
 import { insertContext } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 
+import { editorStyles } from "./editorStyles";
+
 import { BlockInterface } from "state/globalState";
 
 function HTMLEditor({ options, styles }: BlockInterface<{ value: string }> & { styles?: any }) {
@@ -15,7 +17,17 @@ function HTMLEditor({ options, styles }: BlockInterface<{ value: string }> & { s
   const [text, setText] = React.useState(() => value);
 
   return (
-    <Wrapper styles={[backgroundColor("gray-blue/01"), fullWidth, flex, jc(Aligns.CENTER), minHeight("100%"), styles]}>
+    <Wrapper
+      styles={[
+        fullWidth,
+        minHeight("100%"),
+        backgroundColor("gray-blue/01"),
+        flex,
+        jc(Aligns.CENTER),
+        styles,
+        editorStyles,
+      ]}
+    >
       <Editor
         initialText={text}
         onChange={setText}

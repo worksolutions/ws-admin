@@ -1,29 +1,52 @@
-import React, { Suspense } from "react";
-import "edelgarat-ckeditor5-custom-build/build/translations/ru";
-import ReactEditor from "@ckeditor/ckeditor5-react";
-import editor from "edelgarat-ckeditor5-custom-build/build/ckeditor";
+import React, { ReactNode, Suspense } from "react";
+import ReactDOM from "react-dom";
 
 import Spinner from "primitives/Spinner";
 
 import { config } from "./config";
-
-// @ts-ignore
-
-// @ts-ignore
+import { insertDivElementAtTheEndOfEditorToolbar, insertDivElementBeforeEditorToolbarSeparator } from "./libs";
 
 interface EditorInterface {
   initialText: string;
   onChange: (text: string) => void;
   uploader: (file: File) => Promise<any>;
   onInit?: (ref: EditorRefInterface) => void;
+  additionalToolbarElements?: {
+    afterLastSeparator?: ReactNode;
+    atTheEndOfContainer?: ReactNode;
+  };
 }
 
 export interface EditorRefInterface {
   insertContent: (text: string, appendNewLines?: boolean) => void;
 }
 
-export default React.memo(function Editor({ initialText, uploader, onChange, onInit }: EditorInterface) {
+const ReactEditor = require("@ckeditor/ckeditor5-react");
+require("edelgarat-ckeditor5-custom-build/build/translations/ru");
+
+const CKEditor5 = React.lazy(() =>
+  import("!!raw-loader!edelgarat-ckeditor5-custom-build/build/ckeditor").then((editor) => {
+    eval(editor.default);
+    const { ClassicEditor } = window as any;
+    return {
+      default: (props: any) => <ReactEditor {...props} editor={ClassicEditor} />,
+    };
+  }),
+);
+
+export default React.memo(function Editor({
+  initialText,
+  uploader,
+  onChange,
+  onInit,
+  additionalToolbarElements,
+}: EditorInterface) {
+  const [toolbarContainer, setToolbarContainer] = React.useState<HTMLElement | null>(null);
+  const [lastToolbarSeparator, setLastToolbarSeparator] = React.useState<HTMLElement | null>(null);
+
   function init(editor: any) {
+    setToolbarContainer(insertDivElementAtTheEndOfEditorToolbar());
+    setLastToolbarSeparator(insertDivElementBeforeEditorToolbarSeparator());
     editor.ui.view.toolbar.element.style.top = `0px`;
     editor.plugins.get("FileRepository").createUploadAdapter = (loader: any) => new CK5UploadAdapter(loader, uploader);
     editor.model.document.on("change:data", () => {
@@ -49,7 +72,10 @@ export default React.memo(function Editor({ initialText, uploader, onChange, onI
 
   return (
     <Suspense fallback={<Spinner />}>
-      <ReactEditor data={initialText} editor={editor} config={config} onChange={onChange} onInit={init} />
+      <CKEditor5 data={initialText} config={config} onInit={init} />
+      {toolbarContainer && ReactDOM.createPortal(additionalToolbarElements?.atTheEndOfContainer, toolbarContainer)}
+      {lastToolbarSeparator &&
+        ReactDOM.createPortal(additionalToolbarElements?.afterLastSeparator, lastToolbarSeparator)}
     </Suspense>
   );
 });
