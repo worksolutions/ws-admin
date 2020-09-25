@@ -4,30 +4,21 @@ import { observer } from "mobx-react-lite";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { Icons } from "primitives/Icon";
 import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
-import Input, { InputSize } from "primitives/Input/Input";
+import ImageWithDefault from "primitives/ImageWithDefault";
 
-import {
-  active,
-  backgroundColor,
-  borderBottom,
-  borderRadius,
-  child,
-  flexValue,
-  focus,
-  hover,
-  paddingLeft,
-  transform,
-} from "libs/styles";
-import { emptyBoxShadow } from "libs/styles/cleaner";
+import { child, maxWidth, transform, width } from "libs/styles";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
+import { useDataSource } from "modules/context/dataSource/useDataSource";
 
-import { useDataSource } from "../../../../context/dataSource/useDataSource";
+import { ListItemSize } from "../../../../../primitives/List/ListItem";
 
 import Search from "./Search";
 
 import { BlockInterface } from "state/globalState";
+
+import { PaginationInterface } from "types/Pagination";
 
 type PopupListSelectorOptionsInterface = {
   buttonOptions: { name: string; icon?: Icons };
@@ -35,6 +26,18 @@ type PopupListSelectorOptionsInterface = {
     context: string;
     placeholder?: string;
   };
+};
+
+type PopupListItemInterface = {
+  id: number;
+  name: string;
+  image?: string;
+  bottomContent?: string;
+};
+
+type PopupListSelectorDataInterface = {
+  list: PopupListItemInterface[];
+  pagination: PaginationInterface;
 };
 
 function PopupListSelector({
@@ -49,16 +52,21 @@ function PopupListSelector({
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
-  const { loadingContainer, data } = useDataSource(dataSource!);
-
+  const { loadingContainer, data } = useDataSource<PopupListSelectorDataInterface>(dataSource!);
+  console.log(appContext.context.screen.article.relatedArticles);
   return (
     <DroppedList
       mode={DroppedListOpenMode.CLICK}
+      selectedItemIds={appContext.context.screen.article.relatedArticles.map(({ id }: any) => id)}
+      itemSize={ListItemSize.MEDIUM}
       margin={4}
-      items={[
-        { title: "по новизне", code: "new" },
-        { title: "по дате создания", code: "date" },
-      ]}
+      items={data?.list.map(({ id, image, name, bottomContent }) => ({
+        code: id,
+        title: name,
+        subtitle: bottomContent,
+        leftContent: <ImageWithDefault width={52} height={32} src={image} />,
+        circledLeftContent: false,
+      }))}
       topComponent={
         resultActions.search &&
         options.searchInputOptions && (

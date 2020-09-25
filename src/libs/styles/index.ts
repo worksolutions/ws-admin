@@ -1,11 +1,13 @@
-import { is, memoizeWith } from "ramda";
+import { memoizeWith } from "ramda";
 import { css } from "styled-components";
 import { CSSProperties } from "react";
+
+import { isString } from "../is";
 
 import { identity } from "./identity";
 import { AllAvailableColorsType, Colors, getColor } from "./colors-style";
 
-export const stringOrPixels = (value: number | string) => (is(String, value) ? value : `${value}px`);
+export const stringOrPixels = (value: number | string) => (isString(value) ? value : `${value}px`);
 
 export * from "./colors-style";
 export * from "./background-styles";
