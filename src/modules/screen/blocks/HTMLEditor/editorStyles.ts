@@ -89,6 +89,10 @@ export const editorStyles = css`
         }
       }
 
+      .custom-toolbar-button {
+        outline: none !important;
+      }
+
       .ck-heading-dropdown {
         min-width: 128px;
         height: 32px;
