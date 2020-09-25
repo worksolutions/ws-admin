@@ -38,6 +38,8 @@ export const editorStyles = css`
     &.ck-toolbar {
       background: white !important;
       border: none;
+      display: flex;
+      justify-content: center;
 
       &__items {
         justify-content: center;
@@ -93,6 +95,49 @@ export const editorStyles = css`
         outline: none !important;
       }
 
+      .ck-dropdown__panel {
+        top: calc(100% + 6px) !important;
+        background: white;
+        ${border(1, "gray-blue/02")} !important;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        border-radius: 6px !important;
+        overflow: hidden;
+        padding: 7px 8px !important;
+      }
+
+      .ck-insert-table-dropdown__label {
+        color: ${getColor("gray-blue/05")};
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.15px;
+        margin-top: 8px;
+        display: flex;
+        height: 20px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .ck-insert-table-dropdown__grid {
+        width: 140px !important;
+        padding: 0 !important;
+        border-radius: 6px;
+        border: none !important;
+        cursor: pointer;
+
+        .ck-insert-table-dropdown-grid-box {
+          background-color: ${getColor("gray-blue/01")};
+          border-color: ${getColor("gray-blue/02")};
+          width: 12px !important;
+          height: 12px !important;
+          border-radius: 2px !important;
+        }
+
+        .ck-insert-table-dropdown-grid-box.ck-on {
+          background-color: ${getColor("blue/01")};
+          border-color: ${getColor("blue/03")};
+        }
+      }
+
       .ck-heading-dropdown {
         min-width: 128px;
         height: 32px;
@@ -135,13 +180,6 @@ export const editorStyles = css`
 
         .ck-dropdown__panel {
           width: 200px;
-          top: calc(100% + 6px);
-          background: white;
-          ${border(1, "gray-blue/02")};
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
-          border-radius: 6px !important;
-          overflow: hidden;
-          padding: 7px 8px;
         }
 
         .ck-list {
@@ -197,7 +235,7 @@ export const editorStyles = css`
       flex-grow: 1;
       padding: 16px;
 
-      .ck-editor__editable {
+      & > .ck-editor__editable {
         width: 100%;
         max-width: 752px;
         min-height: 100%;
@@ -210,8 +248,6 @@ export const editorStyles = css`
       }
     }
 
-    .ck-editor__editable {
-      ${htmlStyles}
-    }
+    ${htmlStyles}
   }
 `;
