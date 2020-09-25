@@ -4,7 +4,11 @@ import ReactDOM from "react-dom";
 import Spinner from "primitives/Spinner";
 
 import { config } from "./config";
-import { insertDivElementAtTheEndOfEditorToolbar, insertDivElementBeforeEditorToolbarSeparator } from "./libs";
+import {
+  insertDivElementAtTheEndOfEditorToolbar,
+  insertDivElementBeforeEditorToolbarSeparator,
+  prepareEditorToCustomize,
+} from "./libs";
 
 interface EditorInterface {
   initialText: string;
@@ -45,6 +49,7 @@ export default React.memo(function Editor({
   const [lastToolbarSeparator, setLastToolbarSeparator] = React.useState<HTMLElement | null>(null);
 
   function init(editor: any) {
+    prepareEditorToCustomize();
     setToolbarContainer(insertDivElementAtTheEndOfEditorToolbar());
     setLastToolbarSeparator(insertDivElementBeforeEditorToolbarSeparator());
     editor.ui.view.toolbar.element.style.top = `0px`;
