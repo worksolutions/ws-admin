@@ -49,7 +49,6 @@ function PopupListSelector({
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
-  console.log(dataSource);
   const { loadingContainer, data } = useDataSource(dataSource!);
 
   return (
