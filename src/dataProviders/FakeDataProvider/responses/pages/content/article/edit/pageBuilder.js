@@ -370,12 +370,31 @@ module.exports = function (context, getActions) {
                   type: "Layout/DefaultContainer",
                   slots: {
                     headerContent: {
-                      type: "Actions/Button",
-                      options: { name: "Редактировать", icon: "edit", buttonType: "SECONDARY" },
+                      type: "Actions/PopupListSelector",
+                      options: {
+                        buttonOptions: { name: "Добавить статью", icon: "plus-big" },
+                        searchInputOptions: { context: "screen:article-data.related-articles.search" },
+                      },
                       actions: {
-                        click: {
+                        select: {
                           type: "update-context",
                           context: "",
+                        },
+                        search: {
+                          type: "update-context",
+                          context: "screen:article-data.related-articles.search",
+                        },
+                      },
+                      dataSource: {
+                        type: "api:request",
+                        options: {
+                          reference: "/articles/simple-list",
+                          method: "get",
+                          params: {
+                            title: "=screen:article-data.related-articles.search",
+                            page: "1",
+                            perPage: "8",
+                          },
                         },
                       },
                     },

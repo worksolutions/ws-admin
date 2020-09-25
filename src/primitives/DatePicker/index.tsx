@@ -77,12 +77,6 @@ export default cb(
     const { opened, style, close, open } = useVisibilityAnimation();
     const { initPopper, placement } = usePopper({ placement: "bottom-start" });
 
-    function initRef(input: HTMLInputElement | null) {
-      if (!input) return;
-      initPopper("parent")(input);
-      input.addEventListener("focus", () => open());
-    }
-
     function inputRef(input: HTMLInputElement | null) {
       if (!input) return;
       initPopper("parent")(input);
