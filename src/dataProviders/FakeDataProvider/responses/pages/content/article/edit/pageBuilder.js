@@ -367,16 +367,31 @@ module.exports = function (context, getActions) {
               {
                 title: "Статьи по теме",
                 block: {
-                  type: "DataView/Cards",
-                  dataSource: {
-                    type: "api:request",
-                    options: {
-                      reference: "/article/{{screen:articleId}}/related-articles",
-                      method: "get",
+                  type: "Layout/DefaultContainer",
+                  slots: {
+                    headerContent: {
+                      type: "Actions/Button",
+                      options: { name: "Редактировать", icon: "edit", buttonType: "SECONDARY" },
+                      actions: {
+                        click: {
+                          type: "update-context",
+                          context: "",
+                        },
+                      },
                     },
-                  },
-                  options: {
-                    imageConfig: { aspectRatio: 1.6 },
+                    mainContent: {
+                      type: "DataView/Cards",
+                      dataSource: {
+                        type: "api:request",
+                        options: {
+                          reference: "/article/{{screen:articleId}}/related-articles",
+                          method: "get",
+                        },
+                      },
+                      options: {
+                        imageConfig: { aspectRatio: 1.6 },
+                      },
+                    },
                   },
                 },
               },
