@@ -21,7 +21,6 @@ import {
   hover,
   jc,
   marginBottom,
-  marginTop,
   transition,
 } from "libs/styles";
 
@@ -32,7 +31,7 @@ import CardComponent from "./CardComponent";
 function CardsViewPresenter({ list, imageConfig }: { list: CardsViewDataSource; imageConfig: CardImageConfig }) {
   if (list.length === 0) {
     return (
-      <Wrapper className="cards-view-presenter" styles={[flex, fullHeight, ai(Aligns.CENTER), jc(Aligns.CENTER)]}>
+      <Wrapper styles={[flex, fullHeight, ai(Aligns.CENTER), jc(Aligns.CENTER)]}>
         <Typography color="gray-blue/05">Нет элементов для отображения</Typography>
       </Wrapper>
     );
@@ -40,11 +39,10 @@ function CardsViewPresenter({ list, imageConfig }: { list: CardsViewDataSource; 
 
   return (
     <LayoutGrid
-      className="cards-view-presenter"
       eachChildStyles={marginBottom(16)}
       marginBetweenElements={16}
       minWidth={242}
-      styles={[marginTop(16), horizontalPadding(16), ai(Aligns.STRETCH)]}
+      styles={[horizontalPadding(16), ai(Aligns.STRETCH)]}
     >
       {list.map((card) => {
         const cardComponent = <CardComponent {...card} imageConfig={imageConfig} />;

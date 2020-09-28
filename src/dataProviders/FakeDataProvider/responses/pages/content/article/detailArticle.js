@@ -46,129 +46,136 @@ module.exports = {
         },
         mainContent: {
           type: "Tabs",
-          options: [
-            {
-              title: "Атрибуты",
-              block: {
-                type: "RowFields/StaticGroupedFieldsList",
-                options: [
-                  {
-                    title: "Основные",
-                    fieldList: {
-                      mode: "HORIZONTAL",
-                      fields: [
-                        {
-                          title: "Название",
-                          type: "text",
-                          options: { value: "=screen:article.title" },
-                        },
-                        {
-                          title: "Текст анонса",
-                          type: "text",
-                          options: { value: "=screen:article.announce" },
-                        },
-                        {
-                          title: "Дата публикации",
-                          type: "text",
-                          options: { value: "=screen:article.publishedAt" },
-                        },
-                        {
-                          title: "Категория",
-                          type: "text",
-                          options: { value: "=screen:article.category.name" },
-                        },
-                        {
-                          title: "Автор",
-                          type: "icon-link",
-                          options: {
-                            title: "{{screen:article.author.name}} {{screen:article.author.surname}}",
-                            imageReference: "=screen:article.author.image.path",
-                            reference: "/user/{{screen:article.author.id}}",
+          options: {
+            tabs: [
+              {
+                title: "Атрибуты",
+                block: {
+                  type: "RowFields/StaticGroupedFieldsList",
+                  options: [
+                    {
+                      title: "Основные",
+                      fieldList: {
+                        mode: "HORIZONTAL",
+                        fields: [
+                          {
+                            title: "Название",
+                            type: "text",
+                            options: { value: "=screen:article.title" },
                           },
-                        },
-                      ],
+                          {
+                            title: "Текст анонса",
+                            type: "text",
+                            options: { value: "=screen:article.announce" },
+                          },
+                          {
+                            title: "Дата публикации",
+                            type: "text",
+                            options: { value: "=screen:article.publishedAt" },
+                          },
+                          {
+                            title: "Категория",
+                            type: "text",
+                            options: { value: "=screen:article.category.name" },
+                          },
+                          {
+                            title: "Автор",
+                            type: "icon-link",
+                            options: {
+                              title: "{{screen:article.author.name}} {{screen:article.author.surname}}",
+                              imageReference: "=screen:article.author.image.path",
+                              reference: "/user/{{screen:article.author.id}}",
+                            },
+                          },
+                        ],
+                      },
                     },
-                  },
-                  {
-                    title: "Мета",
-                    fieldList: {
-                      mode: "HORIZONTAL",
-                      fields: [
-                        {
-                          title: "Символьный код",
-                          type: "text",
-                          options: { value: "=screen:article.code" },
-                        },
-                        {
-                          title: "Заголовок",
-                          type: "text",
-                          options: { value: "=screen:article.tagTitle" },
-                        },
-                        {
-                          title: "Описание",
-                          type: "text",
-                          options: { value: "=screen:article.tagDescription" },
-                        },
-                        {
-                          title: "Ключевые слова",
-                          type: "text",
-                          options: { value: "=screen:article.keywords" },
-                        },
-                      ],
+                    {
+                      title: "Мета",
+                      fieldList: {
+                        mode: "HORIZONTAL",
+                        fields: [
+                          {
+                            title: "Символьный код",
+                            type: "text",
+                            options: { value: "=screen:article.code" },
+                          },
+                          {
+                            title: "Заголовок",
+                            type: "text",
+                            options: { value: "=screen:article.tagTitle" },
+                          },
+                          {
+                            title: "Описание",
+                            type: "text",
+                            options: { value: "=screen:article.tagDescription" },
+                          },
+                          {
+                            title: "Ключевые слова",
+                            type: "text",
+                            options: { value: "=screen:article.keywords" },
+                          },
+                        ],
+                      },
                     },
-                  },
-                  {
-                    title: "Изображения",
-                    fieldList: {
-                      mode: "VERTICAL",
-                      fields: [
-                        {
-                          title: "Изображение анонса",
-                          type: "image",
-                          options: { reference: "=screen:article.announceImage.path", aspectRatio: 1.6 },
-                        },
-                        {
-                          title: "Изображение заголовка",
-                          type: "image",
-                          options: { reference: "=screen:article.contentImage.path", aspectRatio: 1.6 },
-                        },
-                        {
-                          title: "Фон",
-                          type: "image",
-                          options: { reference: "=screen:article.background.path", aspectRatio: 1.6 },
-                        },
-                      ],
+                    {
+                      title: "Изображения",
+                      fieldList: {
+                        mode: "VERTICAL",
+                        fields: [
+                          {
+                            title: "Изображение анонса",
+                            type: "image",
+                            options: { reference: "=screen:article.announceImage.path", aspectRatio: 1.6 },
+                          },
+                          {
+                            title: "Изображение заголовка",
+                            type: "image",
+                            options: { reference: "=screen:article.contentImage.path", aspectRatio: 1.6 },
+                          },
+                          {
+                            title: "Фон",
+                            type: "image",
+                            options: { reference: "=screen:article.background.path", aspectRatio: 1.6 },
+                          },
+                        ],
+                      },
                     },
-                  },
-                ],
-              },
-            },
-            {
-              title: "Текст",
-              block: {
-                type: "FormattedHTMLText",
-                options: {
-                  value: "=screen:article.content",
+                  ],
                 },
               },
-            },
-            {
-              title: "Статьи по теме",
-              block: {
-                type: "DataView/Cards",
-                dataSource: {
-                  type: "api:request",
+              {
+                title: "Текст",
+                block: {
+                  type: "FormattedHTMLText",
                   options: {
-                    reference: "/article/{{screen:articleId}}/related-articles",
-                    method: "get",
+                    value: "=screen:article.content",
                   },
                 },
-                options: {
-                  imageConfig: { aspectRatio: 1.6 },
+              },
+              {
+                title: "Статьи по теме",
+                block: {
+                  type: "Layout/DefaultContainer",
+                  slots: {
+                    mainContent: {
+                      type: "DataView/Cards",
+                      dataSource: {
+                        type: "api:request",
+                        options: {
+                          reference: "/article/{{screen:articleId}}/related-articles",
+                          method: "get",
+                        },
+                      },
+                      options: {
+                        imageConfig: { aspectRatio: 1.6 },
+                      },
+                    },
+                  },
                 },
               },
-            },
-          ],
+            ],
+          },
         },
       },
     },

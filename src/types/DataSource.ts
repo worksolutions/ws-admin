@@ -12,6 +12,7 @@ type DataSourceOptions = {
   [DataSourceType.API_REQUEST]: {
     reference: string;
     method: METHODS;
+    cancellable?: boolean;
     responseDataConverter?: string;
     removeEmptyString?: boolean;
     removeNullableFields?: boolean;

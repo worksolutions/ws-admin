@@ -9,7 +9,7 @@ import { InputSize, InputTitlePosition } from "primitives/Input/InputWrapper";
 import Combobox from "primitives/Combobox/Combobox";
 import TokenList from "primitives/TokenList";
 
-import { Aligns, child, flex, flexColumn, jc, marginBottom, maxWidth } from "libs/styles";
+import { maxWidth } from "libs/styles";
 
 function Dropdowns() {
   const [value, setValue] = React.useState<string | number | undefined>("new");
@@ -31,7 +31,7 @@ function Dropdowns() {
   ]);
 
   return (
-    <Wrapper styles={[flex, flexColumn, jc(Aligns.CENTER), child(marginBottom(30))]}>
+    <Wrapper>
       <Dropdown
         searchable
         title="Сверху:"

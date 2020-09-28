@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
+import { prop } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -15,6 +16,7 @@ import {
   width,
 } from "libs/styles";
 import { isString } from "libs/is";
+import { provideRef } from "libs/provideRef";
 
 import { list } from "./list";
 
@@ -32,10 +34,13 @@ interface SVGInterface extends StyledSVGInterface {
   color?: Colors;
 }
 
-const StyledSVG = styled.svg<StyledSVGInterface>`
+const StyledSVG = styled.svg<StyledSVGInterface & { fillColor: any }>`
   display: inline-block;
   min-width: ${(props) => stringOrPixels(props.width!)};
   min-height: ${(props) => stringOrPixels(props.height!)};
+  use {
+    fill: ${prop("fillColor")};
+  }
 `;
 
 const SVG = React.forwardRef(function (
@@ -47,12 +52,10 @@ const SVG = React.forwardRef(function (
 
   const [ref, setRef] = React.useState<HTMLElement | SVGSVGElement | null>();
 
-  const fillColor = getColor(color);
-
   React.useEffect(() => {
     if (!ref) return;
-    ref.innerHTML = `<use xlink:href="${rawIcon.symbol}" fill="${fillColor}"/>`;
-  }, [ref, icon, color, rawIcon, fillColor]);
+    ref.innerHTML = `<use xlink:href="${rawIcon.symbol}" />`;
+  }, [ref, rawIcon]);
 
   if (!rawIcon) return null;
 
@@ -70,10 +73,7 @@ const SVG = React.forwardRef(function (
           styles,
         ]}
         className={className}
-        ref={(ref: HTMLElement) => {
-          if (refProp) refProp(ref);
-          setRef(ref);
-        }}
+        ref={provideRef(refProp, setRef)}
       />
     );
   }
@@ -83,15 +83,13 @@ const SVG = React.forwardRef(function (
       // @ts-ignore
       css={styles}
       className={className}
-      width={heightProp}
+      width={widthProp}
       height={heightProp}
       viewBox={rawIcon.viewBox}
-      ref={(ref) => {
-        if (refProp) refProp(ref);
-        setRef(ref);
-      }}
+      fillColor={getColor(color)}
+      ref={provideRef(refProp, setRef)}
     >
-      <use xlinkHref={rawIcon.symbol} fill={fillColor} />
+      <use xlinkHref={rawIcon.symbol} />
     </StyledSVG>
   );
 });

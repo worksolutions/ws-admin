@@ -3,10 +3,9 @@ import { assoc } from "ramda";
 
 import Icon from "primitives/Icon";
 import Dropdown from "primitives/Dropdown/Dropdown";
+import Wrapper from "primitives/Wrapper";
 
 import { ai, Aligns, Colors, flex, height, jc, width } from "libs/styles";
-
-import Wrapper from "../../../../../../../primitives/Wrapper";
 
 import SuggestInterface from "types/SuggestInterface";
 
