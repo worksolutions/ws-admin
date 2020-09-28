@@ -34,6 +34,7 @@ export interface DroppedListInterface<ITEM extends string | number> {
   emptyText?: string;
   topComponent?: React.ReactNode;
   bottomComponent?: React.ReactNode;
+  itemsWrapper?: (child: React.ReactNode) => React.ReactNode;
   includeMinWidthCalculation?: boolean;
   mode?: DroppedListOpenMode;
   placement?: Placement;
@@ -91,6 +92,7 @@ function DroppedList({
   emptyText,
   topComponent,
   bottomComponent,
+  itemsWrapper,
   includeMinWidthCalculation = true,
   mode = DroppedListOpenMode.CLICK,
   placement: placementProp = "bottom-start",
@@ -115,6 +117,21 @@ function DroppedList({
 
   const Component = ComponentByOpenMode[mode];
   const toggle = toggleByOpenMode[mode];
+
+  const renderItems = () => {
+    if (!items) return null;
+    const ItemsList = (
+      <List
+        emptyText={emptyText}
+        itemSize={itemSize}
+        titleDots
+        activeItemIds={selectedItemIds}
+        items={items}
+        onClick={(id) => onChange(id, close)}
+      />
+    );
+    return itemsWrapper ? itemsWrapper(ItemsList) : ItemsList;
+  };
 
   const renderChild = (clickOutsideRef: any) =>
     children(
@@ -143,16 +160,7 @@ function DroppedList({
           ]}
         >
           {topComponent}
-          {items ? (
-            <List
-              emptyText={emptyText}
-              itemSize={itemSize}
-              titleDots
-              activeItemIds={selectedItemIds}
-              items={items}
-              onClick={(id) => onChange(id, close)}
-            />
-          ) : null}
+          {renderItems()}
           {bottomComponent}
         </Wrapper>
       </Wrapper>,

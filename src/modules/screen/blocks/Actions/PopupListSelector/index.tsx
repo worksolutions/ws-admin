@@ -5,14 +5,18 @@ import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { Icons } from "primitives/Icon";
 import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
 import ImageWithDefault from "primitives/ImageWithDefault";
+import { ListItemSize } from "primitives/List/ListItem";
+import Wrapper from "primitives/Wrapper";
 
-import { child, maxWidth, transform, width } from "libs/styles";
+import Loading from "components/LoadingContainer/Loading";
+import LoadingProvider from "components/LoadingContainer/LoadingProvider";
 
+import { child, transform } from "libs/styles";
+
+import { useStateFromContext } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
-
-import { ListItemSize } from "../../../../../primitives/List/ListItem";
 
 import Search from "./Search";
 
@@ -21,6 +25,7 @@ import { BlockInterface } from "state/globalState";
 import { PaginationInterface } from "types/Pagination";
 
 type PopupListSelectorOptionsInterface = {
+  context: string;
   buttonOptions: { name: string; icon?: Icons };
   searchInputOptions?: {
     context: string;
@@ -51,16 +56,26 @@ function PopupListSelector({
   if (!options.buttonOptions) return null;
 
   const appContext = useAppContext();
+  const [{ list, pagination }] = useStateFromContext<PopupListSelectorDataInterface>(options.context, appContext);
   const resultActions = useActions(actions, appContext);
-  const { loadingContainer, data } = useDataSource<PopupListSelectorDataInterface>(dataSource!);
-  console.log(appContext.context.screen.article.relatedArticles);
+  const { loadingContainer } = useDataSource(dataSource!);
+
   return (
     <DroppedList
       mode={DroppedListOpenMode.CLICK}
-      selectedItemIds={appContext.context.screen.article.relatedArticles.map(({ id }: any) => id)}
       itemSize={ListItemSize.MEDIUM}
+      itemsWrapper={(child) => (
+        <LoadingProvider>
+          {(ref) => (
+            <Wrapper ref={ref}>
+              {loadingContainer.loading && <Loading />}
+              {child}
+            </Wrapper>
+          )}
+        </LoadingProvider>
+      )}
       margin={4}
-      items={data?.list.map(({ id, image, name, bottomContent }) => ({
+      items={list.map(({ id, image, name, bottomContent }) => ({
         code: id,
         title: name,
         subtitle: bottomContent,
