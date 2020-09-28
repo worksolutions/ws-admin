@@ -4,37 +4,45 @@ import { observer } from "mobx-react-lite";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { Icons } from "primitives/Icon";
 import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
-import Input, { InputSize } from "primitives/Input/Input";
+import ImageWithDefault from "primitives/ImageWithDefault";
+import { ListItemSize } from "primitives/List/ListItem";
+import Wrapper from "primitives/Wrapper";
 
-import {
-  active,
-  backgroundColor,
-  borderBottom,
-  borderRadius,
-  child,
-  flexValue,
-  focus,
-  hover,
-  paddingLeft,
-  transform,
-} from "libs/styles";
-import { emptyBoxShadow } from "libs/styles/cleaner";
+import Loading from "components/LoadingContainer/Loading";
+import LoadingProvider from "components/LoadingContainer/LoadingProvider";
 
+import { child, transform } from "libs/styles";
+
+import { useStateFromContext } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
-
-import { useDataSource } from "../../../../context/dataSource/useDataSource";
+import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import Search from "./Search";
 
 import { BlockInterface } from "state/globalState";
 
+import { PaginationInterface } from "types/Pagination";
+
 type PopupListSelectorOptionsInterface = {
+  context: string;
   buttonOptions: { name: string; icon?: Icons };
   searchInputOptions?: {
     context: string;
     placeholder?: string;
   };
+};
+
+type PopupListItemInterface = {
+  id: number;
+  name: string;
+  image?: string;
+  bottomContent?: string;
+};
+
+type PopupListSelectorDataInterface = {
+  list: PopupListItemInterface[];
+  pagination: PaginationInterface;
 };
 
 function PopupListSelector({
@@ -48,18 +56,32 @@ function PopupListSelector({
   if (!options.buttonOptions) return null;
 
   const appContext = useAppContext();
+  const [{ list, pagination }] = useStateFromContext<PopupListSelectorDataInterface>(options.context, appContext);
   const resultActions = useActions(actions, appContext);
-  console.log(dataSource);
-  const { loadingContainer, data } = useDataSource(dataSource!);
+  const { loadingContainer } = useDataSource(dataSource!);
 
   return (
     <DroppedList
       mode={DroppedListOpenMode.CLICK}
+      itemSize={ListItemSize.MEDIUM}
+      itemsWrapper={(child) => (
+        <LoadingProvider>
+          {(ref) => (
+            <Wrapper ref={ref}>
+              {loadingContainer.loading && <Loading />}
+              {child}
+            </Wrapper>
+          )}
+        </LoadingProvider>
+      )}
       margin={4}
-      items={[
-        { title: "по новизне", code: "new" },
-        { title: "по дате создания", code: "date" },
-      ]}
+      items={list.map(({ id, image, name, bottomContent }) => ({
+        code: id,
+        title: name,
+        subtitle: bottomContent,
+        leftContent: <ImageWithDefault width={52} height={32} src={image} />,
+        circledLeftContent: false,
+      }))}
       topComponent={
         resultActions.search &&
         options.searchInputOptions && (

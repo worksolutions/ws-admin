@@ -74,11 +74,11 @@ function insertContextData(
   return result;
 }
 
-export function useStateFromContext(
+export function useStateFromContext<RESULT = any>(
   contextPath: string,
   appContext: AppContextInterface,
   localContext = {},
-): [any, (data: any) => void] {
+): [RESULT, (data: any) => void] {
   const data = insertContext("=" + contextPath, appContext.context, localContext).value;
   return [
     data,

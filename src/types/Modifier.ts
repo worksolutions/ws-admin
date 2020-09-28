@@ -3,6 +3,7 @@ export enum ModifierType {
   TRANSLITERATION = "transliteration",
   MODEL_DISABLER = "model-disabler",
   COPY_CONTEXT = "copy-context",
+  EXCLUDE_ARRAY_ITEMS_BY_ID_FROM_CONTEXT = "exclude-array-items-by-id-from-context",
 }
 
 export type ModifierOptionsByType = {
@@ -10,6 +11,7 @@ export type ModifierOptionsByType = {
   [ModifierType.TRANSLITERATION]: { fromContext: string; toContext: string };
   [ModifierType.MODEL_DISABLER]: { context: string };
   [ModifierType.COPY_CONTEXT]: { fromContext: string; toContext: string };
+  [ModifierType.EXCLUDE_ARRAY_ITEMS_BY_ID_FROM_CONTEXT]: { fromContext: string; toContext: string };
 };
 
 export enum ModifierEnableTriggerType {
@@ -49,5 +51,9 @@ export type ModifierInterface = {
   | {
       type: ModifierType.MODEL_DISABLER;
       options: ModifierOptionsByType[ModifierType.MODEL_DISABLER];
+    }
+  | {
+      type: ModifierType.EXCLUDE_ARRAY_ITEMS_BY_ID_FROM_CONTEXT;
+      options: ModifierOptionsByType[ModifierType.EXCLUDE_ARRAY_ITEMS_BY_ID_FROM_CONTEXT];
     }
 );

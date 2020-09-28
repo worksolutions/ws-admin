@@ -35,6 +35,7 @@ export interface DroppedListInterface<ITEM extends string | number> {
   emptyText?: string;
   topComponent?: React.ReactNode;
   bottomComponent?: React.ReactNode;
+  itemsWrapper?: (child: React.ReactNode) => React.ReactNode;
   includeMinWidthCalculation?: boolean;
   mode?: DroppedListOpenMode;
   placement?: Placement;
@@ -92,6 +93,7 @@ function DroppedList({
   emptyText,
   topComponent,
   bottomComponent,
+  itemsWrapper,
   includeMinWidthCalculation = true,
   mode = DroppedListOpenMode.CLICK,
   placement: placementProp = "bottom-start",
@@ -129,6 +131,21 @@ function DroppedList({
   const Component = ComponentByOpenMode[mode];
   const toggle = toggleByOpenMode[mode];
 
+  const renderItems = () => {
+    if (!items) return null;
+    const ItemsList = (
+      <List
+        emptyText={emptyText}
+        itemSize={itemSize}
+        titleDots
+        activeItemIds={selectedItemIds}
+        items={items}
+        onClick={(id) => onChange(id, close)}
+      />
+    );
+    return itemsWrapper ? itemsWrapper(ItemsList) : ItemsList;
+  };
+
   const renderChild = (clickOutsideRef: any) =>
     children(
       {
@@ -138,46 +155,33 @@ function DroppedList({
         toggle: () => toggle(wasRendered, showPopper, hidePopper),
       },
       provideRef(clickOutsideRef, initPopper("parent")),
-      <>
-        {wasRendered && (
-          <Wrapper
-            as={animated.div}
-            style={style}
-            ref={initPopper("child")}
-            styles={[
-              cursor("default"),
-              maxWidth(480),
-              minWidth("100%"),
-              includeMinWidthCalculation && minWidth("calc(100% + 40px)"),
-              zIndex_popup,
-            ]}
-            onClick={stopPropagation()}
-          >
-            <Wrapper
-              styles={[
-                getPopperMarginStyleForPlacement(placement, marginProp),
-                backgroundColor("white"),
-                boxShadow(...elevation16Raw, [0, 0, 0, 1, "gray-blue/02"]),
-                borderRadius(6),
-                padding("4px 8px"),
-              ]}
-            >
-              {topComponent}
-              {items ? (
-                <List
-                  emptyText={emptyText}
-                  itemSize={itemSize}
-                  titleDots
-                  activeItemIds={selectedItemIds}
-                  items={items}
-                  onClick={(id) => onChange(id, hidePopper)}
-                />
-              ) : null}
-              {bottomComponent}
-            </Wrapper>
-          </Wrapper>
-        )}
-      </>,
+      <Wrapper
+        as={animated.div}
+        style={style}
+        ref={initPopper("child")}
+        styles={[
+          cursor("default"),
+          maxWidth(480),
+          minWidth("100%"),
+          includeMinWidthCalculation && minWidth("calc(100% + 40px)"),
+          zIndex_popup,
+        ]}
+        onClick={stopPropagation()}
+      >
+        <Wrapper
+          styles={[
+            getPopperMarginStyleForPlacement(placement, marginProp),
+            backgroundColor("white"),
+            boxShadow(...elevation16Raw, [0, 0, 0, 1, "gray-blue/02"]),
+            borderRadius(6),
+            padding("4px 8px"),
+          ]}
+        >
+          {topComponent}
+          {renderItems()}
+          {bottomComponent}
+        </Wrapper>
+      </Wrapper>,
     );
 
   return (

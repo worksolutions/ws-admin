@@ -1,10 +1,11 @@
 import { Lambda, observe } from "mobx";
-import { clone, isNil, last } from "ramda";
+import { clone, is, isNil, last } from "ramda";
 import { useLocalStore } from "mobx-react-lite";
 import { useEffect } from "react";
 
 import { path } from "libs/path";
 import { RequestError } from "libs/request";
+import { BaseError } from "libs/BaseError";
 
 import { InsertContextResult } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
@@ -86,7 +87,13 @@ export default function useApiRequestDataSource<RESULT = any>(
 }
 
 function makeOnDependencyChangeUpdater(insertContextResult: InsertContextResult, context: any, onUpdate: () => void) {
-  return insertContextResult.dependencies.map((dependency) =>
-    observe(path([dependency.contextType, ...dependency.path.slice(0, -1)], context), last(dependency.path), onUpdate),
-  );
+  return insertContextResult.dependencies.map((dependency) => {
+    const contextValue = path([dependency.contextType, ...dependency.path.slice(0, -1)], context);
+    if (!is(Object, contextValue))
+      throw new BaseError({
+        message: `Поле в контексте не определено ${dependency.contextType}:${dependency.path.join(".")} для наблюдения`,
+        errors: {},
+      });
+    return observe(contextValue, last(dependency.path), onUpdate);
+  });
 }

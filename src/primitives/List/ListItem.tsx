@@ -38,7 +38,9 @@ import SuggestInterface from "types/SuggestInterface";
 
 export interface ListItemInterface<ITEM extends string | number> extends SuggestInterface<ITEM> {
   leftContent?: InputIconProp;
+  circledLeftContent?: boolean;
   rightContent?: InputIconProp;
+  circledRightContent?: boolean;
   heading?: string | number;
   subtitle?: string | number;
   disabled?: boolean;
@@ -49,7 +51,10 @@ export enum ListItemSize {
   MEDIUM = "MEDIUM",
 }
 
-const heightForItemSize: Record<ListItemSize, number> = { [ListItemSize.LARGE]: 40, [ListItemSize.MEDIUM]: 32 };
+const heightForItemSize: Record<ListItemSize, number> = {
+  [ListItemSize.LARGE]: 40,
+  [ListItemSize.MEDIUM]: 32,
+};
 
 export function getItemStyles(itemSize: ListItemSize, enabled: boolean, isActiveItem: boolean) {
   return [
@@ -83,18 +88,37 @@ type ListItemComponent<CODE extends string | number> = {
   styles?: any;
 };
 
-function makeIcon(icon?: InputIconProp, styles?: any) {
+function makeIcon(icon?: InputIconProp, styles?: any, circledIcon = true) {
   const content = icon ? isString(icon) ? <Icon icon={icon} /> : icon : null;
   if (!content) return null;
   return (
-    <Wrapper styles={[flex, borderRadius("100%"), overflow("hidden"), ai(Aligns.CENTER), jc(Aligns.CENTER), styles]}>
+    <Wrapper
+      styles={[
+        flex,
+        borderRadius(circledIcon ? "100%" : 4),
+        overflow("hidden"),
+        ai(Aligns.CENTER),
+        jc(Aligns.CENTER),
+        styles,
+      ]}
+    >
       {content}
     </Wrapper>
   );
 }
 
 function ListItem<CODE extends string | number>({
-  item: { title, leftContent, code, disabled, heading, rightContent, subtitle },
+  item: {
+    title,
+    leftContent,
+    code,
+    disabled,
+    heading,
+    rightContent,
+    subtitle,
+    circledLeftContent,
+    circledRightContent,
+  },
   itemSize,
   isActiveItem,
   onClick,
@@ -103,8 +127,8 @@ function ListItem<CODE extends string | number>({
   styles,
 }: ListItemComponent<CODE>) {
   const enabled = !disabled;
-  const leftIcon = makeIcon(leftContent, marginRight(8));
-  const rightIcon = makeIcon(rightContent, marginLeft(8));
+  const leftIcon = makeIcon(leftContent, marginRight(8), circledLeftContent);
+  const rightIcon = makeIcon(rightContent, marginLeft(8), circledRightContent);
 
   return (
     <Wrapper
