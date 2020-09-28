@@ -367,16 +367,50 @@ module.exports = function (context, getActions) {
               {
                 title: "Статьи по теме",
                 block: {
-                  type: "DataView/Cards",
-                  dataSource: {
-                    type: "api:request",
-                    options: {
-                      reference: "/article/{{screen:articleId}}/related-articles",
-                      method: "get",
+                  type: "Layout/DefaultContainer",
+                  slots: {
+                    headerContent: {
+                      type: "Actions/PopupListSelector",
+                      options: {
+                        buttonOptions: { name: "Добавить статью", icon: "plus-big" },
+                        searchInputOptions: { context: "screen:article-data.related-articles.search" },
+                      },
+                      actions: {
+                        select: {
+                          type: "update-context",
+                          context: "",
+                        },
+                        search: {
+                          type: "update-context",
+                          context: "screen:article-data.related-articles.search",
+                        },
+                      },
+                      dataSource: {
+                        type: "api:request",
+                        options: {
+                          reference: "/articles/simple-list",
+                          method: "get",
+                          params: {
+                            title: "=screen:article-data.related-articles.search",
+                            page: "1",
+                            perPage: "8",
+                          },
+                        },
+                      },
                     },
-                  },
-                  options: {
-                    imageConfig: { aspectRatio: 1.6 },
+                    mainContent: {
+                      type: "DataView/Cards",
+                      dataSource: {
+                        type: "api:request",
+                        options: {
+                          reference: "/article/{{screen:articleId}}/related-articles",
+                          method: "get",
+                        },
+                      },
+                      options: {
+                        imageConfig: { aspectRatio: 1.6 },
+                      },
+                    },
                   },
                 },
               },

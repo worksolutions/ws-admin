@@ -79,12 +79,6 @@ export default cb(
     });
     const { style } = useVisibilityAnimation(wasRendered);
 
-    function initRef(input: HTMLInputElement | null) {
-      if (!input) return;
-      initPopper("parent")(input);
-      input.addEventListener("focus", () => enableWasRendered());
-    }
-
     function inputRef(input: HTMLInputElement | null) {
       if (!input) return;
       initPopper("parent")(input);

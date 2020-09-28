@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
 
-import { child, flexValue, fullWidth, marginTop, overflowY, position } from "libs/styles";
+import { flexValue, fullWidth, overflowY, position } from "libs/styles";
 
 import { ViewMetaData } from "../../types";
 import { CardsViewConfigInterface } from "../types";
@@ -22,16 +22,7 @@ function CardsViewBlockWrapper(
   ref: Ref<HTMLElement>,
 ) {
   return (
-    <Wrapper
-      ref={ref}
-      styles={[
-        fullWidth,
-        flexValue(1),
-        overflowY("auto"),
-        position("relative"),
-        child(marginTop(0), ".cards-view-presenter"),
-      ]}
-    >
+    <Wrapper ref={ref} styles={[fullWidth, flexValue(1), overflowY("auto"), position("relative")]}>
       {notFound}
       <CardsViewBlock {...options} onUpdateMeta={setMetaData} />
       {spinner}

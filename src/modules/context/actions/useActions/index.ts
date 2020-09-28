@@ -13,19 +13,18 @@ import { LoadingContainer } from "state/loadingContainer";
 
 import { AnyRawAction } from "types/Actions";
 
+export interface UseActionResultAction {
+  loadingContainer: LoadingContainer;
+  type: string;
+  progressContainer: ProgressContainer;
+  run: (inputData?: any) => Promise<any>;
+  discard: () => void;
+}
+
 export function useActions<T extends Record<string, AnyRawAction>>(
   actions: T,
   appContext: AppContextInterface,
-): Record<
-  keyof T,
-  {
-    loadingContainer: LoadingContainer;
-    type: string;
-    progressContainer: ProgressContainer;
-    run: (inputData?: any) => Promise<any>;
-    discard: () => void;
-  }
-> {
+): Record<keyof T, UseActionResultAction> {
   return useLocalStore(() => {
     if (!actions) return {};
 
