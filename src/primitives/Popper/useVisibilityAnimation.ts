@@ -3,18 +3,13 @@ import { duration160Number } from "layout/durations";
 
 import { useBoolean } from "libs/hooks/common";
 
-export function useVisibilityAnimation(duration = duration160Number) {
-  const [opened, open, close] = useBoolean(false);
-
+export function useVisibilityAnimation(opened: boolean) {
   const spring = useSpring({
-    config: { duration },
+    config: { duration: duration160Number },
     opacity: opened ? 1 : 0,
   });
 
   return {
-    opened,
-    open,
-    close,
     style: {
       opacity: spring.opacity,
       visibility: spring.opacity.to((value) => (value === 0 ? "hidden" : "visible")),

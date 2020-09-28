@@ -9,7 +9,7 @@ import { InputSize, InputTitlePosition } from "primitives/Input/InputWrapper";
 import Combobox from "primitives/Combobox/Combobox";
 import TokenList from "primitives/TokenList";
 
-import { maxWidth } from "../../../../libs/styles";
+import { maxWidth } from "libs/styles";
 
 function Dropdowns() {
   const [value, setValue] = React.useState<string | number | undefined>("new");

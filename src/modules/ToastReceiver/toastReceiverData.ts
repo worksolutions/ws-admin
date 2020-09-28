@@ -9,7 +9,7 @@ interface ToastInterface {
   toast: BaseToastInterface;
 }
 
-class ToastReceiverData {
+export class ToastReceiverData {
   static defaultAutoRemoveTime = 4000;
 
   @observable toasts: ToastInterface[] = [];

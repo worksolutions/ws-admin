@@ -13,7 +13,6 @@ import { useActions } from "modules/context/actions/useActions";
 import { useStateContextModel } from "modules/model";
 
 import { defaultWidths, DefaultWidths } from "../widths";
-import Input from "../../../../../primitives/Input/Input";
 
 import { BlockInterface } from "state/globalState";
 

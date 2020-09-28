@@ -6,6 +6,7 @@ import Wrapper from "primitives/Wrapper";
 import { Aligns, child, flex, flexColumn, jc, marginBottom } from "libs/styles";
 
 function TabsElement() {
+  const [activeIndex, setActiveIndex] = React.useState(0);
   return (
     <Wrapper styles={[flex, flexColumn, child([flex, jc(Aligns.CENTER), marginBottom(50)])]}>
       <Tabs
@@ -14,6 +15,8 @@ function TabsElement() {
           { render: () => <div />, title: "Текст" },
           { render: () => <div />, title: "Статьи по теме" },
         ]}
+        activeIndex={activeIndex}
+        setActiveIndex={setActiveIndex}
       />
     </Wrapper>
   );

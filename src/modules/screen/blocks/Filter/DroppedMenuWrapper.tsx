@@ -4,6 +4,8 @@ import { elevation32 } from "style/shadows";
 
 import Wrapper from "primitives/Wrapper";
 
+import LoadingProvider from "components/LoadingContainer/LoadingProvider";
+
 import {
   backgroundColor,
   border,
@@ -17,12 +19,9 @@ import {
   right,
   top,
   transition,
-  zIndex,
 } from "libs/styles";
 import { useMeasure } from "libs/hooks/useMeasure";
-
-import LoadingProvider from "../../../../components/LoadingContainer/LoadingProvider";
-import { provideRef } from "../../../../libs/provideRef";
+import { provideRef } from "libs/provideRef";
 
 const paddingTopValue = 8;
 const paddingBottomValue = 24;

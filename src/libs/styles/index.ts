@@ -263,8 +263,5 @@ export const willChange = (value: CSSProperties["willChange"]) => css`
   will-change: ${value};
 `;
 
-export const animation = (value: any, time: string, type?: string) => css`
-  animation: ${time} ${value} ${type || ""};
-`;
-
 export { borderNone } from "./cleaner";
+export { animation } from "./animations";

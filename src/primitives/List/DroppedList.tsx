@@ -4,11 +4,12 @@ import { elevation16Raw } from "style/shadows";
 import { useHover } from "react-use";
 import { Placement } from "@popperjs/core";
 import { zIndex_popup } from "layout/zIndexes";
+import { duration160Number } from "layout/durations";
 
 import { backgroundColor, borderRadius, boxShadow, cursor, maxWidth, minWidth, padding, position } from "libs/styles";
 import { provideRef } from "libs/provideRef";
 import stopPropagation from "libs/stopPropagation";
-import { useEffectSkipFirst } from "libs/hooks/common";
+import { useBoolean, useEffectSkipFirst } from "libs/hooks/common";
 
 import Wrapper from "../Wrapper";
 import usePopper, { getPopperMarginStyleForPlacement } from "../Popper/usePopper";
@@ -105,15 +106,27 @@ function DroppedList({
   onChange,
   onClose,
 }: DroppedListInterface<any>) {
-  const { style, opened, close, open } = useVisibilityAnimation();
+  const { placement, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
+    placement: placementProp,
+  });
+  const [opened, open, close] = useBoolean(() => wasRendered);
+  const { style } = useVisibilityAnimation(opened);
+
+  const showPopper = () => {
+    open();
+    enableWasRendered();
+  };
+
+  const hidePopper = () => {
+    close();
+    setTimeout(disableWasRendered, duration160Number);
+  };
 
   useEffectSkipFirst(() => {
-    if (opened) return;
+    if (wasRendered) return;
     if (!onClose) return;
     onClose();
-  }, [opened]);
-
-  const { initPopper, placement } = usePopper({ placement: placementProp });
+  }, [wasRendered]);
 
   const Component = ComponentByOpenMode[mode];
   const toggle = toggleByOpenMode[mode];
@@ -135,7 +148,12 @@ function DroppedList({
 
   const renderChild = (clickOutsideRef: any) =>
     children(
-      { open, close, opened, toggle: () => toggle(opened, open, close) },
+      {
+        opened: wasRendered,
+        open: showPopper,
+        close: hidePopper,
+        toggle: () => toggle(wasRendered, showPopper, hidePopper),
+      },
       provideRef(clickOutsideRef, initPopper("parent")),
       <Wrapper
         as={animated.div}
@@ -167,7 +185,12 @@ function DroppedList({
     );
 
   return (
-    <Component ignoreHtmlClickElements={ignoreClickOutsideElements} opened={opened} open={open} close={close}>
+    <Component
+      ignoreHtmlClickElements={ignoreClickOutsideElements}
+      opened={wasRendered}
+      open={showPopper}
+      close={hidePopper}
+    >
       {renderChild}
     </Component>
   );
