@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 module.exports = function (context, getActions) {
+  const relatedArticlesContext = `screen:article-data.related-articles`;
   return {
     type: "Pages/DefaultDetailEditPage",
     dataSource: {
@@ -33,371 +34,413 @@ module.exports = function (context, getActions) {
     },
     slots: {
       mainContent: {
-        type: "BlocksList",
-        blocks: [
-          {
-            type: "Actions/Modifiers/ContextModifier",
-            options: {
-              type: "model-disabler",
-              enableTrigger: { type: "if-context-true-value", context: `${context}.code-enableTransliteration` },
-              options: { context: `${context}.code` },
-            },
-          },
-          {
-            type: "Actions/Modifiers/ContextModifier",
-            options: {
-              type: "transliteration",
-              enableTrigger: { type: "if-context-true-value", context: `${context}.code-enableTransliteration` },
-              options: { fromContext: `${context}.title`, toContext: `${context}.code` },
-            },
-          },
-          {
-            type: "Actions/Modifiers/ContextModifier",
-            options: {
-              type: "model-disabler",
-              enableTrigger: { type: "if-context-true-value", context: `${context}.tagTitle-takeFromTitle` },
-              options: { context: `${context}.tagTitle` },
-            },
-          },
-          {
-            type: "Actions/Modifiers/ContextModifier",
-            options: {
-              type: "copy-context",
-              enableTrigger: { type: "if-context-true-value", context: `${context}.tagTitle-takeFromTitle` },
-              options: { fromContext: `${context}.title`, toContext: `${context}.tagTitle` },
-            },
-          },
-          {
-            type: "Tabs",
-            options: [
+        type: "ContextInitializer",
+        options: {
+          static: [{ path: `${relatedArticlesContext}.list`, value: [] }],
+          block: {
+            type: "BlocksList",
+            blocks: [
               {
-                title: "Атрибуты",
-                block: {
-                  type: "RowFields/DynamicGroupedFieldsList",
-                  options: [
+                type: "Actions/Modifiers/ContextModifier",
+                options: {
+                  type: "model-disabler",
+                  enableTrigger: { type: "if-context-true-value", context: `${context}.code-enableTransliteration` },
+                  options: { context: `${context}.code` },
+                },
+              },
+              {
+                type: "Actions/Modifiers/ContextModifier",
+                options: {
+                  type: "transliteration",
+                  enableTrigger: { type: "if-context-true-value", context: `${context}.code-enableTransliteration` },
+                  options: { fromContext: `${context}.title`, toContext: `${context}.code` },
+                },
+              },
+              {
+                type: "Actions/Modifiers/ContextModifier",
+                options: {
+                  type: "model-disabler",
+                  enableTrigger: { type: "if-context-true-value", context: `${context}.tagTitle-takeFromTitle` },
+                  options: { context: `${context}.tagTitle` },
+                },
+              },
+              {
+                type: "Actions/Modifiers/ContextModifier",
+                options: {
+                  type: "copy-context",
+                  enableTrigger: { type: "if-context-true-value", context: `${context}.tagTitle-takeFromTitle` },
+                  options: { fromContext: `${context}.title`, toContext: `${context}.tagTitle` },
+                },
+              },
+              {
+                type: "Actions/Modifiers/ContextModifier",
+                options: {
+                  type: "exclude-array-items-by-id-from-context",
+                  enableTrigger: { type: "always" },
+                  options: { fromContext: `${context}.relatedArticles`, toContext: `${relatedArticlesContext}.list` },
+                },
+              },
+              {
+                type: "Tabs",
+                options: {
+                  tabs: [
                     {
-                      title: "Основные",
-                      fieldList: {
-                        mode: "HORIZONTAL",
-                        fields: [
+                      title: "Атрибуты",
+                      block: {
+                        type: "RowFields/DynamicGroupedFieldsList",
+                        options: [
                           {
-                            title: "Название",
-                            required: true,
-                            type: "edit:Text",
-                            options: {
-                              inputOptions: {
-                                width: "large",
-                                size: "large",
-                                context: `${context}.title`,
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.title`,
-                                },
-                              },
-                            },
-                          },
-                          {
-                            title: "Текст анонса",
-                            type: "edit:Text",
-                            options: {
-                              inputOptions: {
-                                width: "large",
-                                size: "large",
-                                multiline: true,
-                                context: `${context}.announce`,
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.announce`,
-                                },
-                              },
-                            },
-                          },
-                          {
-                            title: "Дата публикации",
-                            type: "edit:Date",
-                            options: {
-                              dateOptions: {
-                                width: "large",
-                                size: "large",
-                                context: `${context}.publishedAt`,
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.publishedAt`,
-                                },
-                              },
-                            },
-                          },
-                          {
-                            title: "Категория",
-                            required: true,
-                            type: "edit:Dropdown",
-                            options: {
-                              dropdownOptions: {
-                                width: "small",
-                                size: "large",
-                                context: `${context}.category`,
-                              },
-                              dataSource: {
-                                type: "api:request",
-                                options: {
-                                  reference: "/categories-list",
-                                  method: "get",
-                                  params: {
-                                    page: "1",
-                                    perPage: "100",
+                            title: "Основные",
+                            fieldList: {
+                              mode: "HORIZONTAL",
+                              fields: [
+                                {
+                                  title: "Название",
+                                  required: true,
+                                  type: "edit:Text",
+                                  options: {
+                                    inputOptions: {
+                                      width: "large",
+                                      size: "large",
+                                      context: `${context}.title`,
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.title`,
+                                      },
+                                    },
                                   },
                                 },
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.category`,
+                                {
+                                  title: "Текст анонса",
+                                  type: "edit:Text",
+                                  options: {
+                                    inputOptions: {
+                                      width: "large",
+                                      size: "large",
+                                      multiline: true,
+                                      context: `${context}.announce`,
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.announce`,
+                                      },
+                                    },
+                                  },
                                 },
-                              },
+                                {
+                                  title: "Дата публикации",
+                                  type: "edit:Date",
+                                  options: {
+                                    dateOptions: {
+                                      width: "large",
+                                      size: "large",
+                                      context: `${context}.publishedAt`,
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.publishedAt`,
+                                      },
+                                    },
+                                  },
+                                },
+                                {
+                                  title: "Категория",
+                                  required: true,
+                                  type: "edit:Dropdown",
+                                  options: {
+                                    dropdownOptions: {
+                                      width: "small",
+                                      size: "large",
+                                      context: `${context}.category`,
+                                    },
+                                    dataSource: {
+                                      type: "api:request",
+                                      options: {
+                                        reference: "/categories-list",
+                                        method: "get",
+                                        params: {
+                                          page: "1",
+                                          perPage: "100",
+                                        },
+                                      },
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.category`,
+                                      },
+                                    },
+                                  },
+                                },
+                                {
+                                  title: "Автор",
+                                  required: true,
+                                  type: "edit:Dropdown",
+                                  options: {
+                                    dropdownOptions: {
+                                      width: "small",
+                                      size: "large",
+                                      context: `${context}.author`,
+                                    },
+                                    dataSource: {
+                                      type: "api:request",
+                                      options: {
+                                        reference: "/users-list",
+                                        method: "get",
+                                        params: {
+                                          page: "1",
+                                          perPage: "100",
+                                        },
+                                      },
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.author`,
+                                      },
+                                    },
+                                  },
+                                },
+                              ],
                             },
                           },
                           {
-                            title: "Автор",
-                            required: true,
-                            type: "edit:Dropdown",
-                            options: {
-                              dropdownOptions: {
-                                width: "small",
-                                size: "large",
-                                context: `${context}.author`,
-                              },
-                              dataSource: {
-                                type: "api:request",
-                                options: {
-                                  reference: "/users-list",
-                                  method: "get",
-                                  params: {
-                                    page: "1",
-                                    perPage: "100",
+                            title: "Мета",
+                            fieldList: {
+                              mode: "HORIZONTAL",
+                              fields: [
+                                {
+                                  title: "Символьный код",
+                                  required: true,
+                                  type: "edit:Text",
+                                  hint: "Допустимы только символы английского алфавита, цифры и дефис",
+                                  options: {
+                                    inputOptions: {
+                                      width: "large",
+                                      size: "large",
+                                      context: `${context}.code`,
+                                    },
+                                    modifier: {
+                                      type: "toggle",
+                                      title: "Генерировать символьный код из названия",
+                                      context: `${context}.code-enableTransliteration`,
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.code`,
+                                      },
+                                    },
                                   },
                                 },
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.author`,
+                                {
+                                  title: "Заголовок",
+                                  type: "edit:Text",
+                                  options: {
+                                    inputOptions: {
+                                      width: "large",
+                                      size: "large",
+                                      context: `${context}.tagTitle`,
+                                    },
+                                    modifier: {
+                                      type: "toggle",
+                                      title: "Заголовок из названия",
+                                      context: `${context}.tagTitle-takeFromTitle`,
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.tagTitle`,
+                                      },
+                                    },
+                                  },
                                 },
-                              },
+                                {
+                                  title: "Описание",
+                                  type: "edit:Text",
+                                  options: {
+                                    inputOptions: {
+                                      width: "large",
+                                      size: "large",
+                                      multiline: true,
+                                      context: `${context}.tagDescription`,
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.tagDescription`,
+                                      },
+                                    },
+                                  },
+                                },
+                                {
+                                  title: "Ключевые слова",
+                                  type: "edit:Tokens",
+                                  options: {
+                                    tokenOptions: {
+                                      width: "large",
+                                      context: `${context}.keywords`,
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.keywords`,
+                                      },
+                                    },
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                          {
+                            title: "Изображения",
+                            fieldList: {
+                              mode: "VERTICAL",
+                              fields: [
+                                {
+                                  title: "Изображение анонса",
+                                  type: "edit:Image",
+                                  options: {
+                                    imageOptions: {
+                                      aspectRatio: 1.6,
+                                      context: `${context}.announceImage`,
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.announceImage`,
+                                      },
+                                      upload: {
+                                        type: "api:uploadFile",
+                                        options: {
+                                          reference: "/file_storage/store",
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                                {
+                                  title: "Изображение заголовка",
+                                  type: "edit:Image",
+                                  options: {
+                                    imageOptions: {
+                                      aspectRatio: 1.6,
+                                      context: `${context}.contentImage`,
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        context: `${context}.contentImage`,
+                                      },
+                                      upload: {
+                                        type: "api:uploadFile",
+                                        options: {
+                                          reference: "/file_storage/store",
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                                {
+                                  title: "Фон",
+                                  type: "edit:Image",
+                                  options: {
+                                    imageOptions: {
+                                      aspectRatio: 1.6,
+                                      context: `${context}.background`,
+                                    },
+                                    actions: {
+                                      upload: {
+                                        type: "api:uploadFile",
+                                        options: {
+                                          reference: "/file_storage/store",
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                              ],
                             },
                           },
                         ],
                       },
                     },
                     {
-                      title: "Мета",
-                      fieldList: {
-                        mode: "HORIZONTAL",
-                        fields: [
-                          {
-                            title: "Символьный код",
-                            required: true,
-                            type: "edit:Text",
-                            hint: "Допустимы только символы английского алфавита, цифры и дефис",
-                            options: {
-                              inputOptions: {
-                                width: "large",
-                                size: "large",
-                                context: `${context}.code`,
-                              },
-                              modifier: {
-                                type: "toggle",
-                                title: "Генерировать символьный код из названия",
-                                context: `${context}.code-enableTransliteration`,
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.code`,
-                                },
-                              },
-                            },
-                          },
-                          {
-                            title: "Заголовок",
-                            type: "edit:Text",
-                            options: {
-                              inputOptions: {
-                                width: "large",
-                                size: "large",
-                                context: `${context}.tagTitle`,
-                              },
-                              modifier: {
-                                type: "toggle",
-                                title: "Заголовок из названия",
-                                context: `${context}.tagTitle-takeFromTitle`,
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.tagTitle`,
-                                },
-                              },
-                            },
-                          },
-                          {
-                            title: "Описание",
-                            type: "edit:Text",
-                            options: {
-                              inputOptions: {
-                                width: "large",
-                                size: "large",
-                                multiline: true,
-                                context: `${context}.tagDescription`,
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.tagDescription`,
-                                },
-                              },
-                            },
-                          },
-                          {
-                            title: "Ключевые слова",
-                            type: "edit:Tokens",
-                            options: {
-                              tokenOptions: {
-                                width: "large",
-                                context: `${context}.keywords`,
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.keywords`,
-                                },
-                              },
-                            },
-                          },
-                        ],
+                      title: "Текст",
+                      block: {
+                        type: "FormattedHTMLText",
+                        options: {
+                          value: `=${context}.content`,
+                        },
                       },
                     },
                     {
-                      title: "Изображения",
-                      fieldList: {
-                        mode: "VERTICAL",
-                        fields: [
-                          {
-                            title: "Изображение анонса",
-                            type: "edit:Image",
+                      title: "Статьи по теме",
+                      block: {
+                        type: "Layout/DefaultContainer",
+                        slots: {
+                          headerContent: {
+                            type: "ContextInitializer",
                             options: {
-                              imageOptions: {
-                                aspectRatio: 1.6,
-                                context: `${context}.announceImage`,
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.announceImage`,
+                              static: [{ path: `${relatedArticlesContext}.search`, value: "" }],
+                              block: {
+                                type: "Actions/PopupListSelector",
+                                options: {
+                                  context: relatedArticlesContext,
+                                  buttonOptions: { name: "Добавить статью", icon: "plus-big" },
+                                  searchInputOptions: { context: `${relatedArticlesContext}.search` },
                                 },
-                                upload: {
-                                  type: "api:uploadFile",
+                                actions: {
+                                  select: {
+                                    type: "update-context",
+                                    context: ``,
+                                  },
+                                  search: {
+                                    type: "update-context",
+                                    context: `${relatedArticlesContext}.search`,
+                                  },
+                                },
+                                dataSource: {
+                                  type: "api:request",
+                                  context: relatedArticlesContext,
                                   options: {
-                                    reference: "/file_storage/store",
+                                    reference: "/articles/simple-list",
+                                    method: "get",
+                                    params: {
+                                      title: `=${relatedArticlesContext}.search`,
+                                      page: "1",
+                                      perPage: "8",
+                                    },
                                   },
                                 },
                               },
                             },
                           },
-                          {
-                            title: "Изображение заголовка",
-                            type: "edit:Image",
-                            options: {
-                              imageOptions: {
-                                aspectRatio: 1.6,
-                                context: `${context}.contentImage`,
-                              },
-                              actions: {
-                                change: {
-                                  type: "update-context",
-                                  context: `${context}.contentImage`,
-                                },
-                                upload: {
-                                  type: "api:uploadFile",
-                                  options: {
-                                    reference: "/file_storage/store",
-                                  },
-                                },
+                          mainContent: {
+                            type: "DataView/Cards",
+                            dataSource: {
+                              type: "context",
+                              options: {
+                                key: `${context}.relatedArticles`,
                               },
                             },
-                          },
-                          {
-                            title: "Фон",
-                            type: "edit:Image",
                             options: {
-                              imageOptions: {
-                                aspectRatio: 1.6,
-                                context: `${context}.background`,
-                              },
-                              actions: {
-                                upload: {
-                                  type: "api:uploadFile",
-                                  options: {
-                                    reference: "/file_storage/store",
-                                  },
-                                },
-                              },
+                              imageConfig: { aspectRatio: 1.6 },
                             },
                           },
-                        ],
+                        },
                       },
                     },
                   ],
                 },
               },
-              {
-                title: "Текст",
-                block: {
-                  type: "HTMLEditor",
-                  options: {
-                    value: `=${context}.content`,
-                  },
-                },
-              },
-              {
-                title: "Статьи по теме",
-                block: {
-                  type: "Layout/DefaultContainer",
-                  slots: {
-                    headerContent: {
-                      type: "Actions/Button",
-                      options: { name: "Редактировать", icon: "edit", buttonType: "SECONDARY" },
-                      actions: {
-                        click: {
-                          type: "update-context",
-                          context: "",
-                        },
-                      },
-                    },
-                    mainContent: {
-                      type: "DataView/Cards",
-                      dataSource: {
-                        type: "api:request",
-                        options: {
-                          reference: "/article/{{screen:articleId}}/related-articles",
-                          method: "get",
-                        },
-                      },
-                      options: {
-                        imageConfig: { aspectRatio: 1.6 },
-                      },
-                    },
-                  },
-                },
-              },
             ],
           },
-        ],
+        },
       },
     },
     actions: getActions({

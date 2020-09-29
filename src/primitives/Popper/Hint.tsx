@@ -73,10 +73,12 @@ function Hint({
   type = HintType.black,
   margin: marginProp,
 }: HintInterface) {
-  const { initPopper, placement } = usePopper(popperConfig);
-  const [opened, open, close] = useBoolean(() => !showOnHover);
-  const [wasRendered, enableWasRendered, disableWasRendered] = useBoolean(() => !showOnHover);
+  const { placement, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
+    ...popperConfig,
+    showOnHover,
+  });
   const [element, setElement] = useState<HTMLElement>();
+  const [opened, open, close] = useBoolean(() => wasRendered);
 
   const initParent = (ref: HTMLElement | null) => {
     if (!ref) return;
@@ -95,8 +97,8 @@ function Hint({
       clearTimeout(showTimer);
       clearTimeout(hideTimer);
       showTimer = setTimeout(() => {
-        enableWasRendered();
         open();
+        enableWasRendered();
       }, showDelay);
     };
 
@@ -114,7 +116,7 @@ function Hint({
       element.removeEventListener("mouseenter", mouseEnterHandler);
       element.removeEventListener("mouseleave", mouseLeaveHandler);
     };
-  }, [close, disableWasRendered, element, enableWasRendered, open, showDelay]);
+  }, [showDelay, element, open, close, disableWasRendered, enableWasRendered]);
 
   const themeStyles = styledForType[type];
 

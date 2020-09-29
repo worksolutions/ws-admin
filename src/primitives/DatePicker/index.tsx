@@ -74,28 +74,24 @@ export default cb(
     { tip, error: errorProp, size, placeholder, outerStyles, hasCurrentDayButton },
     { state: { config, inputValue, min, max, setInputValue, error, lastValidValue } },
   ) {
-    const { opened, style, close, open } = useVisibilityAnimation();
-    const { initPopper, placement } = usePopper({ placement: "bottom-start" });
-
-    function initRef(input: HTMLInputElement | null) {
-      if (!input) return;
-      initPopper("parent")(input);
-      input.addEventListener("focus", () => open());
-    }
+    const { placement, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
+      placement: "bottom-start",
+    });
+    const { style } = useVisibilityAnimation(wasRendered);
 
     function inputRef(input: HTMLInputElement | null) {
       if (!input) return;
       initPopper("parent")(input);
-      input.addEventListener("focus", () => open());
+      input.addEventListener("focus", () => enableWasRendered());
     }
 
     function inputOuterRef(element: HTMLElement | null) {
       if (!element) return;
-      element.addEventListener("click", () => open());
+      element.addEventListener("click", () => enableWasRendered());
     }
 
     return (
-      <HandleClickOutside enabled={opened} onClickOutside={close}>
+      <HandleClickOutside enabled={wasRendered} onClickOutside={disableWasRendered}>
         {(ref) => (
           <MaskedInput
             size={size}
@@ -112,22 +108,26 @@ export default cb(
             iconRight="calendar"
             onChange={setInputValue}
           >
-            <Wrapper
-              as={animated.div}
-              style={style}
-              styles={[zIndex_popup, opacity(opened ? 1 : 0.6)]}
-              ref={initPopper("child")}
-            >
-              <Calendar
-                min={min}
-                max={max}
-                value={lastValidValue}
-                placement={placement}
-                momentFormat={config.momentFormat}
-                hasCurrentDayButton={hasCurrentDayButton}
-                onChange={setInputValue}
-              />
-            </Wrapper>
+            <>
+              {wasRendered && (
+                <Wrapper
+                  as={animated.div}
+                  style={style}
+                  styles={[zIndex_popup, opacity(wasRendered ? 1 : 0.6)]}
+                  ref={initPopper("child")}
+                >
+                  <Calendar
+                    min={min}
+                    max={max}
+                    value={lastValidValue}
+                    placement={placement}
+                    momentFormat={config.momentFormat}
+                    hasCurrentDayButton={hasCurrentDayButton}
+                    onChange={setInputValue}
+                  />
+                </Wrapper>
+              )}
+            </>
           </MaskedInput>
         )}
       </HandleClickOutside>

@@ -22,8 +22,6 @@ import {
   width,
 } from "libs/styles";
 
-import Wrapper from "../../primitives/Wrapper";
-
 export interface BaseIconButtonInterface {
   icon: Icons | any;
   selected: boolean;

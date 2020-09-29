@@ -17,7 +17,12 @@ function Saver({ saveLoading, onDiscard, saveDisabled, onApply, onSave }: SaverI
   return (
     <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
       {onDiscard && (
-        <Button type={ButtonType.SECONDARY} size={ButtonSize.MEDIUM} styles={marginLeft(16)} onClick={onDiscard}>
+        <Button
+          type={ButtonType.SECONDARY}
+          size={ButtonSize.MEDIUM}
+          styles={marginLeft(16)}
+          onClick={() => onDiscard()}
+        >
           Отменить
         </Button>
       )}

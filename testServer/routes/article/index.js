@@ -1,8 +1,5 @@
-const axios = require("axios");
-const moment = require("moment");
-
-const { makeProxy, prepareUrl } = require("../../libs");
-const { modifyArticleResponse } = require("./libs");
+const { makeProxy } = require("../../libs");
+const { modifyArticleResponse, modifyRelatedArticleResponse } = require("./libs");
 
 module.exports = (app) => {
   makeProxy(
@@ -25,32 +22,8 @@ module.exports = (app) => {
     },
     app,
     {
-      modifyResponse: async ({ data }, { originalRequestParams }) => {
-        const articles = await Promise.all(
-          data.relatedArticles.map((article) => axios("/api/blog/article/" + article.code, originalRequestParams)),
-        );
-        return articles
-          .map((article) => article.data.data)
-          .map((article) => {
-            const isPublished = article.status === 1;
-            const result = {
-              title: article.title,
-              id: article.id,
-              image: article.announceImageUrl ? prepareUrl(article.announceImageUrl) : null,
-              redirectReference: "/content/articles/" + article.id,
-            };
-
-            if (isPublished) {
-              result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
-              result.statuses = [{ icon: "badge", color: "green/05", size: "SMALL" }];
-            } else {
-              result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
-              result.statuses = [{ icon: "badge", color: "orange/05", size: "SMALL" }];
-            }
-
-            return result;
-          });
-      },
+      modifyResponse: async ({ data }, { originalRequestParams }) =>
+        modifyRelatedArticleResponse(data, originalRequestParams),
     },
   );
 };

@@ -73,8 +73,8 @@ export default cb(
           secondaryItems={[
             currentUser
               ? {
-                  href: "/users/me",
-                  selected: !!matchPath(pathname, { path: "/users/me" }),
+                  href: "/me",
+                  selected: !!matchPath(pathname, { path: "/me" }),
                   type: "button",
                   hint: currentUser.name + (currentUser.postName ? ` (${currentUser.postName})` : ""),
                   iconStyles: [borderRadius("100%"), border(1, createAlphaColor("black", 20))],

@@ -28,7 +28,6 @@ function CardComponent(card: CardsViewDataSource[0] & { imageConfig: CardImageCo
 
   return (
     <Card
-      key={id}
       statuses={statuses}
       actions={actions?.map((action, actionIndex) => ({
         ...action,

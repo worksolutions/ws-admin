@@ -45,7 +45,7 @@ function CardsViewPresenter({ list, imageConfig }: { list: CardsViewDataSource; 
       styles={[horizontalPadding(16), ai(Aligns.STRETCH)]}
     >
       {list.map((card) => {
-        const cardComponent = <CardComponent {...card} imageConfig={imageConfig} />;
+        const cardComponent = <CardComponent key={card.id} {...card} imageConfig={imageConfig} />;
 
         if (!card.redirectReference) return cardComponent;
 

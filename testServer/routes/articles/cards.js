@@ -2,6 +2,7 @@ const { assoc } = require("ramda");
 const moment = require("moment");
 
 const { prepareUrl, makeProxy } = require("../../libs");
+const { statusesByNumber } = require("../article/libs");
 const matchStatusAndCode = require("./matchStatusAndCode");
 
 module.exports = (app) => {
@@ -12,7 +13,7 @@ module.exports = (app) => {
       modifyResponse: ({ data, meta }) => {
         return {
           list: data.map((article) => {
-            const isPublished = article.status === 1;
+            const isPublished = statusesByNumber[article.status] === "PUBLISHED";
             const action = {
               type: "redirect",
               options: {

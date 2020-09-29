@@ -3,7 +3,7 @@ import { UseMeasureRect } from "react-use/lib/useMeasure";
 
 import Wrapper from "primitives/Wrapper";
 
-import { ai, Aligns, flex, height, jc, overflow, width } from "libs/styles";
+import { ai, Aligns, flex, height, jc, overflow, stringOrPixels, width } from "libs/styles";
 import { useMeasureCallback } from "libs/hooks/useMeasure";
 
 import { StyledComponentsAS } from "types/StyledComponentsAS";
@@ -41,8 +41,8 @@ function AspectRatioWrapper({
   const wrapperRef = useMeasureCallback((size) => {
     if (!childContainerRef.current) return;
     const resultSizes = getSizes({ height: heightProp, width: widthProp, aspectRatio }, size);
-    childContainerRef.current.style.width = resultSizes.width + "px";
-    childContainerRef.current.style.height = resultSizes.height + "px";
+    childContainerRef.current.style.width = stringOrPixels(resultSizes.width);
+    childContainerRef.current.style.height = stringOrPixels(resultSizes.height);
   });
 
   return (
