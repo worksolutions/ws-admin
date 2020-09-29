@@ -34,7 +34,7 @@ module.exports = {
       slots: {
         headingAction: {
           type: "Actions/Button",
-          options: { name: "Редактировать", icon: "edit-alt", buttonType: "SECONDARY" },
+          options: { name: "Редактировать", icon: "edit-alt", type: "SECONDARY" },
           actions: {
             click: {
               type: "redirect",

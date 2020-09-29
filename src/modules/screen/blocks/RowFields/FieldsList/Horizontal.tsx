@@ -8,6 +8,7 @@ import Hint from "primitives/Popper/Hint";
 import {
   ai,
   Aligns,
+  child,
   flex,
   flexColumn,
   flexShrink,
@@ -45,7 +46,15 @@ function HorizontalFieldsList({
     <Wrapper styles={[flex, flexColumn, marginTop(16), lastChild(marginBottom(0)), styles]}>
       {options!.fields.map((field, key) => {
         return (
-          <Wrapper key={key} styles={[flex, marginBottom(16), viewMode === "static" && ai(Aligns.CENTER)]}>
+          <Wrapper
+            key={key}
+            styles={[
+              flex,
+              marginBottom(16),
+              viewMode === "static" && ai(Aligns.CENTER),
+              child([marginLeft(16)], ".modifier"),
+            ]}
+          >
             <Wrapper
               ref={useTitleWidthCalculation ? calculateWidth(key) : null}
               styles={[
@@ -57,28 +66,30 @@ function HorizontalFieldsList({
                 forceTitleWidth && width(forceTitleWidth),
               ]}
             >
-              <Typography color="gray-blue/05" styles={[flex, ai(Aligns.CENTER), jc(Aligns.END)]}>
-                {field.title}
-                {field.required && (
-                  <Typography color="gray-blue/05" styles={marginLeft(4)}>
-                    *
-                  </Typography>
-                )}
-                {field.hint && (
-                  <Hint text={field.hint}>
-                    {(ref) => (
-                      <Icon
-                        ref={ref}
-                        color="gray-blue/05"
-                        width={16}
-                        height={16}
-                        styles={marginLeft(4)}
-                        icon="16-info-circle"
-                      />
-                    )}
-                  </Hint>
-                )}
-              </Typography>
+              {field.title && (
+                <Typography color="gray-blue/05" styles={[flex, ai(Aligns.CENTER), jc(Aligns.END)]}>
+                  {field.title}
+                  {field.required && (
+                    <Typography color="gray-blue/05" styles={marginLeft(4)}>
+                      *
+                    </Typography>
+                  )}
+                  {field.hint && (
+                    <Hint text={field.hint}>
+                      {(ref) => (
+                        <Icon
+                          ref={ref}
+                          color="gray-blue/05"
+                          width={16}
+                          height={16}
+                          styles={marginLeft(4)}
+                          icon="16-info-circle"
+                        />
+                      )}
+                    </Hint>
+                  )}
+                </Typography>
+              )}
             </Wrapper>
             <FieldItemElementRenderer type={field.type} options={field.options} styles={maxWidth(800)} />
           </Wrapper>

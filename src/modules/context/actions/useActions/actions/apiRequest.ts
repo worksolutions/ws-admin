@@ -5,34 +5,38 @@ import { identityValueDecoder } from "libs/request/defaultDecoders";
 import { isPureObject } from "libs/is";
 
 import { insertContext } from "modules/context/insertContext";
-import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
+import { AppContextInterface } from "modules/context/hooks/useAppContext";
 import { prepareApiRequestBody } from "modules/context/requestLibs";
 
 import { ActionInputDataInterface } from "../types";
 
-import { RawActionOptions, ActionType } from "types/Actions";
+import { ActionType, RawActionOptions } from "types/Actions";
 
 const requestManager = Container.get(RequestManager);
 
-export default function apiRequest(
-  appContext: AppContextStateInterface,
+export default async function apiRequest(
+  appContext: AppContextInterface,
   actionOptions: RawActionOptions[ActionType.API_REQUEST],
   { inputData }: ActionInputDataInterface,
 ): Promise<any> {
   const { method, body, reference, removeEmptyString = true, removeNullableFields = true } = actionOptions;
 
   const makeRequest = requestManager.createRequest(
-    insertContext(reference, appContext, inputData).value,
+    insertContext(reference, appContext.context, inputData).value,
     method,
     identityValueDecoder,
   );
 
   const preparedBody = prepareApiRequestBody({ removeEmptyString, removeNullableFields }, body);
   const newBody = isPureObject(inputData)
-    ? insertContext(Object.assign({}, preparedBody, inputData), appContext, inputData).value
-    : insertContext(preparedBody, appContext, inputData).value;
+    ? insertContext(Object.assign({}, preparedBody, inputData), appContext.context, inputData).value
+    : insertContext(preparedBody, appContext.context, inputData).value;
 
-  return makeRequest({
+  const response = await makeRequest({
     body: prepareApiRequestBody({ removeEmptyString, removeNullableFields }, newBody),
   });
+
+  if (actionOptions.saveToContext) appContext.updateState({ path: actionOptions.saveToContext, data: response });
+
+  return response;
 }

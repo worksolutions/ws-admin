@@ -83,8 +83,8 @@ function PopupListSelector({
       margin={4}
       items={list.map(({ id, image, heading, title }) => ({
         code: id,
-        title: title,
-        subtitle: heading,
+        title,
+        subTitle: heading,
         leftContent: <ImageWithDefault width={52} height={32} src={image} />,
         circledLeftContent: false,
       }))}

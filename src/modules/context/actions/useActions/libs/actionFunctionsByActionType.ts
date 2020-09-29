@@ -5,6 +5,8 @@ import apiRequestAction from "../actions/apiRequest";
 import apiUploadFileAction from "../actions/apiUploadFile";
 import redirectAction from "../actions/redirect";
 import updateContext from "../actions/updateContext";
+import openModal from "../actions/openModal";
+import closeModal from "../actions/closeModal";
 
 import { ActionType, RawActionInterface } from "types/Actions";
 
@@ -13,14 +15,14 @@ export const actionFunctionsByActionType = {
     appContext: AppContextInterface,
     { options }: RawActionInterface<ActionType.API_REQUEST>,
   ) => (actionInputData: ActionInputDataInterface) => {
-    return apiRequestAction(appContext.context, options, actionInputData);
+    return apiRequestAction(appContext, options, actionInputData);
   },
 
   [ActionType.API_UPLOAD_FILE]: (
     appContext: AppContextInterface,
     { options }: RawActionInterface<ActionType.API_UPLOAD_FILE>,
   ) => (actionInputData: ActionInputDataInterface) => {
-    return apiUploadFileAction(appContext.context, options, actionInputData);
+    return apiUploadFileAction(appContext, options, actionInputData);
   },
 
   [ActionType.REDIRECT]: (appContext: AppContextInterface, { options }: RawActionInterface<ActionType.REDIRECT>) => (
@@ -31,8 +33,22 @@ export const actionFunctionsByActionType = {
 
   [ActionType.UPDATE_CONTEXT]: (
     appContext: AppContextInterface,
-    { options }: RawActionInterface<ActionType.REDIRECT>,
+    { options }: RawActionInterface<ActionType.UPDATE_CONTEXT>,
   ) => (actionInputData: ActionInputDataInterface) => {
-    return updateContext(appContext.context, options, actionInputData);
+    return updateContext(appContext, options, actionInputData);
+  },
+
+  [ActionType.OPEN_MODAL]: (
+    appContext: AppContextInterface,
+    { options }: RawActionInterface<ActionType.OPEN_MODAL>,
+  ) => (actionInputData: ActionInputDataInterface) => {
+    return openModal(appContext.context, options, actionInputData);
+  },
+
+  [ActionType.CLOSE_MODAL]: (
+    appContext: AppContextInterface,
+    { options }: RawActionInterface<ActionType.CLOSE_MODAL>,
+  ) => (actionInputData: ActionInputDataInterface) => {
+    return closeModal(appContext.context, options, actionInputData);
   },
 };

@@ -16,7 +16,7 @@ type DataSourceOptions = {
     responseDataConverter?: string;
     removeEmptyString?: boolean;
     removeNullableFields?: boolean;
-    params?: {
+    body?: {
       [key: string]: string | number;
     };
   };

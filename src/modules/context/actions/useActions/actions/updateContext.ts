@@ -1,13 +1,14 @@
-import { AppContextStateInterface } from "modules/context/hooks/useAppContext";
+import { AppContextInterface } from "modules/context/hooks/useAppContext";
 
 import { ActionInputDataInterface } from "../types";
 
-import { RawActionOptions, ActionType } from "types/Actions";
+import { ActionType, RawActionOptions } from "types/Actions";
 
 export default async function updateContext(
-  _appContext: AppContextStateInterface,
-  _actionOptions: RawActionOptions[ActionType.UPDATE_CONTEXT],
+  appContext: AppContextInterface,
+  actionOptions: RawActionOptions[ActionType.UPDATE_CONTEXT],
   { inputData }: ActionInputDataInterface,
 ): Promise<any> {
+  appContext.updateState({ path: actionOptions.context, data: inputData });
   return Promise.resolve(inputData);
 }

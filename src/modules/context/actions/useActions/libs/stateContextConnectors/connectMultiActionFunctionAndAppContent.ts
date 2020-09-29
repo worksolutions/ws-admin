@@ -20,11 +20,7 @@ export const connectMultiActionFunctionAndAppContext = (
   const loadingContainer = new LoadingContainer();
   const progressContainer = new ProgressContainer();
   const patchedActions = actions.map((action) =>
-    connectActionFunctionAndAppContext(
-      action,
-      actionFunctionsByActionType[action.type](appContext, action as any),
-      appContext,
-    ),
+    connectActionFunctionAndAppContext(action, actionFunctionsByActionType[action.type](appContext, action as any)),
   );
 
   const run = (inputData: any) => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import FieldsList from "./FieldsList";
+import FieldsList from "./index";
 import { FieldListComponentInterface } from "./types";
 
 function StaticFieldsList(props: FieldListComponentInterface) {

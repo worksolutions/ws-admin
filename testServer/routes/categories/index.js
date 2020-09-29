@@ -40,4 +40,11 @@ module.exports = (app) => {
       modifyResponse: ({ data }) => data.map((category) => ({ code: category.id, title: category.name })),
     },
   );
+  makeProxy(
+    { realServerUrl: "/api/categories/store", expressMethodHandlerName: "post", handleUrl: "/api/categories/store" },
+    app,
+    {
+      modifyResponse: ({ data }) => ({ code: data.id, title: data.name }),
+    },
+  );
 };

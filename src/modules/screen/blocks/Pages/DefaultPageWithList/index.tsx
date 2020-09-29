@@ -8,12 +8,14 @@ import BlockRenderer from "modules/screen/BlockRenderer";
 
 import DefaultPageWrapper from "../common/DefaultPageWrapper";
 import { defaultContentStyles } from "../common/styles";
+import { CommonPageInterface } from "../common/types";
 
-import { BlockInterface, ContainSlotsInterface } from "state/globalState";
+import { BlockInterface } from "state/globalState";
 
-function DefaultPageWithList({ slots, options }: ContainSlotsInterface & BlockInterface<{ title: string }>) {
+function DefaultPageWithList({ slots, options, modals }: CommonPageInterface & BlockInterface<{ title: string }>) {
   return (
     <DefaultPageWrapper
+      modals={modals}
       heading={
         <>
           <Typography type="h1-bold">{options!.title}</Typography>

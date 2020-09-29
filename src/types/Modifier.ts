@@ -17,6 +17,7 @@ export type ModifierOptionsByType = {
 export enum ModifierEnableTriggerType {
   ALWAYS = "always",
   IF_CONTEXT_TRUE_VALUE = "if-context-true-value",
+  IF_CONTEXT_FALSE_VALUE = "if-context-false-value",
 }
 
 export type ModifierEnableTriggerAlways = {
@@ -31,7 +32,16 @@ export type ModifierEnableTriggerIfContextTrueValue = {
   mode: ModifierEnableTriggerMode;
 };
 
-export type ModifierEnableTrigger = ModifierEnableTriggerAlways | ModifierEnableTriggerIfContextTrueValue;
+export type ModifierEnableTriggerIfContextFalseValue = {
+  type: ModifierEnableTriggerType.IF_CONTEXT_FALSE_VALUE;
+  context: string | string[];
+  mode: ModifierEnableTriggerMode;
+};
+
+export type ModifierEnableTrigger =
+  | ModifierEnableTriggerAlways
+  | ModifierEnableTriggerIfContextTrueValue
+  | ModifierEnableTriggerIfContextFalseValue;
 
 export type ModifierInterface = {
   enableTrigger: ModifierEnableTrigger;

@@ -63,8 +63,9 @@ interface ModalInterface {
   secondaryActionLoading?: boolean;
   actionsInColumn?: boolean;
   title: string;
-  subTitle: string;
+  subTitle?: string;
   closeOnBackdropClick?: boolean;
+  actionBlock?: React.ReactNode;
   children?: () => React.ReactNode;
   onPrimaryAction?: (close: () => void) => void;
   onSecondaryAction?: (close: () => void) => void;
@@ -74,6 +75,7 @@ interface ModalInterface {
 const root = document.getElementById("root")!;
 
 export const modalHorizontalPadding = 24;
+const halfModalHorizontalPadding = modalHorizontalPadding / 2;
 
 class ActiveModal {
   @observable
@@ -91,6 +93,7 @@ class ActiveModal {
 const activeModal = new ActiveModal();
 
 const ModalContent = observer(function ({
+  actionBlock,
   size,
   title,
   subTitle,
@@ -105,9 +108,11 @@ const ModalContent = observer(function ({
   actionsInColumn,
   id,
   closeOnBackdropClick,
-}: Required<Pick<ModalInterface, "size" | "title" | "subTitle">> &
+}: Required<Pick<ModalInterface, "size" | "title">> &
   Pick<
     ModalInterface,
+    | "actionBlock"
+    | "subTitle"
     | "primaryActionText"
     | "onPrimaryAction"
     | "secondaryActionText"
@@ -149,19 +154,21 @@ const ModalContent = observer(function ({
               flex,
               ai(Aligns.CENTER),
               jc(Aligns.SPACE_BETWEEN),
-              padding(`16px ${modalHorizontalPadding}px 8px ${modalHorizontalPadding}px`),
+              padding(`16px ${modalHorizontalPadding}px 0 ${modalHorizontalPadding}px`),
             ]}
           >
             <Typography type="h2-bold">{title}</Typography>
             <Button size={ButtonSize.SMALL} type={ButtonType.ICON} iconLeft="cross-big" onClick={close} />
           </Wrapper>
-          <Typography
-            color="gray-blue/06"
-            styles={[fullWidth, padding(`0 ${modalHorizontalPadding}px 24px ${modalHorizontalPadding}px`)]}
-          >
-            {subTitle}
-          </Typography>
-          {children}
+          {subTitle && (
+            <Typography
+              color="gray-blue/06"
+              styles={[fullWidth, padding(`8px ${modalHorizontalPadding}px 24px ${modalHorizontalPadding}px`)]}
+            >
+              {subTitle}
+            </Typography>
+          )}
+          <Wrapper styles={horizontalPadding(halfModalHorizontalPadding)}>{children}</Wrapper>
           <Wrapper
             styles={[
               fullWidth,
@@ -193,6 +200,7 @@ const ModalContent = observer(function ({
                 {secondaryActionText}
               </Button>
             )}
+            {actionBlock}
           </Wrapper>
         </Wrapper>
       )}
@@ -201,6 +209,7 @@ const ModalContent = observer(function ({
 });
 
 function Modal({
+  actionBlock,
   opened: openedProp,
   size = ModalSize.SMALL,
   wrappedContent,
@@ -218,6 +227,14 @@ function Modal({
   closeOnBackdropClick,
 }: ModalInterface) {
   const [opened, open, close] = useBoolean(() => (isNil(openedProp) ? false : openedProp));
+
+  useEffectSkipFirst(() => {
+    if (openedProp) {
+      open();
+      return;
+    }
+    close();
+  }, [openedProp]);
 
   const modalId = React.useMemo(activeModal.getModalId, []);
 
@@ -251,6 +268,7 @@ function Modal({
             ]}
           >
             <ModalContent
+              actionBlock={actionBlock}
               closeOnBackdropClick={closeOnBackdropClick}
               id={modalId}
               size={size}

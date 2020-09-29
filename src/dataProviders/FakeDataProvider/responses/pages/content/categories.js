@@ -57,7 +57,7 @@ module.exports = {
                 options: {
                   reference: "/categories",
                   method: "get",
-                  params: {
+                  body: {
                     page: "=screen:categories.pagination.page",
                     perPage: "=screen:categories.pagination.perPage",
                   },
@@ -77,7 +77,7 @@ module.exports = {
               actions: {
                 change: {
                   type: "update-context",
-                  context: "screen:categories.pagination",
+                  options: { context: "screen:categories.pagination" },
                 },
               },
             },

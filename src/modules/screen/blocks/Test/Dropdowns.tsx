@@ -65,7 +65,7 @@ function Dropdowns() {
               {
                 title: "Выбранный длинный пункт",
                 code: "new",
-                subtitle: "Еще один тайтл • email@worksolutions.ru",
+                subTitle: "Еще один тайтл • email@worksolutions.ru",
                 leftContent: "user",
               },
             ]}

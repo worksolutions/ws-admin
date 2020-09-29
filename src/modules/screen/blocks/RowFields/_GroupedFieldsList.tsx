@@ -18,7 +18,7 @@ import {
   marginTop,
 } from "libs/styles";
 
-import FieldList from "./FieldsList/FieldsList";
+import FieldList from "./FieldsList";
 import { useForceWidthStyles } from "./hooks";
 import { FieldListComponentViewMode, FieldListInterface } from "./FieldsList/types";
 

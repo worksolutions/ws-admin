@@ -9,14 +9,16 @@ import { useDataSource } from "modules/context/dataSource/useDataSource";
 import DefaultPageWrapper from "../common/DefaultPageWrapper";
 import PageHeader, { PageHeaderInterface } from "../common/Header";
 import { defaultContentStyles } from "../common/styles";
+import { CommonPageInterface } from "../common/types";
 
-import { BlockInterface, ContainSlotsInterface } from "state/globalState";
+import { BlockInterface } from "state/globalState";
 
 function DefaultDetailPage({
   slots,
   options,
   dataSource,
-}: ContainSlotsInterface & BlockInterface<PageHeaderInterface>) {
+  modals,
+}: CommonPageInterface & BlockInterface<PageHeaderInterface>) {
   if (dataSource) {
     const data = useDataSource(dataSource);
     if (data.loadingContainer.loading) return <Loading />;
@@ -24,6 +26,7 @@ function DefaultDetailPage({
 
   return (
     <DefaultPageWrapper
+      modals={modals}
       heading={
         <PageHeader
           slots={slots}

@@ -1,5 +1,4 @@
 import React from "react";
-import { transliterate } from "transliteration";
 
 import { isString } from "libs/is";
 

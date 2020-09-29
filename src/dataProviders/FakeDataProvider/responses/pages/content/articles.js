@@ -55,7 +55,7 @@ module.exports = {
                         actions: {
                           change: {
                             type: "update-context",
-                            context: "screen:articles.filter.status",
+                            options: { context: "screen:articles.filter.status" },
                           },
                         },
                       },
@@ -72,7 +72,7 @@ module.exports = {
                         actions: {
                           change: {
                             type: "update-context",
-                            context: "screen:articles.filter.publishedAt",
+                            options: { context: "screen:articles.filter.publishedAt" },
                           },
                         },
                       },
@@ -89,7 +89,7 @@ module.exports = {
               actions: {
                 clear: {
                   type: "update-context",
-                  context: "screen:articles.filter",
+                  options: { context: "screen:articles.filter" },
                 },
               },
             },
@@ -156,7 +156,7 @@ module.exports = {
                         options: {
                           reference: "/articles/table",
                           method: "get",
-                          params: {
+                          body: {
                             title: "=screen:articles.search",
                             page: "=screen:articles.pagination.page",
                             perPage: "=screen:articles.pagination.perPage",
@@ -174,7 +174,7 @@ module.exports = {
                         options: {
                           reference: "/articles/cards",
                           method: "get",
-                          params: {
+                          body: {
                             title: "=screen:articles.search",
                             page: "=screen:articles.pagination.page",
                             perPage: "=screen:articles.pagination.perPage",
@@ -216,7 +216,7 @@ module.exports = {
                       actions: {
                         change: {
                           type: "update-context",
-                          context: "screen:articles.pagination",
+                          options: { context: "screen:articles.pagination" },
                         },
                       },
                     },
@@ -225,11 +225,11 @@ module.exports = {
                   actions: {
                     search: {
                       type: "update-context",
-                      context: "screen:articles.search",
+                      options: { context: "screen:articles.search" },
                     },
                     sorting: {
                       type: "update-context",
-                      context: "screen:articles.sorting",
+                      options: { context: "screen:articles.sorting" },
                     },
                   },
                 },
