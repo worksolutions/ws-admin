@@ -111,4 +111,40 @@ module.exports = {
         return result;
       });
   },
+  prepareArticleToFront(article) {
+    const isPublished = statusesByNumber[article.status] === "PUBLISHED";
+    const action = {
+      type: "redirect",
+      options: {
+        reference: "/content/articles/" + article.id + "/edit",
+      },
+    };
+
+    const result = {
+      title: article.title,
+      id: article.id,
+      image: article.announceImage ? prepareUrl(article.announceImage.path) : null,
+      redirectReference: "/content/articles/" + article.id,
+      actions: [
+        {
+          name: "Редактировать",
+          icon: "edit",
+          iconColor: "gray-blue/05",
+          action,
+        },
+      ],
+    };
+
+    if (isPublished) {
+      result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
+      result.statuses = [{ icon: "badge", color: "green/05", size: "SMALL" }];
+      result.actions.push({ name: "Снять с публикации", icon: "bolt-alt", iconColor: "orange/05", action });
+    } else {
+      result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
+      result.statuses = [{ icon: "badge", color: "orange/05", size: "SMALL" }];
+      result.actions.push({ name: "Опубликовать", icon: "bolt-alt", iconColor: "green/05", action });
+    }
+
+    return result;
+  },
 };

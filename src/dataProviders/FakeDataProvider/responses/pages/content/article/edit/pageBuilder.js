@@ -391,13 +391,14 @@ module.exports = function (context, getActions) {
                                 type: "Actions/PopupListSelector",
                                 options: {
                                   context: relatedArticlesContext,
+                                  selectedItems: { context: `${context}.relatedArticles` },
                                   buttonOptions: { name: "Добавить статью", icon: "plus-big" },
                                   searchInputOptions: { context: `${relatedArticlesContext}.search` },
                                 },
                                 actions: {
                                   select: {
                                     type: "update-context",
-                                    context: ``,
+                                    context: `${context}.relatedArticles`,
                                   },
                                   search: {
                                     type: "update-context",
