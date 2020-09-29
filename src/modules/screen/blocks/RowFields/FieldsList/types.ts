@@ -31,7 +31,7 @@ export interface FieldListItemModifierInterface {
 export interface FieldListItemInterface {
   required?: boolean;
   hint?: string;
-  title: string;
+  title?: string;
   type: FieldListItemType;
   options: Record<string, any>;
   modifier?: FieldListItemModifierInterface;

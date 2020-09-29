@@ -17,6 +17,13 @@ const errorDecoder = succeed({})
   );
 
 export class BaseError {
+  static make(message: string, errors: Record<string, string> = {}) {
+    return new BaseError({
+      message,
+      errors,
+    });
+  }
+
   error: ErrorInterface;
 
   constructor(error: any) {

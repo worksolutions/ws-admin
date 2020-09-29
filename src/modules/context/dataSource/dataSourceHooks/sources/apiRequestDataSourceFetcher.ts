@@ -17,23 +17,23 @@ function apiRequestDataSource(
 ) {
   const {
     method,
-    params,
+    body,
     reference,
     removeEmptyString = true,
     removeNullableFields = true,
     cancellable = true,
   } = dataSource.options;
   const referenceWithContext = insertContext(reference, context);
-  const bodyWithContext = insertContext(params, context);
+  const bodyWithContext = insertContext(body, context);
   const makeRequest = requestManager.createRequest(referenceWithContext.value, method, identityValueDecoder);
 
-  const body = prepareApiRequestBody({ removeEmptyString, removeNullableFields }, bodyWithContext.value);
+  const preparedBody = prepareApiRequestBody({ removeEmptyString, removeNullableFields }, bodyWithContext.value);
   return {
     referenceWithContext,
     bodyWithContext,
     request: new Promise((resolve, reject) => {
       makeRequest({
-        body,
+        body: preparedBody,
         options: {
           cancelName: cancellable ? requestManager.makeCancelName(referenceWithContext.value, method) : undefined,
         },

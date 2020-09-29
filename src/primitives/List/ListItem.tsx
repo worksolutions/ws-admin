@@ -42,7 +42,7 @@ export interface ListItemInterface<ITEM extends string | number> extends Suggest
   rightContent?: InputIconProp;
   circledRightContent?: boolean;
   heading?: string | number;
-  subtitle?: string | number;
+  subTitle?: string | number;
   disabled?: boolean;
 }
 
@@ -115,7 +115,7 @@ function ListItem<CODE extends string | number>({
     disabled,
     heading,
     rightContent,
-    subtitle,
+    subTitle,
     circledLeftContent,
     circledRightContent,
   },
@@ -145,9 +145,9 @@ function ListItem<CODE extends string | number>({
         <Typography dots={titleDots} noWrap styles={titleStyles}>
           {title}
         </Typography>
-        {subtitle && (
+        {subTitle && (
           <Typography color="gray-blue/05" type="caption-regular" noWrap>
-            {subtitle}
+            {subTitle}
           </Typography>
         )}
       </Wrapper>

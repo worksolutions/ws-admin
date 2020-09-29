@@ -37,7 +37,6 @@ export function useActions<T extends Record<string, AnyRawAction>>(
       result[actionName] = connectActionFunctionAndAppContext(
         action,
         actionFunctionsByActionType[action.type](appContext, action as any),
-        appContext,
       );
     });
 

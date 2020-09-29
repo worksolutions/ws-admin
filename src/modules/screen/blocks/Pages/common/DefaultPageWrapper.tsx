@@ -16,14 +16,28 @@ import {
   zIndex,
 } from "libs/styles";
 
-function DefaultPageWrapper({ children, heading }: { heading: React.ReactNode; children: React.ReactNode }) {
+import { PageModalInterface } from "./types";
+import Modals from "./Modals";
+
+function DefaultPageWrapper({
+  children,
+  heading,
+  modals,
+}: {
+  heading: React.ReactNode;
+  children: React.ReactNode;
+  modals?: Record<string, PageModalInterface>;
+}) {
   return (
-    <Wrapper styles={[padding(24), flex, flexColumn, flexValue(1), fullHeight, overflow("hidden")]}>
-      <Wrapper styles={[marginBottom(24), flex, jc(Aligns.SPACE_BETWEEN), ai(Aligns.CENTER), zIndex(3)]}>
-        {heading}
+    <>
+      <Wrapper styles={[padding(24), flex, flexColumn, flexValue(1), fullHeight, overflow("hidden")]}>
+        <Wrapper styles={[marginBottom(24), flex, jc(Aligns.SPACE_BETWEEN), ai(Aligns.CENTER), zIndex(3)]}>
+          {heading}
+        </Wrapper>
+        {children}
       </Wrapper>
-      {children}
-    </Wrapper>
+      <Modals modals={modals} />
+    </>
   );
 }
 

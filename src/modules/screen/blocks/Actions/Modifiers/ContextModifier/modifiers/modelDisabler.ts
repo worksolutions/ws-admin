@@ -17,6 +17,6 @@ export function useModelDisablerContextModifier(
   const { model, setModel } = useStateContextModel(options.context, appContext);
 
   React.useEffect(() => {
-    setModel({ disabled: enabled, error: model.error }); // TODO: почему-то mobx не видит изменение эксезпляра класса модели
+    setModel({ disabled: enabled, error: model.error });
   }, [enabled]);
 }

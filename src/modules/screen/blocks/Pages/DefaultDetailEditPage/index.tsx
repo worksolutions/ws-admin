@@ -17,10 +17,9 @@ import { useFormTouched } from "./hooks/useFormTouched";
 import { useDetailSaver } from "./hooks/useDetailSaver";
 import { useDetailRequiredFieldsChecker } from "./hooks/useDetailRequiredFieldsChecker";
 
-function DefaultDetailEditPage({ slots, options, actions, dataSource }: DefaultDetailEditPageInterface) {
+function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: DefaultDetailEditPageInterface) {
   const resultActions = useEditActions(options!.saveOptions.context, actions!);
   const { data, initialData, loadingContainer, updateInitial } = useDataSource(dataSource!);
-
   const touched = useFormTouched(data, initialData);
 
   const save = useDetailSaver(resultActions, () => updateInitial(data));
@@ -36,6 +35,7 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource }: DefaultD
 
   return (
     <DefaultPageWrapper
+      modals={modals}
       heading={
         <PageHeader
           slots={slots}

@@ -1,8 +1,9 @@
 import { PageHeaderInterface } from "../common/Header";
+import { CommonPageInterface } from "../common/types";
 
-import { BlockInterface, ContainSlotsInterface } from "state/globalState";
+import { BlockInterface } from "state/globalState";
 
-export type DefaultDetailEditPageInterface = ContainSlotsInterface &
+export type DefaultDetailEditPageInterface = CommonPageInterface &
   BlockInterface<
     PageHeaderInterface & { saveOptions: { context: string; requiredContextFields?: string[] } },
     "save" | "discard"

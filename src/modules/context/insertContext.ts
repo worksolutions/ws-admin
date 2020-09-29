@@ -46,12 +46,15 @@ function getFromContext(resultMatch: string, context: object) {
 
 const rawDataSymbols = "=";
 
-export type InsertContextResult = ReturnType<typeof insertContextData>;
+export interface ContextDependencyInterface {
+  contextType: string;
+  path: string[];
+}
 
 function insertContextData(
   text: string,
   context: object,
-): { value: string; dependencies: { contextType: string; path: string[] }[] } {
+): { value: string; dependencies: ContextDependencyInterface[] } {
   if (text.includes(rawDataSymbols)) {
     const isStringifiedData = text.startsWith('"') && text.endsWith('"');
     const result = getFromContext((isStringifiedData ? text.slice(1, -1) : text).slice(rawDataSymbols.length), context);
@@ -62,7 +65,7 @@ function insertContextData(
     };
   }
 
-  const result: InsertContextResult = { value: "", dependencies: [] };
+  const result: ReturnType<typeof insertContextData> = { value: "", dependencies: [] };
 
   result.value = text.replace(/{{(.+?)}}/gm, (_stringWithBrackets: any, resultMatch) => {
     const match = getFromContext(resultMatch, context);

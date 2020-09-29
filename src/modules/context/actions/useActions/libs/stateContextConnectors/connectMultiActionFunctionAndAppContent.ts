@@ -20,11 +20,7 @@ export const connectMultiActionFunctionAndAppContext = (
   const loadingContainer = new LoadingContainer();
   const progressContainer = new ProgressContainer();
   const patchedActions = actions.map((action) =>
-    connectActionFunctionAndAppContext(
-      action,
-      actionFunctionsByActionType[action.type](appContext, action as any),
-      appContext,
-    ),
+    connectActionFunctionAndAppContext(action, actionFunctionsByActionType[action.type](appContext, action as any)),
   );
 
   const run = (inputData: any) => {
@@ -56,7 +52,7 @@ export const connectMultiActionFunctionAndAppContext = (
     run,
     progressContainer,
     discard: () => {
-      throw new BaseError({ message: "Метод отмены множественных действий не реализован!", errors: {} });
+      throw BaseError.make("Метод отмены множественных действий не реализован!");
     },
     type: `Multi actions: [${patchedActions.map(prop("type")).join(", ")}]`,
   };

@@ -2,8 +2,6 @@ import { BaseError } from "libs/BaseError";
 import { EventEmitter } from "libs/events";
 import { ProgressContainer } from "libs/ProgressContainer";
 
-import { AppContextInterface } from "modules/context/hooks/useAppContext";
-
 import { ActionEventEmitterEvents, ActionInputDataInterface } from "../../types";
 
 import { LoadingContainer } from "state/loadingContainer";
@@ -13,7 +11,6 @@ import { RealAnyRawAction } from "types/Actions";
 export const connectActionFunctionAndAppContext = (
   action: RealAnyRawAction,
   actionFunction: (inputData: ActionInputDataInterface) => Promise<any>,
-  appContext: AppContextInterface,
 ) => {
   const loadingContainer = new LoadingContainer();
   const progressContainer = new ProgressContainer();
@@ -28,7 +25,6 @@ export const connectActionFunctionAndAppContext = (
     return actionFunction({ inputData, previousActionOutput, eventEmitter })
       .then((actionOutputData) => {
         loadingContainer.stopLoading();
-        if (action.context) appContext.updateState({ path: action.context, data: actionOutputData });
         return actionOutputData;
       })
       .catch((baseError: BaseError) => {

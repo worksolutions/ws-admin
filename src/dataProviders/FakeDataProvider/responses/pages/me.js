@@ -11,11 +11,11 @@ module.exports = {
       slots: {
         headingAction: {
           type: "Actions/Button",
-          options: { name: "Редактировать", icon: "edit", buttonType: "SECONDARY" },
+          options: { name: "Редактировать", icon: "edit", type: "SECONDARY" },
           actions: {
             click: {
               type: "update-context",
-              context: "",
+              options: { context: "" },
             },
           },
         },

@@ -69,7 +69,7 @@ module.exports = {
                 options: {
                   reference: "/users",
                   method: "get",
-                  params: {
+                  body: {
                     page: "=screen:users.pagination.page",
                     perPage: "=screen:users.pagination.perPage",
                   },
@@ -89,7 +89,7 @@ module.exports = {
               actions: {
                 change: {
                   type: "update-context",
-                  context: "screen:users.pagination",
+                  options: { context: "screen:users.pagination" },
                 },
               },
             },

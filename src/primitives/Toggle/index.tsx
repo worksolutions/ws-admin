@@ -16,6 +16,7 @@ import {
   left,
   marginLeft,
   marginRight,
+  minWidth,
   pointer,
   position,
   top,
@@ -27,6 +28,7 @@ import Wrapper from "../Wrapper";
 import Typography from "../Typography";
 
 interface ToggleInterface {
+  className?: string;
   styles?: any;
   enabled: boolean;
   text?: string;
@@ -34,9 +36,10 @@ interface ToggleInterface {
   onChange: (enabled: boolean) => void;
 }
 
-function Toggle({ styles, enabled, text, textOnRight, onChange }: ToggleInterface) {
+function Toggle({ className, styles, enabled, text, textOnRight, onChange }: ToggleInterface) {
   return (
     <Wrapper
+      className={className}
       styles={[
         flex,
         ai(Aligns.CENTER),
@@ -51,6 +54,7 @@ function Toggle({ styles, enabled, text, textOnRight, onChange }: ToggleInterfac
         styles={[
           transition(`background-color ${duration160}`),
           width(28),
+          minWidth(28),
           height(16),
           position("relative"),
           borderRadius(100),

@@ -3,7 +3,8 @@ import { observer } from "mobx-react-lite";
 
 import Dropdown from "primitives/Dropdown/Dropdown";
 import { InputSize } from "primitives/Input/InputWrapper";
-import { DropdownItem } from "primitives/Dropdown/types";
+import { DropdownItem, DropdownOptionalAction } from "primitives/Dropdown/types";
+import { Icons } from "primitives/Icon";
 
 import Loading from "components/LoadingContainer/Loading";
 
@@ -24,7 +25,20 @@ function ActionDropdown({
   actions,
   dataSource,
   styles,
-}: BlockInterface<{ context: string; width?: DefaultWidths; size?: InputSize; placeholder?: string }, "change"> & {
+}: BlockInterface<
+  {
+    searchable?: boolean;
+    context: string;
+    width?: DefaultWidths;
+    size?: InputSize;
+    placeholder?: string;
+    optionalActionButton?: {
+      title: string;
+      icon?: Icons;
+    };
+  },
+  "change" | "optionalAction"
+> & {
   styles?: any;
 }) {
   if (!actions?.change) return null;
@@ -48,20 +62,34 @@ function ActionDropdown({
 
   const widthValue = defaultWidths[options?.width || DefaultWidths.SMALL];
 
-  return (
-    <Dropdown
-      outerStyles={[styles, width(widthValue)]}
-      styles={[minWidth(widthValue), maxWidth(widthValue)]}
-      selectedItemCode={value}
-      size={options!.size}
-      placeholder={options?.placeholder || "Не выбрано"}
-      items={data!}
-      disabled={disabled}
-      error={!!error}
-      tip={error}
-      onChange={setValue}
-    />
-  );
+  function makeDropdown(optionalAction?: DropdownOptionalAction) {
+    return (
+      <Dropdown
+        searchable={options!.searchable}
+        outerStyles={[styles, width(widthValue)]}
+        styles={[minWidth(widthValue), maxWidth(widthValue)]}
+        selectedItemCode={value}
+        size={options!.size}
+        placeholder={options!.placeholder || "Не выбрано"}
+        items={data!}
+        disabled={disabled}
+        error={!!error}
+        tip={error}
+        optionalAction={optionalAction}
+        onChange={setValue}
+      />
+    );
+  }
+
+  if (resultActions.optionalAction) {
+    return makeDropdown({
+      onClick: resultActions.optionalAction.run,
+      title: options!.optionalActionButton!.title,
+      icon: options!.optionalActionButton!.icon,
+    });
+  }
+
+  return makeDropdown();
 }
 
 export default React.memo(observer(ActionDropdown));

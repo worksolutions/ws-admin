@@ -27,7 +27,7 @@ import { ButtonSize, ButtonType } from "./types";
 function getStylesNameOnIcons(
   hasLeftIcon: boolean,
   hasRightIcon: boolean,
-): keyof typeof buttonStylesMap["PRIMARY"]["0"] {
+): keyof typeof buttonStylesMap["PRIMARY"]["LARGE"] {
   if (hasLeftIcon && hasRightIcon) return "withTwoIcons";
   if (hasLeftIcon) return "withIconLeft";
   if (hasRightIcon) return "withIconRight";

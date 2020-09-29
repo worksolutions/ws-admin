@@ -1,6 +1,8 @@
 /* eslint-disable max-lines */
 module.exports = function (context, getActions) {
-  const relatedArticlesContext = `screen:article-data.related-articles`;
+  const tempContext = `screen:temp-article`;
+  const relatedArticlesContext = `${tempContext}.related-articles`;
+
   return {
     type: "Pages/DefaultDetailEditPage",
     dataSource: {
@@ -23,7 +25,7 @@ module.exports = function (context, getActions) {
         actions: {
           change: {
             type: "update-context",
-            context: `${context}.status`,
+            options: { context: `${context}.status` },
           },
         },
       },
@@ -36,7 +38,24 @@ module.exports = function (context, getActions) {
       mainContent: {
         type: "ContextInitializer",
         options: {
-          static: [{ path: `${relatedArticlesContext}.list`, value: [] }],
+          static: [
+            { path: `${relatedArticlesContext}.list`, value: [] },
+            { path: `${tempContext}.categories`, value: [] },
+          ],
+          actions: {
+            loadCategories: {
+              type: "api:request",
+              options: {
+                reference: "/categories-list",
+                method: "get",
+                body: {
+                  page: "1",
+                  perPage: "100",
+                },
+                saveToContext: `${tempContext}.categories`,
+              },
+            },
+          },
           block: {
             type: "BlocksList",
             blocks: [
@@ -81,6 +100,40 @@ module.exports = function (context, getActions) {
                 },
               },
               {
+                type: "Actions/Modifiers/ContextModifier",
+                options: {
+                  type: "transliteration",
+                  enableTrigger: {
+                    type: "if-context-true-value",
+                    context: `screen:newCategory.code-enableTransliteration`,
+                  },
+                  options: { fromContext: `screen:newCategory.title`, toContext: `screen:newCategory.code` },
+                },
+              },
+              {
+                type: "Actions/Modifiers/ContextModifier",
+                options: {
+                  type: "model-disabler",
+                  enableTrigger: {
+                    type: "if-context-true-value",
+                    context: `screen:newCategory.code-enableTransliteration`,
+                  },
+                  options: { context: `screen:newCategory.code` },
+                },
+              },
+              {
+                type: "Actions/Modifiers/ContextModifier",
+                options: {
+                  type: "model-disabler",
+                  enableTrigger: {
+                    type: "if-context-false-value",
+                    mode: "or",
+                    context: [`screen:newCategory.title`, `screen:newCategory.code`],
+                  },
+                  options: { context: `screen:newCategory.action` },
+                },
+              },
+              {
                 type: "Tabs",
                 options: {
                   tabs: [
@@ -107,7 +160,7 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.title`,
+                                        options: { context: `${context}.title` },
                                       },
                                     },
                                   },
@@ -125,7 +178,7 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.announce`,
+                                        options: { context: `${context}.announce` },
                                       },
                                     },
                                   },
@@ -142,7 +195,7 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.publishedAt`,
+                                        options: { context: `${context}.publishedAt` },
                                       },
                                     },
                                   },
@@ -156,22 +209,27 @@ module.exports = function (context, getActions) {
                                       width: "small",
                                       size: "large",
                                       context: `${context}.category`,
+                                      optionalActionButton: {
+                                        title: "Добавить категорию",
+                                        icon: "plus-big",
+                                      },
                                     },
                                     dataSource: {
-                                      type: "api:request",
+                                      type: "context",
                                       options: {
-                                        reference: "/categories-list",
-                                        method: "get",
-                                        params: {
-                                          page: "1",
-                                          perPage: "100",
-                                        },
+                                        key: `${tempContext}.categories`,
                                       },
                                     },
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.category`,
+                                        options: { context: `${context}.category` },
+                                      },
+                                      optionalAction: {
+                                        type: "open-modal",
+                                        options: {
+                                          name: "create-category",
+                                        },
                                       },
                                     },
                                   },
@@ -191,7 +249,7 @@ module.exports = function (context, getActions) {
                                       options: {
                                         reference: "/users-list",
                                         method: "get",
-                                        params: {
+                                        body: {
                                           page: "1",
                                           perPage: "100",
                                         },
@@ -200,7 +258,9 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.author`,
+                                        options: {
+                                          context: `${context}.author`,
+                                        },
                                       },
                                     },
                                   },
@@ -232,7 +292,7 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.code`,
+                                        options: { context: `${context}.code` },
                                       },
                                     },
                                   },
@@ -254,7 +314,7 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.tagTitle`,
+                                        options: { context: `${context}.tagTitle` },
                                       },
                                     },
                                   },
@@ -272,7 +332,7 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.tagDescription`,
+                                        options: { context: `${context}.tagDescription` },
                                       },
                                     },
                                   },
@@ -288,7 +348,7 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.keywords`,
+                                        options: { context: `${context}.keywords` },
                                       },
                                     },
                                   },
@@ -312,7 +372,7 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.announceImage`,
+                                        options: { context: `${context}.announceImage` },
                                       },
                                       upload: {
                                         type: "api:uploadFile",
@@ -334,7 +394,7 @@ module.exports = function (context, getActions) {
                                     actions: {
                                       change: {
                                         type: "update-context",
-                                        context: `${context}.contentImage`,
+                                        options: { context: `${context}.contentImage` },
                                       },
                                       upload: {
                                         type: "api:uploadFile",
@@ -398,11 +458,11 @@ module.exports = function (context, getActions) {
                                 actions: {
                                   select: {
                                     type: "update-context",
-                                    context: `${context}.relatedArticles`,
+                                    options: { context: `${context}.relatedArticles` },
                                   },
                                   search: {
                                     type: "update-context",
-                                    context: `${relatedArticlesContext}.search`,
+                                    options: { context: `${relatedArticlesContext}.search` },
                                   },
                                 },
                                 dataSource: {
@@ -411,7 +471,7 @@ module.exports = function (context, getActions) {
                                   options: {
                                     reference: "/articles/simple-list",
                                     method: "get",
-                                    params: {
+                                    body: {
                                       title: `=${relatedArticlesContext}.search`,
                                       page: "1",
                                       perPage: "8",
@@ -462,5 +522,83 @@ module.exports = function (context, getActions) {
       contentImage: `=${context}.contentImage.id`,
       announceImage: `=${context}.announceImage.id`,
     }),
+    modals: {
+      "create-category": {
+        title: "Создание категории",
+        block: {
+          type: "RowFields/FieldsList/StaticFieldsList",
+          options: {
+            mode: "VERTICAL",
+            fields: [
+              {
+                type: "edit:Text",
+                options: {
+                  inputOptions: {
+                    width: "full-width",
+                    size: "large",
+                    placeholder: "Название",
+                    context: `screen:newCategory.title`,
+                  },
+                  actions: {
+                    change: {
+                      type: "update-context",
+                      options: { context: `screen:newCategory.title` },
+                    },
+                  },
+                },
+              },
+              {
+                type: "edit:Text",
+                options: {
+                  inputOptions: {
+                    width: "full-width",
+                    size: "large",
+                    placeholder: "Символьный код",
+                    context: `screen:newCategory.code`,
+                  },
+                  modifier: {
+                    type: "toggle",
+                    title: "Генерировать символьный код из названия",
+                    context: `screen:newCategory.code-enableTransliteration`,
+                  },
+                  actions: {
+                    change: {
+                      type: "update-context",
+                      options: { context: `screen:newCategory.code` },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+        actionBlock: {
+          type: "Actions/Button",
+          options: { name: "Создать", size: "LARGE", context: `screen:newCategory.action` },
+          actions: {
+            click: [
+              {
+                type: "api:request",
+                options: {
+                  reference: "/categories/store",
+                  method: "post",
+                  body: {
+                    code: "=screen:newCategory.code",
+                    name: "=screen:newCategory.title",
+                  },
+                },
+              },
+              {
+                type: "append-context",
+                options: { context: `${tempContext}.categories`, takeIncomeDataFromPreviousAction: true },
+              },
+              {
+                type: "close-modal",
+              },
+            ],
+          },
+        },
+      },
+    },
   };
 };

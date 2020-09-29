@@ -6,23 +6,26 @@ import { Icons } from "primitives/Icon";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
+import { useStateContextModel } from "modules/model";
 
 import { BlockInterface } from "state/globalState";
 
 function ActionButton({
   actions,
   options,
-}: BlockInterface<{ name: string; icon?: Icons; buttonType?: ButtonType }, "click">) {
+}: BlockInterface<{ context?: string; name: string; icon?: Icons; type?: ButtonType; size?: ButtonSize }, "click">) {
   if (!actions?.click) return null;
   if (!options) return null;
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
+  const disabled = options!.context ? useStateContextModel(options!.context, appContext).model.disabled : false;
 
   return (
     <Button
-      type={options.buttonType || ButtonType.PRIMARY}
-      size={ButtonSize.MEDIUM}
+      disabled={disabled || resultActions.click.loadingContainer.loading}
+      type={options.type || ButtonType.PRIMARY}
+      size={options.size || ButtonSize.MEDIUM}
       iconLeft={options.icon}
       loading={resultActions.click.loadingContainer.loading}
       onClick={() => resultActions.click.run()}

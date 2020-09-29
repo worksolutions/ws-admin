@@ -2,7 +2,7 @@ export enum DefaultWidths {
   SMALL = "small",
   MEDIUM = "medium",
   LARGE = "large",
-  FULL_WIDTH = "full_width",
+  FULL_WIDTH = "full-width",
 }
 
 export const defaultWidths: Record<DefaultWidths, string | number> = {

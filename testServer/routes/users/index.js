@@ -36,7 +36,7 @@ module.exports = (app) => {
         code: user.id,
         title: user.name + " " + user.surname,
         leftContent: user.image.path ? prepareUrl(user.image.path) : null,
-        subtitle: `${user.position} • ${user.email}`,
+        subTitle: `${user.position} • ${user.email}`,
       }));
     },
   });
