@@ -4,6 +4,7 @@ import Wrapper from "primitives/Wrapper";
 import Editor from "primitives/Editor";
 import RadioGroup, { RadioGroupSize } from "primitives/RadioGroup";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
+import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
 
 import { Aligns, backgroundColor, color, flex, fullWidth, jc, marginLeft, minHeight } from "libs/styles";
 
@@ -41,19 +42,30 @@ function HTMLEditor({ options, styles }: BlockInterface<{ value: string }> & { s
         onChange={setText}
         uploader={(file) => Promise.resolve(console.log)}
         additionalToolbarElements={{
-          afterLastSeparator: (
-            <Button
-              className="ck ck-button ck-off custom-toolbar-button"
-              iconLeft="snowflake"
-              type={ButtonType.ICON}
-              size={ButtonSize.SMALL}
-              styles={[color("gray-blue/02")]}
-              onClick={console.log}
+          beforeLastSeparator: (
+            <DroppedList
+              mode={DroppedListOpenMode.CLICK}
+              margin={7}
+              items={[
+                { title: "Внутренняя статья", code: "inner", leftContent: "dashboard" },
+                { title: "Ссылка на ресурс", code: "external", leftContent: "external-link-alt" },
+              ]}
+              onChange={(code) => console.log(code)}
             >
-              <Wrapper className="ck ck-tooltip ck-tooltip_s">
-                <Wrapper className="ck ck-tooltip__text">Привязка статьи</Wrapper>
-              </Wrapper>
-            </Button>
+              {(state, parentRef, subChild) => (
+                <Button
+                  ref={parentRef}
+                  className="ck ck-button ck-off custom-toolbar-button"
+                  iconLeft="snowflake"
+                  type={ButtonType.ICON}
+                  size={ButtonSize.SMALL}
+                  styles={[color("gray-blue/02")]}
+                  onClick={state.toggle}
+                >
+                  {subChild}
+                </Button>
+              )}
+            </DroppedList>
           ),
           atTheEndOfContainer: (
             <Wrapper styles={[marginLeft(25)]}>

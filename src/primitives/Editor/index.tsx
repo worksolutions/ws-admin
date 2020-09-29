@@ -16,7 +16,7 @@ interface EditorInterface {
   uploader: (file: File) => Promise<any>;
   onInit?: (ref: EditorRefInterface) => void;
   additionalToolbarElements?: {
-    afterLastSeparator?: ReactNode;
+    beforeLastSeparator?: ReactNode;
     atTheEndOfContainer?: ReactNode;
   };
 }
@@ -80,7 +80,7 @@ export default React.memo(function Editor({
       <CKEditor5 data={initialText} config={config} onInit={init} />
       {toolbarContainer && ReactDOM.createPortal(additionalToolbarElements?.atTheEndOfContainer, toolbarContainer)}
       {lastToolbarSeparator &&
-        ReactDOM.createPortal(additionalToolbarElements?.afterLastSeparator, lastToolbarSeparator)}
+        ReactDOM.createPortal(additionalToolbarElements?.beforeLastSeparator, lastToolbarSeparator)}
     </Suspense>
   );
 });

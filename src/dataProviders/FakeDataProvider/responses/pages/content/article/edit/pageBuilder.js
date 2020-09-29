@@ -372,7 +372,7 @@ module.exports = function (context, getActions) {
                     {
                       title: "Текст",
                       block: {
-                        type: "FormattedHTMLText",
+                        type: "HTMLEditor",
                         options: {
                           value: `=${context}.content`,
                         },
