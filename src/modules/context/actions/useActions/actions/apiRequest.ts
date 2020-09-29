@@ -17,8 +17,10 @@ const requestManager = Container.get(RequestManager);
 export default async function apiRequest(
   appContext: AppContextInterface,
   actionOptions: RawActionOptions[ActionType.API_REQUEST],
-  { inputData }: ActionInputDataInterface,
+  { inputData: inputDataProp, previousActionOutput }: ActionInputDataInterface,
 ): Promise<any> {
+  const inputData = actionOptions.takeIncomeDataFromPreviousAction ? previousActionOutput : inputDataProp;
+
   const { method, body, reference, removeEmptyString = true, removeNullableFields = true } = actionOptions;
 
   const makeRequest = requestManager.createRequest(

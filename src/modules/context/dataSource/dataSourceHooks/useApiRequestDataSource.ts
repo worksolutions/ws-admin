@@ -1,17 +1,14 @@
-import { Lambda, observe } from "mobx";
-import { clone, is, isNil, last } from "ramda";
+import { Lambda } from "mobx";
+import { clone, isNil } from "ramda";
 import { useLocalStore } from "mobx-react-lite";
 import { useEffect } from "react";
 
-import { path } from "libs/path";
 import { RequestError } from "libs/request";
-import { BaseError } from "libs/BaseError";
 
-import { InsertContextResult } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 
 import apiRequestDataSourceFetcher from "./sources/apiRequestDataSourceFetcher";
-import { DataSourceResultInterface } from "./common";
+import { DataSourceResultInterface, makeOnDependencyChangeUpdater } from "./common";
 
 import { LoadingContainer } from "state/loadingContainer";
 
@@ -73,8 +70,12 @@ export default function useApiRequestDataSource<RESULT = any>(
     const allApiDisposers: Lambda[] = [];
     if (apiRequestResult?.bodyWithContext.value) {
       allApiDisposers.push(
-        ...makeOnDependencyChangeUpdater(apiRequestResult.bodyWithContext, context, runApiRequestLogic),
-        ...makeOnDependencyChangeUpdater(apiRequestResult.referenceWithContext, context, runApiRequestLogic),
+        ...apiRequestResult.bodyWithContext.dependencies.map(
+          makeOnDependencyChangeUpdater(context, runApiRequestLogic),
+        ),
+        ...apiRequestResult.referenceWithContext.dependencies.map(
+          makeOnDependencyChangeUpdater(context, runApiRequestLogic),
+        ),
       );
     }
 
@@ -84,15 +85,4 @@ export default function useApiRequestDataSource<RESULT = any>(
   useEffect(runDataSourceFetcher, []);
 
   return localStore;
-}
-
-function makeOnDependencyChangeUpdater(insertContextResult: InsertContextResult, context: any, onUpdate: () => void) {
-  return insertContextResult.dependencies.map((dependency) => {
-    const contextValue = path([dependency.contextType, ...dependency.path.slice(0, -1)], context);
-    if (!is(Object, contextValue))
-      throw BaseError.make(
-        `Поле в контексте не определено ${dependency.contextType}:${dependency.path.join(".")} для наблюдения`,
-      );
-    return observe(contextValue, last(dependency.path), onUpdate);
-  });
 }

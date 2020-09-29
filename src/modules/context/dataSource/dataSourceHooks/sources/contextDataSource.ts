@@ -13,5 +13,5 @@ export default function contextDataSource(
 ) {
   const dependency = getContextTypeAndPathByParam(dataSource.options.key);
   const value: any = path([dependency.type, ...splitByPoint(dependency.path)], context);
-  return isNil(value) ? null : value;
+  return { dependency, value: isNil(value) ? null : value };
 }

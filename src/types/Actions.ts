@@ -5,6 +5,7 @@ export enum ActionType {
   API_UPLOAD_FILE = "api:uploadFile",
   REDIRECT = "redirect",
   UPDATE_CONTEXT = "update-context",
+  APPEND_CONTEXT = "append-context",
   OPEN_MODAL = "open-modal",
   CLOSE_MODAL = "close-modal",
 }
@@ -17,6 +18,7 @@ export type RawActionOptions = {
     method: METHODS;
     body?: Record<string, number | string>;
     saveToContext?: string;
+    takeIncomeDataFromPreviousAction?: boolean;
   };
   [ActionType.API_UPLOAD_FILE]: {
     reference: string;
@@ -28,7 +30,12 @@ export type RawActionOptions = {
     delay?: number;
   };
   [ActionType.UPDATE_CONTEXT]: {
+    takeIncomeDataFromPreviousAction?: boolean;
     context: string;
+  };
+  [ActionType.APPEND_CONTEXT]: {
+    context: string;
+    takeIncomeDataFromPreviousAction?: boolean;
   };
   [ActionType.OPEN_MODAL]: {
     name: string;
@@ -43,8 +50,12 @@ export interface RawActionInterface<T extends ActionType> {
 
 export type RealAnyRawAction =
   | RawActionInterface<ActionType.API_REQUEST>
+  | RawActionInterface<ActionType.API_UPLOAD_FILE>
   | RawActionInterface<ActionType.REDIRECT>
-  | RawActionInterface<ActionType.UPDATE_CONTEXT>;
+  | RawActionInterface<ActionType.UPDATE_CONTEXT>
+  | RawActionInterface<ActionType.APPEND_CONTEXT>
+  | RawActionInterface<ActionType.OPEN_MODAL>
+  | RawActionInterface<ActionType.CLOSE_MODAL>;
 
 export type AnyRawAction = RealAnyRawAction[] | RealAnyRawAction;
 

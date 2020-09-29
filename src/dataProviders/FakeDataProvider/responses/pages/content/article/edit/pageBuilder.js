@@ -589,6 +589,10 @@ module.exports = function (context, getActions) {
                 },
               },
               {
+                type: "append-context",
+                options: { context: `${tempContext}.categories`, takeIncomeDataFromPreviousAction: true },
+              },
+              {
                 type: "close-modal",
               },
             ],

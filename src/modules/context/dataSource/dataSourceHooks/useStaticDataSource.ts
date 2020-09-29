@@ -15,7 +15,6 @@ export function useStaticDataSource<RESULT = any>(dataSource: DataSourceInterfac
 
   const localStore: DataSourceResultInterface<RESULT> = useLocalStore<DataSourceResultInterface<RESULT>>(() => {
     const data = staticDataSource(dataSource);
-
     if (dataSource.context) updateState({ path: dataSource.context, data });
 
     return {

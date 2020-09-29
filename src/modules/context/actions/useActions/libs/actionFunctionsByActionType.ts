@@ -7,6 +7,7 @@ import redirectAction from "../actions/redirect";
 import updateContext from "../actions/updateContext";
 import openModal from "../actions/openModal";
 import closeModal from "../actions/closeModal";
+import appendContext from "../actions/appendContext";
 
 import { ActionType, RawActionInterface } from "types/Actions";
 
@@ -36,6 +37,13 @@ export const actionFunctionsByActionType = {
     { options }: RawActionInterface<ActionType.UPDATE_CONTEXT>,
   ) => (actionInputData: ActionInputDataInterface) => {
     return updateContext(appContext, options, actionInputData);
+  },
+
+  [ActionType.APPEND_CONTEXT]: (
+    appContext: AppContextInterface,
+    { options }: RawActionInterface<ActionType.APPEND_CONTEXT>,
+  ) => (actionInputData: ActionInputDataInterface) => {
+    return appendContext(appContext, options, actionInputData);
   },
 
   [ActionType.OPEN_MODAL]: (

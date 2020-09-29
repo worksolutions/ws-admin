@@ -1,7 +1,4 @@
 import React from "react";
-import { toJS } from "mobx";
-
-import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
 
 import { DataSourceResultInterface } from "./dataSourceHooks/common";
 import useApiRequestDataSource from "./dataSourceHooks/useApiRequestDataSource";
