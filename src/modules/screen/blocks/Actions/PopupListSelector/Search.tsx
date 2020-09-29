@@ -28,6 +28,7 @@ function Search({ searchAction, context, placeholder }: SearchInterface) {
 
   return (
     <Input
+      debounce={1000}
       placeholder={placeholder || "Найти в списке"}
       autofocus
       iconRight="search-big"
