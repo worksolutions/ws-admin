@@ -1,5 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { append } from "ramda";
 
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
 import { Icons } from "primitives/Icon";
@@ -31,13 +32,16 @@ type PopupListSelectorOptionsInterface = {
     context: string;
     placeholder?: string;
   };
+  selectedItems: {
+    context: string;
+  };
 };
 
 type PopupListItemInterface = {
-  id: number;
-  name: string;
+  id: string | number;
+  heading?: string;
+  title: string;
   image?: string;
-  bottomContent?: string;
 };
 
 type PopupListSelectorDataInterface = {
@@ -54,9 +58,11 @@ function PopupListSelector({
   if (!dataSource) return null;
   if (!options) return null;
   if (!options.buttonOptions) return null;
+  if (!options.selectedItems) return null;
 
   const appContext = useAppContext();
   const [{ list, pagination }] = useStateFromContext<PopupListSelectorDataInterface>(options.context, appContext);
+  const [selectedItems] = useStateFromContext<PopupListItemInterface[]>(options.selectedItems.context, appContext);
   const resultActions = useActions(actions, appContext);
   const { loadingContainer } = useDataSource(dataSource!);
 
@@ -75,10 +81,10 @@ function PopupListSelector({
         </LoadingProvider>
       )}
       margin={4}
-      items={list.map(({ id, image, name, bottomContent }) => ({
+      items={list.map(({ id, image, heading, title }) => ({
         code: id,
-        title: name,
-        subtitle: bottomContent,
+        title: title,
+        subtitle: heading,
         leftContent: <ImageWithDefault width={52} height={32} src={image} />,
         circledLeftContent: false,
       }))}
@@ -92,7 +98,14 @@ function PopupListSelector({
           />
         )
       }
-      onChange={(code) => console.log(code)}
+      onChange={(code) =>
+        resultActions.select.run(
+          append(
+            list.find(({ id }) => id === code),
+            selectedItems,
+          ),
+        )
+      }
     >
       {(state, parentRef, subChild) => (
         <Button

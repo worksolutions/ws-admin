@@ -2,6 +2,7 @@ const moment = require("moment");
 const { assoc } = require("ramda");
 
 const { prepareUrl, makeProxy } = require("../../libs");
+const { prepareArticleToFront } = require("../article/libs");
 const matchStatusAndCode = require("./matchStatusAndCode");
 
 module.exports = (app) => {
@@ -96,19 +97,7 @@ module.exports = (app) => {
     {
       modifyResponse: ({ data, meta }) => {
         return {
-          list: data.map((article) => {
-            const isPublished = article.status === 1;
-
-            return {
-              id: article.id,
-              image: article.announceImage ? prepareUrl(article.announceImage.path) : null,
-              name: article.title,
-              bottomContent:
-                isPublished && article.publishedAt
-                  ? moment.unix(article.publishedAt).format("DD MMMM YYYY")
-                  : "Не опубликовано",
-            };
-          }),
+          list: data.map(prepareArticleToFront),
           pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
         };
       },
