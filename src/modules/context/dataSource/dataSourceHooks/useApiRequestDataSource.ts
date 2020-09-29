@@ -90,10 +90,9 @@ function makeOnDependencyChangeUpdater(insertContextResult: InsertContextResult,
   return insertContextResult.dependencies.map((dependency) => {
     const contextValue = path([dependency.contextType, ...dependency.path.slice(0, -1)], context);
     if (!is(Object, contextValue))
-      throw new BaseError({
-        message: `Поле в контексте не определено ${dependency.contextType}:${dependency.path.join(".")} для наблюдения`,
-        errors: {},
-      });
+      throw BaseError.make(
+        `Поле в контексте не определено ${dependency.contextType}:${dependency.path.join(".")} для наблюдения`,
+      );
     return observe(contextValue, last(dependency.path), onUpdate);
   });
 }

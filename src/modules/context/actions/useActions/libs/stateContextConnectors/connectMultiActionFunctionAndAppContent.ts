@@ -52,7 +52,7 @@ export const connectMultiActionFunctionAndAppContext = (
     run,
     progressContainer,
     discard: () => {
-      throw new BaseError({ message: "Метод отмены множественных действий не реализован!", errors: {} });
+      throw BaseError.make("Метод отмены множественных действий не реализован!");
     },
     type: `Multi actions: [${patchedActions.map(prop("type")).join(", ")}]`,
   };

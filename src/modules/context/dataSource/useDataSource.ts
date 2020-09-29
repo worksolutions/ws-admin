@@ -5,7 +5,8 @@ import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
 
 import { DataSourceResultInterface } from "./dataSourceHooks/common";
 import useApiRequestDataSource from "./dataSourceHooks/useApiRequestDataSource";
-import { useNotApiRequestDataSource } from "./dataSourceHooks/useNotApiRequestDataSource";
+import { useStaticDataSource } from "./dataSourceHooks/useStaticDataSource";
+import { useContextDataSource } from "./dataSourceHooks/useContextDataSource";
 
 import { LoadingContainer } from "state/loadingContainer";
 
@@ -30,5 +31,6 @@ export function useDataSource<RESULT = any>(
 ): DataSourceResultInterface<RESULT> {
   if (!dataSource) return useEmptyDataSource<RESULT>();
   if (dataSource.type === DataSourceType.API_REQUEST) return useApiRequestDataSource(dataSource, initialData);
-  return useNotApiRequestDataSource(dataSource);
+  if (dataSource.type === DataSourceType.STATIC) return useStaticDataSource(dataSource);
+  return useContextDataSource(dataSource);
 }
