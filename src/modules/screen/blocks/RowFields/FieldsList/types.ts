@@ -1,8 +1,8 @@
 import { BlockInterface } from "state/globalState";
 
 export enum FieldListItemMode {
-  HORIZONTAL = "HORIZONTAL",
-  VERTICAL = "VERTICAL",
+  HORIZONTAL = "horizontal",
+  VERTICAL = "vertical",
 }
 
 export enum FieldListItemType {
@@ -13,9 +13,11 @@ export enum FieldListItemType {
   "edit:RadioGroup" = "edit:RadioGroup",
   "edit:Date" = "edit:Date",
   "edit:Text" = "edit:Text",
+  "edit:Password" = "edit:Password",
   "edit:Dropdown" = "edit:Dropdown",
   "edit:Tokens" = "edit:Tokens",
   "edit:Image" = "edit:Image",
+  "edit:Avatar" = "edit:Avatar",
 }
 
 export enum FieldListItemModifierType {
@@ -48,5 +50,3 @@ export type FieldListComponentInterface = BlockInterface<FieldListInterface> & {
   forceTitleWidth?: number;
   onCalculateTitleWidth?: (width: number) => void;
 };
-
-export type FieldListComponentViewMode = "static" | "dynamic";

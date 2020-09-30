@@ -1,20 +1,20 @@
 import React from "react";
 
-import ImageWithDefault from "primitives/ImageWithDefault";
-import Icon from "primitives/Icon";
-import { TypographyLink } from "primitives/Typography/TypographyLink";
-import Wrapper from "primitives/Wrapper";
-
-import { ai, Aligns, border, borderRadius, flex, marginRight } from "libs/styles";
-
-import SimpleText from "modules/screen/blocks/SimpleText";
-import { insertContext } from "modules/context/insertContext";
-import { useAppContext } from "modules/context/hooks/useAppContext";
-import BlockRenderer from "modules/screen/BlockRenderer";
-
 import { FieldListItemType } from "../types";
 
-import RenderFieldListItemModifier from "./modifiers";
+import Text from "./elementsForTypes/Text";
+import Image from "./elementsForTypes/Image";
+import IconLink from "./elementsForTypes/IconLink";
+import Link from "./elementsForTypes/Link";
+import EditRadioGroup from "./elementsForTypes/edit/RadioGroup";
+import EditDate from "./elementsForTypes/edit/Date";
+import EditText from "./elementsForTypes/edit/Text";
+import EditPassword from "./elementsForTypes/edit/Password";
+import EditDropdown from "./elementsForTypes/edit/Dropdown";
+import EditTokens from "./elementsForTypes/edit/Tokens";
+import EditImage from "./elementsForTypes/edit/Image";
+import EditAvatar from "./elementsForTypes/edit/Avatar";
+import { ElementAndTypeMatchPropsInterface } from "./elementsForTypes/types";
 
 interface FieldItemElementRendererInterface {
   styles?: any;
@@ -22,74 +22,19 @@ interface FieldItemElementRendererInterface {
   type: FieldListItemType;
 }
 
-const matchesFieldItemAndType: Record<FieldListItemType, (props: { options: any; styles?: any }) => JSX.Element> = {
-  [FieldListItemType.text]: ({ options, styles }) => <SimpleText styles={styles} options={options} />,
-  [FieldListItemType.image]: ({ options, styles }) => {
-    const reference = insertContext(options.reference, useAppContext().context);
-    return (
-      <ImageWithDefault
-        styles={[styles, borderRadius(6), border(1, "gray-blue/02")]}
-        src={reference.value}
-        width="100%"
-        aspectRatio={options.aspectRatio}
-      />
-    );
-  },
-  [FieldListItemType.iconLink]: ({ options, styles }) => {
-    const imageReference = insertContext(options.imageReference, useAppContext().context);
-    const reference = insertContext(options.reference, useAppContext().context);
-    const title = insertContext(options.title, useAppContext().context);
-
-    return (
-      <Wrapper styles={[styles, flex, ai(Aligns.CENTER)]}>
-        {imageReference.value && <Icon icon={imageReference.value} styles={[marginRight(8), borderRadius(12)]} />}
-        <TypographyLink to={reference.value}>{title.value}</TypographyLink>
-      </Wrapper>
-    );
-  },
-  [FieldListItemType.link]: ({ options, styles }) => {
-    const reference = insertContext(options.reference, useAppContext().context);
-    const title = insertContext(options.title, useAppContext().context);
-
-    return (
-      <Wrapper styles={[styles, flex, ai(Aligns.CENTER)]}>
-        <TypographyLink to={reference.value}>{title.value}</TypographyLink>
-      </Wrapper>
-    );
-  },
-  "edit:RadioGroup": ({ options: { actions, dataSource, radioGroupOptions }, styles }) => (
-    <BlockRenderer
-      type="Actions/RadioGroup"
-      styles={styles}
-      dataSource={dataSource}
-      actions={actions}
-      options={radioGroupOptions}
-    />
-  ),
-  "edit:Date": ({ options: { dateOptions, actions }, styles }) => (
-    <BlockRenderer type="Actions/Date" styles={styles} actions={actions} options={dateOptions} />
-  ),
-  "edit:Text": ({ options: { inputOptions, actions, modifier }, styles }) => (
-    <>
-      <BlockRenderer type="Actions/Input" styles={styles} actions={actions} options={inputOptions} />
-      <RenderFieldListItemModifier modifier={modifier} />
-    </>
-  ),
-  "edit:Dropdown": ({ options: { dropdownOptions, dataSource, actions }, styles }) => (
-    <BlockRenderer
-      type="Actions/Dropdown"
-      styles={styles}
-      actions={actions}
-      options={dropdownOptions}
-      dataSource={dataSource}
-    />
-  ),
-  "edit:Tokens": ({ options: { tokenOptions, actions }, styles }) => (
-    <BlockRenderer type="Actions/Tokens" styles={styles} actions={actions} options={tokenOptions} />
-  ),
-  "edit:Image": ({ options: { imageOptions, actions }, styles }) => (
-    <BlockRenderer type="Actions/Image" styles={styles} actions={actions} options={imageOptions} />
-  ),
+const matchesFieldItemAndType: Record<FieldListItemType, (props: ElementAndTypeMatchPropsInterface) => JSX.Element> = {
+  [FieldListItemType.text]: Text,
+  [FieldListItemType.image]: Image,
+  [FieldListItemType.iconLink]: IconLink,
+  [FieldListItemType.link]: Link,
+  "edit:RadioGroup": EditRadioGroup,
+  "edit:Date": EditDate,
+  "edit:Text": EditText,
+  "edit:Password": EditPassword,
+  "edit:Dropdown": EditDropdown,
+  "edit:Tokens": EditTokens,
+  "edit:Image": EditImage,
+  "edit:Avatar": EditAvatar,
 };
 
 function FieldItemElementRenderer({ options, styles, type }: FieldItemElementRendererInterface) {

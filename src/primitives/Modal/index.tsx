@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React from "react";
 import ReactDOM from "react-dom";
 import { isNil, last, without } from "ramda";
@@ -10,7 +11,6 @@ import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 
 import {
-  absoluteCenter,
   ai,
   Aligns,
   backgroundColor,
@@ -19,9 +19,11 @@ import {
   bottom,
   child,
   createAlphaColor,
+  display,
   firstChild,
   flex,
   flexColumn,
+  fullHeight,
   fullWidth,
   horizontalPadding,
   jc,
@@ -29,10 +31,13 @@ import {
   marginLeft,
   marginTop,
   maxWidth,
+  overflow,
   padding,
   position,
   right,
+  textAlign,
   top,
+  verticalAlign,
   verticalPadding,
   width,
 } from "libs/styles";
@@ -75,7 +80,6 @@ interface ModalInterface {
 const root = document.getElementById("root")!;
 
 export const modalHorizontalPadding = 24;
-const halfModalHorizontalPadding = modalHorizontalPadding / 2;
 
 class ActiveModal {
   @observable
@@ -137,15 +141,16 @@ const ModalContent = observer(function ({
         <Wrapper
           ref={ref}
           styles={[
+            display("inline-block"),
+            verticalAlign("middle"),
             maxWidth(`calc(100% - 80px)`),
-            absoluteCenter,
             width(modalWidthBySize[size]),
             border(1, "gray-blue/02"),
             backgroundColor("white"),
             elevation32,
             borderRadius(8),
-            flex,
-            flexColumn,
+            // flex,
+            // flexColumn,
           ]}
         >
           <Wrapper
@@ -168,7 +173,7 @@ const ModalContent = observer(function ({
               {subTitle}
             </Typography>
           )}
-          <Wrapper styles={horizontalPadding(halfModalHorizontalPadding)}>{children}</Wrapper>
+          <Wrapper styles={horizontalPadding(modalHorizontalPadding)}>{children}</Wrapper>
           <Wrapper
             styles={[
               fullWidth,
@@ -264,27 +269,31 @@ function Modal({
               top(0),
               bottom(0),
               right(0),
+              overflow("overlay"),
               backgroundColor(createAlphaColor("gray-blue/10", 180)),
             ]}
           >
-            <ModalContent
-              actionBlock={actionBlock}
-              closeOnBackdropClick={closeOnBackdropClick}
-              id={modalId}
-              size={size}
-              title={title}
-              close={close}
-              subTitle={subTitle}
-              onPrimaryAction={onPrimaryAction}
-              onSecondaryAction={onSecondaryAction}
-              primaryActionText={primaryActionText}
-              secondaryActionText={secondaryActionText}
-              primaryActionLoading={primaryActionLoading}
-              secondaryActionLoading={secondaryActionLoading}
-              actionsInColumn={actionsInColumn}
-            >
-              {children && children()}
-            </ModalContent>
+            <Wrapper styles={[position("absolute"), left(0), top(0), fullWidth, fullHeight, textAlign("center")]}>
+              <Wrapper styles={[display("inline-block"), fullHeight, verticalAlign("middle")]} />
+              <ModalContent
+                actionBlock={actionBlock}
+                closeOnBackdropClick={closeOnBackdropClick}
+                id={modalId}
+                size={size}
+                title={title}
+                close={close}
+                subTitle={subTitle}
+                onPrimaryAction={onPrimaryAction}
+                onSecondaryAction={onSecondaryAction}
+                primaryActionText={primaryActionText}
+                secondaryActionText={secondaryActionText}
+                primaryActionLoading={primaryActionLoading}
+                secondaryActionLoading={secondaryActionLoading}
+                actionsInColumn={actionsInColumn}
+              >
+                {children && children()}
+              </ModalContent>
+            </Wrapper>
           </Wrapper>,
           root,
         )}

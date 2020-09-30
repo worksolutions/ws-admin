@@ -51,12 +51,12 @@ module.exports = {
               {
                 title: "Атрибуты",
                 block: {
-                  type: "RowFields/StaticGroupedFieldsList",
+                  type: "RowFields/GroupedFieldsList",
                   options: [
                     {
                       title: "Основные",
                       fieldList: {
-                        mode: "HORIZONTAL",
+                        mode: "vertical",
                         fields: [
                           {
                             title: "Название",
@@ -93,7 +93,7 @@ module.exports = {
                     {
                       title: "Мета",
                       fieldList: {
-                        mode: "HORIZONTAL",
+                        mode: "vertical",
                         fields: [
                           {
                             title: "Символьный код",
@@ -121,7 +121,7 @@ module.exports = {
                     {
                       title: "Изображения",
                       fieldList: {
-                        mode: "VERTICAL",
+                        mode: "horizontal",
                         fields: [
                           {
                             title: "Изображение анонса",

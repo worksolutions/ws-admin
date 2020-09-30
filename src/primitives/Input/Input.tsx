@@ -18,7 +18,17 @@ export interface InputInterface extends Omit<BaseInputWrapperInterface, "onClick
 }
 
 const Input = React.forwardRef(function (
-  { autofocus, value, onChange, placeholder, multiline, debounce = 100, styles, ...inputWrapperProps }: InputInterface,
+  {
+    autofocus,
+    value,
+    onChange,
+    placeholder,
+    multiline,
+    debounce = 100,
+    styles,
+    type,
+    ...inputWrapperProps
+  }: InputInterface & { type?: string },
   ref: Ref<HTMLInputElement>,
 ) {
   const { onInputChange, inputValue } = useDebouncedInput(value, debounce, onChange);
@@ -30,6 +40,7 @@ const Input = React.forwardRef(function (
           <Wrapper
             ref={ref}
             {...(multiline ? { as: "textarea" } : { as: "input" })}
+            type={type}
             autoFocus={autofocus}
             disabled={inputWrapperProps.disabled}
             styles={[inputStyles, styles]}

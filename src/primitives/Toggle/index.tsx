@@ -30,13 +30,14 @@ import Typography from "../Typography";
 interface ToggleInterface {
   className?: string;
   styles?: any;
+  textStyles?: any;
   enabled: boolean;
   text?: string;
   textOnRight?: boolean;
   onChange: (enabled: boolean) => void;
 }
 
-function Toggle({ className, styles, enabled, text, textOnRight, onChange }: ToggleInterface) {
+function Toggle({ className, styles, enabled, text, textOnRight, textStyles, onChange }: ToggleInterface) {
   return (
     <Wrapper
       className={className}
@@ -77,7 +78,7 @@ function Toggle({ className, styles, enabled, text, textOnRight, onChange }: Tog
           ]}
         />
       </Wrapper>
-      {textOnRight && text && <Typography styles={marginLeft(8)}>{text}</Typography>}
+      {textOnRight && text && <Typography styles={[marginLeft(8), textStyles]}>{text}</Typography>}
     </Wrapper>
   );
 }

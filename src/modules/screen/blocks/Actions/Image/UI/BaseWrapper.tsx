@@ -38,6 +38,7 @@ function BaseWrapper({
 }: BaseWrapperInterface) {
   return (
     <Wrapper
+      className="blockWrapper"
       styles={[
         position("relative"),
         borderRadius(6),
@@ -51,7 +52,7 @@ function BaseWrapper({
         overflow("hidden"),
         styles,
       ]}
-      onClick={openNativeFileDialog}
+      onClick={loading ? undefined : openNativeFileDialog}
     >
       {loading ? <LoadingProgress progress={progress} discard={discardUploading} /> : children}
     </Wrapper>

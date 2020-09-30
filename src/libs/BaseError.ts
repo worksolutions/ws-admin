@@ -1,5 +1,6 @@
-import { field, keyValuePairs, string, succeed } from "jsonous";
+import Decoder, { field, keyValuePairs, string, succeed } from "jsonous";
 import { fromPairs } from "ramda";
+import { ok } from "resulty";
 
 interface ErrorInterface {
   message: string;
@@ -12,7 +13,15 @@ const errorDecoder = succeed({})
     "errors",
     field(
       "errors",
-      keyValuePairs(string).map((pairs) => fromPairs(pairs)),
+      keyValuePairs(
+        new Decoder((errorData) => {
+          const stringError = string.decodeAny(errorData);
+          return stringError.cata({
+            Ok: (value) => ok(value),
+            Err: () => ok(JSON.stringify(errorData)),
+          });
+        }),
+      ).map((pairs) => fromPairs(pairs)),
     ),
   );
 

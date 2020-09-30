@@ -32,7 +32,7 @@ import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
-import StaticFieldsList from "modules/screen/blocks/RowFields/FieldsList/StaticFieldsList";
+import FieldsList from "modules/screen/blocks/RowFields/FieldsList";
 import { FieldListItemInterface, FieldListItemMode } from "modules/screen/blocks/RowFields/FieldsList/types";
 
 import FilterItem from "./Item";
@@ -107,10 +107,10 @@ function FilterBlock({
             onClick={opened ? close : open}
           />
           <DroppedMenuWrapper opened={opened}>
-            <StaticFieldsList
+            <FieldsList
               useTitleWidthCalculation
               options={{
-                mode: FieldListItemMode.HORIZONTAL,
+                mode: FieldListItemMode.VERTICAL,
                 fields: selectedFilterIndex === -1 ? [] : options![selectedFilterIndex].fields,
               }}
             />

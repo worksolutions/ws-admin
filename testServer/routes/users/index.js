@@ -7,7 +7,7 @@ module.exports = (app) => {
         list: data.map((user) => ({
           id: user.id,
           user: {
-            avatarReference: user.image.path ? prepareUrl(user.image.path) : null,
+            avatarReference: user.image ? prepareUrl(user.image.path) : null,
             name: user.name + " " + user.surname,
             reference: "/users/list/" + user.id,
           },
@@ -35,9 +35,21 @@ module.exports = (app) => {
       return data.map((user) => ({
         code: user.id,
         title: user.name + " " + user.surname,
-        leftContent: user.image.path ? prepareUrl(user.image.path) : null,
+        leftContent: user.image ? prepareUrl(user.image.path) : null,
         subTitle: `${user.position} • ${user.email}`,
       }));
     },
   });
+  makeProxy(
+    { realServerUrl: "/api/users/store", expressMethodHandlerName: "post", handleUrl: "/api/users/store" },
+    app,
+    {
+      modifyResponse: ({ user }) => ({
+        code: user.id,
+        title: user.name + " " + user.surname,
+        leftContent: user.image ? prepareUrl(user.image.path) : null,
+        subTitle: `${user.position} • ${user.email}`,
+      }),
+    },
+  );
 };

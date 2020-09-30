@@ -2,100 +2,32 @@ import React from "react";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
-import Icon from "primitives/Icon";
-import Hint from "primitives/Popper/Hint";
+import LayoutGrid from "primitives/LayoutGrid";
 
-import {
-  ai,
-  Aligns,
-  child,
-  flex,
-  flexColumn,
-  flexShrink,
-  jc,
-  lastChild,
-  marginBottom,
-  marginLeft,
-  marginRight,
-  marginTop,
-  maxWidth,
-  width,
-} from "libs/styles";
+import { child, flex, flexColumn, flexShrink, horizontalPadding, marginBottom, marginTop, maxWidth } from "libs/styles";
 
-import { useForceWidthStyles } from "../hooks";
-
-import { FieldListComponentInterface, FieldListComponentViewMode } from "./types";
+import { FieldListComponentInterface } from "./types";
 import FieldItemElementRenderer from "./Elements";
 
-function HorizontalFieldsList({
-  viewMode,
-  options,
-  forceTitleWidth,
-  useTitleWidthCalculation,
-  onCalculateTitleWidth,
-  styles,
-}: FieldListComponentInterface & { viewMode: FieldListComponentViewMode }) {
-  const { forceWidth, widthRefs } = useForceWidthStyles(onCalculateTitleWidth);
-
-  const calculateWidth = (index: number) => (ref: HTMLElement) => {
-    if (!ref) return;
-    widthRefs.current[index] = ref.getBoundingClientRect().width;
-  };
-
+function HorizontalFieldsList({ options, styles }: Omit<FieldListComponentInterface, "useTitleWidthCalculation">) {
   return (
-    <Wrapper styles={[flex, flexColumn, marginTop(16), lastChild(marginBottom(0)), styles]}>
-      {options!.fields.map((field, key) => {
-        return (
-          <Wrapper
-            key={key}
-            styles={[
-              flex,
-              marginBottom(16),
-              viewMode === "static" && ai(Aligns.CENTER),
-              child([marginLeft(16)], ".modifier"),
-            ]}
-          >
-            <Wrapper
-              ref={useTitleWidthCalculation ? calculateWidth(key) : null}
-              styles={[
-                maxWidth(192),
-                flexShrink(0),
-                marginRight(16),
-                viewMode === "dynamic" && marginTop(8),
-                forceWidth && width(forceWidth),
-                forceTitleWidth && width(forceTitleWidth),
-              ]}
-            >
-              {field.title && (
-                <Typography color="gray-blue/05" styles={[flex, ai(Aligns.CENTER), jc(Aligns.END)]}>
-                  {field.title}
-                  {field.required && (
-                    <Typography color="gray-blue/05" styles={marginLeft(4)}>
-                      *
-                    </Typography>
-                  )}
-                  {field.hint && (
-                    <Hint text={field.hint}>
-                      {(ref) => (
-                        <Icon
-                          ref={ref}
-                          color="gray-blue/05"
-                          width={16}
-                          height={16}
-                          styles={marginLeft(4)}
-                          icon="16-info-circle"
-                        />
-                      )}
-                    </Hint>
-                  )}
-                </Typography>
-              )}
-            </Wrapper>
-            <FieldItemElementRenderer type={field.type} options={field.options} styles={maxWidth(800)} />
-          </Wrapper>
-        );
-      })}
-    </Wrapper>
+    <LayoutGrid
+      marginBetweenElements={16}
+      eachChildStyles={marginTop(16)}
+      minWidth={242}
+      styles={[horizontalPadding(12), styles]}
+    >
+      {options!.fields.map((field, key) => (
+        <Wrapper key={key} styles={[flex, flexColumn, child([marginTop(12)], ".modifier")]}>
+          {field.title && (
+            <Typography styles={[flexShrink(0), marginBottom(16)]} color="gray-blue/05">
+              {field.title}
+            </Typography>
+          )}
+          <FieldItemElementRenderer type={field.type} options={field.options} styles={maxWidth(800)} />
+        </Wrapper>
+      ))}
+    </LayoutGrid>
   );
 }
 

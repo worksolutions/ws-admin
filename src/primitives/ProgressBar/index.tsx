@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { duration160 } from "layout/durations";
+import { duration160, duration300 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -24,9 +24,10 @@ import {
 interface ProgressBarProps {
   value: number;
   styles?: any;
+  barStyles?: any;
 }
 
-function ProgressBar({ value, styles }: ProgressBarProps) {
+function ProgressBar({ value, styles, barStyles }: ProgressBarProps) {
   const progressWidth = useMemo(() => width(`${value * 100}%`), [value]);
 
   return (
@@ -51,7 +52,8 @@ function ProgressBar({ value, styles }: ProgressBarProps) {
           backgroundColor("blue/05"),
           progressWidth,
           zIndex(-1),
-          transition(`width ${duration160}`),
+          transition(`width ${duration300}`),
+          barStyles,
         ]}
       />
     </Wrapper>

@@ -41,6 +41,7 @@ module.exports = function (context, getActions) {
           static: [
             { path: `${relatedArticlesContext}.list`, value: [] },
             { path: `${tempContext}.categories`, value: [] },
+            { path: `${tempContext}.users`, value: [] },
           ],
           actions: {
             loadCategories: {
@@ -53,6 +54,18 @@ module.exports = function (context, getActions) {
                   perPage: "100",
                 },
                 saveToContext: `${tempContext}.categories`,
+              },
+            },
+            loadUsers: {
+              type: "api:request",
+              options: {
+                reference: "/users-list",
+                method: "get",
+                body: {
+                  page: "1",
+                  perPage: "100",
+                },
+                saveToContext: `${tempContext}.users`,
               },
             },
           },
@@ -134,18 +147,37 @@ module.exports = function (context, getActions) {
                 },
               },
               {
+                type: "Actions/Modifiers/ContextModifier",
+                options: {
+                  type: "model-disabler",
+                  enableTrigger: {
+                    type: "if-context-false-value",
+                    mode: "or",
+                    context: [
+                      `screen:newUser.firstName`,
+                      `screen:newUser.lastName`,
+                      "screen:newUser.email",
+                      "screen:newUser.position",
+                      "screen:newUser.password",
+                      "screen:newUser.passwordConfirmation",
+                    ],
+                  },
+                  options: { context: `screen:newUser.action` },
+                },
+              },
+              {
                 type: "Tabs",
                 options: {
                   tabs: [
                     {
                       title: "Атрибуты",
                       block: {
-                        type: "RowFields/DynamicGroupedFieldsList",
+                        type: "RowFields/GroupedFieldsList",
                         options: [
                           {
                             title: "Основные",
                             fieldList: {
-                              mode: "HORIZONTAL",
+                              mode: "vertical",
                               fields: [
                                 {
                                   title: "Название",
@@ -243,16 +275,15 @@ module.exports = function (context, getActions) {
                                       width: "small",
                                       size: "large",
                                       context: `${context}.author`,
+                                      optionalActionButton: {
+                                        title: "Добавить автора",
+                                        icon: "plus-big",
+                                      },
                                     },
                                     dataSource: {
-                                      type: "api:request",
+                                      type: "context",
                                       options: {
-                                        reference: "/users-list",
-                                        method: "get",
-                                        body: {
-                                          page: "1",
-                                          perPage: "100",
-                                        },
+                                        key: `${tempContext}.users`,
                                       },
                                     },
                                     actions: {
@@ -260,6 +291,12 @@ module.exports = function (context, getActions) {
                                         type: "update-context",
                                         options: {
                                           context: `${context}.author`,
+                                        },
+                                      },
+                                      optionalAction: {
+                                        type: "open-modal",
+                                        options: {
+                                          name: "create-user",
                                         },
                                       },
                                     },
@@ -271,7 +308,7 @@ module.exports = function (context, getActions) {
                           {
                             title: "Мета",
                             fieldList: {
-                              mode: "HORIZONTAL",
+                              mode: "vertical",
                               fields: [
                                 {
                                   title: "Символьный код",
@@ -359,7 +396,7 @@ module.exports = function (context, getActions) {
                           {
                             title: "Изображения",
                             fieldList: {
-                              mode: "VERTICAL",
+                              mode: "horizontal",
                               fields: [
                                 {
                                   title: "Изображение анонса",
@@ -526,9 +563,9 @@ module.exports = function (context, getActions) {
       "create-category": {
         title: "Создание категории",
         block: {
-          type: "RowFields/FieldsList/StaticFieldsList",
+          type: "RowFields/FieldsList",
           options: {
-            mode: "VERTICAL",
+            mode: "vertical",
             fields: [
               {
                 type: "edit:Text",
@@ -591,6 +628,160 @@ module.exports = function (context, getActions) {
               {
                 type: "append-context",
                 options: { context: `${tempContext}.categories`, takeIncomeDataFromPreviousAction: true },
+              },
+              {
+                type: "close-modal",
+              },
+            ],
+          },
+        },
+      },
+      "create-user": {
+        title: "Создание пользователя",
+        block: {
+          type: "BlocksList",
+          blocks: [
+            {
+              type: "RowFields/FieldsList",
+              options: {
+                mode: "vertical",
+                fields: [
+                  {
+                    type: "edit:Avatar",
+                    options: {
+                      imageOptions: {
+                        aspectRatio: 1,
+                        context: `screen:newUser.avatar`,
+                      },
+                      actions: {
+                        upload: {
+                          type: "api:uploadFile",
+                          options: {
+                            reference: "/file_storage/store",
+                          },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    type: "edit:Text",
+                    options: {
+                      inputOptions: {
+                        width: "full-width",
+                        size: "large",
+                        placeholder: "Имя",
+                        context: `screen:newUser.firstName`,
+                      },
+                      actions: {
+                        change: {
+                          type: "update-context",
+                          options: { context: `screen:newUser.firstName` },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    type: "edit:Text",
+                    options: {
+                      inputOptions: {
+                        width: "full-width",
+                        size: "large",
+                        placeholder: "Фамилия",
+                        context: `screen:newUser.lastName`,
+                      },
+                      actions: {
+                        change: {
+                          type: "update-context",
+                          options: { context: `screen:newUser.lastName` },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    type: "edit:Text",
+                    options: {
+                      inputOptions: {
+                        width: "full-width",
+                        size: "large",
+                        placeholder: "Должность",
+                        context: `screen:newUser.position`,
+                      },
+                      actions: {
+                        change: {
+                          type: "update-context",
+                          options: { context: `screen:newUser.position` },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    type: "edit:Text",
+                    options: {
+                      inputOptions: {
+                        width: "full-width",
+                        size: "large",
+                        placeholder: "E-mail",
+                        context: `screen:newUser.email`,
+                      },
+                      actions: {
+                        change: {
+                          type: "update-context",
+                          options: { context: `screen:newUser.email` },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    type: "edit:Password",
+                    options: {
+                      inputOptions: {
+                        width: "full-width",
+                        size: "large",
+                        valueContext: `screen:newUser.password`,
+                        confirmationContext: `screen:newUser.passwordConfirmation`,
+                      },
+                      actions: {
+                        valueChange: {
+                          type: "update-context",
+                          options: { context: `screen:newUser.password` },
+                        },
+                        confirmationChange: {
+                          type: "update-context",
+                          options: { context: `screen:newUser.passwordConfirmation` },
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        actionBlock: {
+          type: "Actions/Button",
+          options: { name: "Создать", size: "LARGE", context: `screen:newUser.action` },
+          actions: {
+            click: [
+              {
+                type: "api:request",
+                options: {
+                  reference: "/users/store",
+                  method: "post",
+                  body: {
+                    name: "=screen:newUser.firstName",
+                    surname: "=screen:newUser.lastName",
+                    email: "=screen:newUser.email",
+                    position: "=screen:newUser.position",
+                    password: "=screen:newUser.password",
+                    password_confirmation: "=screen:newUser.passwordConfirmation",
+                    imageId: "=screen:newUser.avatar.id",
+                    active: "1",
+                  },
+                },
+              },
+              {
+                type: "append-context",
+                options: { context: `${tempContext}.users`, takeIncomeDataFromPreviousAction: true },
               },
               {
                 type: "close-modal",

@@ -8,6 +8,7 @@ import ButtonWrapper, { BaseButtonWrapperInterface } from "./ButtonWrapper";
 import { ButtonType } from "./types";
 
 interface ButtonInterface extends BaseButtonWrapperInterface {
+  tabIndex?: number;
   className?: string;
   preventDefault?: boolean;
   children?: React.ReactNode;
@@ -15,7 +16,14 @@ interface ButtonInterface extends BaseButtonWrapperInterface {
 }
 
 const Button = React.forwardRef(function (
-  { children, onClick, preventDefault: preventDefaultProp, className, ...buttonWrapperProps }: ButtonInterface,
+  {
+    children,
+    onClick,
+    preventDefault: preventDefaultProp,
+    className,
+    tabIndex,
+    ...buttonWrapperProps
+  }: ButtonInterface,
   ref: Ref<HTMLButtonElement>,
 ) {
   return (
@@ -26,6 +34,7 @@ const Button = React.forwardRef(function (
           <Wrapper
             className={className}
             ref={ref}
+            tabIndex={tabIndex}
             as="button"
             styles={styles}
             disabled={buttonWrapperProps.disabled}
