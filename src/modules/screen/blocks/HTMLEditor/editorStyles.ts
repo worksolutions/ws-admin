@@ -1,0 +1,253 @@
+import { css } from "styled-components";
+
+import { border, getColor, makeBorderBoxShadow } from "libs/styles";
+
+import { htmlStyles } from "../FormattedHTMLText/htmlStyles";
+
+export const editorStyles = css`
+  .ck {
+    &.ck-dropdown.ck-toolbar__grouped-dropdown.ck-toolbar-dropdown {
+      display: none !important;
+    }
+
+    &.ck-editor {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      position: static;
+    }
+
+    &.ck-editor__top {
+      width: 100%;
+      border-bottom: 1px solid ${getColor("gray-blue/02")};
+      z-index: 1;
+      position: sticky;
+      top: 0;
+
+      .ck-sticky-panel__placeholder {
+        height: 0 !important;
+        opacity: 0 !important;
+      }
+      .ck-sticky-panel__content {
+        position: static !important;
+      }
+    }
+
+    &.ck-toolbar {
+      background: white !important;
+      border: none;
+      display: flex;
+      justify-content: center;
+
+      &__items {
+        justify-content: center;
+        max-width: 1054px;
+        margin: 0 !important;
+        height: 40px;
+      }
+
+      &.ck-toolbar_grouping .ck-toolbar__separator {
+        align-self: center !important;
+        height: 12px;
+        width: 1px;
+        background-color: ${getColor("gray-blue/02")};
+        margin: 0 11px;
+      }
+
+      .ck-button {
+        min-height: 32px !important;
+        max-height: 32px !important;
+        min-width: 32px !important;
+        max-width: 32px !important;
+        margin: 0 1px !important;
+        padding: 4px !important;
+        border-radius: 6px !important;
+        border: none !important;
+        box-shadow: none !important;
+        cursor: pointer;
+        &.ck-dropdown__button {
+          .ck-icon.ck-dropdown__arrow {
+            display: none !important;
+          }
+        }
+        &:hover {
+          background: ${getColor("blue/01")} !important;
+        }
+        svg {
+          * {
+            fill: ${getColor("gray-blue/07")} !important;
+          }
+          height: 24px !important;
+          width: 24px !important;
+        }
+      }
+
+      .ck-button.ck-on {
+        background: ${getColor("blue/02")} !important;
+        svg * {
+          fill: ${getColor("blue/05")} !important;
+        }
+      }
+
+      .custom-toolbar-button {
+        outline: none !important;
+      }
+
+      .ck-dropdown__panel {
+        top: calc(100% + 6px) !important;
+        background: white;
+        ${border(1, "gray-blue/02")} !important;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        border-radius: 6px !important;
+        overflow: hidden;
+        padding: 7px 8px !important;
+      }
+
+      .ck-insert-table-dropdown__label {
+        color: ${getColor("gray-blue/05")};
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.15px;
+        margin-top: 8px;
+        display: flex;
+        height: 20px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .ck-insert-table-dropdown__grid {
+        width: 140px !important;
+        padding: 0 !important;
+        border-radius: 6px;
+        border: none !important;
+        cursor: pointer;
+
+        .ck-insert-table-dropdown-grid-box {
+          background-color: ${getColor("gray-blue/01")};
+          border-color: ${getColor("gray-blue/02")};
+          width: 12px !important;
+          height: 12px !important;
+          border-radius: 2px !important;
+        }
+
+        .ck-insert-table-dropdown-grid-box.ck-on {
+          background-color: ${getColor("blue/01")};
+          border-color: ${getColor("blue/03")};
+        }
+      }
+
+      .ck-heading-dropdown {
+        min-width: 128px;
+        height: 32px;
+        margin: 0 1px;
+
+        .ck-dropdown__button {
+          min-width: 100% !important;
+          min-height: 100% !important;
+          padding: 4px 12px 4px 16px !important;
+
+          font-family: IBM Plex Sans;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 24px;
+
+          color: ${getColor("gray-blue/07")};
+
+          &:hover {
+            background: ${getColor("gray-blue/01")} !important;
+          }
+          .ck-icon.ck-dropdown__arrow {
+            margin-left: 8px;
+            * {
+              fill: ${getColor("gray-blue/07")} !important;
+            }
+            transition: transform 0.2s;
+            display: block !important;
+          }
+
+          &.ck-on {
+            transition: border 50ms !important;
+            box-shadow: ${makeBorderBoxShadow([0, 0, 0, 2, "blue/04"])} !important;
+            background: ${getColor("gray-blue/01")} !important;
+            .ck-icon.ck-dropdown__arrow {
+              transform: rotate(180deg);
+            }
+          }
+        }
+
+        .ck-dropdown__panel {
+          width: 200px;
+        }
+
+        .ck-list {
+          width: 100%;
+          height: 100%;
+
+          &__item {
+            width: 100%;
+            min-width: 100% !important;
+            height: 40px;
+            margin: 1px 0;
+          }
+
+          &__item > .ck-button {
+            font-family: IBM Plex Sans;
+            font-style: normal;
+            line-height: 20px;
+
+            padding: 10px 8px !important;
+            min-width: 100% !important;
+            min-height: 100% !important;
+            border-radius: 4px;
+            color: ${getColor("gray-blue/9")};
+          }
+
+          &__item > .ck-button.ck-on,
+          &__item > .ck-button:hover {
+            color: ${getColor("gray-blue/10")};
+            background-color: ${getColor("gray-blue/01")} !important;
+          }
+
+          .ck-heading_paragraph {
+            font-weight: normal;
+            font-size: 14px;
+          }
+          .ck-heading_heading3 {
+            font-weight: bold;
+            font-size: 16px;
+          }
+          .ck-heading_heading2 {
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 24px;
+          }
+        }
+      }
+    }
+
+    &.ck-editor__main {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      flex-grow: 1;
+      padding: 16px;
+
+      & > .ck-editor__editable {
+        width: 100%;
+        max-width: 752px;
+        min-height: 100%;
+        padding: 40px 64px;
+
+        border: 1px solid ${getColor("gray-blue/02")} !important;
+        border-radius: 6px !important;
+        box-shadow: none !important;
+        outline: none;
+      }
+    }
+
+    ${htmlStyles}
+  }
+`;

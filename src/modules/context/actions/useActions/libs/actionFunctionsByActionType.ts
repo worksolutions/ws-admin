@@ -9,6 +9,7 @@ import openModal from "../actions/openModal";
 import closeModal from "../actions/closeModal";
 import appendContext from "../actions/appendContext";
 import notify from "../actions/notify";
+import modifyOutputDataContext from "../actions/modifyOutputDataContext";
 
 import { ActionType, RawActionInterface } from "types/Actions";
 
@@ -65,5 +66,12 @@ export const actionFunctionsByActionType = {
     actionInputData: ActionInputDataInterface,
   ) => {
     return notify(appContext.context, options, actionInputData);
+  },
+
+  [ActionType.MODIFY_OUTPUT_DATA_CONTEXT]: (
+    appContext: AppContextInterface,
+    { options }: RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>,
+  ) => (actionInputData: ActionInputDataInterface) => {
+    return modifyOutputDataContext(appContext, options);
   },
 };

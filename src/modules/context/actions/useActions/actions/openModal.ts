@@ -10,8 +10,7 @@ export default async function openModal(
   actionOptions: RawActionOptions[ActionType.OPEN_MODAL],
   { inputData }: ActionInputDataInterface,
 ): Promise<any> {
-  globalEventBus.emit("OPEN_PAGE_MODAL", {
-    name: actionOptions.name,
-  });
+  const payload = actionOptions.takeIncomeDataFromActionInput ? inputData : actionOptions;
+  globalEventBus.emit("OPEN_PAGE_MODAL", payload);
   return Promise.resolve(inputData);
 }

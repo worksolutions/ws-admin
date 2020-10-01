@@ -97,6 +97,10 @@ export const htmlStyles = css`
       font-style: italic;
       ${TypographyTypes["body-regular"]};
     }
+
+    & > table {
+      margin-bottom: 0;
+    }
   }
 
   hr {

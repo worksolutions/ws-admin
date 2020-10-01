@@ -28,7 +28,7 @@ export type BoxShadow = [
   boolean?,
 ];
 
-function makeShadow([offsetX, offsetY, blurRadius, spread, color, inset]: BoxShadow) {
+export function makeBorderBoxShadow([offsetX, offsetY, blurRadius, spread, color, inset]: BoxShadow) {
   return `${inset ? "inset " : ""}${stringOrPixels(offsetX)} ${stringOrPixels(offsetY)} ${stringOrPixels(
     blurRadius,
   )} ${stringOrPixels(spread)} ${getColor(color)}`;
@@ -38,7 +38,7 @@ export const boxShadow = memoizeWith(
   (...shadows) => JSON.stringify(shadows),
   function (...shadows: BoxShadow[]) {
     return css`
-      box-shadow: ${shadows.map(makeShadow).join(", ")};
+      box-shadow: ${shadows.map(makeBorderBoxShadow).join(", ")};
     `;
   },
 ) as (...config: BoxShadow[]) => any;
