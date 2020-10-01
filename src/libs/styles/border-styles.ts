@@ -68,3 +68,15 @@ export const borderRightRadius = memoizeWith(identity, function (borderRadius: n
     border-bottom-right-radius: ${stringOrPixels(borderRadius)};
     border-top-right-radius: ${stringOrPixels(borderRadius)};`;
 });
+
+export const borderBottomRadius = memoizeWith(identity, function (borderRadius: number | string) {
+  return css`
+    border-bottom-right-radius: ${stringOrPixels(borderRadius)};
+    border-bottom-left-radius: ${stringOrPixels(borderRadius)};`;
+});
+
+export const borderTopRadius = memoizeWith(identity, function (borderRadius: number | string) {
+  return css`
+    border-top-right-radius: ${stringOrPixels(borderRadius)};
+    border-top-left-radius: ${stringOrPixels(borderRadius)};`;
+});

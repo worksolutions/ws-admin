@@ -8,6 +8,7 @@ export enum ActionType {
   APPEND_CONTEXT = "append-context",
   OPEN_MODAL = "open-modal",
   CLOSE_MODAL = "close-modal",
+  MODIFY_OUTPUT_DATA_CONTEXT = "modify-output-data-context",
 }
 
 export type RawActionOptions = {
@@ -39,8 +40,14 @@ export type RawActionOptions = {
   };
   [ActionType.OPEN_MODAL]: {
     name: string;
+    takeIncomeDataFromActionInput?: boolean;
   };
   [ActionType.CLOSE_MODAL]: string;
+  [ActionType.MODIFY_OUTPUT_DATA_CONTEXT]: {
+    takeFromContext: string;
+    giveToContext?: string;
+    modificationTemplate?: string;
+  };
 };
 
 export interface RawActionInterface<T extends ActionType> {
@@ -55,7 +62,8 @@ export type RealAnyRawAction =
   | RawActionInterface<ActionType.UPDATE_CONTEXT>
   | RawActionInterface<ActionType.APPEND_CONTEXT>
   | RawActionInterface<ActionType.OPEN_MODAL>
-  | RawActionInterface<ActionType.CLOSE_MODAL>;
+  | RawActionInterface<ActionType.CLOSE_MODAL>
+  | RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>;
 
 export type AnyRawAction = RealAnyRawAction[] | RealAnyRawAction;
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Modal from "primitives/Modal";
+import Modal, { ModalSize } from "primitives/Modal";
 
 import { useEventEmitter } from "libs/events";
 
@@ -22,6 +22,7 @@ function Modals({ modals = {} }: { modals?: Record<string, PageModalInterface> }
 
   return (
     <Modal
+      size={modal?.size || ModalSize.SMALL}
       opened={!!modal}
       title={modal?.title || ""}
       subTitle={modal?.subTitle || ""}

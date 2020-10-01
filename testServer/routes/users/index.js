@@ -35,7 +35,7 @@ module.exports = (app) => {
       return data.map((user) => ({
         code: user.id,
         title: user.name + " " + user.surname,
-        leftContent: user.image.path ? prepareUrl(user.image.path) : null,
+        leftContent: user.image ? prepareUrl(user.image.path) : null,
         subTitle: `${user.position} • ${user.email}`,
       }));
     },

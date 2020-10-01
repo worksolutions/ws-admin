@@ -42,9 +42,9 @@ import Button, { ButtonSize, ButtonType } from "../Button";
 import HandleClickOutside from "../HandleClickOutside";
 
 export enum ModalSize {
-  ADJUST_CONTENT,
-  FULL_WIDTH,
-  SMALL,
+  ADJUST_CONTENT = "ADJUST_CONTENT",
+  FULL_WIDTH = "FULL_WIDTH",
+  SMALL = "SMALL",
 }
 
 const modalWidthBySize: Record<ModalSize, string | number> = {

@@ -8,6 +8,7 @@ import updateContext from "../actions/updateContext";
 import openModal from "../actions/openModal";
 import closeModal from "../actions/closeModal";
 import appendContext from "../actions/appendContext";
+import modifyOutputDataContext from "../actions/modifyOutputDataContext";
 
 import { ActionType, RawActionInterface } from "types/Actions";
 
@@ -58,5 +59,12 @@ export const actionFunctionsByActionType = {
     { options }: RawActionInterface<ActionType.CLOSE_MODAL>,
   ) => (actionInputData: ActionInputDataInterface) => {
     return closeModal(appContext.context, options, actionInputData);
+  },
+
+  [ActionType.MODIFY_OUTPUT_DATA_CONTEXT]: (
+    appContext: AppContextInterface,
+    { options }: RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>,
+  ) => (actionInputData: ActionInputDataInterface) => {
+    return modifyOutputDataContext(appContext, options);
   },
 };

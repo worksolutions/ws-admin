@@ -1,3 +1,5 @@
+import { isArray, isString } from "libs/is";
+
 import { AppContextInterface } from "modules/context/hooks/useAppContext";
 import { insertContext } from "modules/context/insertContext";
 
@@ -11,6 +13,16 @@ export default async function appendContext(
   { inputData: inputDataProp, previousActionOutput }: ActionInputDataInterface,
 ): Promise<any> {
   const inputData = actionOptions.takeIncomeDataFromPreviousAction ? previousActionOutput : inputDataProp;
-  insertContext(`=${actionOptions.context}`, appContext.context).value.push(inputData);
+
+  const { value: targetValue } = insertContext(`=${actionOptions.context}`, appContext.context);
+
+  if (isArray(targetValue)) {
+    insertContext(`=${actionOptions.context}`, appContext.context).value.push(inputData);
+  }
+
+  if (isString(targetValue)) {
+    appContext.updateState({ path: actionOptions.context, data: targetValue + inputData });
+  }
+
   return Promise.resolve(inputData);
 }
