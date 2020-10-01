@@ -8,6 +8,7 @@ import updateContext from "../actions/updateContext";
 import openModal from "../actions/openModal";
 import closeModal from "../actions/closeModal";
 import appendContext from "../actions/appendContext";
+import notify from "../actions/notify";
 
 import { ActionType, RawActionInterface } from "types/Actions";
 
@@ -58,5 +59,11 @@ export const actionFunctionsByActionType = {
     { options }: RawActionInterface<ActionType.CLOSE_MODAL>,
   ) => (actionInputData: ActionInputDataInterface) => {
     return closeModal(appContext.context, options, actionInputData);
+  },
+
+  [ActionType.NOTIFY]: (appContext: AppContextInterface, { options }: RawActionInterface<ActionType.NOTIFY>) => (
+    actionInputData: ActionInputDataInterface,
+  ) => {
+    return notify(appContext.context, options, actionInputData);
   },
 };

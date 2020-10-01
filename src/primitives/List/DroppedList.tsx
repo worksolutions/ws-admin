@@ -18,6 +18,7 @@ import { useVisibilityAnimation } from "../Popper/useVisibilityAnimation";
 
 import List from "./index";
 import { ListItemInterface, ListItemSize } from "./ListItem";
+import preventDefault from "../../libs/preventDefault";
 
 export enum DroppedListOpenMode {
   HOVER,
@@ -166,7 +167,7 @@ function DroppedList({
           includeMinWidthCalculation && minWidth("calc(100% + 40px)"),
           zIndex_popup,
         ]}
-        onClick={stopPropagation()}
+        onClick={preventDefault(stopPropagation())}
       >
         <Wrapper
           styles={[

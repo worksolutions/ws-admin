@@ -511,7 +511,7 @@ module.exports = function (context, getActions) {
                                     body: {
                                       title: `=${relatedArticlesContext}.search`,
                                       page: "1",
-                                      perPage: "8",
+                                      perPage: "20",
                                     },
                                   },
                                 },

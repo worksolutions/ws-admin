@@ -11,6 +11,7 @@ const articlesCardsRouter = require("./routes/articles/cards");
 const articlesTableRouter = require("./routes/articles/table");
 const articleRouter = require("./routes/article");
 const createArticleRouter = require("./routes/article/createAndUpdate");
+const publishingRouter = require("./routes/article/publishing");
 const categoriesRouter = require("./routes/categories");
 const usersRouter = require("./routes/users");
 const filesRouter = require("./routes/files");
@@ -42,7 +43,7 @@ module.exports = (app) => {
   articlesTableRouter(app);
   createArticleRouter(app);
   articleRouter(app);
-  articleRouter(app);
+  publishingRouter(app);
   categoriesRouter(app);
   usersRouter(app);
   filesRouter(app);

@@ -8,6 +8,7 @@ export enum ActionType {
   APPEND_CONTEXT = "append-context",
   OPEN_MODAL = "open-modal",
   CLOSE_MODAL = "close-modal",
+  NOTIFY = "notify",
 }
 
 export type RawActionOptions = {
@@ -40,7 +41,10 @@ export type RawActionOptions = {
   [ActionType.OPEN_MODAL]: {
     name: string;
   };
-  [ActionType.CLOSE_MODAL]: string;
+  [ActionType.CLOSE_MODAL]: null;
+  [ActionType.NOTIFY]: {
+    text: string;
+  };
 };
 
 export interface RawActionInterface<T extends ActionType> {
@@ -55,7 +59,8 @@ export type RealAnyRawAction =
   | RawActionInterface<ActionType.UPDATE_CONTEXT>
   | RawActionInterface<ActionType.APPEND_CONTEXT>
   | RawActionInterface<ActionType.OPEN_MODAL>
-  | RawActionInterface<ActionType.CLOSE_MODAL>;
+  | RawActionInterface<ActionType.CLOSE_MODAL>
+  | RawActionInterface<ActionType.NOTIFY>;
 
 export type AnyRawAction = RealAnyRawAction[] | RealAnyRawAction;
 

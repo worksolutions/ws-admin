@@ -58,7 +58,7 @@ function PopupListSelector({
   if (!dataSource) return null;
   if (!options) return null;
   if (!options.buttonOptions) return null;
-  if (!options.selectedItems) return null;
+  if (!options.selectedItems?.context) return null;
 
   const appContext = useAppContext();
   const [{ list, pagination }] = useStateFromContext<PopupListSelectorDataInterface>(options.context, appContext);

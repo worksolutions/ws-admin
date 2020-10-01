@@ -2,7 +2,8 @@ import React from "react";
 
 import Wrapper from "primitives/Wrapper";
 import Button from "primitives/Button";
-import Modal, { modalHorizontalPadding, ModalSize } from "primitives/Modal";
+import Modal from "primitives/Modal";
+import { modalHorizontalPadding, ModalSize } from "primitives/Modal/ModalContent";
 import Typography from "primitives/Typography";
 import Dropdown from "primitives/Dropdown/Dropdown";
 

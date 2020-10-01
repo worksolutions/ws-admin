@@ -49,7 +49,7 @@ module.exports = (app) => {
     app,
     {
       modifyResponse: async ({ data }) => ({ id: data.id }),
-      modifyRequest: ({ data }) => {
+      modifyRequest: ({ requestParams: { data } }) => {
         return { data: modifyRequest(data) };
       },
       modifyError: (err) => {
@@ -66,7 +66,7 @@ module.exports = (app) => {
     app,
     {
       modifyResponse: async ({ data }) => null,
-      modifyRequest: ({ data }) => {
+      modifyRequest: ({ requestParams: { data } }) => {
         return { data: modifyRequest(data) };
       },
       modifyError: (err) => {
