@@ -1,7 +1,6 @@
 const axios = require("axios");
 const ramda = require("ramda");
 const path = require("path");
-const $ = require("cheerio");
 
 const API_HOST = process.env.DEV_API_HOST;
 
@@ -11,19 +10,6 @@ exports.error = function (msg, errors = {}) {
     message: msg,
     errors,
   };
-};
-
-function prepareImgElementUrl(url) {
-  return url.startsWith(API_HOST) ? url.replace(API_HOST, "") : url;
-}
-
-exports.parseHtmlImgUrls = function (string) {
-  const html = $(string);
-  html.find("img").each(function () {
-    if (!$(this).attr("src")) return;
-    $(this).attr("src", prepareImgElementUrl($(this).attr("src")));
-  });
-  return html.toString();
 };
 
 exports.prepareUrl = function (url) {

@@ -13,7 +13,6 @@ function modifyRequest(data) {
   if (data.publishedAt) data.publishedAt = moment(data.publishedAt, "DD.MM.YYYY").unix();
   if (data.keywords) data.keywords = data.keywords.map(prop("title")).join(", ");
   if (data.relatedArticles) data.relatedArticles = data.relatedArticles.map(prop("id"));
-  if (data.content) data.content = parseHtmlImgUrls(data.content);
   return data;
 }
 
