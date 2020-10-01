@@ -44,7 +44,7 @@ type ListSelectorOptionsInterface = {
     context: string;
     placeholder?: string;
   };
-  selectedItemId: { context: string };
+  selectedItem: { context: string };
 };
 
 type ListSelectorItemInterface = {
@@ -67,13 +67,13 @@ function ListSelector({
   if (!actions?.select || !actions?.search) return null;
   if (!dataSource) return null;
   if (!options) return null;
-  if (!options.selectedItemId) return null;
+  if (!options.selectedItem) return null;
   if (!options.searchInputOptions) return null;
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
   const [data] = useStateFromContext<ListSelectorDataInterface>(options.context, appContext);
-  const [selectedItemId] = useStateFromContext(options.selectedItemId.context, appContext);
+  const [selectedItem] = useStateFromContext(options.selectedItem.context, appContext);
   const { loadingContainer } = useDataSource<ListSelectorDataInterface>(dataSource!);
 
   return (
@@ -104,9 +104,9 @@ function ListSelector({
                       heading,
                       leftContent: <ImageWithDefault width={52} height={32} src={image} />,
                       circledLeftContent: false,
-                      rightContent: selectedItemId === id ? <Icon icon="check" color="blue/05" /> : undefined,
+                      rightContent: selectedItem === id ? <Icon icon="check" color="blue/05" /> : undefined,
                     }))}
-                    activeItemIds={[selectedItemId]}
+                    activeItemIds={[selectedItem]}
                     titleDots
                     titleStyles={[whiteSpace("normal"), maxHeight(40), maxWidth(292)]}
                     itemStyles={[padding("10px 8px")]}

@@ -42,5 +42,5 @@ export const list = {
   "16-info-circle": require("./icons/16-info-circle.svg"),
   "save-outline": require("./icons/save-outline.svg"),
   "attachment-big": require("./icons/attachment-big.svg"),
-  snowflake: require("./icons/snowflake.svg"),
+  snowflake: require("./icons/asterisk.svg"),
 };

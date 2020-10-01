@@ -41,7 +41,6 @@ module.exports = function (context, getActions) {
           static: [
             { path: `${relatedArticlesContext}.list`, value: [] },
             { path: `${tempContext}.categories`, value: [] },
-            { path: `${tempContext}.editor`, value: {} },
           ],
           actions: {
             loadCategories: {
@@ -438,6 +437,7 @@ module.exports = function (context, getActions) {
                           block: {
                             type: "HTMLEditor",
                             actions: {
+                              // TODO file-uploader action
                               select: {
                                 type: "update-context",
                                 options: { context: `${context}.content` },
@@ -655,7 +655,7 @@ module.exports = function (context, getActions) {
               type: "Actions/ListSelector",
               options: {
                 context: `${tempContext}.editor.articles-link`,
-                selectedItemId: { context: `${tempContext}.editor.selected-article-link` },
+                selectedItem: { context: `${tempContext}.editor.selected-article-link` },
                 searchInputOptions: { context: `${tempContext}.editor.search` },
               },
               actions: {
@@ -686,7 +686,7 @@ module.exports = function (context, getActions) {
         },
         actionBlock: {
           type: "Actions/Button",
-          options: { name: "Добавить", size: "LARGE", context: `${tempContext}.editor.selected-article-link` },
+          options: { name: "Добавить", size: "LARGE" },
           actions: {
             click: [
               {
