@@ -18,7 +18,7 @@ interface SearchInterface {
   searchAction: UseActionResultAction;
 }
 
-function Search({ searchAction, context, placeholder }: SearchInterface) {
+function Search({ searchAction, context, placeholder, styles }: SearchInterface & { styles?: any }) {
   const appContext = useAppContext();
   const [value, setValue] = useStateFromContext(context, appContext);
 
@@ -41,6 +41,7 @@ function Search({ searchAction, context, placeholder }: SearchInterface) {
         hover(emptyBoxShadow),
         focus(emptyBoxShadow),
         active(emptyBoxShadow),
+        styles,
       ]}
       size={InputSize.LARGE}
       outerStyles={flexValue(1)}

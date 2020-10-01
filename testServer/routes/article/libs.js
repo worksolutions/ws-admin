@@ -75,7 +75,7 @@ module.exports = {
     data.content = data.content.replace(/#article:[\w-_]+#/g, () => {
       const article = articlesData[index];
       index++;
-      return `#text-enhancer:ReadMore:${JSON.stringify({
+      return `#text-enhancer:ReadAlso:${JSON.stringify({
         image: article.announceImageUrl ? prepareUrl(article.announceImageUrl) : null,
         imageAspectRatio: 1.6,
         text: article.title,
