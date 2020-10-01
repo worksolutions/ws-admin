@@ -25,18 +25,21 @@ export interface EditorRefInterface {
   insertContent: (text: string, appendNewLines?: boolean) => void;
 }
 
-const ReactEditor = require("@ckeditor/ckeditor5-react");
-require("edelgarat-ckeditor5-custom-build/build/translations/ru");
-
-const CKEditor5 = React.lazy(() =>
-  import("!!raw-loader!edelgarat-ckeditor5-custom-build/build/ckeditor").then((editor) => {
+const CKEditor5 = React.lazy(() => {
+  // @ts-ignore
+  import("edelgarat-ckeditor5-custom-build/build/translations/ru");
+  return Promise.all([
+    import("!!raw-loader!edelgarat-ckeditor5-custom-build/build/ckeditor"),
+    // @ts-ignore
+    import("@ckeditor/ckeditor5-react"),
+  ]).then(([editor, ReactEditor]) => {
     eval(editor.default);
     const { ClassicEditor } = window as any;
     return {
-      default: (props: any) => <ReactEditor {...props} editor={ClassicEditor} />,
+      default: (props: any) => <ReactEditor.default {...props} editor={ClassicEditor} />,
     };
-  }),
-);
+  });
+});
 
 export default React.memo(function Editor({
   initialText,
