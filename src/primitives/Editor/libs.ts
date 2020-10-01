@@ -1,4 +1,4 @@
-export function insertDivElementBeforeEditorToolbarSeparator() {
+export function getDivElementBeforeEditorToolbarSeparator() {
   const elements = document.getElementsByClassName("ck-toolbar__separator");
   if (elements.length === 0) return null;
 
@@ -8,7 +8,7 @@ export function insertDivElementBeforeEditorToolbarSeparator() {
   return div;
 }
 
-export function insertDivElementAtTheEndOfEditorToolbar() {
+export function getDivElementAtTheEndOfEditorToolbar() {
   const toolbarElement = document.querySelector(".ck-toolbar__items");
   return toolbarElement ? (toolbarElement as HTMLElement) : null;
 }

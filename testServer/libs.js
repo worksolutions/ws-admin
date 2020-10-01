@@ -1,6 +1,9 @@
 const axios = require("axios");
 const ramda = require("ramda");
 const path = require("path");
+const $ = require("cheerio");
+
+const API_HOST = process.env.DEV_API_HOST;
 
 exports.error = function (msg, errors = {}) {
   return {
@@ -10,8 +13,21 @@ exports.error = function (msg, errors = {}) {
   };
 };
 
+function prepareImgElementUrl(url) {
+  return url.startsWith(API_HOST) ? url.replace(API_HOST, "") : url;
+}
+
+exports.parseHtmlImgUrls = function (string) {
+  const html = $(string);
+  html.find("img").each(function () {
+    if (!$(this).attr("src")) return;
+    $(this).attr("src", prepareImgElementUrl($(this).attr("src")));
+  });
+  return html.toString();
+};
+
 exports.prepareUrl = function (url) {
-  return url.startsWith("http") ? url : process.env.DEV_API_HOST + url;
+  return url.startsWith("http") ? url : API_HOST + url;
 };
 
 // eslint-disable-next-line max-params
@@ -25,11 +41,11 @@ exports.makeProxy = function (
       const resultUrl = (ramda.is(Function, realServerUrl) ? realServerUrl(req) : realServerUrl) || req.originalUrl;
       const headers = {
         ...ramda.omit(["host"], req.headers),
-        origin: process.env.DEV_API_HOST,
+        origin: API_HOST,
       };
       const requestParams = {
         method: req.method,
-        baseURL: process.env.DEV_API_HOST,
+        baseURL: API_HOST,
         params: req.query,
         data: req.body,
         headers,

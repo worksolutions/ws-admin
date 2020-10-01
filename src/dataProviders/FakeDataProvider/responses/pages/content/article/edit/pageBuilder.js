@@ -437,14 +437,15 @@ module.exports = function (context, getActions) {
                           block: {
                             type: "HTMLEditor",
                             actions: {
-                              // TODO file-uploader action
-                              select: {
-                                type: "update-context",
-                                options: { context: `${context}.content` },
-                              },
                               change: {
                                 type: "update-context",
                                 options: { context: `${context}.content` },
+                              },
+                              upload: {
+                                type: "api:uploadFile",
+                                options: {
+                                  reference: "/file_storage/store",
+                                },
                               },
                             },
                             options: {
@@ -563,6 +564,7 @@ module.exports = function (context, getActions) {
       background: `=${context}.background.id`,
       contentImage: `=${context}.contentImage.id`,
       announceImage: `=${context}.announceImage.id`,
+      content: `=${context}.content`,
     }),
     modals: {
       "create-category": {
