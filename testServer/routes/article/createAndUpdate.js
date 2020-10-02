@@ -1,7 +1,7 @@
 const moment = require("moment");
 const { prop } = require("ramda");
-const { makeProxy, convertServerErrorsToClientErrors, parseHtmlImgUrls } = require("../../libs");
-const { modifyArticleResponse } = require("./libs");
+const { makeProxy, convertServerErrorsToClientErrors } = require("../../libs");
+const { modifyArticleResponse, parseContentWithReadAlsoEnhancers } = require("./libs");
 
 const numbersByStatuses = {
   UN_PUBLISHED: 0,
@@ -74,4 +74,11 @@ module.exports = (app) => {
       },
     },
   );
+
+  app.post("/api/content/articles/:articleId/convert-enhancers", async (req, res) => {
+    const { content } = req.body;
+    if (!content) res.end("");
+    const enhancedContent = await parseContentWithReadAlsoEnhancers(content, req.params);
+    res.end(enhancedContent);
+  });
 };

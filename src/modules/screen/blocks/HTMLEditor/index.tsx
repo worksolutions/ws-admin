@@ -9,7 +9,6 @@ import { Icons } from "primitives/Icon";
 import { ListItemInterface } from "primitives/List/ListItem";
 
 import { Aligns, backgroundColor, flex, fullWidth, jc, marginLeft, minHeight } from "libs/styles";
-import { useBoolean } from "libs/hooks/common";
 import { convertNativeFileToFileInterface } from "libs/hooks/files/helpers/createFileInput";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
@@ -18,6 +17,7 @@ import { useActions } from "modules/context/actions/useActions";
 import globalEventBus from "modules/globalEventBus";
 
 import BlocksList from "../BlocksList";
+import { useStateFromContext } from "../../../context/insertContext";
 
 import { editorStyles } from "./editorStyles";
 
@@ -28,18 +28,19 @@ interface HTMLEditorOptionsInterface {
   buttonOptions?: { icon: Icons };
   listItems?: ListItemInterface<any>[];
   blocks?: BlockInterface[];
+  visibilityMode: { context: string };
 }
 
 const items = [
-  { code: "1", title: "Редактор" },
-  { code: "2", title: "Превью" },
+  { code: "0", title: "Редактор" },
+  { code: "1", title: "Превью" },
 ];
 
 function HTMLEditor({
   options,
   dataSource,
   actions,
-}: BlockInterface<HTMLEditorOptionsInterface, "change" | "upload" | "optionalAction">) {
+}: BlockInterface<HTMLEditorOptionsInterface, "change" | "upload" | "preview">) {
   if (!actions?.change) return null;
   if (!actions?.upload) return null;
   if (!dataSource) return null;
@@ -48,12 +49,17 @@ function HTMLEditor({
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
   const { data } = useDataSource(dataSource!);
+  const [isPreviewMode] = useStateFromContext(options.visibilityMode.context, appContext);
   const [radioValue, setRadioValue] = React.useState(() => items[0].code);
-  const [isPreviewMode, enablePreviewMode, disablePreviewMode] = useBoolean(false);
+
+  React.useEffect(() => {
+    if (isPreviewMode) return;
+    setRadioValue(items[0].code);
+  }, [isPreviewMode]);
 
   function toggleMode(code: string) {
     setRadioValue(code);
-    isPreviewMode ? disablePreviewMode() : enablePreviewMode();
+    resultActions.preview.run(code);
   }
 
   async function uploadFile(file: File) {
@@ -70,7 +76,6 @@ function HTMLEditor({
       styles={[fullWidth, minHeight("100%"), backgroundColor("gray-blue/01"), flex, jc(Aligns.CENTER), editorStyles]}
     >
       <Editor
-        disabled={isPreviewMode}
         initialText={data}
         onChange={(data) => {
           resultActions.change.run(data);

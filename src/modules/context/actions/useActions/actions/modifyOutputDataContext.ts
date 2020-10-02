@@ -7,7 +7,7 @@ export default async function modifyOutputDataContext(
   appContext: AppContextInterface,
   actionOptions: RawActionOptions[ActionType.MODIFY_OUTPUT_DATA_CONTEXT],
 ): Promise<any> {
-  const { value: outputData } = insertContext(`${actionOptions.takeFromContext}`, appContext.context);
+  const { value: outputData } = insertContext(`${actionOptions.resultValue}`, appContext.context);
 
   return Promise.resolve(outputData);
 }

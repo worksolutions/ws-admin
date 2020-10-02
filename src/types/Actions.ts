@@ -44,7 +44,7 @@ export type RawActionOptions = {
   };
   [ActionType.CLOSE_MODAL]: string;
   [ActionType.MODIFY_OUTPUT_DATA_CONTEXT]: {
-    takeFromContext: string;
+    resultValue: string;
     giveToContext?: string;
     modificationTemplate?: string;
   };

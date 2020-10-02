@@ -437,10 +437,28 @@ module.exports = function (context, getActions) {
                           block: {
                             type: "HTMLEditor",
                             actions: {
-                              change: {
-                                type: "update-context",
-                                options: { context: `${context}.content` },
-                              },
+                              preview: [
+                                {
+                                  type: "update-context",
+                                  options: { context: `${tempContext}.editor.isPreviewMode` },
+                                },
+                                {
+                                  type: "open-modal",
+                                  options: {
+                                    name: "content-preview-modal",
+                                  },
+                                },
+                              ],
+                              change: [
+                                {
+                                  type: "update-context",
+                                  options: { context: `${context}.content` },
+                                },
+                                {
+                                  type: "update-context",
+                                  options: { context: `${context}.enhancedContent` },
+                                },
+                              ],
                               upload: {
                                 type: "api:uploadFile",
                                 options: {
@@ -449,6 +467,7 @@ module.exports = function (context, getActions) {
                               },
                             },
                             options: {
+                              visibilityMode: { context: `${tempContext}.editor.isPreviewMode` },
                               blocks: [
                                 {
                                   type: "Actions/ButtonPopUp",
@@ -569,6 +588,7 @@ module.exports = function (context, getActions) {
     modals: {
       "create-category": {
         title: "Создание категории",
+        secondaryActionText: "Отменить",
         block: {
           type: "RowFields/FieldsList/StaticFieldsList",
           options: {
@@ -646,6 +666,7 @@ module.exports = function (context, getActions) {
       "add-inner-article-link-in-content": {
         title: "Ссылка на статью",
         size: "ADJUST_CONTENT",
+        secondaryActionText: "Отменить",
         block: {
           type: "ContextInitializer",
           options: {
@@ -694,7 +715,7 @@ module.exports = function (context, getActions) {
               {
                 type: "modify-output-data-context",
                 options: {
-                  takeFromContext: `#article:{{${tempContext}.editor.selected-article-link}}#`,
+                  resultValue: `#article:{{${tempContext}.editor.selected-article-link}}#`,
                 },
               },
               {
@@ -709,6 +730,41 @@ module.exports = function (context, getActions) {
               },
             ],
           },
+        },
+      },
+      "content-preview-modal": {
+        title: "Предпросмотр",
+        size: "FULL_WIDTH",
+        block: {
+          type: "FormattedHTMLText",
+          dataSource: {
+            type: "api:request",
+            context: `${context}.enhancedContent`,
+            options: {
+              reference: "/content/articles/{{screen:articleId}}/convert-enhancers",
+              method: "post",
+              body: {
+                content: `=${context}.content`,
+              },
+            },
+          },
+        },
+        actions: {
+          close: [
+            {
+              type: "modify-output-data-context",
+              options: {
+                resultValue: "",
+              },
+            },
+            {
+              type: "update-context",
+              options: {
+                context: `${tempContext}.editor.isPreviewMode`,
+                takeIncomeDataFromPreviousAction: true,
+              },
+            },
+          ],
         },
       },
     },

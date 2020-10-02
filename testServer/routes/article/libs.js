@@ -2,6 +2,7 @@ const axios = require("axios");
 const moment = require("moment");
 
 const { prepareUrl } = require("../../libs");
+const { enhancersConverterReadAlso } = require("./EnhancersConverter");
 
 async function getSubArticlesContent(text, getArticle) {
   const articleMatch = text.match(/#article:[\w-_]+#/g);
@@ -13,6 +14,15 @@ async function getSubArticlesContent(text, getArticle) {
       return getArticle(articleCodeText.split(":")[1]);
     }),
   );
+}
+
+async function getContentWithReadAlsoEnhancers(content, originalRequestParams) {
+  const articles = await getSubArticlesContent(content, (code) => {
+    return axios("/api/blog/article/" + code, originalRequestParams);
+  });
+
+  const articlesData = articles.map((article) => article.data.data);
+  return enhancersConverterReadAlso.convert(content, articlesData);
 }
 
 const statusesByNumber = {
@@ -60,26 +70,12 @@ module.exports = {
       });
     }
 
-    if (!data.content) return data;
+    if (!data.content) {
+      data.enhancedContent = data.content;
+      return data;
+    }
 
-    const articles = await getSubArticlesContent(data.content, (code) => {
-      return axios("/api/blog/article/" + code, originalRequestParams);
-    });
-
-    const articlesData = articles.map((article) => article.data.data);
-
-    let index = 0;
-
-    data.content = data.content.replace(/#article:[\w-_]+#/g, () => {
-      const article = articlesData[index];
-      index++;
-      return `#text-enhancer:ReadAlso:${JSON.stringify({
-        image: article.announceImageUrl ? prepareUrl(article.announceImageUrl) : null,
-        imageAspectRatio: 1.6,
-        text: article.title,
-        reference: prepareUrl(`/blog/${article.code}`),
-      })}#`;
-    });
+    data.enhancedContent = await getContentWithReadAlsoEnhancers(data.content, originalRequestParams);
 
     return data;
   },
@@ -119,8 +115,9 @@ module.exports = {
     };
 
     const result = {
-      title: article.title,
       id: article.id,
+      code: article.code,
+      title: article.title,
       image: article.announceImage ? prepareUrl(article.announceImage.path) : null,
       redirectReference: "/content/articles/" + article.id,
       actions: [
@@ -145,4 +142,5 @@ module.exports = {
 
     return result;
   },
+  parseContentWithReadAlsoEnhancers: getContentWithReadAlsoEnhancers,
 };

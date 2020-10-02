@@ -1,5 +1,6 @@
 import React from "react";
 import Prism from "prismjs";
+import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
 
@@ -17,8 +18,7 @@ import {
   padding,
 } from "libs/styles";
 
-import { insertContext } from "modules/context/insertContext";
-import { useAppContext } from "modules/context/hooks/useAppContext";
+import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import BlockRenderer from "../../BlockRenderer";
 
@@ -27,11 +27,11 @@ import { modifyTextWithEnhancers } from "./enhancers";
 
 import { BlockInterface } from "state/globalState";
 
-function FormattedHTMLText({ options, styles }: BlockInterface<{ value: string }> & { styles?: any }) {
-  const text = insertContext(options!.value, useAppContext().context);
-  const ref = React.useRef<HTMLDivElement>();
+function FormattedHTMLText({ styles, dataSource }: BlockInterface<{ value: string }> & { styles?: any }) {
+  const { data: text } = useDataSource(dataSource!);
 
-  const enhancers = React.useMemo(() => modifyTextWithEnhancers(text.value || ""), [text.value]);
+  const ref = React.useRef<HTMLDivElement>();
+  const enhancers = React.useMemo(() => modifyTextWithEnhancers(text || ""), [text]);
 
   React.useEffect(() => {
     ref.current!.innerHTML = enhancers.text;
@@ -43,7 +43,7 @@ function FormattedHTMLText({ options, styles }: BlockInterface<{ value: string }
         language,
       );
     });
-  }, [text.value]);
+  }, [text]);
 
   return (
     <>
@@ -71,4 +71,4 @@ function FormattedHTMLText({ options, styles }: BlockInterface<{ value: string }
   );
 }
 
-export default React.memo(FormattedHTMLText);
+export default React.memo(observer(FormattedHTMLText));
