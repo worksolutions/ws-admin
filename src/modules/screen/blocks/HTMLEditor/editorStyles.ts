@@ -1,8 +1,10 @@
 import { css } from "styled-components";
 
+import { TypographyTypes } from "primitives/Typography";
+
 import { border, getColor, makeBorderBoxShadow } from "libs/styles";
 
-import { htmlStyles } from "../FormattedHTMLText/htmlStyles";
+import { htmlTextStyles } from "../FormattedHTMLText/htmlStyles";
 
 export const editorStyles = css`
   .ck {
@@ -110,9 +112,7 @@ export const editorStyles = css`
 
       .ck-insert-table-dropdown__label {
         color: ${getColor("gray-blue/05")};
-        font-size: 14px;
-        line-height: 20px;
-        letter-spacing: 0.15px;
+        ${TypographyTypes["body-regular"]};
         margin-top: 8px;
         display: flex;
         height: 20px;
@@ -151,11 +151,7 @@ export const editorStyles = css`
           min-height: 100% !important;
           padding: 4px 12px 4px 16px !important;
 
-          font-family: IBM Plex Sans;
-          font-style: normal;
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 24px;
+          ${TypographyTypes["button"]};
 
           color: ${getColor("gray-blue/07")};
 
@@ -188,6 +184,8 @@ export const editorStyles = css`
         .ck-list {
           width: 100%;
           height: 100%;
+          margin: 0;
+          padding: 0;
 
           &__item {
             width: 100%;
@@ -197,9 +195,7 @@ export const editorStyles = css`
           }
 
           &__item > .ck-button {
-            font-family: IBM Plex Sans;
-            font-style: normal;
-            line-height: 20px;
+            ${TypographyTypes["body-regular"]};
 
             padding: 10px 8px !important;
             min-width: 100% !important;
@@ -215,17 +211,13 @@ export const editorStyles = css`
           }
 
           .ck-heading_paragraph {
-            font-weight: normal;
-            font-size: 14px;
+            ${TypographyTypes["body-regular"]};
           }
           .ck-heading_heading3 {
-            font-weight: bold;
-            font-size: 16px;
+            ${TypographyTypes["h3-bold"]};
           }
           .ck-heading_heading2 {
-            font-weight: bold;
-            font-size: 20px;
-            line-height: 24px;
+            ${TypographyTypes["h2-bold"]};
           }
         }
       }
@@ -251,6 +243,38 @@ export const editorStyles = css`
       }
     }
 
-    ${htmlStyles}
+    figure.table {
+      display: block;
+
+      table,
+      tbody,
+      table .ck-editor__editable,
+      table tr {
+        border-color: ${getColor("gray-blue/02")} !important;
+        border: none;
+      }
+
+      table {
+        border: 1px solid;
+
+        * {
+          margin: 0;
+        }
+
+        .ck-editor__editable {
+          ${TypographyTypes["body-regular"]};
+          padding: 8px;
+          &:not(:last-child) {
+            border-right: 1px solid;
+          }
+        }
+
+        tr:not(:last-child) {
+          border-bottom: 1px solid;
+        }
+      }
+    }
+
+    ${htmlTextStyles}
   }
 `;
