@@ -27,6 +27,7 @@ const createCell = (column: TableViewColumn, tableViewOptions: TableViewOptions)
 }) => {
   return (
     <TableCell
+      index={index}
       item={item}
       column={column}
       tableViewOptions={tableViewOptions}
@@ -81,7 +82,9 @@ export function useSorting(initialValue: string, changeAction?: AnyRawAction) {
   const { currentSortingField, nextSorting } = useSortingLogic(
     () => insertContext(initialValue, appContext.context).value,
   );
-  const { change } = useActions({ change: changeAction }, appContext);
+  const actions = React.useMemo(() => ({ change: changeAction }), []);
+
+  const { change } = useActions(actions, appContext);
 
   useEffectSkipFirst(() => {
     if (!currentSortingField) return;

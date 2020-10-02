@@ -34,7 +34,10 @@ exports.makeProxy = function (
         data: req.body,
         headers,
       };
-      Object.assign(requestParams, modifyRequest ? await modifyRequest({ requestParams, request: req }) : {});
+      Object.assign(
+        requestParams,
+        modifyRequest ? await modifyRequest({ urlParams: req.params, requestParams, request: req }) : {},
+      );
       const response = await axios(resultUrl, requestParams);
 
       if (modifyResponse) {

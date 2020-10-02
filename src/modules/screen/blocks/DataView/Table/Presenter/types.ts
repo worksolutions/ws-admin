@@ -49,4 +49,4 @@ export interface TableViewOptions {
   id: string;
 }
 
-export type TableViewItemInterface = (any | Record<string, any>) & { styles?: any };
+export type TableViewItemInterface = any & { styles?: any };

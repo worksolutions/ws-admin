@@ -3,10 +3,10 @@ const { prop, omit, isNil, filter } = require("ramda");
 
 const { makeProxy } = require("../../libs");
 
-async function loadArticle(requestParams) {
+async function loadArticle(articleId, requestParams) {
   const {
     data: { data },
-  } = await axios("/api/articles/" + requestParams.data.id, {
+  } = await axios("/api/articles/" + articleId, {
     ...requestParams,
     method: "GET",
   });
@@ -32,8 +32,8 @@ module.exports = (app) => {
     },
     app,
     {
-      modifyRequest: async ({ requestParams }) => {
-        const article = await loadArticle(requestParams);
+      modifyRequest: async ({ urlParams, requestParams }) => {
+        const article = await loadArticle(urlParams.articleId, requestParams);
         return {
           params: {},
           data: { ...article, status: 1 },
@@ -49,8 +49,8 @@ module.exports = (app) => {
     },
     app,
     {
-      modifyRequest: async ({ requestParams }) => {
-        const article = await loadArticle(requestParams);
+      modifyRequest: async ({ urlParams, requestParams }) => {
+        const article = await loadArticle(urlParams.articleId, requestParams);
         return {
           params: {},
           data: { ...article, status: 2 },

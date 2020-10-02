@@ -151,7 +151,7 @@ module.exports = {
           {
             type: "notify",
             options: {
-              text: `Статья "{{local:title}}" успешно снята с публикации`,
+              text: `Статья успешно снята с публикации`,
             },
           },
           {
@@ -180,7 +180,7 @@ module.exports = {
           {
             type: "notify",
             options: {
-              text: `Статья "{{local:title}}" успешно опубликована`,
+              text: `Статья успешно опубликована`,
             },
           },
           {

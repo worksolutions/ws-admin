@@ -2,6 +2,7 @@ import { useLocalStore } from "mobx-react-lite";
 
 import { isArray } from "libs/is";
 import { ProgressContainer } from "libs/ProgressContainer";
+import { useEffectSkipFirst } from "libs/hooks/common";
 
 import { AppContextInterface } from "modules/context/hooks/useAppContext";
 
@@ -25,7 +26,7 @@ export function useActions<T extends Record<string, AnyRawAction>>(
   actions: T,
   appContext: AppContextInterface,
 ): Record<keyof T, UseActionResultAction> {
-  return useLocalStore(() => {
+  function prepareActionsForLocalStore() {
     if (!actions) return {};
 
     const result: any = {};
@@ -41,7 +42,18 @@ export function useActions<T extends Record<string, AnyRawAction>>(
     });
 
     return result;
-  });
+  }
+
+  const localStore = useLocalStore(() => prepareActionsForLocalStore());
+
+  useEffectSkipFirst(() => {
+    const newActions = prepareActionsForLocalStore();
+    Object.entries(newActions).forEach(([name, action]) => {
+      localStore[name] = action;
+    });
+  }, [actions]);
+
+  return localStore;
 }
 
 export type ActionInterface = ReturnType<typeof useActions>[any];

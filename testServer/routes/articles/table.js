@@ -25,18 +25,15 @@ module.exports = (app) => {
               publishedAt: article.publishedAt ? moment.unix(article.publishedAt).format("DD MMMM YYYY") : "",
               actions: [
                 {
-                  mode: "dropdown",
-                  items: [
-                    {
-                      name: "Редактировать",
-                      icon: "edit",
-                      iconColor: "gray-blue/05",
-                      type: "redirect",
-                      options: {
-                        reference: "/",
-                      },
+                  name: "Редактировать",
+                  icon: "edit",
+                  iconColor: "gray-blue/05",
+                  action: {
+                    type: "redirect",
+                    options: {
+                      reference: "/content/articles/" + article.id + "/edit",
                     },
-                  ],
+                  },
                 },
               ],
             };
@@ -48,14 +45,31 @@ module.exports = (app) => {
                 },
                 value: "Опубликовано",
               };
-              result.actions[0].items.push({
+              result.actions.push({
                 name: "Снять с публикации",
                 icon: "bolt-alt",
                 iconColor: "orange/05",
-                type: "redirect",
-                options: {
-                  reference: "/",
-                },
+                action: [
+                  {
+                    type: "api:request",
+                    options: {
+                      method: "post",
+                      reference: "/article/" + article.id + "/unpublish",
+                    },
+                  },
+                  {
+                    type: "notify",
+                    options: {
+                      text: `Статья успешно снята с публикации`,
+                    },
+                  },
+                  {
+                    type: "force-data-source-reload",
+                    options: {
+                      id: `table`,
+                    },
+                  },
+                ],
               });
             } else {
               result.status = {
@@ -64,14 +78,31 @@ module.exports = (app) => {
                 },
                 value: "Черновик",
               };
-              result.actions[0].items.push({
+              result.actions.push({
                 name: "Опубликовать",
                 icon: "bolt-alt",
                 iconColor: "green/05",
-                type: "redirect",
-                options: {
-                  reference: "/",
-                },
+                action: [
+                  {
+                    type: "api:request",
+                    options: {
+                      method: "post",
+                      reference: "/article/" + article.id + "/publish",
+                    },
+                  },
+                  {
+                    type: "notify",
+                    options: {
+                      text: `Статья успешно опубликована`,
+                    },
+                  },
+                  {
+                    type: "force-data-source-reload",
+                    options: {
+                      id: `table`,
+                    },
+                  },
+                ],
               });
             }
 

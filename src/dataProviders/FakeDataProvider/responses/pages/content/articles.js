@@ -156,6 +156,7 @@ module.exports = {
                       dataSource: {
                         type: "api:request",
                         options: {
+                          id: "table",
                           reference: "/articles/table",
                           method: "get",
                           body: {
@@ -168,6 +169,7 @@ module.exports = {
                             publishedAt: "=screen:articles.filter.publishedAt",
                           },
                         },
+                        context: "screen:articles.table",
                       },
                     },
                     cardsView: {

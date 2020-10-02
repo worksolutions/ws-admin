@@ -10,9 +10,10 @@ import { CellComponentData } from "../types";
 
 import { cellComponent as stringCellComponent } from "./string";
 
-export const cellComponent: CellComponentData = ({ item: { name, reference, avatarReference }, column }) => {
+export const cellComponent: CellComponentData = ({ item: { name, reference, avatarReference }, column, index }) => {
   return {
     component: stringCellComponent({
+      index,
       item: {
         redirectReference: reference,
         styles: verticalPadding(0),

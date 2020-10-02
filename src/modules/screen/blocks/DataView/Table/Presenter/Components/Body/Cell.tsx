@@ -1,6 +1,7 @@
 import React from "react";
 import { TableCellProps } from "react-table";
 import { duration160 } from "layout/durations";
+import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -31,14 +32,14 @@ interface ColumnInterface {
   item: TableViewItemInterface;
 }
 
-type CellProps = ColumnInterface & { tableCellProps: TableCellProps; styles?: any };
+type CellProps = ColumnInterface & { tableCellProps: TableCellProps; styles?: any; index: number };
 
-function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellProps) {
+function Cell({ tableViewOptions, item, column, tableCellProps, styles, index }: CellProps) {
   const columnType = column.type || TableViewDataType.STRING;
   const getComponentData = getComponentForColumnType[columnType];
   if (!getComponentData) return <Typography>unknown type: {columnType}</Typography>;
 
-  const { component, cellWidth } = getComponentData({ column, item });
+  const { component, cellWidth } = getComponentData({ column, item, index });
 
   const componentVerticalPadding =
     cellVerticalPaddingBySize[tableViewOptions?.rowsConfig?.paddingConfig || TableSizes.MEDIUM];
@@ -73,4 +74,4 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles }: CellPr
   );
 }
 
-export default withPerformance(["tableViewOptions", "column", "tableCellProps"])(Cell);
+export default withPerformance(["tableViewOptions", "column", "tableCellProps"])(observer(Cell));
