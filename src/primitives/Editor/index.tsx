@@ -19,6 +19,7 @@ interface EditorInterface {
     beforeLastSeparator?: ReactNode;
     atTheEndOfContainer?: ReactNode;
   };
+  disabled: boolean;
 }
 
 export interface EditorRefInterface {
@@ -47,6 +48,7 @@ export default React.memo(function Editor({
   onChange,
   onInit,
   additionalToolbarElements,
+  disabled,
 }: EditorInterface) {
   const [toolbarContainer, setToolbarContainer] = React.useState<HTMLElement | null>(null);
   const [lastToolbarSeparator, setLastToolbarSeparator] = React.useState<HTMLElement | null>(null);
@@ -80,7 +82,7 @@ export default React.memo(function Editor({
 
   return (
     <Suspense fallback={<Spinner />}>
-      <CKEditor5 data={initialText} config={config} onInit={init} />
+      <CKEditor5 disabled={disabled} data={initialText} config={config} onInit={init} />
       {toolbarContainer && ReactDOM.createPortal(additionalToolbarElements?.atTheEndOfContainer, toolbarContainer)}
       {lastToolbarSeparator &&
         ReactDOM.createPortal(additionalToolbarElements?.beforeLastSeparator, lastToolbarSeparator)}

@@ -8,6 +8,7 @@ import { Icons } from "primitives/Icon";
 import { ListItemInterface } from "primitives/List/ListItem";
 
 import { Aligns, backgroundColor, flex, fullWidth, jc, marginLeft, minHeight } from "libs/styles";
+import { useBoolean } from "libs/hooks/common";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
@@ -44,12 +45,19 @@ function HTMLEditor({
   const resultActions = useActions(actions, appContext);
   const { data } = useDataSource(dataSource!);
   const [radioValue, setRadioValue] = React.useState(() => items[0].code);
+  const [isPreviewMode, enablePreviewMode, disablePreviewMode] = useBoolean(false);
+
+  function toggleMode(code: string) {
+    setRadioValue(code);
+    isPreviewMode ? disablePreviewMode() : enablePreviewMode();
+  }
 
   return (
     <Wrapper
       styles={[fullWidth, minHeight("100%"), backgroundColor("gray-blue/01"), flex, jc(Aligns.CENTER), editorStyles]}
     >
       <Editor
+        disabled={isPreviewMode}
         initialText={data}
         onChange={(data) => {
           resultActions.change.run(data);
@@ -59,7 +67,7 @@ function HTMLEditor({
           beforeLastSeparator: options.blocks && <BlocksList blocks={options.blocks} />,
           atTheEndOfContainer: (
             <Wrapper styles={[marginLeft(25)]}>
-              <RadioGroup size={RadioGroupSize.SMALL} active={radioValue} onChange={setRadioValue} items={items} />
+              <RadioGroup size={RadioGroupSize.SMALL} active={radioValue} onChange={toggleMode} items={items} />
             </Wrapper>
           ),
         }}
