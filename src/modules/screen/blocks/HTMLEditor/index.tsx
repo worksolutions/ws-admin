@@ -9,7 +9,7 @@ import { Icons } from "primitives/Icon";
 import { ListItemInterface } from "primitives/List/ListItem";
 
 import { Aligns, backgroundColor, flex, fullWidth, jc, marginLeft, minHeight } from "libs/styles";
-import { convertFileToFileInterface } from "libs/hooks/files/helpers/createFileInput";
+import { convertNativeFileToFileInterface } from "libs/hooks/files/helpers/createFileInput";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
@@ -51,7 +51,7 @@ function HTMLEditor({
 
   async function uploadFile(file: File) {
     try {
-      const uploadedFile = await resultActions.upload.run(convertFileToFileInterface(file));
+      const uploadedFile = await resultActions.upload.run(convertNativeFileToFileInterface(file));
       return mergeRight(file, uploadedFile);
     } catch (err) {
       globalEventBus.emit("ADD_TOAST", { error: true, text: err.getErrorOrMessage() });
