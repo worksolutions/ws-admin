@@ -1,6 +1,6 @@
 const moment = require("moment");
 const { prop } = require("ramda");
-const { makeProxy, convertServerErrorsToClientErrors } = require("../../libs");
+const { makeProxy, convertServerErrorsToClientErrors, parseHtmlImgUrls } = require("../../libs");
 const { modifyArticleResponse } = require("./libs");
 
 const numbersByStatuses = {
