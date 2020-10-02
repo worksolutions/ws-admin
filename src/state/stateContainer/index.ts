@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import set from "lodash/set";
 import { path } from "ramda";
 
-import { isPureObject } from "libs/is";
+import { isArray, isPureObject } from "libs/is";
 
 @Service({ transient: true })
 export class StateContainer<T = Record<string, any>> {
@@ -17,6 +17,12 @@ export class StateContainer<T = Record<string, any>> {
     Object.entries(fromState).forEach(([name, value]) => {
       if (isPureObject(value) && isPureObject(toState[name])) {
         StateContainer.deepMergeStates(toState[name], value);
+        return;
+      }
+      if (isArray(toState[name]) && isPureObject(value)) {
+        Object.entries(value).forEach(([index, value]) => {
+          StateContainer.deepMergeStates(toState[name][index], value);
+        });
         return;
       }
       toState[name] = value;

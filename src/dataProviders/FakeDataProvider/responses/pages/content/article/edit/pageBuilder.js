@@ -729,7 +729,7 @@ module.exports = function (context, getActions) {
               {
                 type: "modify-output-data-context",
                 options: {
-                  takeFromContext: `#article:{{${tempContext}.editor.selected-article-link}}#`,
+                  resultOutput: `#article:{{${tempContext}.editor.selected-article-link}}#`,
                 },
               },
               {

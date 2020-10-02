@@ -3,6 +3,7 @@ import React from "react";
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 import Icon from "primitives/Icon";
+import Spinner from "primitives/Spinner";
 
 import { ai, Aligns, flex, flexValue, jc, marginBottom, marginLeft } from "libs/styles";
 
@@ -47,7 +48,11 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
             code: action.name,
             title: action.name,
             disabled: action.loading,
-            leftContent: action.icon ? <Icon icon={action.icon} color={action.iconColor} /> : undefined,
+            leftContent: action.loading ? (
+              <Spinner />
+            ) : action.icon ? (
+              <Icon icon={action.icon} color={action.iconColor} />
+            ) : undefined,
           }))}
           onChange={async (code) => {
             await onActionClick(code);

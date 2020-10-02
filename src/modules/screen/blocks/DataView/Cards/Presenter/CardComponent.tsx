@@ -11,7 +11,7 @@ import { CardsViewDataSource } from "../types";
 
 import { AnyRawAction } from "types/Actions";
 
-function CardComponent(card: CardsViewDataSource[0] & { imageConfig: CardImageConfig }) {
+function CardComponent(card: CardsViewDataSource[0] & { imageConfig: CardImageConfig; index: number }) {
   const { id, statuses, actions, heading, title, image, imageConfig } = card;
   const appContext = useAppContext();
 

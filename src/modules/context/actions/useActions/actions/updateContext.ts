@@ -1,4 +1,5 @@
 import { AppContextInterface } from "modules/context/hooks/useAppContext";
+import { insertContext } from "modules/context/insertContext";
 
 import { ActionInputDataInterface } from "../types";
 
@@ -10,6 +11,13 @@ export default async function updateContext(
   { inputData: inputDataProp, previousActionOutput }: ActionInputDataInterface,
 ): Promise<any> {
   const inputData = actionOptions.takeIncomeDataFromPreviousAction ? previousActionOutput : inputDataProp;
-  appContext.updateState({ path: actionOptions.context, data: inputData });
+
+  const path = insertContext(actionOptions.context, appContext.context, {
+    previousActionOutput,
+    inputData: inputDataProp,
+  }).value;
+
+  appContext.updateState({ path, data: inputData });
+
   return Promise.resolve(inputData);
 }

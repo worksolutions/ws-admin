@@ -10,6 +10,7 @@ import closeModal from "../actions/closeModal";
 import appendContext from "../actions/appendContext";
 import notify from "../actions/notify";
 import modifyOutputDataContext from "../actions/modifyOutputDataContext";
+import forceDataSourceReload from "../actions/forceDataSourceReload";
 
 import { ActionType, RawActionInterface } from "types/Actions";
 
@@ -73,5 +74,12 @@ export const actionFunctionsByActionType = {
     { options }: RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>,
   ) => (actionInputData: ActionInputDataInterface) => {
     return modifyOutputDataContext(appContext, options);
+  },
+
+  [ActionType.FORCE_DATA_SOURCE_RELOAD]: (
+    appContext: AppContextInterface,
+    { options }: RawActionInterface<ActionType.FORCE_DATA_SOURCE_RELOAD>,
+  ) => (actionInputData: ActionInputDataInterface) => {
+    return forceDataSourceReload(appContext, options);
   },
 };

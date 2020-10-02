@@ -10,6 +10,7 @@ export enum ActionType {
   CLOSE_MODAL = "close-modal",
   NOTIFY = "notify",
   MODIFY_OUTPUT_DATA_CONTEXT = "modify-output-data-context",
+  FORCE_DATA_SOURCE_RELOAD = "force-data-source-reload",
 }
 
 export type RawActionOptions = {
@@ -45,12 +46,13 @@ export type RawActionOptions = {
   };
   [ActionType.CLOSE_MODAL]: string;
   [ActionType.MODIFY_OUTPUT_DATA_CONTEXT]: {
-    takeFromContext: string;
-    giveToContext?: string;
-    modificationTemplate?: string;
+    resultOutput: string;
   };
   [ActionType.NOTIFY]: {
     text: string;
+  };
+  [ActionType.FORCE_DATA_SOURCE_RELOAD]: {
+    id: string;
   };
 };
 
@@ -68,7 +70,8 @@ export type RealAnyRawAction =
   | RawActionInterface<ActionType.OPEN_MODAL>
   | RawActionInterface<ActionType.CLOSE_MODAL>
   | RawActionInterface<ActionType.NOTIFY>
-  | RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>;
+  | RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>
+  | RawActionInterface<ActionType.FORCE_DATA_SOURCE_RELOAD>;
 
 export type AnyRawAction = RealAnyRawAction[] | RealAnyRawAction;
 

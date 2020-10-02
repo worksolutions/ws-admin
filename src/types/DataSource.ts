@@ -10,6 +10,7 @@ type DataSourceOptions = {
   [DataSourceType.STATIC]: any;
   [DataSourceType.CONTEXT]: { key: string };
   [DataSourceType.API_REQUEST]: {
+    id?: string;
     reference: string;
     method: METHODS;
     cancellable?: boolean;

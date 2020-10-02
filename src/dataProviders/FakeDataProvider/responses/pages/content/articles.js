@@ -9,6 +9,8 @@ module.exports = {
       type: "ContextInitializer",
       options: {
         static: [
+          { path: "screen:articles.cards.list", value: [] },
+          { path: "screen:articles.table.list", value: [] },
           { path: "screen:articles.filter.status", value: "any" },
           { path: "screen:articles.filter.publishedAt", value: null },
           { path: "screen:articles.search", value: "" },
@@ -172,6 +174,7 @@ module.exports = {
                       dataSource: {
                         type: "api:request",
                         options: {
+                          id: "cards",
                           reference: "/articles/cards",
                           method: "get",
                           body: {
@@ -184,6 +187,7 @@ module.exports = {
                             publishedAt: "=screen:articles.filter.publishedAt",
                           },
                         },
+                        context: "screen:articles.cards",
                       },
                       options: {
                         imageConfig: {
@@ -198,6 +202,7 @@ module.exports = {
                           initialValue: "=screen:articles.sorting",
                         },
                       },
+                      actions: {},
                     },
                     searchOptions: {
                       placeholder: "Найти",

@@ -75,7 +75,7 @@ export class GlobalState {
   loadConfig() {
     return promisifyAPI(
       this.requestManager.createRequest("/admin/config", METHODS.GET, identityValueDecoder),
-      this.loadingContainer.promisifyAPI,
+      this.loadingContainer.promisifyLibState,
     ).then(this.systemStateContainer.setState);
   }
 }

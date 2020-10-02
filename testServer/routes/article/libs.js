@@ -136,7 +136,32 @@ module.exports = {
     if (isPublished) {
       result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
       result.statuses = [{ icon: "badge", color: "green/05", size: "SMALL" }];
-      // result.actions.push({ name: "Снять с публикации", icon: "bolt-alt", iconColor: "orange/05" });
+      result.actions.push({
+        name: "Снять с публикации",
+        icon: "bolt-alt",
+        iconColor: "orange/05",
+        action: [
+          {
+            type: "api:request",
+            options: {
+              method: "post",
+              reference: "/article/" + article.id + "/unpublish",
+            },
+          },
+          {
+            type: "notify",
+            options: {
+              text: `Статья "{{local:title}}" успешно снята с публикации`,
+            },
+          },
+          {
+            type: "force-data-source-reload",
+            options: {
+              id: `cards`,
+            },
+          },
+        ],
+      });
     } else {
       result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
       result.statuses = [{ icon: "badge", color: "orange/05", size: "SMALL" }];
@@ -156,6 +181,12 @@ module.exports = {
             type: "notify",
             options: {
               text: `Статья "{{local:title}}" успешно опубликована`,
+            },
+          },
+          {
+            type: "force-data-source-reload",
+            options: {
+              id: `cards`,
             },
           },
         ],

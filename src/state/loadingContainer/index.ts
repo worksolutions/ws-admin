@@ -18,7 +18,7 @@ export class LoadingContainer {
     return arg;
   }
 
-  promisifyAPI = {
+  promisifyLibState = {
     stateStart: this.startLoading,
     stateSuccess: this.promisifyStateSuccess,
     stateError: this.stopLoading,
