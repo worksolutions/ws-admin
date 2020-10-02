@@ -25,7 +25,7 @@ export function createFileInput(multiply?: boolean, acceptTypes?: AcceptTypes[])
   };
 }
 
-export function convertFileToFileInterface(file: File): FileInterface {
+export function convertNativeFileToFileInterface(file: File): FileInterface {
   return {
     size: file.size,
     path: null!,

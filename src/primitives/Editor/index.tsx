@@ -5,8 +5,8 @@ import Spinner from "primitives/Spinner";
 
 import { config } from "./config";
 import {
-  insertDivElementAtTheEndOfEditorToolbar,
-  insertDivElementBeforeEditorToolbarSeparator,
+  getDivElementAtTheEndOfEditorToolbar,
+  getDivElementBeforeEditorToolbarSeparator,
   prepareEditorToCustomize,
 } from "./libs";
 
@@ -53,8 +53,8 @@ export default React.memo(function Editor({
 
   function init(editor: any) {
     prepareEditorToCustomize();
-    setToolbarContainer(insertDivElementAtTheEndOfEditorToolbar());
-    setLastToolbarSeparator(insertDivElementBeforeEditorToolbarSeparator());
+    setToolbarContainer(getDivElementAtTheEndOfEditorToolbar());
+    setLastToolbarSeparator(getDivElementBeforeEditorToolbarSeparator());
     editor.ui.view.toolbar.element.style.top = `0px`;
     editor.plugins.get("FileRepository").createUploadAdapter = (loader: any) => new CK5UploadAdapter(loader, uploader);
     editor.model.document.on("change:data", () => {
@@ -93,31 +93,12 @@ class CK5UploadAdapter {
 
   upload() {
     return this.loader.file.then(async (file: File) => {
-      const { link } = await this.uploader(file);
-      return { default: link };
+      const { path } = await this.uploader(file);
+      return { default: path };
     });
   }
 
   abort() {
     if (!this.loader.file) return;
   }
-}
-
-export function parseEditorViewContent() {
-  setTimeout(() => {
-    document.querySelectorAll("oembed[url]").forEach((element) => {
-      const anchor = document.createElement("a");
-      anchor.setAttribute("href", element.getAttribute("url")!);
-      anchor.className = "embedly-card";
-      element.appendChild(anchor);
-    });
-  }, 100);
-
-  setTimeout(() => {
-    const frames = document.querySelectorAll(".embedly-card iframe");
-    Array.prototype.forEach.call(frames, (frame) => {
-      const iframeContent = frame.contentDocument;
-      iframeContent.body.innerHTML = iframeContent.body.innerHTML + "<style>.hdr, .brd{display: none;}</style>";
-    });
-  }, 500);
 }

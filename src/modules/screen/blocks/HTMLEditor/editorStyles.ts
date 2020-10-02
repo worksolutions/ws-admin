@@ -11,6 +11,9 @@ export const editorStyles = css`
     &.ck-dropdown.ck-toolbar__grouped-dropdown.ck-toolbar-dropdown {
       display: none !important;
     }
+    figure.image {
+      margin: 0 auto;
+    }
 
     &.ck-editor {
       display: flex;

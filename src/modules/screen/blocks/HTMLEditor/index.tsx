@@ -1,5 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { mergeRight } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 import Editor from "primitives/Editor";
@@ -8,10 +9,12 @@ import { Icons } from "primitives/Icon";
 import { ListItemInterface } from "primitives/List/ListItem";
 
 import { Aligns, backgroundColor, flex, fullWidth, jc, marginLeft, minHeight } from "libs/styles";
+import { convertNativeFileToFileInterface } from "libs/hooks/files/helpers/createFileInput";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 import { useActions } from "modules/context/actions/useActions";
+import globalEventBus from "modules/globalEventBus";
 
 import BlocksList from "../BlocksList";
 
@@ -35,8 +38,9 @@ function HTMLEditor({
   options,
   dataSource,
   actions,
-}: BlockInterface<HTMLEditorOptionsInterface, "change" | "select" | "optionalAction">) {
+}: BlockInterface<HTMLEditorOptionsInterface, "change" | "upload" | "optionalAction">) {
   if (!actions?.change) return null;
+  if (!actions?.upload) return null;
   if (!dataSource) return null;
   if (!options) return null;
 
@@ -44,6 +48,15 @@ function HTMLEditor({
   const resultActions = useActions(actions, appContext);
   const { data } = useDataSource(dataSource!);
   const [radioValue, setRadioValue] = React.useState(() => items[0].code);
+
+  async function uploadFile(file: File) {
+    try {
+      const uploadedFile = await resultActions.upload.run(convertNativeFileToFileInterface(file));
+      return mergeRight(file, uploadedFile);
+    } catch (err) {
+      globalEventBus.emit("ADD_TOAST", { error: true, text: err.getErrorOrMessage() });
+    }
+  }
 
   return (
     <Wrapper
@@ -54,7 +67,7 @@ function HTMLEditor({
         onChange={(data) => {
           resultActions.change.run(data);
         }}
-        uploader={(file) => Promise.resolve(console.log)}
+        uploader={uploadFile}
         additionalToolbarElements={{
           beforeLastSeparator: options.blocks && <BlocksList blocks={options.blocks} />,
           atTheEndOfContainer: (
