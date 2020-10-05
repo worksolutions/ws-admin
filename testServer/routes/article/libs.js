@@ -62,8 +62,6 @@ module.exports = {
 
     if (!data.content) return data;
 
-    data.content = data.content.replace(/\/storage/g, prepareUrl("/storage"));
-
     const articles = await getSubArticlesContent(data.content, (code) => {
       return axios("/api/blog/article/" + code, originalRequestParams);
     });

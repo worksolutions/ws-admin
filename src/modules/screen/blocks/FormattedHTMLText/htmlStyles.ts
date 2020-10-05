@@ -12,7 +12,7 @@ Prism.manual = true;
 
 const tableBorder = `1px solid ${getColor("gray-blue/02")}`;
 
-export const htmlStyles = css`
+export const htmlTextStyles = css`
   * {
     margin-top: 0;
     color: ${getColor("gray-blue/10")};
@@ -97,10 +97,6 @@ export const htmlStyles = css`
       font-style: italic;
       ${TypographyTypes["body-regular"]};
     }
-
-    & > table {
-      margin-bottom: 0;
-    }
   }
 
   hr {
@@ -131,6 +127,12 @@ export const htmlStyles = css`
     &::after {
       right: -16px;
     }
+  }
+`;
+
+export const htmlTableStyles = css`
+  figure & > table {
+    margin-bottom: 0;
   }
 
   table,
@@ -166,4 +168,9 @@ export const htmlStyles = css`
   table {
     border-bottom: ${tableBorder};
   }
+`;
+
+export const htmlStyles = css`
+  ${htmlTextStyles}
+  ${htmlTableStyles}
 `;
