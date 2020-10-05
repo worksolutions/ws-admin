@@ -14,9 +14,9 @@ module.exports = {
           options: { name: "Добавить", icon: "plus-big" },
           actions: {
             click: {
-              type: "redirect",
+              type: "open-modal",
               options: {
-                reference: "/test",
+                name: "create-user",
               },
             },
           },
@@ -66,6 +66,7 @@ module.exports = {
               },
               dataSource: {
                 type: "api:request",
+                context: "screen:users",
                 options: {
                   reference: "/users",
                   method: "get",
@@ -94,6 +95,201 @@ module.exports = {
               },
             },
             showMode: "table",
+          },
+        },
+      },
+      modals: {
+        "edit-user-profile": {
+          title: "Редактирование пользователя",
+          block: {
+            type: "RowFields/FieldsList",
+            options: {
+              mode: "vertical",
+              fields: [
+                {
+                  type: "edit:Text",
+                  options: {
+                    inputOptions: {
+                      width: "full-width",
+                      size: "large",
+                      placeholder: "Имя",
+                      context: `=screen:users.list{{userId}}.user.name`,
+                    },
+                    actions: {
+                      change: {
+                        type: "update-context",
+                        options: { context: `screen:newCategory.title` },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+          actionBlock: {
+            type: "Actions/Button",
+            options: { name: "Сохранить", size: "LARGE", context: `screen:newCategory.action` },
+            actions: {
+              click: [
+                {
+                  type: "close-modal",
+                },
+              ],
+            },
+          },
+        },
+        "create-user": {
+          title: "Создание пользователя",
+          block: {
+            type: "BlocksList",
+            blocks: [
+              {
+                type: "RowFields/FieldsList",
+                options: {
+                  mode: "vertical",
+                  fields: [
+                    {
+                      type: "edit:Avatar",
+                      options: {
+                        imageOptions: {
+                          aspectRatio: 1,
+                          context: `screen:newUser.avatar`,
+                        },
+                        actions: {
+                          upload: {
+                            type: "api:uploadFile",
+                            options: {
+                              reference: "/file_storage/store",
+                            },
+                          },
+                        },
+                      },
+                    },
+                    {
+                      type: "edit:Text",
+                      options: {
+                        inputOptions: {
+                          width: "full-width",
+                          size: "large",
+                          placeholder: "Имя",
+                          context: `screen:newUser.firstName`,
+                        },
+                        actions: {
+                          change: {
+                            type: "update-context",
+                            options: { context: `screen:newUser.firstName` },
+                          },
+                        },
+                      },
+                    },
+                    {
+                      type: "edit:Text",
+                      options: {
+                        inputOptions: {
+                          width: "full-width",
+                          size: "large",
+                          placeholder: "Фамилия",
+                          context: `screen:newUser.lastName`,
+                        },
+                        actions: {
+                          change: {
+                            type: "update-context",
+                            options: { context: `screen:newUser.lastName` },
+                          },
+                        },
+                      },
+                    },
+                    {
+                      type: "edit:Text",
+                      options: {
+                        inputOptions: {
+                          width: "full-width",
+                          size: "large",
+                          placeholder: "Должность",
+                          context: `screen:newUser.position`,
+                        },
+                        actions: {
+                          change: {
+                            type: "update-context",
+                            options: { context: `screen:newUser.position` },
+                          },
+                        },
+                      },
+                    },
+                    {
+                      type: "edit:Text",
+                      options: {
+                        inputOptions: {
+                          width: "full-width",
+                          size: "large",
+                          placeholder: "E-mail",
+                          context: `screen:newUser.email`,
+                        },
+                        actions: {
+                          change: {
+                            type: "update-context",
+                            options: { context: `screen:newUser.email` },
+                          },
+                        },
+                      },
+                    },
+                    {
+                      type: "edit:Password",
+                      options: {
+                        inputOptions: {
+                          width: "full-width",
+                          size: "large",
+                          valueContext: `screen:newUser.password`,
+                          confirmationContext: `screen:newUser.passwordConfirmation`,
+                        },
+                        actions: {
+                          valueChange: {
+                            type: "update-context",
+                            options: { context: `screen:newUser.password` },
+                          },
+                          confirmationChange: {
+                            type: "update-context",
+                            options: { context: `screen:newUser.passwordConfirmation` },
+                          },
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+          actionBlock: {
+            type: "Actions/Button",
+            options: { name: "Создать", size: "LARGE", context: `screen:newUser.action` },
+            actions: {
+              click: [
+                {
+                  type: "api:request",
+                  options: {
+                    reference: "/users/store",
+                    method: "post",
+                    body: {
+                      name: "=screen:newUser.firstName",
+                      surname: "=screen:newUser.lastName",
+                      email: "=screen:newUser.email",
+                      position: "=screen:newUser.position",
+                      password: "=screen:newUser.password",
+                      password_confirmation: "=screen:newUser.passwordConfirmation",
+                      imageId: "=screen:newUser.avatar.id",
+                      active: "1",
+                    },
+                  },
+                },
+                {
+                  type: "append-context",
+                  options: { context: "screen.users.list", takeIncomeDataFromPreviousAction: true },
+                },
+                {
+                  type: "close-modal",
+                },
+              ],
+            },
           },
         },
       },

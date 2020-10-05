@@ -19,12 +19,14 @@ module.exports = (app) => {
               mode: "button",
               icon: "edit",
               iconColor: "gray-blue/07",
-              action: {
-                type: "redirect",
-                options: {
-                  reference: "/",
+              action: [
+                {
+                  type: "open-modal",
+                  options: {
+                    name: "edit-user-profile",
+                  },
                 },
-              },
+              ],
             },
           ],
         })),
