@@ -19,9 +19,11 @@ module.exports = (app) => {
               mode: "button",
               icon: "edit",
               iconColor: "gray-blue/07",
-              type: "redirect",
-              options: {
-                reference: "/",
+              action: {
+                type: "redirect",
+                options: {
+                  reference: "/",
+                },
               },
             },
           ],
