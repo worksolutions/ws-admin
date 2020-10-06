@@ -244,6 +244,18 @@ module.exports = {
                 {
                   type: "close-modal",
                 },
+                {
+                  type: "api:request",
+                  options: {
+                    reference: "/users",
+                    method: "get",
+                    body: {
+                      page: "=screen:users.pagination.page",
+                      perPage: "=screen:users.pagination.perPage",
+                    },
+                    saveToContext: "screen:users",
+                  },
+                },
               ],
             },
           },
