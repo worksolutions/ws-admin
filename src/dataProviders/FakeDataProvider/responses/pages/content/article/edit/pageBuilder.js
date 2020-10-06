@@ -557,7 +557,7 @@ module.exports = function (context, getActions) {
                                 },
                                 dataSource: {
                                   type: "api:request",
-                                  context: relatedArticlesContext,
+                                  contextPath: relatedArticlesContext,
                                   options: {
                                     reference: "/articles/simple-list",
                                     method: "get",
@@ -871,7 +871,7 @@ module.exports = function (context, getActions) {
                   },
                   dataSource: {
                     type: "api:request",
-                    context: `${tempContext}.editor.articles-link`,
+                    contextPath: `${tempContext}.editor.articles-link`,
                     options: {
                       reference: "/articles/simple-list",
                       method: "get",

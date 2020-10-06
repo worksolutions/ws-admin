@@ -169,7 +169,7 @@ module.exports = {
                             publishedAt: "=screen:articles.filter.publishedAt",
                           },
                         },
-                        context: "screen:articles.table",
+                        contextPath: "screen:articles.table",
                       },
                     },
                     cardsView: {
@@ -189,7 +189,7 @@ module.exports = {
                             publishedAt: "=screen:articles.filter.publishedAt",
                           },
                         },
-                        context: "screen:articles.cards",
+                        contextPath: "screen:articles.cards",
                       },
                       options: {
                         imageConfig: {

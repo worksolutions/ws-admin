@@ -21,6 +21,6 @@ module.exports = {
         },
       ],
     },
-    context: "menu.secondary-menu-items",
+    contextPath: "menu.secondary-menu-items",
   },
 };
