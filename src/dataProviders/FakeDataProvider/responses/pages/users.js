@@ -234,8 +234,6 @@ module.exports = {
                       surname: "=screen:temp-data.user.surname",
                       email: "=screen:temp-data.user.email",
                       position: "=screen:temp-data.user.position",
-                      password: "=screen:temp-data.user.password",
-                      password_confirmation: "=screen:temp-data.user.passwordConfirmation",
                       imageId: "=screen:temp-data.user.image.id",
                       blocked: "=screen:temp-data.user.blocked",
                     },

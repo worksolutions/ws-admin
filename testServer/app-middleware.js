@@ -6,7 +6,7 @@ moment.locale("ru");
 
 dotenv.config({ path: __dirname + "/../.env" });
 
-const { error, prepareUrl, makeProxy, configPath, removeConfigCache } = require("./libs");
+const { error, makeProxy, configPath, removeConfigCache, prepareUserProfileToFront } = require("./libs");
 const articlesCardsRouter = require("./routes/articles/cards");
 const articlesTableRouter = require("./routes/articles/table");
 const articleRouter = require("./routes/article");
@@ -29,15 +29,21 @@ module.exports = (app) => {
   });
 
   makeProxy({ handleUrl: "/api/users/profile", expressMethodHandlerName: "get" }, app, {
-    modifyResponse: ({ user }) => {
-      if (!user.image) return;
-      user.avatar = prepareUrl(user.image.path);
-      user.name = `${user.name} ${user.surname}`;
-      user.postName = user.position;
-      user.customFields = [{ title: "Должность", type: "text", options: { value: user.postName } }];
-      return user;
-    },
+    modifyResponse: prepareUserProfileToFront,
   });
+
+  makeProxy(
+    { realServerUrl: "/api/users/update", expressMethodHandlerName: "post", handleUrl: "/api/admin/user/update" },
+    app,
+    {
+      modifyResponse: prepareUserProfileToFront,
+      modifyRequest: ({ requestParams: { data } }) => {
+        const resultData = { ...data, active: !data.blocked };
+        delete resultData.blocked;
+        return { data: resultData };
+      },
+    },
+  );
 
   articlesCardsRouter(app);
   articlesTableRouter(app);
@@ -111,12 +117,6 @@ module.exports = (app) => {
   app.get("/api/admin/user/1", (_req, res) =>
     res.json({
       name: "Тестовый пользователь",
-    }),
-  );
-
-  app.post("/api/admin/user/update", (req, res) =>
-    res.json({
-      name: "Обновленный пользователь",
     }),
   );
 };
