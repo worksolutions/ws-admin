@@ -4,6 +4,10 @@ const path = require("path");
 
 const API_HOST = process.env.DEV_API_HOST;
 
+function prepareUrl(url) {
+  return url.startsWith("http") ? url : API_HOST + url;
+}
+
 exports.error = function (msg, errors = {}) {
   return {
     success: false,
@@ -12,9 +16,7 @@ exports.error = function (msg, errors = {}) {
   };
 };
 
-exports.prepareUrl = function (url) {
-  return url.startsWith("http") ? url : API_HOST + url;
-};
+exports.prepareUrl = prepareUrl;
 
 // eslint-disable-next-line max-params
 exports.makeProxy = function (
@@ -85,4 +87,18 @@ exports.removeConfigCache = function () {
     if (!key.includes(fakeConfigFolder)) return;
     delete require.cache[key];
   });
+};
+
+exports.prepareUserProfileToFront = function ({ user }) {
+  if (!user.image) return;
+  const imagePath = prepareUrl(user.image.path);
+
+  user.firstName = user.name;
+  user.blocked = !user.active;
+  user.avatar = imagePath;
+  user.image = { ...user.image, path: imagePath };
+  user.name = `${user.name} ${user.surname}`;
+  user.postName = user.position;
+  user.customFields = [{ title: "Должность", type: "text", options: { value: user.postName } }];
+  return user;
 };

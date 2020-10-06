@@ -8,15 +8,11 @@ import { child, flex, flexColumn, flexShrink, horizontalPadding, marginBottom, m
 
 import { FieldListComponentInterface } from "./types";
 import FieldItemElementRenderer from "./Elements";
+import { useAppContext } from "modules/context/hooks/useAppContext";
 
 function HorizontalFieldsList({ options, styles }: Omit<FieldListComponentInterface, "useTitleWidthCalculation">) {
   return (
-    <LayoutGrid
-      marginBetweenElements={16}
-      eachChildStyles={marginTop(16)}
-      minWidth={242}
-      styles={[horizontalPadding(12), styles]}
-    >
+    <LayoutGrid marginBetweenElements={16} eachChildStyles={marginTop(16)} styles={[horizontalPadding(12), styles]}>
       {options!.fields.map((field, key) => (
         <Wrapper key={key} styles={[flex, flexColumn, child([marginTop(12)], ".modifier")]}>
           {field.title && (
