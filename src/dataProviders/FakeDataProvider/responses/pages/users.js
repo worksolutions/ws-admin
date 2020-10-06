@@ -215,47 +215,6 @@ module.exports = {
                     },
                   },
                 },
-                {
-                  type: "edit:Password",
-                  options: {
-                    inputOptions: {
-                      width: "full-width",
-                      size: "large",
-                      placeholder: "Текущий пароль",
-                      valueContext: `screen:temp-data.user.old-password`,
-                      withoutConfirmation: true,
-                      hideInfoBar: true,
-                    },
-                    actions: {
-                      valueChange: {
-                        type: "update-context",
-                        options: { context: `screen:temp-data.user.old-password` },
-                      },
-                    },
-                  },
-                },
-                {
-                  type: "edit:Password",
-                  options: {
-                    inputOptions: {
-                      width: "full-width",
-                      size: "large",
-                      placeholder: "Новый пароль",
-                      valueContext: `screen:temp-data.user.password`,
-                      confirmationContext: `screen:temp-data.user.passwordConfirmation`,
-                    },
-                    actions: {
-                      valueChange: {
-                        type: "update-context",
-                        options: { context: `screen:temp-data.user.password` },
-                      },
-                      confirmationChange: {
-                        type: "update-context",
-                        options: { context: `screen:temp-data.user.passwordConfirmation` },
-                      },
-                    },
-                  },
-                },
               ],
             },
           },
