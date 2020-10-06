@@ -679,7 +679,7 @@ module.exports = function (context, getActions) {
                   },
                   {
                     type: "append-context",
-                    options: { context: `${tempContext}.categories` },
+                    options: { contextPath: `${tempContext}.categories` },
                   },
                   {
                     type: "close-modal",
@@ -833,7 +833,7 @@ module.exports = function (context, getActions) {
                   },
                   {
                     type: "append-context",
-                    options: { context: `${tempContext}.users` },
+                    options: { contextPath: `${tempContext}.users` },
                   },
                   {
                     type: "close-modal",
@@ -899,7 +899,7 @@ module.exports = function (context, getActions) {
                   {
                     type: "append-context",
                     options: {
-                      context: `${context}.content`,
+                      contextPath: `${context}.content`,
                     },
                   },
                   {

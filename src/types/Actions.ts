@@ -35,7 +35,7 @@ export type RawActionOptions = {
     context: string;
   };
   [ActionType.APPEND_CONTEXT]: {
-    context: string;
+    contextPath: string;
   };
   [ActionType.OPEN_MODAL]: {
     name: string;

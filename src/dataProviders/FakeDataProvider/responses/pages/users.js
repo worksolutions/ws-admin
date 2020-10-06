@@ -403,7 +403,7 @@ module.exports = {
                 },
                 {
                   type: "append-context",
-                  options: { context: "screen.users.list", takeIncomeDataFromPreviousAction: true },
+                  options: { contextPath: "screen.users.list", takeIncomeDataFromPreviousAction: true },
                 },
                 {
                   type: "close-modal",
