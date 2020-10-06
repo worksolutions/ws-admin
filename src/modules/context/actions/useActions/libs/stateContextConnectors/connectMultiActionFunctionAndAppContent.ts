@@ -27,10 +27,10 @@ export const connectMultiActionFunctionAndAppContext = (
     loadingContainer.clearErrors();
     loadingContainer.startLoading();
     return new Promise(async (resolve, reject) => {
-      let previousActionOutput: any = null;
+      let previousActionOutput = inputData;
       for (let i = 0; i < patchedActions.length; i++) {
         try {
-          previousActionOutput = await patchedActions[i].run(inputData, previousActionOutput);
+          previousActionOutput = await patchedActions[i].run(previousActionOutput, inputData);
         } catch (e) {
           reject(e);
           return;

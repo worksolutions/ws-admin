@@ -1,13 +1,14 @@
-import { flatten, hasPath, is, isNil, path } from "ramda";
+import { flatten, hasPath, isNil, path } from "ramda";
 
 import { splitByPoint } from "libs/path";
+import { isPureObject, isString } from "libs/is";
 
 import { getContextTypeAndPathByParam } from "./contextParamParser";
 import { AppContextInterface } from "./hooks/useAppContext";
 
 export function insertContext(data: any, appContext: AppContextInterface["context"], localContext = {}) {
   const resultContext = Object.assign({}, appContext, { local: localContext });
-  if (is(Object, data)) {
+  if (isPureObject(data)) {
     const enhancedFields = Object.entries(data).map(([key, value]) => ({
       key,
       data: insertContextData(JSON.stringify(value), resultContext),
@@ -23,7 +24,7 @@ export function insertContext(data: any, appContext: AppContextInterface["contex
     };
   }
 
-  if (is(String, data)) {
+  if (isString(data)) {
     return insertContextData(data, resultContext);
   }
 

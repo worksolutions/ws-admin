@@ -3,7 +3,7 @@ import { BaseError } from "libs/BaseError";
 
 export interface ActionInputDataInterface extends WithActionEventEmitterInterface {
   inputData: any;
-  previousActionOutput?: any;
+  originalInputData: any;
 }
 
 export type ActionEventEmitterEvents = { DISCARD: null; PROGRESS: number; ERROR: BaseError };

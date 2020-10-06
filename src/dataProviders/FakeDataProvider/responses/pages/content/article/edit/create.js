@@ -24,7 +24,7 @@ module.exports = {
             {
               type: "redirect",
               options: {
-                reference: "/content/articles/{{local:previousAction.id}}/edit",
+                reference: "/content/articles/{{local:inputData.id}}/edit",
               },
             },
           ],

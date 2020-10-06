@@ -73,7 +73,7 @@ export const actionFunctionsByActionType = {
     appContext: AppContextInterface,
     { options }: RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>,
   ) => (actionInputData: ActionInputDataInterface) => {
-    return modifyOutputDataContext(appContext, options);
+    return modifyOutputDataContext(appContext, options, actionInputData);
   },
 
   [ActionType.FORCE_DATA_SOURCE_RELOAD]: (
