@@ -23,6 +23,9 @@ export interface InputOptionsInterface {
   valueContext: string;
   confirmationContext: string;
   size?: InputSize;
+  placeholder?: string;
+  hideInfoBar?: boolean;
+  withoutConfirmation?: boolean;
 }
 
 type ActionPasswordInterface = BlockInterface<InputOptionsInterface, "valueChange" | "confirmationChange"> & {
@@ -66,7 +69,7 @@ function PasswordAction({ actions, options, styles }: ActionPasswordInterface) {
           outerStyles={fullWidth}
           size={options?.size}
           value={value || ""}
-          placeholder="Пароль"
+          placeholder={options?.placeholder || "Пароль"}
           debounce={options?.debounce || 1}
           disabled={disabled}
           error={!!error}
@@ -74,22 +77,24 @@ function PasswordAction({ actions, options, styles }: ActionPasswordInterface) {
           type="password"
           onChange={setValue}
         />
-        <InfoBar password={value} />
+        {!options?.hideInfoBar && value.length !== 0 && <InfoBar password={value} />}
       </Wrapper>
-      <Wrapper styles={inputWidthStyle}>
-        <Input
-          outerStyles={fullWidth}
-          size={options?.size}
-          value={confirmation}
-          placeholder="Подтвердите пароль"
-          debounce={100}
-          disabled={confirmationDisabled}
-          error={!!confirmationError}
-          tip={confirmationError}
-          type="password"
-          onChange={setConfirmation}
-        />
-      </Wrapper>
+      {!options?.withoutConfirmation && (
+        <Wrapper styles={inputWidthStyle}>
+          <Input
+            outerStyles={fullWidth}
+            size={options?.size}
+            value={confirmation}
+            placeholder="Подтвердите пароль"
+            debounce={100}
+            disabled={confirmationDisabled}
+            error={!!confirmationError}
+            tip={confirmationError}
+            type="password"
+            onChange={setConfirmation}
+          />
+        </Wrapper>
+      )}
     </Wrapper>
   );
 }

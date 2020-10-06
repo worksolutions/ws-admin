@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 module.exports = {
   type: "Screen",
   options: {
@@ -22,79 +23,85 @@ module.exports = {
           },
         },
         mainContent: {
-          type: "DataView/FormattedData",
+          type: "ContextInitializer",
           options: {
-            id: "users",
-            tableView: {
+            static: [{ path: "screen:temp-data", value: {} }],
+            block: {
+              type: "DataView/FormattedData",
               options: {
-                selectable: false,
-                columns: [
-                  {
-                    title: "Имя",
-                    field: "user",
-                    type: "USER",
-                    sortable: false,
+                id: "users",
+                tableView: {
+                  options: {
+                    selectable: false,
+                    columns: [
+                      {
+                        title: "Имя",
+                        field: "user",
+                        type: "USER",
+                        sortable: false,
+                      },
+                      {
+                        title: "Должность",
+                        field: "position",
+                        type: "STRING",
+                        sortable: false,
+                      },
+                      {
+                        title: "E-mail",
+                        field: "email",
+                        type: "STRING",
+                        sortable: false,
+                      },
+                      {
+                        title: "Статус",
+                        field: "status",
+                        type: "STRING",
+                        sortable: false,
+                      },
+                      {
+                        title: "",
+                        field: "actions",
+                        type: "ACTIONS",
+                        sortable: false,
+                      },
+                    ],
+                    sortingOptions: {
+                      initialValue: "=screen:users.sorting",
+                    },
                   },
-                  {
-                    title: "Должность",
-                    field: "position",
-                    type: "STRING",
-                    sortable: false,
+                  dataSource: {
+                    type: "api:request",
+                    context: "screen:users",
+                    options: {
+                      reference: "/users",
+                      method: "get",
+                      body: {
+                        page: "=screen:users.pagination.page",
+                        perPage: "=screen:users.pagination.perPage",
+                      },
+                    },
                   },
-                  {
-                    title: "E-mail",
-                    field: "email",
-                    type: "STRING",
-                    sortable: false,
-                  },
-                  {
-                    title: "Статус",
-                    field: "status",
-                    type: "STRING",
-                    sortable: false,
-                  },
-                  {
-                    title: "",
-                    field: "actions",
-                    type: "ACTIONS",
-                    sortable: false,
-                  },
-                ],
-                sortingOptions: {
-                  initialValue: "=screen:users.sorting",
                 },
-              },
-              dataSource: {
-                type: "api:request",
-                context: "screen:users",
-                options: {
-                  reference: "/users",
-                  method: "get",
-                  body: {
-                    page: "=screen:users.pagination.page",
-                    perPage: "=screen:users.pagination.perPage",
+                paginationView: {
+                  options: {
+                    paginationItems: [8, 16, 32],
+                  },
+                  dataSource: {
+                    type: "context",
+                    options: {
+                      key: "screen:users.pagination",
+                    },
+                  },
+                  actions: {
+                    change: {
+                      type: "update-context",
+                      options: { context: "screen:users.pagination" },
+                    },
                   },
                 },
+                showMode: "table",
               },
             },
-            paginationView: {
-              options: {
-                paginationItems: [8, 16, 32],
-              },
-              dataSource: {
-                type: "context",
-                options: {
-                  key: "screen:users.pagination",
-                },
-              },
-              actions: {
-                change: {
-                  type: "update-context",
-                  options: { context: "screen:users.pagination" },
-                },
-              },
-            },
-            showMode: "table",
           },
         },
       },
@@ -107,18 +114,144 @@ module.exports = {
               mode: "vertical",
               fields: [
                 {
+                  type: "edit:Avatar",
+                  options: {
+                    imageOptions: {
+                      aspectRatio: 1,
+                      context: `screen:temp-data.user.image`,
+                    },
+                    actions: {
+                      upload: {
+                        type: "api:uploadFile",
+                        options: {
+                          reference: "/file_storage/store",
+                        },
+                      },
+                    },
+                  },
+                },
+                {
                   type: "edit:Text",
                   options: {
                     inputOptions: {
                       width: "full-width",
                       size: "large",
                       placeholder: "Имя",
-                      context: `=screen:users.list{{userId}}.user.name`,
+                      context: `screen:temp-data.user.name`,
                     },
                     actions: {
                       change: {
                         type: "update-context",
-                        options: { context: `screen:newCategory.title` },
+                        options: { context: `screen:temp-data.user.name` },
+                      },
+                    },
+                  },
+                },
+                {
+                  type: "edit:Text",
+                  options: {
+                    inputOptions: {
+                      width: "full-width",
+                      size: "large",
+                      placeholder: "Фамилия",
+                      context: `screen:temp-data.user.surname`,
+                    },
+                    actions: {
+                      change: {
+                        type: "update-context",
+                        options: { context: `screen:temp-data.user.surname` },
+                      },
+                    },
+                  },
+                },
+                {
+                  type: "edit:Text",
+                  options: {
+                    inputOptions: {
+                      width: "full-width",
+                      size: "large",
+                      placeholder: "Должность",
+                      context: `screen:temp-data.user.position`,
+                    },
+                    actions: {
+                      change: {
+                        type: "update-context",
+                        options: { context: `screen:temp-data.user.position` },
+                      },
+                    },
+                  },
+                },
+                {
+                  type: "edit:Text",
+                  options: {
+                    inputOptions: {
+                      width: "full-width",
+                      size: "large",
+                      placeholder: "E-mail",
+                      context: `screen:temp-data.user.email`,
+                    },
+                    actions: {
+                      change: {
+                        type: "update-context",
+                        options: { context: `screen:temp-data.user.email` },
+                      },
+                    },
+                  },
+                },
+                {
+                  type: "edit:Checkbox",
+                  options: {
+                    checkboxOptions: {
+                      width: "full-width",
+                      size: "large",
+                      text: "Заблокировать",
+                      context: `screen:temp-data.user.blocked`,
+                    },
+                    actions: {
+                      change: {
+                        type: "update-context",
+                        options: { context: "screen:temp-data.user.blocked" },
+                      },
+                    },
+                  },
+                },
+                {
+                  type: "edit:Password",
+                  options: {
+                    inputOptions: {
+                      width: "full-width",
+                      size: "large",
+                      placeholder: "Текущий пароль",
+                      valueContext: `screen:temp-data.user.old-password`,
+                      withoutConfirmation: true,
+                      hideInfoBar: true,
+                    },
+                    actions: {
+                      valueChange: {
+                        type: "update-context",
+                        options: { context: `screen:temp-data.user.old-password` },
+                      },
+                    },
+                  },
+                },
+                {
+                  type: "edit:Password",
+                  options: {
+                    inputOptions: {
+                      width: "full-width",
+                      size: "large",
+                      placeholder: "Новый пароль",
+                      valueContext: `screen:temp-data.user.password`,
+                      confirmationContext: `screen:temp-data.user.passwordConfirmation`,
+                    },
+                    actions: {
+                      valueChange: {
+                        type: "update-context",
+                        options: { context: `screen:temp-data.user.password` },
+                      },
+                      confirmationChange: {
+                        type: "update-context",
+                        options: { context: `screen:temp-data.user.passwordConfirmation` },
                       },
                     },
                   },
@@ -128,9 +261,27 @@ module.exports = {
           },
           actionBlock: {
             type: "Actions/Button",
-            options: { name: "Сохранить", size: "LARGE", context: `screen:newCategory.action` },
+            options: { name: "Сохранить", size: "LARGE" },
             actions: {
               click: [
+                {
+                  type: "api:request",
+                  options: {
+                    reference: "/users/update",
+                    method: "post",
+                    body: {
+                      id: "=screen:temp-data.user.id",
+                      name: "=screen:temp-data.user.name",
+                      surname: "=screen:temp-data.user.surname",
+                      email: "=screen:temp-data.user.email",
+                      position: "=screen:temp-data.user.position",
+                      password: "=screen:temp-data.user.password",
+                      password_confirmation: "=screen:temp-data.user.passwordConfirmation",
+                      imageId: "=screen:temp-data.user.image.id",
+                      blocked: "=screen:temp-data.user.blocked",
+                    },
+                  },
+                },
                 {
                   type: "close-modal",
                 },
@@ -277,7 +428,7 @@ module.exports = {
                       password: "=screen:newUser.password",
                       password_confirmation: "=screen:newUser.passwordConfirmation",
                       imageId: "=screen:newUser.avatar.id",
-                      active: "1",
+                      blocked: "0",
                     },
                   },
                 },

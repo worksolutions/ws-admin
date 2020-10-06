@@ -1,4 +1,5 @@
 const { makeProxy, prepareUrl } = require("../../libs");
+const { assoc } = require("ramda");
 
 module.exports = (app) => {
   makeProxy({ realServerUrl: "/api/users", expressMethodHandlerName: "get", handleUrl: "/api/users" }, app, {
@@ -21,6 +22,14 @@ module.exports = (app) => {
               iconColor: "gray-blue/07",
               action: [
                 {
+                  type: "api:request",
+                  options: {
+                    reference: `/users/${user.id}`,
+                    method: "get",
+                    saveToContext: "screen:temp-data",
+                  },
+                },
+                {
                   type: "open-modal",
                   options: {
                     name: "edit-user-profile",
@@ -34,6 +43,21 @@ module.exports = (app) => {
       };
     },
   });
+  makeProxy(
+    {
+      realServerUrl: (req) => "/api/users/" + req.params.userId,
+      expressMethodHandlerName: "get",
+      handleUrl: "/api/users/:userId",
+    },
+    app,
+    {
+      modifyResponse: ({ user: { active, ...userData } }) => {
+        const user = { ...userData, blocked: !active };
+        if (!user.image) return { user };
+        return { user: assoc("image", assoc("path", prepareUrl(user.image.path), user.image), user) };
+      },
+    },
+  );
   makeProxy({ realServerUrl: "/api/users", expressMethodHandlerName: "get", handleUrl: "/api/users-list" }, app, {
     modifyResponse: ({ data }) => {
       return data.map((user) => ({
@@ -41,6 +65,7 @@ module.exports = (app) => {
         title: user.name + " " + user.surname,
         leftContent: user.image ? prepareUrl(user.image.path) : null,
         subTitle: `${user.position} • ${user.email}`,
+        blocked: !user.active,
       }));
     },
   });
@@ -53,7 +78,23 @@ module.exports = (app) => {
         title: user.name + " " + user.surname,
         leftContent: user.image ? prepareUrl(user.image.path) : null,
         subTitle: `${user.position} • ${user.email}`,
+        blocked: !user.active,
       }),
+    },
+  );
+  makeProxy(
+    { realServerUrl: "/api/users/update", expressMethodHandlerName: "post", handleUrl: "/api/users/update" },
+    app,
+    {
+      modifyResponse: ({ user: { active, ...userData } }) => ({
+        ...userData,
+        blocked: !active,
+      }),
+      modifyRequest: ({ requestParams: { data } }) => {
+        const resultData = { ...data, active: !data.blocked };
+        delete resultData.blocked;
+        return { data: resultData };
+      },
     },
   );
 };

@@ -887,7 +887,7 @@ module.exports = function (context, getActions) {
                     password: "=screen:newUser.password",
                     password_confirmation: "=screen:newUser.passwordConfirmation",
                     imageId: "=screen:newUser.avatar.id",
-                    active: "1",
+                    blocked: "0",
                   },
                 },
               },

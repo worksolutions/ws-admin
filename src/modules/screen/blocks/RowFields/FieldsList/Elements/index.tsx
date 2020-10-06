@@ -14,6 +14,7 @@ import EditDropdown from "./elementsForTypes/edit/Dropdown";
 import EditTokens from "./elementsForTypes/edit/Tokens";
 import EditImage from "./elementsForTypes/edit/Image";
 import EditAvatar from "./elementsForTypes/edit/Avatar";
+import EditCheckbox from "./elementsForTypes/edit/Checkbox";
 import { ElementAndTypeMatchPropsInterface } from "./elementsForTypes/types";
 
 interface FieldItemElementRendererInterface {
@@ -35,6 +36,7 @@ const matchesFieldItemAndType: Record<FieldListItemType, (props: ElementAndTypeM
   "edit:Tokens": EditTokens,
   "edit:Image": EditImage,
   "edit:Avatar": EditAvatar,
+  "edit:Checkbox": EditCheckbox,
 };
 
 function FieldItemElementRenderer({ options, styles, type }: FieldItemElementRendererInterface) {
