@@ -41,7 +41,6 @@ function CardsViewPresenter({ list, imageConfig }: { list: CardsViewDataSource; 
     <LayoutGrid
       eachChildStyles={marginBottom(16)}
       marginBetweenElements={16}
-      minWidth={242}
       styles={[horizontalPadding(16), ai(Aligns.STRETCH)]}
     >
       {list.map((card, index) => {

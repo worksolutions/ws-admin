@@ -18,6 +18,7 @@ export enum FieldListItemType {
   "edit:Tokens" = "edit:Tokens",
   "edit:Image" = "edit:Image",
   "edit:Avatar" = "edit:Avatar",
+  "edit:Checkbox" = "edit:Checkbox",
 }
 
 export enum FieldListItemModifierType {

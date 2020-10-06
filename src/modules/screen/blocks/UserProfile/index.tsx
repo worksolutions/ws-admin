@@ -11,7 +11,11 @@ import { ai, Aligns, border, borderRadius, flex, jc, marginRight, verticalPaddin
 
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 import FieldsList from "modules/screen/blocks/RowFields/FieldsList";
-import { FieldListItemInterface, FieldListItemType } from "modules/screen/blocks/RowFields/FieldsList/types";
+import {
+  FieldListItemInterface,
+  FieldListItemType,
+  FieldListItemMode,
+} from "modules/screen/blocks/RowFields/FieldsList/types";
 
 import { BlockInterface, UserInterface } from "state/globalState";
 
@@ -38,6 +42,7 @@ function UserProfile({ dataSource }: BlockInterface<{ value: string }>) {
             <FieldsList
               useTitleWidthCalculation={false}
               options={{
+                mode: FieldListItemMode.VERTICAL,
                 fields: [
                   {
                     title: "E-mail",

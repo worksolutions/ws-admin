@@ -36,7 +36,7 @@ function renderButtonAction({ actions }: TableActionPropsInterface) {
       type={ButtonType.ICON}
       size={ButtonSize.SMALL}
       iconLeft={action.icon}
-      onClick={() => console.log("click")}
+      onClick={() => action.handler()}
     />
   );
 }
