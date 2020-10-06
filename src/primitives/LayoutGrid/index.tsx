@@ -1,18 +1,7 @@
 import React from "react";
 import { useMeasure } from "react-use";
 
-import {
-  child,
-  flex,
-  flexValue,
-  flexWrap,
-  marginBottom,
-  marginLeft,
-  marginRight,
-  marginTop,
-  nthChild,
-  width,
-} from "libs/styles";
+import { child, flex, flexValue, flexWrap, marginLeft, marginRight, nthChild, width } from "libs/styles";
 
 import Wrapper from "../Wrapper";
 
@@ -33,7 +22,6 @@ interface LayoutGridInterface {
   className?: string;
   styles?: any;
   eachChildStyles?: any;
-  minWidth: number;
   marginBetweenElements: number;
   children: React.ReactNode[];
 }
