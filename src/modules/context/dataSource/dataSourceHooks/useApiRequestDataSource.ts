@@ -28,14 +28,14 @@ export default function useApiRequestDataSource<RESULT = any>(
   useEffect(() => () => disposers.forEach((disposer) => disposer()), []);
 
   function runDataSourceContextObserver() {
-    const data = `=${dataSource.contextPath}`;
-    const { dependencies } = insertContext(data, context);
+    const contextPath = `=${dataSource.contextPath}`;
+    const { dependencies } = insertContext(contextPath, context);
 
     dependencies.forEach((dependency) => {
       const disposer = makeOnDependencyChangeUpdater(
         context,
         () => {
-          localStore.data = insertContext(data, context).value;
+          localStore.data = insertContext(contextPath, context).value;
         },
         true,
       )(dependency);
