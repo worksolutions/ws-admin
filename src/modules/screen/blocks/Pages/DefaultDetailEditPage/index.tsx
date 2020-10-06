@@ -1,5 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
 
 import Loading from "components/LoadingContainer/Loading";
 
@@ -21,7 +22,6 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: 
   const resultActions = useEditActions(options!.saveOptions.context, actions!);
   const { data, initialData, loadingContainer, updateInitial } = useDataSource(dataSource!);
   const touched = useFormTouched(data, initialData);
-
   const save = useDetailSaver(resultActions, () => updateInitial(data));
   const checkRequiredFields = useDetailRequiredFieldsChecker(options!.saveOptions.requiredContextFields);
 

@@ -23,11 +23,11 @@ export const connectActionFunctionAndAppContext = (
     globalEventBus.emit("ADD_TOAST", { error: true, text: error.getErrorOrMessage() });
   });
 
-  const run = (inputData: any, previousActionOutput?: any) => {
+  const run = (inputData: any, originalInputData?: any) => {
     loadingContainer.clearErrors();
     loadingContainer.startLoading();
     eventEmitter.emit("PROGRESS", 0);
-    return actionFunction({ inputData, previousActionOutput, eventEmitter })
+    return actionFunction({ inputData, originalInputData, eventEmitter })
       .then((actionOutputData) => {
         loadingContainer.stopLoading();
         return actionOutputData;

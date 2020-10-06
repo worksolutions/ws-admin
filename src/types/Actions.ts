@@ -21,7 +21,6 @@ export type RawActionOptions = {
     method: METHODS;
     body?: Record<string, number | string>;
     saveToContext?: string;
-    takeIncomeDataFromPreviousAction?: boolean;
   };
   [ActionType.API_UPLOAD_FILE]: {
     reference: string;
@@ -33,12 +32,10 @@ export type RawActionOptions = {
     delay?: number;
   };
   [ActionType.UPDATE_CONTEXT]: {
-    takeIncomeDataFromPreviousAction?: boolean;
     context: string;
   };
   [ActionType.APPEND_CONTEXT]: {
     context: string;
-    takeIncomeDataFromPreviousAction?: boolean;
   };
   [ActionType.OPEN_MODAL]: {
     name: string;

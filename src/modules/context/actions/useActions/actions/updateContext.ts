@@ -8,13 +8,11 @@ import { ActionType, RawActionOptions } from "types/Actions";
 export default async function updateContext(
   appContext: AppContextInterface,
   actionOptions: RawActionOptions[ActionType.UPDATE_CONTEXT],
-  { inputData: inputDataProp, previousActionOutput }: ActionInputDataInterface,
+  { inputData, originalInputData }: ActionInputDataInterface,
 ): Promise<any> {
-  const inputData = actionOptions.takeIncomeDataFromPreviousAction ? previousActionOutput : inputDataProp;
-
   const path = insertContext(actionOptions.context, appContext.context, {
-    previousActionOutput,
-    inputData: inputDataProp,
+    inputData,
+    originalInputData,
   }).value;
 
   appContext.updateState({ path, data: inputData });

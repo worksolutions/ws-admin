@@ -41,6 +41,7 @@ export default function useApiRequestDataSource<RESULT = any>(
       disposers.push(disposer);
     });
   }
+
   const localStore = useLocalStore<DataSourceResultInterface<RESULT>>(() => {
     if (dataSource.context) runDataSourceContextObserver();
 
