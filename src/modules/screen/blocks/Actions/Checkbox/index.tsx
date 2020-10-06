@@ -11,7 +11,6 @@ import { BlockInterface } from "state/globalState";
 
 function ActionCheckbox({ actions, options }: BlockInterface<{ context?: string; text: string }, "change">) {
   if (!actions?.change) return null;
-  if (!options) return null;
   if (!options?.context) return null;
 
   const appContext = useAppContext();
