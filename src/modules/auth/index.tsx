@@ -22,7 +22,7 @@ function AuthModule({ children }: { children: ReactNode }) {
   const state = globalState.systemStateContainer.state;
 
   const { loadingContainer, reload } = useDataSource<{ currentUser: UserInterface }>(
-    assoc("context", "currentUser", state.userAuthenticate.dataSource!),
+    assoc("contextPath", "currentUser", state.userAuthenticate.dataSource!),
   );
 
   useEffectSkipFirst(() => {
