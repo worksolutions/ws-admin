@@ -44,13 +44,11 @@ function getCheckboxStyles({ isChecked = false, error = false }) {
   ];
 }
 
-function Checkbox({ text, isChecked, error, onChange }: CheckboxProprs) {
+function Checkbox({ text, isChecked, error, onChange: onChangeProp }: CheckboxProprs) {
   const styles = React.useMemo(() => getCheckboxStyles({ isChecked, error }), [isChecked, error]);
+  const onChange = () => onChangeProp(!isChecked);
   return (
-    <Wrapper
-      styles={[fullWidth, height(24), padding(4), flex, jc(Aligns.START), ai(Aligns.CENTER)]}
-      onClick={() => onChange(!isChecked)}
-    >
+    <Wrapper styles={[fullWidth, height(24), padding(4), flex, jc(Aligns.START), ai(Aligns.CENTER)]}>
       <Wrapper
         as="button"
         styles={[
@@ -65,10 +63,13 @@ function Checkbox({ text, isChecked, error, onChange }: CheckboxProprs) {
           focus(boxShadow([0, 0, 0, 2, "blue/04"])),
           styles,
         ]}
+        onClick={onChange}
       >
         {isChecked && <Icon width={16} height={16} icon="check" color="white" />}
       </Wrapper>
-      <Typography styles={[marginLeft(12), cursor("default")]}>{text}</Typography>
+      <Typography styles={[marginLeft(12), cursor("default")]} onClick={onChange}>
+        {text}
+      </Typography>
     </Wrapper>
   );
 }
