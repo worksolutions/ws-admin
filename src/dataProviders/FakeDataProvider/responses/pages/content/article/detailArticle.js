@@ -13,8 +13,9 @@ module.exports = {
           dataSource: {
             type: "static",
             options: [
-              { badgeColor: "orange/05", code: "UN_PUBLISHED", title: "Не опубликовано" },
+              { badgeColor: "gray-blue/05", code: "UN_PUBLISHED", title: "Не опубликовано" },
               { badgeColor: "green/05", code: "PUBLISHED", title: "Опубликовано" },
+              { badgeColor: "orange/05", code: "DRAFT", title: "Черновик" },
             ],
           },
           options: {

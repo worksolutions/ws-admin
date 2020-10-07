@@ -3,7 +3,7 @@ const moment = require("moment");
 
 const { makeProxy } = require("../../libs");
 const { prepareArticleToFront } = require("../article/libs");
-const matchStatusAndCode = require("./matchStatusAndCode");
+const matchStatusAndCode = require("./matches/matchStatusAndCode");
 
 module.exports = (app) => {
   makeProxy(

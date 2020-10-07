@@ -149,7 +149,7 @@
                                   - 
                                     code: "unpublished"
                                     title: "Не опубликовано"
-                              actions: 
+                              actions:
                                 change: 
                                   type: "update-context"
                                   context: "screen:articles.filter.status"
