@@ -26,7 +26,7 @@ type DataSourceOptions = {
 export interface DataSourceInterface<T extends DataSourceType> {
   type: T;
   options: DataSourceOptions[T];
-  context?: string;
+  contextPath?: string;
 }
 
 export type ContainsDataSourceInterface<DataSource> = {

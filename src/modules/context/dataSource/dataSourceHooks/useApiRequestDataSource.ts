@@ -28,13 +28,14 @@ export default function useApiRequestDataSource<RESULT = any>(
   useEffect(() => () => disposers.forEach((disposer) => disposer()), []);
 
   function runDataSourceContextObserver() {
-    const { dependencies } = insertContext(`=${dataSource.context}`, context);
+    const contextPath = `=${dataSource.contextPath}`;
+    const { dependencies } = insertContext(contextPath, context);
 
     dependencies.forEach((dependency) => {
       const disposer = makeOnDependencyChangeUpdater(
         context,
         () => {
-          localStore.data = insertContext(`=${dataSource.context}`, context).value;
+          localStore.data = insertContext(contextPath, context).value;
         },
         true,
       )(dependency);
@@ -43,7 +44,7 @@ export default function useApiRequestDataSource<RESULT = any>(
   }
 
   const localStore = useLocalStore<DataSourceResultInterface<RESULT>>(() => {
-    if (dataSource.context) runDataSourceContextObserver();
+    if (dataSource.contextPath) runDataSourceContextObserver();
 
     return {
       data: initialData,
@@ -70,8 +71,8 @@ export default function useApiRequestDataSource<RESULT = any>(
 
     if (isNil(data)) return;
 
-    if (dataSource.context) {
-      updateState({ path: dataSource.context, data });
+    if (dataSource.contextPath) {
+      updateState({ path: dataSource.contextPath, data });
     }
   }
 
@@ -80,9 +81,9 @@ export default function useApiRequestDataSource<RESULT = any>(
     localStore.loadingContainer.stopLoading();
     localStore.loadingContainer.setErrors(requestError.error.errors);
     localStore.loadingContainer.setDefaultError(requestError.error.message);
-    if (!dataSource.context) return;
+    if (!dataSource.contextPath) return;
     updateState({
-      path: dataSource.context + "_error",
+      path: dataSource.contextPath + "_error",
       data: requestError.error.message,
     });
   }

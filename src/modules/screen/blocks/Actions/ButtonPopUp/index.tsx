@@ -20,7 +20,6 @@ function ButtonPopUp({
   options,
   styles,
 }: BlockInterface<{
-  context: string;
   buttonOptions: { icon: Icons };
   listItems: (ListItemInterface<any> & { action: Record<string, AnyRawAction> })[];
 }> & {

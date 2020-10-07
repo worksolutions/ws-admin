@@ -16,7 +16,7 @@ import { BlockInterface } from "state/globalState";
 
 interface DateOptionsInterface {
   cleanable?: boolean;
-  context: string;
+  contextPath: string;
   hasCurrentDayButton: boolean;
   allowEmpty?: boolean;
   size?: InputSize;
@@ -36,7 +36,7 @@ function ActionDate({ options, actions, styles }: ActionDateInterface) {
     value,
     model: { disabled, error },
     setValue,
-  } = useStateContextModel(options!.context, appContext);
+  } = useStateContextModel(options!.contextPath, appContext);
 
   useEffectSkipFirst(() => {
     resultActions.change.run(value);

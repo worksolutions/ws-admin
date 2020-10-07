@@ -79,9 +79,9 @@ module.exports = function (context, getActions) {
                   type: "model-disabler",
                   enableTrigger: {
                     type: "if-context-true-value",
-                    context: `${context}.code-enableTransliteration`,
+                    contextPath: `${context}.code-enableTransliteration`,
                   },
-                  options: { context: `${context}.code` },
+                  options: { contextPath: `${context}.code` },
                 },
               },
               {
@@ -90,25 +90,25 @@ module.exports = function (context, getActions) {
                   type: "transliteration",
                   enableTrigger: {
                     type: "if-context-true-value",
-                    context: `${context}.code-enableTransliteration`,
+                    contextPath: `${context}.code-enableTransliteration`,
                   },
-                  options: { fromContext: `${context}.title`, toContext: `${context}.code` },
+                  options: { fromContextPath: `${context}.title`, toContextPath: `${context}.code` },
                 },
               },
               {
                 type: "Actions/Modifiers/ContextModifier",
                 options: {
                   type: "model-disabler",
-                  enableTrigger: { type: "if-context-true-value", context: `${context}.tagTitle-takeFromTitle` },
-                  options: { context: `${context}.tagTitle` },
+                  enableTrigger: { type: "if-context-true-value", contextPath: `${context}.tagTitle-takeFromTitle` },
+                  options: { contextPath: `${context}.tagTitle` },
                 },
               },
               {
                 type: "Actions/Modifiers/ContextModifier",
                 options: {
                   type: "copy-context",
-                  enableTrigger: { type: "if-context-true-value", context: `${context}.tagTitle-takeFromTitle` },
-                  options: { fromContext: `${context}.title`, toContext: `${context}.tagTitle` },
+                  enableTrigger: { type: "if-context-true-value", contextPath: `${context}.tagTitle-takeFromTitle` },
+                  options: { fromContextPath: `${context}.title`, toContextPath: `${context}.tagTitle` },
                 },
               },
               {
@@ -117,8 +117,8 @@ module.exports = function (context, getActions) {
                   type: "exclude-array-items-by-id-from-context",
                   enableTrigger: { type: "always" },
                   options: {
-                    fromContext: `${context}.relatedArticles`,
-                    toContext: `${relatedArticlesContext}.list`,
+                    fromContextPath: `${context}.relatedArticles`,
+                    toContextPath: `${relatedArticlesContext}.list`,
                   },
                 },
               },
@@ -128,9 +128,9 @@ module.exports = function (context, getActions) {
                   type: "transliteration",
                   enableTrigger: {
                     type: "if-context-true-value",
-                    context: `screen:newCategory.code-enableTransliteration`,
+                    contextPath: `screen:newCategory.code-enableTransliteration`,
                   },
-                  options: { fromContext: `screen:newCategory.title`, toContext: `screen:newCategory.code` },
+                  options: { fromContextPath: `screen:newCategory.title`, toContextPath: `screen:newCategory.code` },
                 },
               },
               {
@@ -139,9 +139,9 @@ module.exports = function (context, getActions) {
                   type: "model-disabler",
                   enableTrigger: {
                     type: "if-context-true-value",
-                    context: `screen:newCategory.code-enableTransliteration`,
+                    contextPath: `screen:newCategory.code-enableTransliteration`,
                   },
-                  options: { context: `screen:newCategory.code` },
+                  options: { contextPath: `screen:newCategory.code` },
                 },
               },
               {
@@ -151,9 +151,9 @@ module.exports = function (context, getActions) {
                   enableTrigger: {
                     type: "if-context-false-value",
                     mode: "or",
-                    context: [`screen:newCategory.title`, `screen:newCategory.code`],
+                    contextPath: [`screen:newCategory.title`, `screen:newCategory.code`],
                   },
-                  options: { context: `screen:newCategory.action` },
+                  options: { contextPath: `screen:newCategory.action` },
                 },
               },
               {
@@ -163,7 +163,7 @@ module.exports = function (context, getActions) {
                   enableTrigger: {
                     type: "if-context-false-value",
                     mode: "or",
-                    context: [
+                    contextPath: [
                       `screen:newUser.firstName`,
                       `screen:newUser.lastName`,
                       "screen:newUser.email",
@@ -172,7 +172,7 @@ module.exports = function (context, getActions) {
                       "screen:newUser.passwordConfirmation",
                     ],
                   },
-                  options: { context: `screen:newUser.action` },
+                  options: { contextPath: `screen:newUser.action` },
                 },
               },
               {
@@ -197,7 +197,7 @@ module.exports = function (context, getActions) {
                                     inputOptions: {
                                       width: "large",
                                       size: "large",
-                                      context: `${context}.title`,
+                                      contextPath: `${context}.title`,
                                     },
                                     actions: {
                                       change: {
@@ -215,7 +215,7 @@ module.exports = function (context, getActions) {
                                       width: "large",
                                       size: "large",
                                       multiline: true,
-                                      context: `${context}.announce`,
+                                      contextPath: `${context}.announce`,
                                     },
                                     actions: {
                                       change: {
@@ -232,7 +232,7 @@ module.exports = function (context, getActions) {
                                     dateOptions: {
                                       width: "large",
                                       size: "large",
-                                      context: `${context}.publishedAt`,
+                                      contextPath: `${context}.publishedAt`,
                                     },
                                     actions: {
                                       change: {
@@ -250,7 +250,7 @@ module.exports = function (context, getActions) {
                                     dropdownOptions: {
                                       width: "small",
                                       size: "large",
-                                      context: `${context}.category`,
+                                      contextPath: `${context}.category`,
                                       optionalActionButton: {
                                         title: "Добавить категорию",
                                         icon: "plus-big",
@@ -284,7 +284,7 @@ module.exports = function (context, getActions) {
                                     dropdownOptions: {
                                       width: "small",
                                       size: "large",
-                                      context: `${context}.author`,
+                                      contextPath: `${context}.author`,
                                       optionalActionButton: {
                                         title: "Добавить автора",
                                         icon: "plus-big",
@@ -329,12 +329,12 @@ module.exports = function (context, getActions) {
                                     inputOptions: {
                                       width: "large",
                                       size: "large",
-                                      context: `${context}.code`,
+                                      contextPath: `${context}.code`,
                                     },
                                     modifier: {
                                       type: "toggle",
                                       title: "Генерировать символьный код из названия",
-                                      context: `${context}.code-enableTransliteration`,
+                                      contextPath: `${context}.code-enableTransliteration`,
                                     },
                                     actions: {
                                       change: {
@@ -351,12 +351,12 @@ module.exports = function (context, getActions) {
                                     inputOptions: {
                                       width: "large",
                                       size: "large",
-                                      context: `${context}.tagTitle`,
+                                      contextPath: `${context}.tagTitle`,
                                     },
                                     modifier: {
                                       type: "toggle",
                                       title: "Заголовок из названия",
-                                      context: `${context}.tagTitle-takeFromTitle`,
+                                      contextPath: `${context}.tagTitle-takeFromTitle`,
                                     },
                                     actions: {
                                       change: {
@@ -374,7 +374,7 @@ module.exports = function (context, getActions) {
                                       width: "large",
                                       size: "large",
                                       multiline: true,
-                                      context: `${context}.tagDescription`,
+                                      contextPath: `${context}.tagDescription`,
                                     },
                                     actions: {
                                       change: {
@@ -390,7 +390,7 @@ module.exports = function (context, getActions) {
                                   options: {
                                     tokenOptions: {
                                       width: "large",
-                                      context: `${context}.keywords`,
+                                      contextPath: `${context}.keywords`,
                                     },
                                     actions: {
                                       change: {
@@ -414,7 +414,7 @@ module.exports = function (context, getActions) {
                                   options: {
                                     imageOptions: {
                                       aspectRatio: 1.6,
-                                      context: `${context}.announceImage`,
+                                      contextPath: `${context}.announceImage`,
                                     },
                                     actions: {
                                       change: {
@@ -436,7 +436,7 @@ module.exports = function (context, getActions) {
                                   options: {
                                     imageOptions: {
                                       aspectRatio: 1.6,
-                                      context: `${context}.contentImage`,
+                                      contextPath: `${context}.contentImage`,
                                     },
                                     actions: {
                                       change: {
@@ -458,7 +458,7 @@ module.exports = function (context, getActions) {
                                   options: {
                                     imageOptions: {
                                       aspectRatio: 1.6,
-                                      context: `${context}.background`,
+                                      contextPath: `${context}.background`,
                                     },
                                     actions: {
                                       upload: {
@@ -540,10 +540,10 @@ module.exports = function (context, getActions) {
                               block: {
                                 type: "Actions/PopupListSelector",
                                 options: {
-                                  context: relatedArticlesContext,
-                                  selectedItems: { context: `${context}.relatedArticles` },
+                                  contextPath: relatedArticlesContext,
+                                  selectedItems: { contextPath: `${context}.relatedArticles` },
                                   buttonOptions: { name: "Добавить статью", icon: "plus-big" },
-                                  searchInputOptions: { context: `${relatedArticlesContext}.search` },
+                                  searchInputOptions: { contextPath: `${relatedArticlesContext}.search` },
                                 },
                                 actions: {
                                   select: {
@@ -557,7 +557,7 @@ module.exports = function (context, getActions) {
                                 },
                                 dataSource: {
                                   type: "api:request",
-                                  context: relatedArticlesContext,
+                                  contextPath: relatedArticlesContext,
                                   options: {
                                     reference: "/articles/simple-list",
                                     method: "get",
@@ -626,7 +626,7 @@ module.exports = function (context, getActions) {
                         width: "full-width",
                         size: "large",
                         placeholder: "Название",
-                        context: `screen:newCategory.title`,
+                        contextPath: `screen:newCategory.title`,
                       },
                       actions: {
                         change: {
@@ -643,12 +643,12 @@ module.exports = function (context, getActions) {
                         width: "full-width",
                         size: "large",
                         placeholder: "Символьный код",
-                        context: `screen:newCategory.code`,
+                        contextPath: `screen:newCategory.code`,
                       },
                       modifier: {
                         type: "toggle",
                         title: "Генерировать символьный код из названия",
-                        context: `screen:newCategory.code-enableTransliteration`,
+                        contextPath: `screen:newCategory.code-enableTransliteration`,
                       },
                       actions: {
                         change: {
@@ -663,7 +663,7 @@ module.exports = function (context, getActions) {
             },
             actionBlock: {
               type: "Actions/Button",
-              options: { name: "Создать", size: "LARGE", context: `screen:newCategory.action` },
+              options: { name: "Создать", size: "LARGE", contextPath: `screen:newCategory.action` },
               actions: {
                 click: [
                   {
@@ -679,7 +679,7 @@ module.exports = function (context, getActions) {
                   },
                   {
                     type: "append-context",
-                    options: { context: `${tempContext}.categories` },
+                    options: { contextPath: `${tempContext}.categories` },
                   },
                   {
                     type: "close-modal",
@@ -703,7 +703,7 @@ module.exports = function (context, getActions) {
                         options: {
                           imageOptions: {
                             aspectRatio: 1,
-                            context: `screen:newUser.avatar`,
+                            contextPath: `screen:newUser.avatar`,
                           },
                           actions: {
                             upload: {
@@ -722,7 +722,7 @@ module.exports = function (context, getActions) {
                             width: "full-width",
                             size: "large",
                             placeholder: "Имя",
-                            context: `screen:newUser.firstName`,
+                            contextPath: `screen:newUser.firstName`,
                           },
                           actions: {
                             change: {
@@ -739,7 +739,7 @@ module.exports = function (context, getActions) {
                             width: "full-width",
                             size: "large",
                             placeholder: "Фамилия",
-                            context: `screen:newUser.lastName`,
+                            contextPath: `screen:newUser.lastName`,
                           },
                           actions: {
                             change: {
@@ -756,7 +756,7 @@ module.exports = function (context, getActions) {
                             width: "full-width",
                             size: "large",
                             placeholder: "Должность",
-                            context: `screen:newUser.position`,
+                            contextPath: `screen:newUser.position`,
                           },
                           actions: {
                             change: {
@@ -773,7 +773,7 @@ module.exports = function (context, getActions) {
                             width: "full-width",
                             size: "large",
                             placeholder: "E-mail",
-                            context: `screen:newUser.email`,
+                            contextPath: `screen:newUser.email`,
                           },
                           actions: {
                             change: {
@@ -789,8 +789,8 @@ module.exports = function (context, getActions) {
                           inputOptions: {
                             width: "full-width",
                             size: "large",
-                            valueContext: `screen:newUser.password`,
-                            confirmationContext: `screen:newUser.passwordConfirmation`,
+                            valueContextPath: `screen:newUser.password`,
+                            confirmationContextPath: `screen:newUser.passwordConfirmation`,
                           },
                           actions: {
                             valueChange: {
@@ -811,7 +811,7 @@ module.exports = function (context, getActions) {
             },
             actionBlock: {
               type: "Actions/Button",
-              options: { name: "Создать", size: "LARGE", context: `screen:newUser.action` },
+              options: { name: "Создать", size: "LARGE", contextPath: `screen:newUser.action` },
               actions: {
                 click: [
                   {
@@ -833,7 +833,7 @@ module.exports = function (context, getActions) {
                   },
                   {
                     type: "append-context",
-                    options: { context: `${tempContext}.users` },
+                    options: { contextPath: `${tempContext}.users` },
                   },
                   {
                     type: "close-modal",
@@ -855,9 +855,9 @@ module.exports = function (context, getActions) {
                 block: {
                   type: "Actions/ListSelector",
                   options: {
-                    context: `${tempContext}.editor.articles-link`,
-                    selectedItem: { context: `${tempContext}.editor.selected-article-link` },
-                    searchInputOptions: { context: `${tempContext}.editor.search` },
+                    contextPath: `${tempContext}.editor.articles-link`,
+                    selectedItem: { contextPath: `${tempContext}.editor.selected-article-link` },
+                    searchInputOptions: { contextPath: `${tempContext}.editor.search` },
                   },
                   actions: {
                     select: {
@@ -871,7 +871,7 @@ module.exports = function (context, getActions) {
                   },
                   dataSource: {
                     type: "api:request",
-                    context: `${tempContext}.editor.articles-link`,
+                    contextPath: `${tempContext}.editor.articles-link`,
                     options: {
                       reference: "/articles/simple-list",
                       method: "get",
@@ -899,7 +899,7 @@ module.exports = function (context, getActions) {
                   {
                     type: "append-context",
                     options: {
-                      context: `${context}.content`,
+                      contextPath: `${context}.content`,
                     },
                   },
                   {

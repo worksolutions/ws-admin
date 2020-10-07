@@ -10,9 +10,9 @@ import { useStateFromContext } from "modules/context/insertContext";
 
 import { FieldListItemModifierInterface } from "../../types";
 
-function ToggleModifier({ title, context }: FieldListItemModifierInterface) {
+function ToggleModifier({ title, contextPath }: FieldListItemModifierInterface) {
   const appContext = useAppContext();
-  const [stateValue, setStateValue] = useStateFromContext(context, appContext);
+  const [stateValue, setStateValue] = useStateFromContext(contextPath, appContext);
   return (
     <Toggle
       className="modifier"

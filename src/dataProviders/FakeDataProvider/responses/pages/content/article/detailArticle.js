@@ -29,7 +29,7 @@ module.exports = {
           reference: "/article/{{screen:articleId}}",
           method: "get",
         },
-        context: "screen:article",
+        contextPath: "screen:article",
       },
       slots: {
         headingAction: {

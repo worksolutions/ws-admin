@@ -23,7 +23,7 @@ export interface InputOptionsInterface {
   placeholder?: string;
   iconLeft?: Icons;
   debounce?: number;
-  context: string;
+  contextPath: string;
   size?: InputSize;
 }
 
@@ -41,7 +41,7 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputInterfac
     value,
     model: { disabled, error },
     setValue,
-  } = useStateContextModel(options!.context, appContext);
+  } = useStateContextModel(options!.contextPath, appContext);
 
   useEffectSkipFirst(() => {
     if (onChange) onChange(value);

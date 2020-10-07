@@ -71,7 +71,7 @@ module.exports = {
                   },
                   dataSource: {
                     type: "api:request",
-                    context: "screen:users",
+                    contextPath: "screen:users",
                     options: {
                       reference: "/users",
                       method: "get",
@@ -118,7 +118,7 @@ module.exports = {
                   options: {
                     imageOptions: {
                       aspectRatio: 1,
-                      context: `screen:temp-data.user.image`,
+                      contextPath: `screen:temp-data.user.image`,
                     },
                     actions: {
                       upload: {
@@ -137,7 +137,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "Имя",
-                      context: `screen:temp-data.user.name`,
+                      contextPath: `screen:temp-data.user.name`,
                     },
                     actions: {
                       change: {
@@ -154,7 +154,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "Фамилия",
-                      context: `screen:temp-data.user.surname`,
+                      contextPath: `screen:temp-data.user.surname`,
                     },
                     actions: {
                       change: {
@@ -171,7 +171,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "Должность",
-                      context: `screen:temp-data.user.position`,
+                      contextPath: `screen:temp-data.user.position`,
                     },
                     actions: {
                       change: {
@@ -188,7 +188,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "E-mail",
-                      context: `screen:temp-data.user.email`,
+                      contextPath: `screen:temp-data.user.email`,
                     },
                     actions: {
                       change: {
@@ -205,7 +205,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       text: "Заблокировать",
-                      context: `screen:temp-data.user.blocked`,
+                      contextPath: `screen:temp-data.user.blocked`,
                     },
                     actions: {
                       change: {
@@ -273,7 +273,7 @@ module.exports = {
                       options: {
                         imageOptions: {
                           aspectRatio: 1,
-                          context: `screen:newUser.avatar`,
+                          contextPath: `screen:newUser.avatar`,
                         },
                         actions: {
                           upload: {
@@ -292,7 +292,7 @@ module.exports = {
                           width: "full-width",
                           size: "large",
                           placeholder: "Имя",
-                          context: `screen:newUser.firstName`,
+                          contextPath: `screen:newUser.firstName`,
                         },
                         actions: {
                           change: {
@@ -309,7 +309,7 @@ module.exports = {
                           width: "full-width",
                           size: "large",
                           placeholder: "Фамилия",
-                          context: `screen:newUser.lastName`,
+                          contextPath: `screen:newUser.lastName`,
                         },
                         actions: {
                           change: {
@@ -326,7 +326,7 @@ module.exports = {
                           width: "full-width",
                           size: "large",
                           placeholder: "Должность",
-                          context: `screen:newUser.position`,
+                          contextPath: `screen:newUser.position`,
                         },
                         actions: {
                           change: {
@@ -343,7 +343,7 @@ module.exports = {
                           width: "full-width",
                           size: "large",
                           placeholder: "E-mail",
-                          context: `screen:newUser.email`,
+                          contextPath: `screen:newUser.email`,
                         },
                         actions: {
                           change: {
@@ -359,8 +359,8 @@ module.exports = {
                         inputOptions: {
                           width: "full-width",
                           size: "large",
-                          valueContext: `screen:newUser.password`,
-                          confirmationContext: `screen:newUser.passwordConfirmation`,
+                          valueContextPath: `screen:newUser.password`,
+                          confirmationContextPath: `screen:newUser.passwordConfirmation`,
                         },
                         actions: {
                           valueChange: {
@@ -381,7 +381,7 @@ module.exports = {
           },
           actionBlock: {
             type: "Actions/Button",
-            options: { name: "Создать", size: "LARGE", context: `screen:newUser.action` },
+            options: { name: "Создать", size: "LARGE", contextPath: `screen:newUser.action` },
             actions: {
               click: [
                 {
@@ -403,7 +403,7 @@ module.exports = {
                 },
                 {
                   type: "append-context",
-                  options: { context: "screen.users.list", takeIncomeDataFromPreviousAction: true },
+                  options: { contextPath: "screen.users.list", takeIncomeDataFromPreviousAction: true },
                 },
                 {
                   type: "close-modal",

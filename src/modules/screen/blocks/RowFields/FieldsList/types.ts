@@ -28,7 +28,7 @@ export enum FieldListItemModifierType {
 export interface FieldListItemModifierInterface {
   type: FieldListItemModifierType;
   title: string;
-  context: string;
+  contextPath: string;
 }
 
 export interface FieldListItemInterface {

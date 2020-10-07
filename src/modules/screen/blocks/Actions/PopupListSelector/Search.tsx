@@ -13,14 +13,14 @@ import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useStateFromContext } from "modules/context/insertContext";
 
 interface SearchInterface {
-  context: string;
+  contextPath: string;
   placeholder?: string;
   searchAction: UseActionResultAction;
 }
 
-function Search({ searchAction, context, placeholder, styles }: SearchInterface & { styles?: any }) {
+function Search({ searchAction, contextPath, placeholder, styles }: SearchInterface & { styles?: any }) {
   const appContext = useAppContext();
-  const [value, setValue] = useStateFromContext(context, appContext);
+  const [value, setValue] = useStateFromContext(contextPath, appContext);
 
   useEffectSkipFirst(() => {
     searchAction.run(value);

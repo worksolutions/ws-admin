@@ -20,8 +20,8 @@ import { BlockInterface } from "state/globalState";
 export interface InputOptionsInterface {
   width?: DefaultWidths;
   debounce?: number;
-  valueContext: string;
-  confirmationContext: string;
+  valueContextPath: string;
+  confirmationContextPath: string;
   size?: InputSize;
   placeholder?: string;
   hideInfoBar?: boolean;
@@ -42,13 +42,13 @@ function PasswordAction({ actions, options, styles }: ActionPasswordInterface) {
     value,
     model: { disabled, error },
     setValue,
-  } = useStateContextModel(options!.valueContext, appContext);
+  } = useStateContextModel(options!.valueContextPath, appContext);
 
   const {
     value: confirmation,
     model: { disabled: confirmationDisabled, error: confirmationError },
     setValue: setConfirmation,
-  } = useStateContextModel(options!.confirmationContext, appContext);
+  } = useStateContextModel(options!.confirmationContextPath, appContext);
 
   useEffectSkipFirst(() => {
     resultActions.valueChange.run(value);

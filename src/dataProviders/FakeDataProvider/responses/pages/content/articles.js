@@ -43,7 +43,7 @@ module.exports = {
                       type: "edit:RadioGroup",
                       options: {
                         radioGroupOptions: {
-                          context: "screen:articles.filter.status",
+                          contextPath: "screen:articles.filter.status",
                         },
                         dataSource: {
                           type: "static",
@@ -69,7 +69,7 @@ module.exports = {
                         dateOptions: {
                           cleanable: true,
                           size: "medium",
-                          context: "screen:articles.filter.publishedAt",
+                          contextPath: "screen:articles.filter.publishedAt",
                         },
                         actions: {
                           change: {
@@ -169,7 +169,7 @@ module.exports = {
                             publishedAt: "=screen:articles.filter.publishedAt",
                           },
                         },
-                        context: "screen:articles.table",
+                        contextPath: "screen:articles.table",
                       },
                     },
                     cardsView: {
@@ -189,7 +189,7 @@ module.exports = {
                             publishedAt: "=screen:articles.filter.publishedAt",
                           },
                         },
-                        context: "screen:articles.cards",
+                        contextPath: "screen:articles.cards",
                       },
                       options: {
                         imageConfig: {
@@ -208,7 +208,7 @@ module.exports = {
                     },
                     searchOptions: {
                       placeholder: "Найти",
-                      context: "screen:articles.search",
+                      contextPath: "screen:articles.search",
                     },
                     paginationView: {
                       options: {

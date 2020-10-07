@@ -52,7 +52,7 @@ module.exports = {
                   options: {
                     imageOptions: {
                       aspectRatio: 1,
-                      context: "screen:temp-data.currentUser.image",
+                      contextPath: "screen:temp-data.currentUser.image",
                     },
                     actions: {
                       upload: {
@@ -71,7 +71,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "Имя",
-                      context: "screen:temp-data.currentUser.firstName",
+                      contextPath: "screen:temp-data.currentUser.firstName",
                     },
                     actions: {
                       change: {
@@ -88,7 +88,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "Фамилия",
-                      context: "screen:temp-data.currentUser.surname",
+                      contextPath: "screen:temp-data.currentUser.surname",
                     },
                     actions: {
                       change: {
@@ -105,7 +105,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "Должность",
-                      context: "screen:temp-data.currentUser.postName",
+                      contextPath: "screen:temp-data.currentUser.postName",
                     },
                     actions: {
                       change: {
@@ -122,7 +122,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "E-mail",
-                      context: "screen:temp-data.currentUser.email",
+                      contextPath: "screen:temp-data.currentUser.email",
                     },
                     actions: {
                       change: {
@@ -139,7 +139,7 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       text: "Заблокировать",
-                      context: "screen:temp-data.currentUser.blocked",
+                      contextPath: "screen:temp-data.currentUser.blocked",
                     },
                     actions: {
                       change: {
