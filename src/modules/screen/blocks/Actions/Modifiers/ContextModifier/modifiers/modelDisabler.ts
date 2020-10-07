@@ -14,7 +14,7 @@ export function useModelDisablerContextModifier(
   const enabled = useEnableTrigger(trigger);
 
   const appContext = useAppContext();
-  const { model, setModel } = useStateContextModel(options.context, appContext);
+  const { model, setModel } = useStateContextModel(options.contextPath, appContext);
 
   React.useEffect(() => {
     setModel({ disabled: enabled, error: model.error });

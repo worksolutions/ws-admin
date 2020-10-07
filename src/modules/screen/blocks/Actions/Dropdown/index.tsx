@@ -28,7 +28,7 @@ function ActionDropdown({
 }: BlockInterface<
   {
     searchable?: boolean;
-    context: string;
+    contextPath: string;
     width?: DefaultWidths;
     size?: InputSize;
     placeholder?: string;
@@ -51,7 +51,7 @@ function ActionDropdown({
     value,
     model: { disabled, error },
     setValue,
-  } = useStateContextModel(options!.context, appContext);
+  } = useStateContextModel(options!.contextPath, appContext);
 
   useEffectSkipFirst(() => {
     resultActions.change.run(value);

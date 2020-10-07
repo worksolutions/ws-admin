@@ -7,11 +7,11 @@ export enum ModifierType {
 }
 
 export type ModifierOptionsByType = {
-  [ModifierType.UPPER_CASE]: { context: string };
-  [ModifierType.TRANSLITERATION]: { fromContext: string; toContext: string };
-  [ModifierType.MODEL_DISABLER]: { context: string };
-  [ModifierType.COPY_CONTEXT]: { fromContext: string; toContext: string };
-  [ModifierType.EXCLUDE_ARRAY_ITEMS_BY_ID_FROM_CONTEXT]: { fromContext: string; toContext: string };
+  [ModifierType.UPPER_CASE]: { contextPath: string };
+  [ModifierType.TRANSLITERATION]: { fromContextPath: string; toContextPath: string };
+  [ModifierType.MODEL_DISABLER]: { contextPath: string };
+  [ModifierType.COPY_CONTEXT]: { fromContextPath: string; toContextPath: string };
+  [ModifierType.EXCLUDE_ARRAY_ITEMS_BY_ID_FROM_CONTEXT]: { fromContextPath: string; toContextPath: string };
 };
 
 export enum ModifierEnableTriggerType {
@@ -28,13 +28,13 @@ export type ModifierEnableTriggerMode = "and" | "or" | undefined;
 
 export type ModifierEnableTriggerIfContextTrueValue = {
   type: ModifierEnableTriggerType.IF_CONTEXT_TRUE_VALUE;
-  context: string | string[];
+  contextPath: string | string[];
   mode: ModifierEnableTriggerMode;
 };
 
 export type ModifierEnableTriggerIfContextFalseValue = {
   type: ModifierEnableTriggerType.IF_CONTEXT_FALSE_VALUE;
-  context: string | string[];
+  contextPath: string | string[];
   mode: ModifierEnableTriggerMode;
 };
 

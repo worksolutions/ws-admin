@@ -20,7 +20,7 @@ import { BlockInterface } from "state/globalState";
 export interface TokensOptionsInterface {
   width?: DefaultWidths;
   placeholder?: string;
-  context: string;
+  contextPath: string;
   canRemove?: boolean;
   canCreate?: boolean;
 }
@@ -38,7 +38,7 @@ function ActionTokens({ actions, options, styles }: ActionTokensInterface) {
     value,
     model: { disabled, error },
     setValue,
-  } = useStateContextModel(options!.context, appContext);
+  } = useStateContextModel(options!.contextPath, appContext);
 
   useEffectSkipFirst(() => {
     resultActions.change.run(value);

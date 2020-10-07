@@ -99,7 +99,7 @@
                     icon: "book-open"
                     reference: "/content/categories"
                     subElements: []
-              context: "menu.secondary-menu-items"
+              contextPath: "menu.secondary-menu-items"
           - 
             type: "Screen"
             options: 
@@ -325,7 +325,7 @@
                   options: 
                     reference: "/article/{{screen:articleId}}"
                     method: "get"
-                  context: "screen:article"
+                  contextPath: "screen:article"
                 slots: 
                   headingAction: 
                     type: "Actions/Button"

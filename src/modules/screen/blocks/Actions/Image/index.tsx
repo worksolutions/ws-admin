@@ -24,7 +24,7 @@ import { BlockInterface } from "state/globalState";
 import FileInterface from "types/FileInterface";
 
 export interface ImageOptionsInterface {
-  context: string;
+  contextPath: string;
   aspectRatio?: number;
   placeholderIcon?: Icons;
   placeholderText?: string;
@@ -41,7 +41,7 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
 
-  const { value, setValue } = useStateContextModel(options!.context, appContext);
+  const { value, setValue } = useStateContextModel(options!.contextPath, appContext);
 
   function uploadFile(file: FileInterface) {
     resultActions.upload

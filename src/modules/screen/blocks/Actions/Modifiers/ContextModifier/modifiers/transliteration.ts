@@ -17,8 +17,8 @@ export function useTransliterationContextModifier(
   const appContext = useAppContext();
   const enabled = useEnableTrigger(trigger);
 
-  const [currentValue] = useStateFromContext(options.fromContext, appContext);
-  const [, setNewValue] = useStateFromContext(options.toContext, appContext);
+  const [currentValue] = useStateFromContext(options.fromContextPath, appContext);
+  const [, setNewValue] = useStateFromContext(options.toContextPath, appContext);
   React.useEffect(() => {
     if (!enabled) return;
     if (!isString(currentValue)) return;

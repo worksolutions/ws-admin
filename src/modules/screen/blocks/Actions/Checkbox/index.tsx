@@ -9,13 +9,13 @@ import { useStateFromContext } from "modules/context/insertContext";
 
 import { BlockInterface } from "state/globalState";
 
-function ActionCheckbox({ actions, options }: BlockInterface<{ context?: string; text: string }, "change">) {
+function ActionCheckbox({ actions, options }: BlockInterface<{ contextPath?: string; text: string }, "change">) {
   if (!actions?.change) return null;
-  if (!options?.context) return null;
+  if (!options?.contextPath) return null;
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
-  const [isChecked] = useStateFromContext(options.context, appContext);
+  const [isChecked] = useStateFromContext(options.contextPath, appContext);
 
   return <Checkbox isChecked={isChecked} text={options.text} onChange={resultActions.change.run} />;
 }
