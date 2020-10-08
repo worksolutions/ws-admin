@@ -1,5 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { append } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 import Spinner from "primitives/Spinner";
@@ -19,7 +20,10 @@ import {
 
 import { BlockInterface, UserInterface } from "state/globalState";
 
-function UserProfile({ dataSource }: BlockInterface<{ value: string }>) {
+function UserProfile({
+  dataSource,
+  options,
+}: BlockInterface<{ value: string; fieldsListItemWithPlaceholder?: boolean }>) {
   const { data, loadingContainer } = useDataSource<UserInterface>(dataSource!);
 
   if (loadingContainer.loading) return <Spinner />;
@@ -44,12 +48,17 @@ function UserProfile({ dataSource }: BlockInterface<{ value: string }>) {
               options={{
                 mode: FieldListItemMode.VERTICAL,
                 fields: [
-                  {
-                    title: "E-mail",
-                    type: FieldListItemType.link,
-                    options: { title: data.email, reference: `mailto:${data.email}` },
-                  },
-                  ...customFields,
+                  ...append(
+                    {
+                      title: "E-mail",
+                      type: FieldListItemType.link,
+                      options: { title: data.email, reference: `mailto:${data.email}` },
+                    },
+                    customFields,
+                  ).map(({ title, ...fields }) => ({
+                    ...fields,
+                    title: options?.fieldsListItemWithPlaceholder ? title : undefined,
+                  })),
                 ],
               }}
             />
