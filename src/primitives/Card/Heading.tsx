@@ -12,6 +12,7 @@ import DroppedList, { DroppedListOpenMode } from "../List/DroppedList";
 import Button, { ButtonSize, ButtonType } from "../Button";
 
 import { CardActionInterface, CardStatusIconSize, CardStatusInterface } from "./types";
+import Hint, { HintType } from "../Popper/Hint";
 
 interface HeadingInterface {
   title: string;
@@ -35,9 +36,16 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
             {title}
           </Typography>
         )}
-        {statuses.map(({ icon, color, size }, key) => {
+        {statuses.map(({ icon, color, size, hint }, key) => {
           const iconSize = headingIconSizes[size || CardStatusIconSize.LARGE];
-          return <Icon key={key} icon={icon} color={color} width={iconSize} height={iconSize} styles={marginLeft(8)} />;
+
+          return (
+            <Hint key={key} text={hint} type={HintType.white} showDelay={160}>
+              {(ref) => (
+                <Icon ref={ref} icon={icon} color={color} width={iconSize} height={iconSize} styles={marginLeft(8)} />
+              )}
+            </Hint>
+          );
         })}
       </Wrapper>
       {actions.length !== 0 && (

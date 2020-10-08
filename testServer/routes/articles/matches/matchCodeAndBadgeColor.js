@@ -1,1 +1,0 @@
-module.exports = { 0: "orange/05", 1: "green/05", 2: "gray-blue/05" };

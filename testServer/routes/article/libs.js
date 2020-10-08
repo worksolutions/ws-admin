@@ -3,7 +3,7 @@ const moment = require("moment");
 
 const { prepareUrl } = require("../../libs");
 const matchCodeAndActions = require("../articles/matches/matchCodeAndActions");
-const matchCodeAndBadgeColor = require("../articles/matches/matchCodeAndBadgeColor");
+const matchCodeAndStatusOptions = require("../articles/matches/matchCodeAndStatusOptions");
 
 async function getSubArticlesContent(text, getArticle) {
   const articleMatch = text.match(/#article:[\w-_]+#/g);
@@ -42,6 +42,7 @@ module.exports = {
       data.relatedArticles = data.relatedArticles.map((article, index) => {
         const isPublished = article.status === 1;
         const relatedArticle = relatedArticles[index];
+        const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
 
         return {
           id: article.id,
@@ -49,7 +50,8 @@ module.exports = {
           statuses: [
             {
               icon: "badge",
-              color: matchCodeAndBadgeColor[article.status],
+              color: badgeColor,
+              hint,
               size: "SMALL",
             },
           ],
@@ -92,6 +94,7 @@ module.exports = {
       .map((article) => article.data.data)
       .map((article) => {
         const isPublished = article.status === 1;
+        const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
 
         return {
           title: article.title,
@@ -102,7 +105,8 @@ module.exports = {
           statuses: [
             {
               icon: "badge",
-              color: matchCodeAndBadgeColor[article.status],
+              color: badgeColor,
+              hint,
               size: "SMALL",
             },
           ],
@@ -111,6 +115,7 @@ module.exports = {
   },
   prepareArticleToFront(article) {
     const isPublished = article.status === 1;
+    const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
 
     return {
       title: article.title,
@@ -121,7 +126,8 @@ module.exports = {
       statuses: [
         {
           icon: "badge",
-          color: matchCodeAndBadgeColor[article.status],
+          color: badgeColor,
+          hint,
           size: "SMALL",
         },
       ],
