@@ -40,7 +40,7 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
           const iconSize = headingIconSizes[size || CardStatusIconSize.LARGE];
 
           return (
-            <Hint key={key} text={hint} type={HintType.white} showDelay={160}>
+            <Hint key={key} text={hint} showDelay={160}>
               {(ref) => (
                 <Icon ref={ref} icon={icon} color={color} width={iconSize} height={iconSize} styles={marginLeft(8)} />
               )}
