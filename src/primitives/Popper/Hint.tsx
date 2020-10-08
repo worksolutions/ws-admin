@@ -1,25 +1,15 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { duration160, duration160Number } from "layout/durations";
 import { zIndex_hint } from "layout/zIndexes";
+import { animated } from "react-spring";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 
-import {
-  backgroundColor,
-  border,
-  borderRadius,
-  boxShadow,
-  Colors,
-  createAlphaColor,
-  opacity,
-  padding,
-  transition,
-} from "libs/styles";
-import { useBoolean } from "libs/hooks/common";
+import { backgroundColor, border, borderRadius, boxShadow, Colors, createAlphaColor, padding } from "libs/styles";
 
 import usePopper, { getPopperMarginStyleForPlacement, PopperConfigInterface } from "./usePopper";
+import { useVisibilityAnimation } from "./useVisibilityAnimation";
 
 export enum HintType {
   white,
@@ -73,12 +63,12 @@ function Hint({
   type = HintType.black,
   margin: marginProp,
 }: HintInterface) {
-  const { placement, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
+  const { placement, opened, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
     ...popperConfig,
     showOnHover,
   });
   const [element, setElement] = useState<HTMLElement>();
-  const [opened, open, close] = useBoolean(() => wasRendered);
+  const { style } = useVisibilityAnimation(force || opened);
 
   const initParent = (ref: HTMLElement | null) => {
     if (!ref) return;
@@ -91,22 +81,17 @@ function Hint({
     if (!element) return;
 
     let showTimer: any;
-    let hideTimer: any;
 
     const mouseEnterHandler = () => {
       clearTimeout(showTimer);
-      clearTimeout(hideTimer);
       showTimer = setTimeout(() => {
-        open();
         enableWasRendered();
       }, showDelay);
     };
 
     const mouseLeaveHandler = () => {
       clearTimeout(showTimer);
-      clearTimeout(hideTimer);
-      hideTimer = setTimeout(disableWasRendered, duration160Number);
-      close();
+      disableWasRendered();
     };
 
     element.addEventListener("mouseenter", mouseEnterHandler);
@@ -116,21 +101,17 @@ function Hint({
       element.removeEventListener("mouseenter", mouseEnterHandler);
       element.removeEventListener("mouseleave", mouseLeaveHandler);
     };
-  }, [showDelay, element, open, close, disableWasRendered, enableWasRendered]);
+  }, [showDelay, element, disableWasRendered, enableWasRendered]);
 
   const themeStyles = styledForType[type];
 
   const hint =
     force || (wasRendered && !!text) ? (
       <Wrapper
+        as={animated.div}
+        style={style}
         ref={initPopper("child")}
-        styles={[
-          opacity(force || opened ? 1 : 0),
-          transition(`opacity ${duration160}`),
-          getPopperMarginStyleForPlacement(placement, marginProp!),
-          themeStyles.container,
-          zIndex_hint,
-        ]}
+        styles={[getPopperMarginStyleForPlacement(placement, marginProp!), themeStyles.container, zIndex_hint]}
       >
         <Typography type="caption-regular" color={themeStyles.text.color} noWrap>
           {text}

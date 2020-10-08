@@ -6,6 +6,8 @@ import { PositioningStrategy } from "@popperjs/core/lib/types";
 import { marginBottom, marginLeft, marginRight, marginTop } from "libs/styles";
 import { useBoolean } from "libs/hooks/common";
 
+import { duration160Number } from "../../layout/durations";
+
 const initialData: PopperConfigInterface = {
   placement: "auto",
   strategy: "absolute",
@@ -28,6 +30,7 @@ function getPopperData(inputData?: PopperConfigInterface) {
 export default function usePopper({ showOnHover = true, ...data }: PopperConfigInterface) {
   const [parent, setParent] = React.useState<HTMLElement>();
   const [wasRendered, enableWasRendered, disableWasRendered] = useBoolean(() => !showOnHover);
+  const [opened, open, close] = useBoolean(() => wasRendered);
   const [child, setChild] = React.useState<HTMLElement>();
   const [instance, setInstance] = React.useState<Instance | undefined>();
   const [placement, setPlacement] = React.useState<Placement>("bottom");
@@ -59,9 +62,16 @@ export default function usePopper({ showOnHover = true, ...data }: PopperConfigI
 
   return {
     placement,
+    opened,
     wasRendered,
-    enableWasRendered,
-    disableWasRendered,
+    enableWasRendered: () => {
+      open();
+      enableWasRendered();
+    },
+    disableWasRendered: () => {
+      close();
+      setTimeout(disableWasRendered, duration160Number);
+    },
     initPopper: (forObject: "parent" | "child") => (ref: HTMLElement | null) => {
       if (!ref) return;
       if (forObject === "child") {
