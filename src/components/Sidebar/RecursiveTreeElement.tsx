@@ -13,11 +13,11 @@ import {
   Aligns,
   backgroundColor,
   borderRadius,
-  child,
-  color,
+  boxShadow,
   disableDecoration,
-  fillColor,
+  disableOutline,
   flex,
+  focus,
   fontWeight,
   fullWidth,
   hover,
@@ -64,13 +64,9 @@ const TreeElement = withPerformance(["toggle"])(function ({
       flex,
       ai(Aligns.CENTER),
       disableDecoration,
-      active
-        ? [
-            backgroundColor("gray-blue/03"),
-            child(fillColor("white"), ".item-icon use"),
-            child(color("white"), ".item-text"),
-          ]
-        : [hover(backgroundColor("gray-blue/02"))],
+      disableOutline,
+      focus([boxShadow([0, 0, 0, 2, "blue/04"])]),
+      active ? [backgroundColor("gray-blue/02")] : [hover(backgroundColor("gray-blue/02"))],
     ],
     children: (
       <>
