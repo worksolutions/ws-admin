@@ -8,11 +8,13 @@ import DroppedList, { DroppedListOpenMode } from "primitives/List/DroppedList";
 import ImageWithDefault from "primitives/ImageWithDefault";
 import { ListItemSize } from "primitives/List/ListItem";
 import Wrapper from "primitives/Wrapper";
+import Hint from "primitives/Popper/Hint";
+import Icon from "primitives/Icon";
 
 import Loading from "components/LoadingContainer/Loading";
 import LoadingProvider from "components/LoadingContainer/LoadingProvider";
 
-import { child, transform } from "libs/styles";
+import { ai, Aligns, child, flex, jc, marginLeft, transform } from "libs/styles";
 
 import { useStateFromContext } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
@@ -35,6 +37,7 @@ type PopupListSelectorOptionsInterface = {
   selectedItems: {
     contextPath: string;
   };
+  hint?: string;
 };
 
 type PopupListItemInterface = {
@@ -67,61 +70,70 @@ function PopupListSelector({
   const { loadingContainer } = useDataSource(dataSource!);
 
   return (
-    <DroppedList
-      mode={DroppedListOpenMode.CLICK}
-      itemSize={ListItemSize.MEDIUM}
-      itemsWrapper={(child) => (
-        <LoadingProvider>
+    <Wrapper styles={[flex, ai(Aligns.CENTER), jc(Aligns.START)]}>
+      <DroppedList
+        mode={DroppedListOpenMode.CLICK}
+        itemSize={ListItemSize.MEDIUM}
+        itemsWrapper={(child) => (
+          <LoadingProvider>
+            {(ref) => (
+              <Wrapper ref={ref}>
+                {loadingContainer.loading && <Loading />}
+                {child}
+              </Wrapper>
+            )}
+          </LoadingProvider>
+        )}
+        margin={4}
+        items={list.map(({ id, image, heading, title }) => ({
+          code: id,
+          title,
+          subTitle: heading,
+          leftContent: <ImageWithDefault width={52} height={32} src={image} />,
+          circledLeftContent: false,
+        }))}
+        topComponent={
+          resultActions.search &&
+          options.searchInputOptions && (
+            <Search
+              placeholder={options.searchInputOptions.placeholder}
+              contextPath={options.searchInputOptions.contextPath}
+              searchAction={resultActions.search}
+            />
+          )
+        }
+        onChange={(code) =>
+          resultActions.select.run(
+            append(
+              list.find(({ id }) => id === code),
+              selectedItems,
+            ),
+          )
+        }
+      >
+        {(state, parentRef, subChild) => (
+          <Button
+            ref={parentRef}
+            type={ButtonType.SECONDARY}
+            size={ButtonSize.MEDIUM}
+            iconLeft={options.buttonOptions.icon}
+            iconRight="arrow-down"
+            styles={[child([transform(state.opened ? "rotateZ(180deg)" : "rotateZ(0deg)")], ".icon-right")]}
+            onClick={state.toggle}
+          >
+            {options.buttonOptions.name}
+            {subChild}
+          </Button>
+        )}
+      </DroppedList>
+      {options.hint && (
+        <Hint text={options.hint}>
           {(ref) => (
-            <Wrapper ref={ref}>
-              {loadingContainer.loading && <Loading />}
-              {child}
-            </Wrapper>
+            <Icon ref={ref} color="gray-blue/05" width={16} height={16} styles={marginLeft(4)} icon="16-info-circle" />
           )}
-        </LoadingProvider>
+        </Hint>
       )}
-      margin={4}
-      items={list.map(({ id, image, heading, title }) => ({
-        code: id,
-        title,
-        subTitle: heading,
-        leftContent: <ImageWithDefault width={52} height={32} src={image} />,
-        circledLeftContent: false,
-      }))}
-      topComponent={
-        resultActions.search &&
-        options.searchInputOptions && (
-          <Search
-            placeholder={options.searchInputOptions.placeholder}
-            contextPath={options.searchInputOptions.contextPath}
-            searchAction={resultActions.search}
-          />
-        )
-      }
-      onChange={(code) =>
-        resultActions.select.run(
-          append(
-            list.find(({ id }) => id === code),
-            selectedItems,
-          ),
-        )
-      }
-    >
-      {(state, parentRef, subChild) => (
-        <Button
-          ref={parentRef}
-          type={ButtonType.SECONDARY}
-          size={ButtonSize.MEDIUM}
-          iconLeft={options.buttonOptions.icon}
-          iconRight="arrow-down"
-          styles={[child([transform(state.opened ? "rotateZ(180deg)" : "rotateZ(0deg)")], ".icon-right")]}
-          onClick={state.toggle}
-        >
-          {options.buttonOptions.name}
-          {subChild}
-        </Button>
-      )}
-    </DroppedList>
+    </Wrapper>
   );
 }
 

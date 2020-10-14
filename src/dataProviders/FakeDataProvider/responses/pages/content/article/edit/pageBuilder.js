@@ -545,6 +545,7 @@ module.exports = function (context, getActions) {
                                   selectedItems: { contextPath: `${context}.relatedArticles` },
                                   buttonOptions: { name: "Добавить статью", icon: "plus-big" },
                                   searchInputOptions: { contextPath: `${relatedArticlesContext}.search` },
+                                  hint: "Для добавления доступны только опубликованные статьи",
                                 },
                                 actions: {
                                   select: {
