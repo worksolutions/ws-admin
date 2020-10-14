@@ -36,6 +36,7 @@ function getStylesNameOnIcons(
 
 export interface BaseButtonWrapperInterface {
   loading?: boolean;
+  loadingOnLeftSide?: boolean;
   loadingText?: string;
   iconLeft?: Icons;
   iconRight?: Icons;
@@ -78,6 +79,7 @@ function ButtonWrapper({
   iconRight,
   styles,
   loading,
+  loadingOnLeftSide,
   iconLeftWidth,
   iconLeftHeight,
   iconRightWidth,
@@ -110,17 +112,21 @@ function ButtonWrapper({
 
   const resultStyles = buttonStyles[getStylesNameOnIcons(!!icons.iconLeft, !!icons.iconRight)];
 
-  const leftIconElement = icons.iconLeft && (
-    <Icon className="icon icon-left" icon={icons.iconLeft} width={icons.leftWidth} height={icons.leftHeight} />
-  );
+  const spinner = <Spinner className={`icon ${loadingOnLeftSide ? "icon-left" : "icon-right"}`} />;
 
-  const rightIconElement = loading ? (
-    <Spinner className="icon icon-right" />
-  ) : (
-    icons.iconRight && (
-      <Icon className="icon icon-right" icon={icons.iconRight} width={icons.rightWidth} height={iconRightHeight} />
-    )
-  );
+  const leftIconElement =
+    loading && loadingOnLeftSide
+      ? spinner
+      : icons.iconLeft && (
+          <Icon className="icon icon-left" icon={icons.iconLeft} width={icons.leftWidth} height={icons.leftHeight} />
+        );
+
+  const rightIconElement =
+    loading && !loadingOnLeftSide
+      ? spinner
+      : icons.iconRight && (
+          <Icon className="icon icon-right" icon={icons.iconRight} width={icons.rightWidth} height={iconRightHeight} />
+        );
 
   const isActive = !loading;
 

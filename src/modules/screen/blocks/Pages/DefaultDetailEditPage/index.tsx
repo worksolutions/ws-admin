@@ -1,8 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { toJS } from "mobx";
 
 import Loading from "components/LoadingContainer/Loading";
+
+import { useBoolean } from "libs/hooks/common";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
@@ -24,11 +25,13 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: 
   const touched = useFormTouched(data, initialData);
   const save = useDetailSaver(resultActions, () => updateInitial(data));
   const checkRequiredFields = useDetailRequiredFieldsChecker(options!.saveOptions.requiredContextFields);
+  const [savedSuccessfully, enableSavedSuccessfully, disableSavedSuccessfully] = useBoolean(false);
 
   function saveDetail() {
     const correct = checkRequiredFields();
     if (!correct) return;
-    save();
+    disableSavedSuccessfully();
+    save().then(enableSavedSuccessfully);
   }
 
   if (loadingContainer.loading) return <Loading />;
@@ -44,10 +47,11 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: 
           status={options?.status}
           rightSideElement={
             <Saver
+              savedSuccessfully={savedSuccessfully}
               saveDisabled={resultActions.save.loadingContainer.loading || !touched}
               saveLoading={resultActions.save.loadingContainer.loading}
               onDiscard={resultActions.discard?.run}
-              onSave={console.log}
+              onSave={saveDetail}
               onApply={saveDetail}
             />
           }
