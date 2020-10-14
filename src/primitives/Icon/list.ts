@@ -44,4 +44,5 @@ export const list = {
   "attachment-big": require("./icons/attachment-big.svg"),
   "camera-plus": require("./icons/camera-plus.svg"),
   snowflake: require("./icons/asterisk.svg"),
+  notes: require("./icons/notes.svg"),
 };

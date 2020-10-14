@@ -4,8 +4,9 @@ const { makeProxy, convertServerErrorsToClientErrors, parseHtmlImgUrls } = requi
 const { modifyArticleResponse } = require("./libs");
 
 const numbersByStatuses = {
-  UN_PUBLISHED: 0,
+  DRAFT: 0,
   PUBLISHED: 1,
+  UN_PUBLISHED: 2,
 };
 
 function modifyRequest(data) {

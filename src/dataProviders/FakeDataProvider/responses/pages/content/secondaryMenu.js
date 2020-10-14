@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           name: "Категории",
-          icon: "book-open",
+          icon: "notes",
           reference: "/content/categories",
           subElements: [],
         },

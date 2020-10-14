@@ -6,14 +6,12 @@ import Typography from "primitives/Typography";
 import Resizer from "primitives/Resizer";
 import Input, { InputSize } from "primitives/Input/Input";
 import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
-import { Icons } from "primitives/Icon";
+import Icon, { Icons } from "primitives/Icon";
 
 import {
   ai,
   Aligns,
   backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
   flex,
   flexColumn,
   flexGrow,
@@ -21,6 +19,7 @@ import {
   fullWidth,
   height,
   jc,
+  lineHeight,
   marginRight,
   marginTop,
   maxHeight,
@@ -94,20 +93,14 @@ function SecondaryMenuSidebar({ title, items, id }: SecondaryMenuSidebarInterfac
                 ),
             )}
           </Wrapper>
-          <Wrapper styles={[height(64), fullWidth, flex, ai(Aligns.CENTER), jc(Aligns.SPACE_BETWEEN)]}>
+          <Wrapper styles={[height(64), fullWidth, flex, ai(Aligns.END), jc(Aligns.SPACE_BETWEEN)]}>
             <Wrapper styles={[flex, flexColumn, paddingLeft(8)]}>
               <Typography color="gray-blue/04">2020</Typography>
               <Typography color="gray-blue/04">© Work Solutions</Typography>
             </Wrapper>
-            <Wrapper
-              styles={[
-                backgroundImage("/ws-logo-mono-black.svg"),
-                backgroundRepeat("no-repeat"),
-                width(66),
-                height(48),
-                marginRight(8),
-              ]}
-            />
+            <Wrapper styles={[lineHeight(20), marginRight(8)]}>
+              <Icon width={66} height={48} icon="/ws-logo-mono-black.svg" color="gray-blue/04" />
+            </Wrapper>
           </Wrapper>
         </Wrapper>
       </Resizer>

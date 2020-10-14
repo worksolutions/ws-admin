@@ -74,10 +74,10 @@ export default cb(
     { tip, error: errorProp, size, placeholder, outerStyles, hasCurrentDayButton },
     { state: { config, inputValue, min, max, setInputValue, error, lastValidValue } },
   ) {
-    const { placement, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
+    const { placement, opened, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
       placement: "bottom-start",
     });
-    const { style } = useVisibilityAnimation(wasRendered);
+    const { style } = useVisibilityAnimation(opened);
 
     function inputRef(input: HTMLInputElement | null) {
       if (!input) return;
