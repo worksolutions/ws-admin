@@ -47,19 +47,17 @@ function UserProfile({
               useTitleWidthCalculation={false}
               options={{
                 mode: FieldListItemMode.VERTICAL,
-                fields: [
-                  ...append(
-                    {
-                      title: "E-mail",
-                      type: FieldListItemType.link,
-                      options: { title: data.email, reference: `mailto:${data.email}` },
-                    },
-                    customFields,
-                  ).map(({ title, ...fields }) => ({
-                    ...fields,
-                    title: options?.fieldsListItemWithPlaceholder ? title : undefined,
-                  })),
-                ],
+                fields: append(
+                  {
+                    title: "E-mail",
+                    type: FieldListItemType.link,
+                    options: { title: data.email, reference: `mailto:${data.email}` },
+                  },
+                  customFields,
+                ).map(({ title, ...fields }) => ({
+                  ...fields,
+                  title: options?.fieldsListItemWithPlaceholder ? title : undefined,
+                })),
               }}
             />
           </Wrapper>
