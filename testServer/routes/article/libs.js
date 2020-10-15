@@ -17,12 +17,17 @@ async function getSubArticlesContent(text, getArticle) {
 }
 
 async function getContentWithReadAlsoEnhancers(content, originalRequestParams) {
-  const articles = await getSubArticlesContent(content, (code) => {
-    return axios("/api/blog/article/" + code, originalRequestParams);
-  });
+  try {
+    const articles = await getSubArticlesContent(content, (code) => {
+      return axios("/api/blog/article/" + code, originalRequestParams);
+    });
 
-  const articlesData = articles.map((article) => article.data.data);
-  return enhancersConverterReadAlso.convert(content, articlesData);
+    const articlesData = articles.map((article) => article.data.data);
+    return enhancersConverterReadAlso.convert(content, articlesData);
+  } catch (e) {
+    console.error(e);
+    return content;
+  }
 }
 
 const statusesByNumber = {
