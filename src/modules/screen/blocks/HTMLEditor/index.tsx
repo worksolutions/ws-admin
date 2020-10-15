@@ -28,7 +28,7 @@ interface HTMLEditorOptionsInterface {
   buttonOptions?: { icon: Icons };
   listItems?: ListItemInterface<any>[];
   blocks?: BlockInterface[];
-  visibilityMode: { context: string };
+  visibilityMode: { contextPath: string };
 }
 
 const items = [
@@ -49,7 +49,7 @@ function HTMLEditor({
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
   const { data } = useDataSource(dataSource!);
-  const [isPreviewMode] = useStateFromContext(options.visibilityMode.context, appContext);
+  const [isPreviewMode] = useStateFromContext(options.visibilityMode.contextPath, appContext);
   const [radioValue, setRadioValue] = React.useState(() => items[0].code);
 
   React.useEffect(() => {

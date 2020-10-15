@@ -515,7 +515,7 @@ module.exports = function (context, getActions) {
                               },
                             },
                             options: {
-                              visibilityMode: { context: `${tempContext}.editor.isPreviewMode` },
+                              visibilityMode: { contextPath: `${tempContext}.editor.isPreviewMode` },
                               blocks: [
                                 {
                                   type: "Actions/ButtonPopUp",
@@ -929,41 +929,41 @@ module.exports = function (context, getActions) {
               },
             },
           },
-        },
-      },
-      "content-preview-modal": {
-        title: "Предпросмотр",
-        size: "FULL_WIDTH",
-        block: {
-          type: "FormattedHTMLText",
-          dataSource: {
-            type: "api:request",
-            context: `${context}.enhancedContent`,
-            options: {
-              reference: "/content/articles/{{screen:articleId}}/convert-enhancers",
-              method: "post",
-              body: {
-                content: `=${context}.content`,
+          "content-preview-modal": {
+            title: "Предпросмотр",
+            size: "FULL_WIDTH",
+            block: {
+              type: "FormattedHTMLText",
+              dataSource: {
+                type: "api:request",
+                contextPath: `${context}.enhancedContent`,
+                options: {
+                  reference: "/content/articles/{{screen:articleId}}/convert-enhancers",
+                  method: "post",
+                  body: {
+                    content: `=${context}.content`,
+                  },
+                },
               },
+            },
+            actions: {
+              close: [
+                {
+                  type: "modify-output-data-context",
+                  options: {
+                    resultValue: "",
+                  },
+                },
+                {
+                  type: "update-context",
+                  options: {
+                    context: `${tempContext}.editor.isPreviewMode`,
+                    takeIncomeDataFromPreviousAction: true,
+                  },
+                },
+              ],
             },
           },
-        },
-        actions: {
-          close: [
-            {
-              type: "modify-output-data-context",
-              options: {
-                resultValue: "",
-              },
-            },
-            {
-              type: "update-context",
-              options: {
-                context: `${tempContext}.editor.isPreviewMode`,
-                takeIncomeDataFromPreviousAction: true,
-              },
-            },
-          ],
         },
       },
     },

@@ -11,6 +11,7 @@ export interface PageModalInterface<A extends string = string>
   block: BlockInterface;
   actionBlock: BlockInterface;
   size?: ModalSize;
+  secondaryActionText?: string;
 }
 
 export interface CommonPageInterface extends ContainSlotsInterface {
