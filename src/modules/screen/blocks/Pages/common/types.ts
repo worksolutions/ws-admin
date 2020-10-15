@@ -1,4 +1,4 @@
-import { ModalSize } from "primitives/Modal";
+import { ModalSize } from "primitives/Modal/ModalContent";
 
 import { BlockInterface, ContainSlotsInterface } from "state/globalState";
 
@@ -10,7 +10,6 @@ export interface PageModalInterface<A extends string = string>
   subTitle?: string;
   block: BlockInterface;
   actionBlock: BlockInterface;
-  secondaryActionText?: string;
   size?: ModalSize;
 }
 

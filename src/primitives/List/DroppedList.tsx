@@ -4,12 +4,12 @@ import { elevation16Raw } from "style/shadows";
 import { useHover } from "react-use";
 import { Placement } from "@popperjs/core";
 import { zIndex_popup } from "layout/zIndexes";
-import { duration160Number } from "layout/durations";
 
 import { backgroundColor, borderRadius, boxShadow, cursor, maxWidth, minWidth, padding, position } from "libs/styles";
 import { provideRef } from "libs/provideRef";
 import stopPropagation from "libs/stopPropagation";
-import { useBoolean, useEffectSkipFirst } from "libs/hooks/common";
+import { useEffectSkipFirst } from "libs/hooks/common";
+import preventDefault from "libs/preventDefault";
 
 import Wrapper from "../Wrapper";
 import usePopper, { getPopperMarginStyleForPlacement } from "../Popper/usePopper";
@@ -106,21 +106,10 @@ function DroppedList({
   onChange,
   onClose,
 }: DroppedListInterface<any>) {
-  const { placement, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
+  const { placement, opened, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
     placement: placementProp,
   });
-  const [opened, open, close] = useBoolean(() => wasRendered);
   const { style } = useVisibilityAnimation(opened);
-
-  const showPopper = () => {
-    open();
-    enableWasRendered();
-  };
-
-  const hidePopper = () => {
-    close();
-    setTimeout(disableWasRendered, duration160Number);
-  };
 
   useEffectSkipFirst(() => {
     if (wasRendered) return;
@@ -140,7 +129,7 @@ function DroppedList({
         titleDots
         activeItemIds={selectedItemIds}
         items={items}
-        onClick={(id) => onChange(id, close)}
+        onClick={(id) => onChange(id, disableWasRendered)}
       />
     );
     return itemsWrapper ? itemsWrapper(ItemsList) : ItemsList;
@@ -150,46 +139,50 @@ function DroppedList({
     children(
       {
         opened: wasRendered,
-        open: showPopper,
-        close: hidePopper,
-        toggle: () => toggle(wasRendered, showPopper, hidePopper),
+        open: enableWasRendered,
+        close: disableWasRendered,
+        toggle: () => toggle(wasRendered, enableWasRendered, disableWasRendered),
       },
       provideRef(clickOutsideRef, initPopper("parent")),
-      <Wrapper
-        as={animated.div}
-        style={style}
-        ref={initPopper("child")}
-        styles={[
-          cursor("default"),
-          maxWidth(480),
-          minWidth("100%"),
-          includeMinWidthCalculation && minWidth("calc(100% + 40px)"),
-          zIndex_popup,
-        ]}
-        onClick={stopPropagation()}
-      >
-        <Wrapper
-          styles={[
-            getPopperMarginStyleForPlacement(placement, marginProp),
-            backgroundColor("white"),
-            boxShadow(...elevation16Raw, [0, 0, 0, 1, "gray-blue/02"]),
-            borderRadius(6),
-            padding("4px 8px"),
-          ]}
-        >
-          {topComponent}
-          {renderItems()}
-          {bottomComponent}
-        </Wrapper>
-      </Wrapper>,
+      <>
+        {wasRendered && (
+          <Wrapper
+            as={animated.div}
+            style={style}
+            ref={initPopper("child")}
+            styles={[
+              cursor("default"),
+              maxWidth(480),
+              minWidth("100%"),
+              includeMinWidthCalculation && minWidth("calc(100% + 40px)"),
+              zIndex_popup,
+            ]}
+            onClick={preventDefault(stopPropagation())}
+          >
+            <Wrapper
+              styles={[
+                getPopperMarginStyleForPlacement(placement, marginProp),
+                backgroundColor("white"),
+                boxShadow(...elevation16Raw, [0, 0, 0, 1, "gray-blue/02"]),
+                borderRadius(6),
+                padding("4px 8px"),
+              ]}
+            >
+              {topComponent}
+              {renderItems()}
+              {bottomComponent}
+            </Wrapper>
+          </Wrapper>
+        )}
+      </>,
     );
 
   return (
     <Component
       ignoreHtmlClickElements={ignoreClickOutsideElements}
       opened={wasRendered}
-      open={showPopper}
-      close={hidePopper}
+      open={enableWasRendered}
+      close={disableWasRendered}
     >
       {renderChild}
     </Component>

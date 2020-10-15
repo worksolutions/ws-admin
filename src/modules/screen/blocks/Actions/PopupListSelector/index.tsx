@@ -26,14 +26,14 @@ import { BlockInterface } from "state/globalState";
 import { PaginationInterface } from "types/Pagination";
 
 type PopupListSelectorOptionsInterface = {
-  context: string;
+  contextPath: string;
   buttonOptions: { name: string; icon?: Icons };
   searchInputOptions?: {
-    context: string;
+    contextPath: string;
     placeholder?: string;
   };
   selectedItems: {
-    context: string;
+    contextPath: string;
   };
 };
 
@@ -58,11 +58,11 @@ function PopupListSelector({
   if (!dataSource) return null;
   if (!options) return null;
   if (!options.buttonOptions) return null;
-  if (!options.selectedItems) return null;
+  if (!options.selectedItems?.contextPath) return null;
 
   const appContext = useAppContext();
-  const [{ list, pagination }] = useStateFromContext<PopupListSelectorDataInterface>(options.context, appContext);
-  const [selectedItems] = useStateFromContext<PopupListItemInterface[]>(options.selectedItems.context, appContext);
+  const [{ list, pagination }] = useStateFromContext<PopupListSelectorDataInterface>(options.contextPath, appContext);
+  const [selectedItems] = useStateFromContext<PopupListItemInterface[]>(options.selectedItems.contextPath, appContext);
   const resultActions = useActions(actions, appContext);
   const { loadingContainer } = useDataSource(dataSource!);
 
@@ -93,7 +93,7 @@ function PopupListSelector({
         options.searchInputOptions && (
           <Search
             placeholder={options.searchInputOptions.placeholder}
-            context={options.searchInputOptions.context}
+            contextPath={options.searchInputOptions.contextPath}
             searchAction={resultActions.search}
           />
         )

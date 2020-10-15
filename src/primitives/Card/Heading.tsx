@@ -3,6 +3,7 @@ import React from "react";
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
 import Icon from "primitives/Icon";
+import Spinner from "primitives/Spinner";
 
 import { ai, Aligns, flex, flexValue, jc, marginBottom, marginLeft } from "libs/styles";
 
@@ -11,6 +12,7 @@ import DroppedList, { DroppedListOpenMode } from "../List/DroppedList";
 import Button, { ButtonSize, ButtonType } from "../Button";
 
 import { CardActionInterface, CardStatusIconSize, CardStatusInterface } from "./types";
+import Hint, { HintType } from "../Popper/Hint";
 
 interface HeadingInterface {
   title: string;
@@ -34,9 +36,16 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
             {title}
           </Typography>
         )}
-        {statuses.map(({ icon, color, size }, key) => {
+        {statuses.map(({ icon, color, size, hint }, key) => {
           const iconSize = headingIconSizes[size || CardStatusIconSize.LARGE];
-          return <Icon key={key} icon={icon} color={color} width={iconSize} height={iconSize} styles={marginLeft(8)} />;
+
+          return (
+            <Hint key={key} text={hint} showDelay={160}>
+              {(ref) => (
+                <Icon ref={ref} icon={icon} color={color} width={iconSize} height={iconSize} styles={marginLeft(8)} />
+              )}
+            </Hint>
+          );
         })}
       </Wrapper>
       {actions.length !== 0 && (
@@ -47,7 +56,11 @@ function Heading({ title, actions, statuses, onActionClick }: HeadingInterface) 
             code: action.name,
             title: action.name,
             disabled: action.loading,
-            leftContent: action.icon ? <Icon icon={action.icon} color={action.iconColor} /> : undefined,
+            leftContent: action.loading ? (
+              <Spinner />
+            ) : action.icon ? (
+              <Icon icon={action.icon} color={action.iconColor} />
+            ) : undefined,
           }))}
           onChange={async (code) => {
             await onActionClick(code);

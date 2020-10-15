@@ -10,7 +10,7 @@ export function useUpperCaseContextModifier(
   options: ModifierOptionsByType[ModifierType.UPPER_CASE],
 ) {
   const appContext = useAppContext();
-  const [value, setValue] = useStateFromContext(options.context, appContext);
+  const [value, setValue] = useStateFromContext(options.contextPath, appContext);
   React.useEffect(() => {
     setValue(value.toUpperCase());
   }, [value]);

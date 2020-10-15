@@ -8,7 +8,9 @@ export enum ActionType {
   APPEND_CONTEXT = "append-context",
   OPEN_MODAL = "open-modal",
   CLOSE_MODAL = "close-modal",
+  NOTIFY = "notify",
   MODIFY_OUTPUT_DATA_CONTEXT = "modify-output-data-context",
+  FORCE_DATA_SOURCE_RELOAD = "force-data-source-reload",
 }
 
 export type RawActionOptions = {
@@ -19,7 +21,6 @@ export type RawActionOptions = {
     method: METHODS;
     body?: Record<string, number | string>;
     saveToContext?: string;
-    takeIncomeDataFromPreviousAction?: boolean;
   };
   [ActionType.API_UPLOAD_FILE]: {
     reference: string;
@@ -31,12 +32,10 @@ export type RawActionOptions = {
     delay?: number;
   };
   [ActionType.UPDATE_CONTEXT]: {
-    takeIncomeDataFromPreviousAction?: boolean;
     context: string;
   };
   [ActionType.APPEND_CONTEXT]: {
-    context: string;
-    takeIncomeDataFromPreviousAction?: boolean;
+    contextPath: string;
   };
   [ActionType.OPEN_MODAL]: {
     name: string;
@@ -44,9 +43,13 @@ export type RawActionOptions = {
   };
   [ActionType.CLOSE_MODAL]: string;
   [ActionType.MODIFY_OUTPUT_DATA_CONTEXT]: {
-    resultValue: string;
-    giveToContext?: string;
-    modificationTemplate?: string;
+    resultOutput: string;
+  };
+  [ActionType.NOTIFY]: {
+    text: string;
+  };
+  [ActionType.FORCE_DATA_SOURCE_RELOAD]: {
+    id: string;
   };
 };
 
@@ -63,7 +66,9 @@ export type RealAnyRawAction =
   | RawActionInterface<ActionType.APPEND_CONTEXT>
   | RawActionInterface<ActionType.OPEN_MODAL>
   | RawActionInterface<ActionType.CLOSE_MODAL>
-  | RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>;
+  | RawActionInterface<ActionType.NOTIFY>
+  | RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>
+  | RawActionInterface<ActionType.FORCE_DATA_SOURCE_RELOAD>;
 
 export type AnyRawAction = RealAnyRawAction[] | RealAnyRawAction;
 

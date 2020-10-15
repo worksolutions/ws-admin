@@ -1,4 +1,5 @@
 import React from "react";
+import { identity, memoizeWith } from "ramda";
 
 import { useStateFromContext } from "../context/insertContext";
 import { AppContextInterface } from "../context/hooks/useAppContext";
@@ -44,6 +45,7 @@ export function useStateContextModel(
 
 export const modelContextPathPostfix = "--model";
 
-export function makeModelContextPath(baseContextPath: string) {
-  return baseContextPath + modelContextPathPostfix;
-}
+export const makeModelContextPath = memoizeWith(
+  identity,
+  (baseContextPath: string) => baseContextPath + modelContextPathPostfix,
+);

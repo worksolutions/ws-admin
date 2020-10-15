@@ -17,8 +17,8 @@ export function useExcludeArrayItemsByIdFromContext(
   const appContext = useAppContext();
   const enabled = useEnableTrigger(trigger);
 
-  const [excludeFromValue] = useStateFromContext<{ id: any }[]>(options.fromContext, appContext);
-  const [currentValue, setCurrentValue] = useStateFromContext<{ id: any }[]>(options.toContext, appContext);
+  const [excludeFromValue] = useStateFromContext<{ id: any }[]>(options.fromContextPath, appContext);
+  const [currentValue, setCurrentValue] = useStateFromContext<{ id: any }[]>(options.toContextPath, appContext);
   React.useEffect(() => {
     if (!enabled) return;
     const newCurrentValue = differenceWith(eqProps("id"), currentValue, excludeFromValue);

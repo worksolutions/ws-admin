@@ -13,13 +13,16 @@ import { BlockInterface } from "state/globalState";
 function ActionButton({
   actions,
   options,
-}: BlockInterface<{ context?: string; name: string; icon?: Icons; type?: ButtonType; size?: ButtonSize }, "click">) {
+}: BlockInterface<
+  { contextPath?: string; name: string; icon?: Icons; type?: ButtonType; size?: ButtonSize },
+  "click"
+>) {
   if (!actions?.click) return null;
   if (!options) return null;
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
-  const disabled = options!.context ? useStateContextModel(options!.context, appContext).model.disabled : false;
+  const disabled = options!.contextPath ? useStateContextModel(options!.contextPath, appContext).model.disabled : false;
 
   return (
     <Button

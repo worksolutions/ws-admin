@@ -15,12 +15,12 @@ module.exports = {
         },
         {
           name: "Категории",
-          icon: "book-open",
+          icon: "notes",
           reference: "/content/categories",
           subElements: [],
         },
       ],
     },
-    context: "menu.secondary-menu-items",
+    contextPath: "menu.secondary-menu-items",
   },
 };

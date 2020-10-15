@@ -8,7 +8,9 @@ import updateContext from "../actions/updateContext";
 import openModal from "../actions/openModal";
 import closeModal from "../actions/closeModal";
 import appendContext from "../actions/appendContext";
+import notify from "../actions/notify";
 import modifyOutputDataContext from "../actions/modifyOutputDataContext";
+import forceDataSourceReload from "../actions/forceDataSourceReload";
 
 import { ActionType, RawActionInterface } from "types/Actions";
 
@@ -61,10 +63,23 @@ export const actionFunctionsByActionType = {
     return closeModal(appContext.context, options, actionInputData);
   },
 
+  [ActionType.NOTIFY]: (appContext: AppContextInterface, { options }: RawActionInterface<ActionType.NOTIFY>) => (
+    actionInputData: ActionInputDataInterface,
+  ) => {
+    return notify(appContext.context, options, actionInputData);
+  },
+
   [ActionType.MODIFY_OUTPUT_DATA_CONTEXT]: (
     appContext: AppContextInterface,
     { options }: RawActionInterface<ActionType.MODIFY_OUTPUT_DATA_CONTEXT>,
   ) => (actionInputData: ActionInputDataInterface) => {
-    return modifyOutputDataContext(appContext, options);
+    return modifyOutputDataContext(appContext, options, actionInputData);
+  },
+
+  [ActionType.FORCE_DATA_SOURCE_RELOAD]: (
+    appContext: AppContextInterface,
+    { options }: RawActionInterface<ActionType.FORCE_DATA_SOURCE_RELOAD>,
+  ) => (actionInputData: ActionInputDataInterface) => {
+    return forceDataSourceReload(appContext, options);
   },
 };

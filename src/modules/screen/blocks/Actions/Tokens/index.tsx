@@ -4,6 +4,7 @@ import { propEq, remove } from "ramda";
 import { v4 as uuidV4 } from "uuid";
 
 import TokenList from "primitives/TokenList";
+import Wrapper from "primitives/Wrapper";
 
 import { useEffectSkipFirst } from "libs/hooks/common";
 import { width } from "libs/styles";
@@ -19,7 +20,7 @@ import { BlockInterface } from "state/globalState";
 export interface TokensOptionsInterface {
   width?: DefaultWidths;
   placeholder?: string;
-  context: string;
+  contextPath: string;
   canRemove?: boolean;
   canCreate?: boolean;
 }
@@ -37,7 +38,7 @@ function ActionTokens({ actions, options, styles }: ActionTokensInterface) {
     value,
     model: { disabled, error },
     setValue,
-  } = useStateContextModel(options!.context, appContext);
+  } = useStateContextModel(options!.contextPath, appContext);
 
   useEffectSkipFirst(() => {
     resultActions.change.run(value);
@@ -54,18 +55,20 @@ function ActionTokens({ actions, options, styles }: ActionTokensInterface) {
   }
 
   return (
-    <TokenList
-      error={!!error}
-      tip={error}
-      disabled={disabled}
-      outerStyles={[styles, width(widthValue)]}
-      placeholder={options!.placeholder || "Не заполнено"}
-      items={value || []}
-      canCreate={options!.canCreate}
-      canRemove={options!.canRemove}
-      onCreate={onCreate}
-      onRemove={onRemove}
-    />
+    <Wrapper styles={styles}>
+      <TokenList
+        error={!!error}
+        tip={error}
+        disabled={disabled}
+        outerStyles={[width(widthValue)]}
+        placeholder={options!.placeholder || "Не заполнено"}
+        items={value || []}
+        canCreate={options!.canCreate}
+        canRemove={options!.canRemove}
+        onCreate={onCreate}
+        onRemove={onRemove}
+      />
+    </Wrapper>
   );
 }
 

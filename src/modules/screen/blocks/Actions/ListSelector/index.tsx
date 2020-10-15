@@ -39,12 +39,12 @@ import { BlockInterface } from "state/globalState";
 import { PaginationInterface } from "types/Pagination";
 
 type ListSelectorOptionsInterface = {
-  context: string;
+  contextPath: string;
   searchInputOptions?: {
-    context: string;
+    contextPath: string;
     placeholder?: string;
   };
-  selectedItem: { context: string };
+  selectedItem: { contextPath: string };
 };
 
 type ListSelectorItemInterface = {
@@ -72,15 +72,15 @@ function ListSelector({
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
-  const [data] = useStateFromContext<ListSelectorDataInterface>(options.context, appContext);
-  const [selectedItem] = useStateFromContext(options.selectedItem.context, appContext);
+  const [data] = useStateFromContext<ListSelectorDataInterface>(options.contextPath, appContext);
+  const [selectedItem] = useStateFromContext(options.selectedItem.contextPath, appContext);
   const { loadingContainer } = useDataSource<ListSelectorDataInterface>(dataSource!);
 
   return (
     <Wrapper styles={[width(450), height(366), padding("16px 12px 0")]}>
       <Search
         placeholder={options.searchInputOptions.placeholder}
-        context={options.searchInputOptions.context}
+        contextPath={options.searchInputOptions.contextPath}
         searchAction={resultActions.search}
         styles={[
           padding("12px 38px 12px 11px"),

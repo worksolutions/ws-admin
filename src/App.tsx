@@ -16,7 +16,6 @@ import { AuthTokenSaver } from "modules/auth/authTokenSaver";
 import { fullHeight, fullWidth } from "./libs/styles";
 import TestPage from "./modules/screen/blocks/Test";
 import AuthPage from "./modules/auth/AuthPage";
-import { convertBytesToHumanReadableFormat } from "./libs/hooks/files/helpers/bytesToHumanReadableFormat";
 
 import { GlobalState } from "state/globalState";
 
@@ -24,6 +23,7 @@ const globalState = Container.get(GlobalState);
 
 function App() {
   useEffect(() => {
+    globalState.stateContainer.mergeStates({ currentUser: null });
     globalState.loadConfig().then(() => {
       const { userAuthenticate } = globalState.systemStateContainer.state;
       if (!userAuthenticate.authTokenSaveStrategy) return;

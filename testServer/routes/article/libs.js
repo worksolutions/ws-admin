@@ -3,6 +3,8 @@ const moment = require("moment");
 
 const { prepareUrl } = require("../../libs");
 const { enhancersConverterReadAlso } = require("./EnhancersConverter");
+const matchCodeAndActions = require("../articles/matches/matchCodeAndActions");
+const matchCodeAndStatusOptions = require("../articles/matches/matchCodeAndStatusOptions");
 
 async function getSubArticlesContent(text, getArticle) {
   const articleMatch = text.match(/#article:[\w-_]+#/g);
@@ -31,7 +33,7 @@ async function getContentWithReadAlsoEnhancers(content, originalRequestParams) {
 }
 
 const statusesByNumber = {
-  0: "UN_PUBLISHED",
+  0: "DRAFT",
   1: "PUBLISHED",
   2: "UN_PUBLISHED",
 };
@@ -43,7 +45,6 @@ function convertImage(image) {
 }
 
 module.exports = {
-  statusesByNumber,
   async modifyArticleResponse(data, originalRequestParams) {
     data.status = statusesByNumber[data.status];
     if (data.publishedAt) data.publishedAt = moment.unix(data.publishedAt).format("DD.MM.YYYY");
@@ -54,8 +55,9 @@ module.exports = {
     if (data.relatedArticles) {
       const relatedArticles = await module.exports.modifyRelatedArticleResponse(data, originalRequestParams);
       data.relatedArticles = data.relatedArticles.map((article, index) => {
-        const isPublished = statusesByNumber[article.status] === "PUBLISHED";
+        const isPublished = article.status === 1;
         const relatedArticle = relatedArticles[index];
+        const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
 
         return {
           id: article.id,
@@ -63,7 +65,8 @@ module.exports = {
           statuses: [
             {
               icon: "badge",
-              color: isPublished ? "green/05" : "orange/05",
+              color: badgeColor,
+              hint,
               size: "SMALL",
             },
           ],
@@ -92,60 +95,59 @@ module.exports = {
       .map((article) => article.data.data)
       .map((article) => {
         const isPublished = article.status === 1;
-        const result = {
+        const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
+
+        return {
           title: article.title,
           id: article.id,
           image: article.announceImageUrl ? prepareUrl(article.announceImageUrl) : null,
           redirectReference: "/content/articles/" + article.id,
+          heading: moment.unix(isPublished ? article.publishedAt : article.createdAt).format("DD MMMM YYYY"),
+          statuses: [
+            {
+              icon: "badge",
+              color: badgeColor,
+              hint,
+              size: "SMALL",
+            },
+          ],
         };
-
-        if (isPublished) {
-          result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
-          result.statuses = [{ icon: "badge", color: "green/05", size: "SMALL" }];
-        } else {
-          result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
-          result.statuses = [{ icon: "badge", color: "orange/05", size: "SMALL" }];
-        }
-
-        return result;
       });
   },
   prepareArticleToFront(article) {
-    const isPublished = statusesByNumber[article.status] === "PUBLISHED";
-    const action = {
-      type: "redirect",
-      options: {
-        reference: "/content/articles/" + article.id + "/edit",
-      },
-    };
+    const isPublished = article.status === 1;
+    const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
 
-    const result = {
+    return {
       id: article.id,
       code: article.code,
       title: article.title,
       image: article.announceImage ? prepareUrl(article.announceImage.path) : null,
       redirectReference: "/content/articles/" + article.id,
+      heading: moment.unix(isPublished ? article.publishedAt : article.createdAt).format("DD MMMM YYYY"),
+      statuses: [
+        {
+          icon: "badge",
+          color: badgeColor,
+          hint,
+          size: "SMALL",
+        },
+      ],
       actions: [
         {
           name: "Редактировать",
           icon: "edit",
           iconColor: "gray-blue/05",
-          action,
+          action: {
+            type: "redirect",
+            options: {
+              reference: "/content/articles/" + article.id + "/edit",
+            },
+          },
         },
+        matchCodeAndActions[article.status](article.id, "cards"),
       ],
     };
-
-    if (isPublished) {
-      result.heading = moment.unix(article.publishedAt).format("DD MMMM YYYY");
-      result.statuses = [{ icon: "badge", color: "green/05", size: "SMALL" }];
-      result.actions.push({ name: "Снять с публикации", icon: "bolt-alt", iconColor: "orange/05", action });
-    } else {
-      result.heading = moment.unix(article.createdAt).format("DD MMMM YYYY");
-      result.statuses = [{ icon: "badge", color: "orange/05", size: "SMALL" }];
-      result.actions.push({ name: "Опубликовать", icon: "bolt-alt", iconColor: "green/05", action });
-    }
-
-    return result;
   },
   parseContentWithReadAlsoEnhancers: getContentWithReadAlsoEnhancers,
 };

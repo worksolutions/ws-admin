@@ -6,7 +6,7 @@ import { Icons } from "primitives/Icon";
 import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
 import { useEffectSkipFirst } from "libs/hooks/common";
-import { maxWidth, minWidth, width } from "libs/styles";
+import { fullWidth, maxWidth, minWidth, width } from "libs/styles";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
@@ -23,7 +23,7 @@ export interface InputOptionsInterface {
   placeholder?: string;
   iconLeft?: Icons;
   debounce?: number;
-  context: string;
+  contextPath: string;
   size?: InputSize;
 }
 
@@ -41,7 +41,7 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputInterfac
     value,
     model: { disabled, error },
     setValue,
-  } = useStateContextModel(options!.context, appContext);
+  } = useStateContextModel(options!.contextPath, appContext);
 
   useEffectSkipFirst(() => {
     if (onChange) onChange(value);
@@ -49,12 +49,13 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputInterfac
   }, [value]);
 
   const widthValue = defaultWidths[options?.width || DefaultWidths.SMALL];
+  const widthStyles = [minWidth(widthValue), maxWidth(widthValue)];
 
   return (
-    <ClearInputWrapper needShow={!!value && options?.cleanable} clear={() => setValue("")}>
+    <ClearInputWrapper styles={widthStyles} needShow={!!value && options?.cleanable} clear={() => setValue("")}>
       <Input
-        outerStyles={[styles, width(widthValue)]}
-        styles={[minWidth(widthValue), maxWidth(widthValue)]}
+        outerStyles={[styles, fullWidth]}
+        styles={[fullWidth]}
         size={options?.size}
         value={value || ""}
         placeholder={options?.placeholder || "Не заполнено"}

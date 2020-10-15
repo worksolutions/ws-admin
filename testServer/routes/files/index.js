@@ -14,7 +14,7 @@ module.exports = (app) => {
     app,
     {
       middlewares: [multer({ storage }).single("file")],
-      modifyRequest: ({ request, headers }) => {
+      modifyRequest: ({ request, requestParams: { headers } }) => {
         const form = new FormData();
         form.append("file", request.file.buffer, request.file.originalname);
         return { data: form.getBuffer(), headers: { ...headers, ...form.getHeaders() } };

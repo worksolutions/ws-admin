@@ -10,18 +10,16 @@ import { ActionType, RawActionOptions } from "types/Actions";
 export default async function appendContext(
   appContext: AppContextInterface,
   actionOptions: RawActionOptions[ActionType.APPEND_CONTEXT],
-  { inputData: inputDataProp, previousActionOutput }: ActionInputDataInterface,
+  { inputData }: ActionInputDataInterface,
 ): Promise<any> {
-  const inputData = actionOptions.takeIncomeDataFromPreviousAction ? previousActionOutput : inputDataProp;
-
-  const { value: targetValue } = insertContext(`=${actionOptions.context}`, appContext.context);
+  const { value: targetValue } = insertContext(`=${actionOptions.contextPath}`, appContext.context);
 
   if (isArray(targetValue)) {
-    insertContext(`=${actionOptions.context}`, appContext.context).value.push(inputData);
+    targetValue.push(inputData);
   }
 
   if (isString(targetValue)) {
-    appContext.updateState({ path: actionOptions.context, data: targetValue + inputData });
+    appContext.updateState({ path: actionOptions.contextPath, data: targetValue + inputData });
   }
 
   return Promise.resolve(inputData);

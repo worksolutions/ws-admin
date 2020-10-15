@@ -2,20 +2,15 @@ import React from "react";
 import { duration160 } from "layout/durations";
 import { elevation8 } from "style/shadows";
 
-import ImageWithDefault from "primitives/ImageWithDefault";
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
-import Typography from "primitives/Typography";
 
 import {
   backgroundColor,
   borderRadius,
-  bottom,
-  child,
   createAlphaColor,
   flex,
   flexValue,
-  flexWrap,
   fullHeight,
   fullWidth,
   hover,
@@ -24,27 +19,22 @@ import {
   opacity,
   padding,
   position,
-  right,
   top,
   transition,
 } from "libs/styles";
-import { isNumber } from "libs/is";
-import { nbspString } from "libs/nbsp";
-import { convertBytesToHumanReadableFormat } from "libs/hooks/files/helpers/bytesToHumanReadableFormat";
 
-interface WithImageInterface {
-  path: string;
-  name: string;
-  size: number;
-  aspectRatio?: number;
+interface ImageWrapper {
   openNativeFileDialog: () => void;
   removeFile: () => void;
+  buttonsStyles?: any;
+  appendUIElement?: React.ReactNode;
+  children: React.ReactNode;
 }
 
-function WithImage({ aspectRatio, name, path, size, removeFile, openNativeFileDialog }: WithImageInterface) {
+function ImageWrapper({ children, removeFile, openNativeFileDialog, buttonsStyles, appendUIElement }: ImageWrapper) {
   return (
-    <Wrapper className="aaa" styles={[flexValue(1), hover(opacity(1), ">.ui")]}>
-      <ImageWithDefault styles={[borderRadius(5)]} width="100%" aspectRatio={aspectRatio} src={path} />
+    <Wrapper styles={[flexValue(1), hover(opacity(1), ">.ui")]}>
+      {children}
       <Wrapper
         className="ui"
         styles={[
@@ -61,12 +51,12 @@ function WithImage({ aspectRatio, name, path, size, removeFile, openNativeFileDi
         <Wrapper
           styles={[
             position("absolute"),
-            top(8),
-            right(8),
             borderRadius(6),
             backgroundColor("white"),
             elevation8,
             padding(4),
+            flex,
+            buttonsStyles,
           ]}
         >
           <Button
@@ -78,17 +68,10 @@ function WithImage({ aspectRatio, name, path, size, removeFile, openNativeFileDi
           />
           <Button size={ButtonSize.MEDIUM} type={ButtonType.ICON} iconLeft="delete" onClick={removeFile} />
         </Wrapper>
-        <Wrapper styles={[position("absolute"), left(16), right(16), bottom(16), flex, flexWrap]}>
-          <Typography color="gray-blue/09" dots>
-            {name}
-          </Typography>
-          <Typography color="gray-blue/09">
-            {isNumber(size) && `${nbspString}(${convertBytesToHumanReadableFormat(size)})`}
-          </Typography>
-        </Wrapper>
+        {appendUIElement}
       </Wrapper>
     </Wrapper>
   );
 }
 
-export default React.memo(WithImage);
+export default React.memo(ImageWrapper);

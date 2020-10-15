@@ -3,7 +3,7 @@ import { duration160 } from "layout/durations";
 import { DropAreaBond } from "react-use/lib/useDrop";
 
 import Wrapper from "primitives/Wrapper";
-import Icon from "primitives/Icon";
+import Icon, { Icons } from "primitives/Icon";
 import Typography, { TypographyTypes } from "primitives/Typography";
 import AspectRatioWrapper from "primitives/AspectRatioWrapper";
 
@@ -15,6 +15,8 @@ import {
   child,
   flex,
   flexValue,
+  fullHeight,
+  fullWidth,
   hover,
   jc,
   marginLeft,
@@ -26,14 +28,23 @@ import {
 interface WithoutImageInterface {
   aspectRatio?: number;
   dropAreaProps: DropAreaBond;
+  placeholderIcon?: Icons;
+  placeholderText?: string;
 }
 
-function WithoutImage({ aspectRatio, dropAreaProps }: WithoutImageInterface) {
+function WithoutImage({
+  aspectRatio,
+  dropAreaProps,
+  placeholderIcon = "attachment-big",
+  placeholderText = "Прикрепить изображение",
+}: WithoutImageInterface) {
   return (
     <Wrapper
       styles={[
         flexValue(1),
         pointer,
+        fullWidth,
+        fullHeight,
         child(transition(`background-color ${duration160}`), ".ui"),
         hover(backgroundColor("gray-blue/01"), ".ui"),
       ]}
@@ -42,12 +53,14 @@ function WithoutImage({ aspectRatio, dropAreaProps }: WithoutImageInterface) {
       <AspectRatioWrapper width="100%" aspectRatio={aspectRatio}>
         <Wrapper
           className="ui"
-          styles={[flex, ai(Aligns.CENTER), jc(Aligns.CENTER), padding("4px 16px 4px 12px"), borderRadius(6)]}
+          styles={[flex, ai(Aligns.CENTER), jc(Aligns.CENTER), padding("4px 16px"), borderRadius(6)]}
         >
-          <Icon icon="attachment-big" color="gray-blue/07" />
-          <Typography noWrap styles={[marginLeft(8), TypographyTypes["body-semi-bold"]]} color="gray-blue/07">
-            Прикрепить изображение
-          </Typography>
+          <Icon icon={placeholderIcon} color="gray-blue/07" />
+          {placeholderText && (
+            <Typography noWrap styles={[marginLeft(8), TypographyTypes["body-semi-bold"]]} color="gray-blue/07">
+              {placeholderText}
+            </Typography>
+          )}
         </Wrapper>
       </AspectRatioWrapper>
     </Wrapper>

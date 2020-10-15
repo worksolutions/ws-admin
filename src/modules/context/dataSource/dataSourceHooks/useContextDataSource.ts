@@ -40,8 +40,8 @@ export function useContextDataSource<RESULT = any>(dataSource: DataSourceInterfa
       })(convertDataSourceDependencyToContextDependency(dependency)),
     );
 
-    if (dataSource.context && data) {
-      updateState({ path: dataSource.context, data });
+    if (dataSource.contextPath && data) {
+      updateState({ path: dataSource.contextPath, data });
     }
 
     return {

@@ -4,8 +4,11 @@ import { useLocalStore } from "mobx-react-lite";
 import { useEffect } from "react";
 
 import { RequestError } from "libs/request";
+import { useEventEmitter } from "libs/events";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
+import { insertContext } from "modules/context/insertContext";
+import globalEventBus from "modules/globalEventBus";
 
 import apiRequestDataSourceFetcher from "./sources/apiRequestDataSourceFetcher";
 import { DataSourceResultInterface, makeOnDependencyChangeUpdater } from "./common";
@@ -18,15 +21,45 @@ export default function useApiRequestDataSource<RESULT = any>(
   dataSource: DataSourceInterface<DataSourceType.API_REQUEST>,
   initialData: RESULT,
 ) {
-  const localStore = useLocalStore<DataSourceResultInterface<RESULT>>(() => ({
-    data: initialData,
-    initialData,
-    loadingContainer: new LoadingContainer(true),
-    reload: runDataSourceFetcher,
-    updateInitial: () => undefined,
-  }));
-
   const { context, updateState } = useAppContext();
+
+  const disposers: Lambda[] = [];
+
+  useEffect(() => () => disposers.forEach((disposer) => disposer()), []);
+
+  function runDataSourceContextObserver() {
+    const contextPath = `=${dataSource.contextPath}`;
+    const { dependencies } = insertContext(contextPath, context);
+
+    dependencies.forEach((dependency) => {
+      const disposer = makeOnDependencyChangeUpdater(
+        context,
+        () => {
+          localStore.data = insertContext(contextPath, context).value;
+        },
+        true,
+      )(dependency);
+      disposers.push(disposer);
+    });
+  }
+
+  const localStore = useLocalStore<DataSourceResultInterface<RESULT>>(() => {
+    if (dataSource.contextPath) runDataSourceContextObserver();
+
+    return {
+      data: initialData,
+      initialData,
+      loadingContainer: new LoadingContainer(true),
+      reload: runDataSourceFetcher,
+      updateInitial: () => undefined,
+    };
+  });
+
+  useEventEmitter(globalEventBus, "FORCE_DATA_SOURCE_RELOAD", (id) => {
+    if (isNil(dataSource.options.id)) return;
+    if (id !== dataSource.options.id) return;
+    localStore.reload();
+  });
 
   function onDataReceived(data: any) {
     localStore.data = data;
@@ -38,8 +71,8 @@ export default function useApiRequestDataSource<RESULT = any>(
 
     if (isNil(data)) return;
 
-    if (dataSource.context) {
-      updateState({ path: dataSource.context, data });
+    if (dataSource.contextPath) {
+      updateState({ path: dataSource.contextPath, data });
     }
   }
 
@@ -48,9 +81,9 @@ export default function useApiRequestDataSource<RESULT = any>(
     localStore.loadingContainer.stopLoading();
     localStore.loadingContainer.setErrors(requestError.error.errors);
     localStore.loadingContainer.setDefaultError(requestError.error.message);
-    if (!dataSource.context) return;
+    if (!dataSource.contextPath) return;
     updateState({
-      path: dataSource.context + "_error",
+      path: dataSource.contextPath + "_error",
       data: requestError.error.message,
     });
   }

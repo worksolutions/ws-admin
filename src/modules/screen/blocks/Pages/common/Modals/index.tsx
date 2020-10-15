@@ -1,6 +1,7 @@
 import React from "react";
 
-import Modal, { ModalSize } from "primitives/Modal";
+import Modal from "primitives/Modal";
+import { ModalSize } from "primitives/Modal/ModalContent";
 
 import { useEventEmitter } from "libs/events";
 

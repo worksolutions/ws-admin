@@ -20,16 +20,13 @@ import {
 
 import FieldList from "./FieldsList";
 import { useForceWidthStyles } from "./hooks";
-import { FieldListComponentViewMode, FieldListInterface } from "./FieldsList/types";
+import { FieldListInterface } from "./FieldsList/types";
 
 import { BlockInterface } from "state/globalState";
 
 export type GroupedFieldsListInterface = BlockInterface<{ title: string; fieldList: FieldListInterface }[]>;
 
-function GroupedFieldsList({
-  options,
-  viewMode,
-}: GroupedFieldsListInterface & { viewMode: FieldListComponentViewMode }) {
+function GroupedFieldsList({ options }: GroupedFieldsListInterface) {
   const { forceWidth, widthRefs } = useForceWidthStyles();
 
   const calculateWidth = (index: number) => (width: number) => {
@@ -47,7 +44,6 @@ function GroupedFieldsList({
             />
           </Wrapper>
           <FieldList
-            viewMode={viewMode}
             useTitleWidthCalculation
             styles={horizontalPadding(20)}
             forceTitleWidth={forceWidth}

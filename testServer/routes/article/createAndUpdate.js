@@ -6,8 +6,9 @@ const { modifyArticleResponse, parseContentWithReadAlsoEnhancers } = require("./
 
 const API_HOST = process.env.DEV_API_HOST;
 const numbersByStatuses = {
-  UN_PUBLISHED: 0,
+  DRAFT: 0,
   PUBLISHED: 1,
+  UN_PUBLISHED: 2,
 };
 
 function modifyRequest(data) {
@@ -51,7 +52,7 @@ module.exports = (app) => {
     app,
     {
       modifyResponse: async ({ data }) => ({ id: data.id }),
-      modifyRequest: ({ data }) => {
+      modifyRequest: ({ requestParams: { data } }) => {
         return { data: modifyRequest(data) };
       },
       modifyError: (err) => {
@@ -68,7 +69,7 @@ module.exports = (app) => {
     app,
     {
       modifyResponse: async ({ data }) => null,
-      modifyRequest: ({ data }) => {
+      modifyRequest: ({ requestParams: { data } }) => {
         return { data: modifyRequest(data) };
       },
       modifyError: (err) => {

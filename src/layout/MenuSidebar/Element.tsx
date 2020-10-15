@@ -43,7 +43,7 @@ function getStylesForElement(selected: boolean, styles: any) {
     disableOutline,
     selected
       ? [backgroundColor("blue/05"), cursor("default"), pointerEvents("none")]
-      : hover([backgroundColor("gray-blue/01"), boxShadow([0, 0, 1, 0, createAlphaColor("black", 81)])]),
+      : hover([backgroundColor("gray-blue/01")]),
     styles,
   ];
 }

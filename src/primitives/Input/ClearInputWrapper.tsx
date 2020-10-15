@@ -36,6 +36,7 @@ function ClearInputWrapper({
             : [marginLeft(0), width(0), focus(emptyBoxShadow), horizontalPadding(0)],
           overflow("hidden"),
         ]}
+        tabIndex={needShow ? 0 : -1}
         type={ButtonType.ICON}
         size={size}
         iconLeft="cross-small"

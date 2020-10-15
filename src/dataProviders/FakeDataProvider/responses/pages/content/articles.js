@@ -9,6 +9,8 @@ module.exports = {
       type: "ContextInitializer",
       options: {
         static: [
+          { path: "screen:articles.cards.list", value: [] },
+          { path: "screen:articles.table.list", value: [] },
           { path: "screen:articles.filter.status", value: "any" },
           { path: "screen:articles.filter.publishedAt", value: null },
           { path: "screen:articles.search", value: "" },
@@ -41,7 +43,7 @@ module.exports = {
                       type: "edit:RadioGroup",
                       options: {
                         radioGroupOptions: {
-                          context: "screen:articles.filter.status",
+                          contextPath: "screen:articles.filter.status",
                         },
                         dataSource: {
                           type: "static",
@@ -67,7 +69,7 @@ module.exports = {
                         dateOptions: {
                           cleanable: true,
                           size: "medium",
-                          context: "screen:articles.filter.publishedAt",
+                          contextPath: "screen:articles.filter.publishedAt",
                         },
                         actions: {
                           change: {
@@ -154,6 +156,7 @@ module.exports = {
                       dataSource: {
                         type: "api:request",
                         options: {
+                          id: "table",
                           reference: "/articles/table",
                           method: "get",
                           body: {
@@ -166,12 +169,14 @@ module.exports = {
                             publishedAt: "=screen:articles.filter.publishedAt",
                           },
                         },
+                        contextPath: "screen:articles.table",
                       },
                     },
                     cardsView: {
                       dataSource: {
                         type: "api:request",
                         options: {
+                          id: "cards",
                           reference: "/articles/cards",
                           method: "get",
                           body: {
@@ -184,6 +189,7 @@ module.exports = {
                             publishedAt: "=screen:articles.filter.publishedAt",
                           },
                         },
+                        contextPath: "screen:articles.cards",
                       },
                       options: {
                         imageConfig: {
@@ -198,10 +204,11 @@ module.exports = {
                           initialValue: "=screen:articles.sorting",
                         },
                       },
+                      actions: {},
                     },
                     searchOptions: {
                       placeholder: "Найти",
-                      context: "screen:articles.search",
+                      contextPath: "screen:articles.search",
                     },
                     paginationView: {
                       options: {

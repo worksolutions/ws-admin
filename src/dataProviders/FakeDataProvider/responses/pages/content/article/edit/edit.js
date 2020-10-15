@@ -15,7 +15,7 @@ module.exports = {
           reference: "/article/{{screen:articleId}}/edit",
           method: "get",
         },
-        context: "screen:article",
+        contextPath: "screen:article",
       },
       options: {
         block: pageBuilder("screen:article", (body) => ({

@@ -9,6 +9,6 @@ export function prepareTriggerContextValues(
   trigger: ModifierEnableTriggerIfContextTrueValue | ModifierEnableTriggerIfContextFalseValue,
 ) {
   const appContext = useAppContext();
-  const triggerContextPaths = isArray(trigger.context) ? trigger.context : [trigger.context];
-  return triggerContextPaths.map((context) => useStateFromContext(context, appContext)[0]);
+  const triggerContextPaths = isArray(trigger.contextPath) ? trigger.contextPath : [trigger.contextPath];
+  return triggerContextPaths.map((contextPath) => useStateFromContext(contextPath, appContext)[0]);
 }

@@ -3,7 +3,7 @@ const moment = require("moment");
 
 const { makeProxy } = require("../../libs");
 const { prepareArticleToFront } = require("../article/libs");
-const matchStatusAndCode = require("./matchStatusAndCode");
+const matchStatusAndCode = require("./matches/matchStatusAndCode");
 
 module.exports = (app) => {
   makeProxy(
@@ -16,7 +16,7 @@ module.exports = (app) => {
           pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
         };
       },
-      modifyRequest: ({ params }) => {
+      modifyRequest: ({ requestParams: { params } }) => {
         let result = params;
         if (params.orderField === "publishedAt") result = assoc("orderField", "published_at", result);
         if (params.publishedAt)

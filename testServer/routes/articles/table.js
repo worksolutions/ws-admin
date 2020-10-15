@@ -3,7 +3,9 @@ const { assoc } = require("ramda");
 
 const { prepareUrl, makeProxy } = require("../../libs");
 const { prepareArticleToFront } = require("../article/libs");
-const matchStatusAndCode = require("./matchStatusAndCode");
+const matchStatusAndCode = require("./matches/matchStatusAndCode");
+const matchCodeAndStatusForFront = require("./matches/matchCodeAndStatusForFront");
+const matchCodeAndActions = require("./matches/matchCodeAndActions");
 
 module.exports = (app) => {
   makeProxy(
@@ -12,75 +14,34 @@ module.exports = (app) => {
     {
       modifyResponse: ({ data, meta }) => {
         return {
-          list: data.map((article) => {
-            const isPublished = article.status === 1;
-
-            const result = {
-              id: article.id,
-              announceImage: article.announceImage ? prepareUrl(article.announceImage.path) : null,
-              name: {
-                value: article.title,
-                redirectReference: "/content/articles/" + article.id,
+          list: data.map((article) => ({
+            id: article.id,
+            announceImage: article.announceImage ? prepareUrl(article.announceImage.path) : null,
+            name: {
+              value: article.title,
+              redirectReference: "/content/articles/" + article.id,
+            },
+            publishedAt: article.publishedAt ? moment.unix(article.publishedAt).format("DD MMMM YYYY") : "",
+            status: matchCodeAndStatusForFront[article.status],
+            actions: [
+              {
+                name: "Редактировать",
+                icon: "edit",
+                iconColor: "gray-blue/05",
+                action: {
+                  type: "redirect",
+                  options: {
+                    reference: "/content/articles/" + article.id + "/edit",
+                  },
+                },
               },
-              publishedAt: article.publishedAt ? moment.unix(article.publishedAt).format("DD MMMM YYYY") : "",
-              actions: [
-                {
-                  mode: "dropdown",
-                  items: [
-                    {
-                      name: "Редактировать",
-                      icon: "edit",
-                      iconColor: "gray-blue/05",
-                      type: "redirect",
-                      options: {
-                        reference: "/",
-                      },
-                    },
-                  ],
-                },
-              ],
-            };
-
-            if (isPublished) {
-              result.status = {
-                icon: {
-                  color: "green/05",
-                },
-                value: "Опубликовано",
-              };
-              result.actions[0].items.push({
-                name: "Снять с публикации",
-                icon: "bolt-alt",
-                iconColor: "orange/05",
-                type: "redirect",
-                options: {
-                  reference: "/",
-                },
-              });
-            } else {
-              result.status = {
-                icon: {
-                  color: "orange/05",
-                },
-                value: "Черновик",
-              };
-              result.actions[0].items.push({
-                name: "Опубликовать",
-                icon: "bolt-alt",
-                iconColor: "green/05",
-                type: "redirect",
-                options: {
-                  reference: "/",
-                },
-              });
-            }
-
-            return result;
-          }),
+              matchCodeAndActions[article.status](article.id, "table"),
+            ],
+          })),
           pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
         };
       },
-      modifyRequest: ({ params }) => {
+      modifyRequest: ({ requestParams: { params } }) => {
         let result = params;
         if (params.orderField === "publishedAt") result = assoc("orderField", "published_at", result);
         if (params.publishedAt)
@@ -101,7 +62,7 @@ module.exports = (app) => {
           pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
         };
       },
-      modifyRequest: ({ params }) => {
+      modifyRequest: ({ requestParams: { params } }) => {
         return { params: { ...params, orderDirection: "desc", orderField: "id" } };
       },
     },

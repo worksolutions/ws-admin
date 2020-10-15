@@ -21,7 +21,7 @@ function ActionRadioGroup({
   actions,
   dataSource,
   styles,
-}: BlockInterface<{ context: string }, "change"> & {
+}: BlockInterface<{ contextPath: string }, "change"> & {
   styles?: any;
 }) {
   if (!actions?.change) return null;
@@ -30,7 +30,7 @@ function ActionRadioGroup({
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
   const itemsData = useDataSource<SuggestInterface[]>(dataSource!);
-  const [value, setValue] = useStateFromContext(options.context, appContext);
+  const [value, setValue] = useStateFromContext(options.contextPath, appContext);
   useEffectSkipFirst(() => {
     resultActions.change.run(value);
   }, [value]);

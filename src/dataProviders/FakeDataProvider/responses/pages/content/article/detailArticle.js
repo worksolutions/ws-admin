@@ -13,8 +13,9 @@ module.exports = {
           dataSource: {
             type: "static",
             options: [
-              { badgeColor: "orange/05", code: "UN_PUBLISHED", title: "Не опубликовано" },
+              { badgeColor: "gray-blue/05", code: "UN_PUBLISHED", title: "Не опубликовано" },
               { badgeColor: "green/05", code: "PUBLISHED", title: "Опубликовано" },
+              { badgeColor: "orange/05", code: "DRAFT", title: "Черновик" },
             ],
           },
           options: {
@@ -29,7 +30,7 @@ module.exports = {
           reference: "/article/{{screen:articleId}}",
           method: "get",
         },
-        context: "screen:article",
+        contextPath: "screen:article",
       },
       slots: {
         headingAction: {
@@ -51,12 +52,12 @@ module.exports = {
               {
                 title: "Атрибуты",
                 block: {
-                  type: "RowFields/StaticGroupedFieldsList",
+                  type: "RowFields/GroupedFieldsList",
                   options: [
                     {
                       title: "Основные",
                       fieldList: {
-                        mode: "HORIZONTAL",
+                        mode: "vertical",
                         fields: [
                           {
                             title: "Название",
@@ -93,7 +94,7 @@ module.exports = {
                     {
                       title: "Мета",
                       fieldList: {
-                        mode: "HORIZONTAL",
+                        mode: "vertical",
                         fields: [
                           {
                             title: "Символьный код",
@@ -121,7 +122,7 @@ module.exports = {
                     {
                       title: "Изображения",
                       fieldList: {
-                        mode: "VERTICAL",
+                        mode: "horizontal",
                         fields: [
                           {
                             title: "Изображение анонса",

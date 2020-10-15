@@ -27,49 +27,51 @@ const Dropdown = function (
   ref: Ref<HTMLElement>,
 ) {
   return (
-    <DropdownContainer
-      selectedItemCodes={selectedItemCode ? [selectedItemCode] : undefined}
-      onChange={onChange}
-      items={items}
-      size={size}
-      optionalAction={optionalAction}
-      searchable={searchable}
-    >
-      {([selectedItem]) => (state, parentRef, subChild) => (
-        <InputWrapper
-          outerStyles={[outerStyles, pointer]}
-          outerRef={provideRef(ref, parentRef)}
-          size={size}
-          {...inputWrapperProps}
-          iconLeftStyles={[borderRadius("100%"), overflow("hidden")]}
-          onClick={state.toggle}
-          iconLeft={selectedItem?.leftContent}
-          iconRight={createDropdownRightIcon(state.opened)}
-          renderComponent={(styles) => (
-            <Wrapper as="button" styles={[styles, stylesProp, pointer]}>
-              {selectedItem ? (
-                <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
-                  <Typography styles={[flexValue(1), textAlign("left")]} dots>
-                    {selectedItem.title}
+    <Wrapper styles={outerStyles}>
+      <DropdownContainer
+        selectedItemCodes={selectedItemCode ? [selectedItemCode] : undefined}
+        onChange={onChange}
+        items={items}
+        size={size}
+        optionalAction={optionalAction}
+        searchable={searchable}
+      >
+        {([selectedItem]) => (state, parentRef, subChild) => (
+          <InputWrapper
+            outerStyles={[outerStyles, pointer]}
+            outerRef={provideRef(ref, parentRef)}
+            size={size}
+            {...inputWrapperProps}
+            iconLeftStyles={[borderRadius("100%"), overflow("hidden")]}
+            onClick={state.toggle}
+            iconLeft={selectedItem?.leftContent}
+            iconRight={createDropdownRightIcon(state.opened)}
+            renderComponent={(styles) => (
+              <Wrapper as="button" styles={[styles, stylesProp, pointer]}>
+                {selectedItem ? (
+                  <Wrapper styles={[flex, ai(Aligns.CENTER)]}>
+                    <Typography styles={[flexValue(1), textAlign("left")]} dots>
+                      {selectedItem.title}
+                    </Typography>
+                  </Wrapper>
+                ) : (
+                  <Typography
+                    className="placeholder"
+                    styles={[flexValue(1), textAlign("left")]}
+                    dots
+                    color="gray-blue/04"
+                  >
+                    {placeholder}
                   </Typography>
-                </Wrapper>
-              ) : (
-                <Typography
-                  className="placeholder"
-                  styles={[flexValue(1), textAlign("left")]}
-                  dots
-                  color="gray-blue/04"
-                >
-                  {placeholder}
-                </Typography>
-              )}
+                )}
 
-              {subChild}
-            </Wrapper>
-          )}
-        />
-      )}
-    </DropdownContainer>
+                {subChild}
+              </Wrapper>
+            )}
+          />
+        )}
+      </DropdownContainer>
+    </Wrapper>
   );
 };
 

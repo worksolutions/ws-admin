@@ -8,6 +8,6 @@ function concatAllTriggerContextValuesByMode(mode: ModifierEnableTriggerMode, st
 }
 
 export default function (trigger: ModifierEnableTriggerIfContextTrueValue) {
-  if (!trigger.context) return false;
+  if (!trigger.contextPath) return false;
   return concatAllTriggerContextValuesByMode(trigger.mode, prepareTriggerContextValues(trigger));
 }
