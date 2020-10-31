@@ -23,20 +23,23 @@ module.exports = (app) => {
             },
             publishedAt: article.publishedAt ? moment.unix(article.publishedAt).format("DD MMMM YYYY") : "",
             status: matchCodeAndStatusForFront[article.status],
-            actions: [
-              {
-                name: "Редактировать",
-                icon: "edit",
-                iconColor: "gray-blue/05",
-                action: {
-                  type: "redirect",
-                  options: {
-                    reference: "/content/articles/" + article.id + "/edit",
+            actions: {
+              type: "dropdown",
+              list: [
+                {
+                  name: "Редактировать",
+                  icon: "edit",
+                  iconColor: "gray-blue/05",
+                  action: {
+                    type: "redirect",
+                    options: {
+                      reference: "/content/articles/" + article.id + "/edit",
+                    },
                   },
                 },
-              },
-              matchCodeAndActions[article.status](article.id, "table"),
-            ],
+                matchCodeAndActions[article.status](article.id, "table"),
+              ],
+            },
           })),
           pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
         };

@@ -1,5 +1,5 @@
 import React from "react";
-import { cond, equals, always, T, propEq } from "ramda";
+import { propEq } from "ramda";
 
 import Icon, { Icons } from "primitives/Icon";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -28,16 +28,20 @@ function renderEmptyAction(action: any) {
   return null;
 }
 
-function renderButtonAction({ actions }: TableActionPropsInterface) {
-  const [action] = actions;
+function renderButtonActions({ actions }: TableActionPropsInterface) {
   return (
-    <Button
-      styles={[marginLeft(buttonMarginLeft), firstChild(marginLeft(0), "&")]}
-      type={ButtonType.ICON}
-      size={ButtonSize.SMALL}
-      iconLeft={action.icon}
-      onClick={() => action.handler()}
-    />
+    <>
+      {actions.map((action, key) => (
+        <Button
+          key={key}
+          styles={[marginLeft(buttonMarginLeft), firstChild(marginLeft(0), "&")]}
+          type={ButtonType.ICON}
+          size={ButtonSize.SMALL}
+          iconLeft={action.icon}
+          onClick={() => action.handler()}
+        />
+      ))}
+    </>
   );
 }
 
@@ -73,32 +77,41 @@ function renderDropdownAction({ actions }: TableActionPropsInterface) {
   );
 }
 
-const getComponentByActionsCount = cond([
-  [equals(0), always(renderEmptyAction)],
-  [equals(1), always(renderButtonAction)],
-  [T, always(renderDropdownAction)],
-]);
+enum ActionsType {
+  DEFAULT = "default",
+  DROPDOWN = "dropdown",
+}
 
-export const cellComponent: CellComponentData = ({ item, index }) => {
+const mapComponentAndActionsType = {
+  [ActionsType.DEFAULT]: renderButtonActions,
+  [ActionsType.DROPDOWN]: renderDropdownAction,
+};
+
+const getComponentByActions = ({ type = ActionsType.DEFAULT, list }: { type: ActionsType; list: any[] }) => {
+  if (list.length === 0) return renderEmptyAction;
+  return mapComponentAndActionsType[type];
+};
+
+export const cellComponent: CellComponentData = ({ item: actions, index }) => {
   const appContext = useAppContext();
 
   const memoizedActions = React.useMemo(() => {
     const result: Record<string, AnyRawAction> = {};
-    item.forEach((action: any, index: number) => {
+    actions.list.forEach((action: any, index: number) => {
       result[index.toString()] = action.action;
     });
     return result;
-  }, [item]);
+  }, [actions.list]);
 
   const patchedActions = useActions(memoizedActions, appContext);
 
-  const ComponentByActionsCount: React.FC<TableActionPropsInterface> = getComponentByActionsCount(item.length);
+  const ComponentByActionsCount: React.FC<TableActionPropsInterface> = getComponentByActions(actions);
 
   return {
     component: (
       <Wrapper styles={flex}>
         <ComponentByActionsCount
-          actions={item.map((action: any, actionIndex: number) => ({
+          actions={actions.list.map((action: any, actionIndex: number) => ({
             ...action,
             loading: patchedActions[actionIndex].loadingContainer.loading,
             handler: () => patchedActions[actionIndex].run({ index }),
@@ -106,6 +119,7 @@ export const cellComponent: CellComponentData = ({ item, index }) => {
         />
       </Wrapper>
     ),
-    cellWidth: cellDefaultHorizontalPadding + item.length * buttonWidth + buttonMarginLeft * (item.length - 1),
+    cellWidth:
+      cellDefaultHorizontalPadding + actions.list.length * buttonWidth + buttonMarginLeft * (actions.list.length - 1),
   };
 };
