@@ -166,6 +166,85 @@ module.exports = {
             },
           },
         },
+        "edit-category": {
+          title: "Редактирование категории",
+          block: {
+            type: "RowFields/FieldsList",
+            options: {
+              mode: "vertical",
+              fields: [
+                {
+                  type: "edit:Text",
+                  options: {
+                    inputOptions: {
+                      width: "full-width",
+                      size: "large",
+                      placeholder: "Название",
+                      contextPath: `screen:tempCategory.title`,
+                    },
+                    actions: {
+                      change: {
+                        type: "update-context",
+                        options: { context: `screen:tempCategory.title` },
+                      },
+                    },
+                  },
+                },
+                {
+                  type: "edit:Text",
+                  options: {
+                    inputOptions: {
+                      width: "full-width",
+                      size: "large",
+                      placeholder: "Символьный код",
+                      contextPath: `screen:tempCategory.code`,
+                    },
+                    modifier: {
+                      type: "toggle",
+                      title: "Генерировать символьный код из названия",
+                      contextPath: `screen:tempCategory.code-enableTransliteration`,
+                    },
+                    actions: {
+                      change: {
+                        type: "update-context",
+                        options: { context: `screen:tempCategory.code` },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+          actionBlock: {
+            type: "Actions/Button",
+            options: { name: "Сохранить", size: "LARGE", contextPath: `screen:tempCategory.action` },
+            actions: {
+              click: [
+                {
+                  type: "api:request",
+                  options: {
+                    reference: "/categories/update",
+                    method: "post",
+                    body: {
+                      id: "=screen:tempCategory.id",
+                      code: "=screen:tempCategory.code",
+                      name: "=screen:tempCategory.title",
+                    },
+                  },
+                },
+                {
+                  type: "force-data-source-reload",
+                  options: {
+                    id: "categories",
+                  },
+                },
+                {
+                  type: "close-modal",
+                },
+              ],
+            },
+          },
+        },
       },
     },
   ],

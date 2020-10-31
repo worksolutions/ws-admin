@@ -1,6 +1,22 @@
 const { makeProxy } = require("../../libs");
 
 module.exports = (app) => {
+  makeProxy(
+    {
+      realServerUrl: (req) => "/api/categories/" + req.params.categoryId,
+      expressMethodHandlerName: "get",
+      handleUrl: "/api/category/:categoryId",
+    },
+    app,
+    {
+      modifyResponse: ({ data }) => ({
+        id: data.id,
+        title: data.name,
+        code: data.code,
+        "code-enableTransliteration": false,
+      }),
+    },
+  );
   makeProxy({ realServerUrl: "/api/categories", expressMethodHandlerName: "get", handleUrl: "/api/categories" }, app, {
     modifyResponse: ({ data, meta }) => {
       return {
@@ -14,12 +30,22 @@ module.exports = (app) => {
                 mode: "button",
                 icon: "edit",
                 iconColor: "gray-blue/07",
-                action: {
-                  type: "redirect",
-                  options: {
-                    reference: "/",
+                action: [
+                  {
+                    type: "api:request",
+                    options: {
+                      reference: `/category/${category.id}`,
+                      method: "get",
+                      saveToContext: "screen:tempCategory",
+                    },
                   },
-                },
+                  {
+                    type: "open-modal",
+                    options: {
+                      name: "edit-category",
+                    },
+                  },
+                ],
               },
               {
                 mode: "button",
