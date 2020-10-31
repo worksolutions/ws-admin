@@ -42,6 +42,7 @@ export class LoadingContainer {
   @action.bound
   setError(name: string, value: string | null) {
     this.errors[name] = value;
+    this.runErrorsObserver();
   }
 
   getError = (name: string) => this.errors[name];
@@ -56,6 +57,8 @@ export class LoadingContainer {
   @action.bound
   setErrors(errors: ErrorInterface) {
     this.errors = errors || {};
+    if (!this.hasErrors()) return;
+    this.runErrorsObserver();
   }
 
   @action.bound
@@ -63,5 +66,28 @@ export class LoadingContainer {
     this.errors = {};
   }
 
-  hasAnyError = () => Object.keys(this.errors).length !== 0;
+  getAnyError = () => {
+    const defaultError = this.getDefaultError();
+    if (defaultError) return defaultError;
+    const errorKeys = Object.keys(this.errors);
+    if (errorKeys.length === 0) return null;
+    return errorKeys[0];
+  };
+
+  hasErrors = () => Object.keys(this.errors).length !== 0;
+
+  hasAnyError = () => !!this.getAnyError();
+
+  private errorsObservers = new Set<Function>();
+
+  private runErrorsObserver() {
+    this.errorsObservers.forEach((func) => func());
+  }
+
+  observeErrors = (callback: () => void) => {
+    this.errorsObservers.add(callback);
+    return () => {
+      this.errorsObservers.delete(callback);
+    };
+  };
 }

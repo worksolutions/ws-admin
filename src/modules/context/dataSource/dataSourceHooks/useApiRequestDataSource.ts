@@ -4,11 +4,9 @@ import { useLocalStore } from "mobx-react-lite";
 import { useEffect } from "react";
 
 import { RequestError } from "libs/request";
-import { useEventEmitter } from "libs/events";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { insertContext } from "modules/context/insertContext";
-import globalEventBus from "modules/globalEventBus";
 
 import apiRequestDataSourceFetcher from "./sources/apiRequestDataSourceFetcher";
 import { DataSourceResultInterface, makeOnDependencyChangeUpdater } from "./common";
@@ -55,12 +53,6 @@ export default function useApiRequestDataSource<RESULT = any>(
     };
   });
 
-  useEventEmitter(globalEventBus, "FORCE_DATA_SOURCE_RELOAD", (id) => {
-    if (isNil(dataSource.options.id)) return;
-    if (id !== dataSource.options.id) return;
-    localStore.reload();
-  });
-
   function onDataReceived(data: any) {
     localStore.data = data;
     if (!localStore.initialData) {
@@ -82,6 +74,7 @@ export default function useApiRequestDataSource<RESULT = any>(
     localStore.loadingContainer.setErrors(requestError.error.errors);
     localStore.loadingContainer.setDefaultError(requestError.error.message);
     if (!dataSource.contextPath) return;
+
     updateState({
       path: dataSource.contextPath + "_error",
       data: requestError.error.message,

@@ -22,7 +22,7 @@ export function makeOnDependencyChangeUpdater(context: any, onUpdate: () => void
     const contextValue = path([dependency.contextType, ...dependency.path.slice(0, -1)], context);
     if (!is(Object, contextValue))
       throw BaseError.make(
-        `Поле в контексте не определено ${dependency.contextType}:${dependency.path.join(".")} для наблюдения`,
+        `Поле в контексте ${dependency.contextType}:${dependency.path.join(".")} не определено для наблюдения`,
       );
     const propertyName = last(dependency.path)!;
     if (deep) {
