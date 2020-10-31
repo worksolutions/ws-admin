@@ -27,11 +27,10 @@ import {
   zIndex,
 } from "libs/styles";
 import { useBoolean, useEffectSkipFirst } from "libs/hooks/common";
-import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
-import { useDataSource } from "modules/context/dataSource/useDataSource";
+import { dataSourceValueWasChanged, useDataSource } from "modules/context/dataSource/useDataSource";
 import FieldsList from "modules/screen/blocks/RowFields/FieldsList";
 import { FieldListItemInterface, FieldListItemMode } from "modules/screen/blocks/RowFields/FieldsList/types";
 
@@ -61,7 +60,7 @@ function FilterBlock({
 
   if (loadingContainer.loading) return <Spinner />;
 
-  const dataAndInitialDataAreNotEqual = !isEqual(toJS(data), toJS(initialData));
+  const filterIsApplied = dataSourceValueWasChanged(data, initialData);
 
   return (
     <HandleClickOutside enabled={opened} onClickOutside={close}>
@@ -89,7 +88,7 @@ function FilterBlock({
                 key={key}
                 name={filterItem.name}
                 selected={selectedFilterIndex === key}
-                applied={dataAndInitialDataAreNotEqual}
+                applied={filterIsApplied}
                 onClick={() => {
                   setSelectedFilterIndex(key);
                   open();
@@ -114,7 +113,7 @@ function FilterBlock({
                 fields: selectedFilterIndex === -1 ? [] : options![selectedFilterIndex].fields,
               }}
             />
-            {resultActions.clear && dataAndInitialDataAreNotEqual && (
+            {resultActions.clear && filterIsApplied && (
               <Button
                 styles={marginTop(16)}
                 type={ButtonType.GHOST}

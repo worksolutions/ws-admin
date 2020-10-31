@@ -1,9 +1,13 @@
 import React from "react";
 import { isNil } from "ramda";
+import { toJS } from "mobx";
 
 import { useEventEmitter } from "libs/events";
+import isEqual from "libs/CB/changeDetectionStrategy/performance/isEqual";
 
 import globalEventBus from "modules/globalEventBus";
+
+import { modelContextPathPostfix } from "../../model";
 
 import { DataSourceResultInterface } from "./dataSourceHooks/common";
 import useApiRequestDataSource from "./dataSourceHooks/useApiRequestDataSource";
@@ -57,4 +61,13 @@ export function useDataSource<RESULT = any>(
   if (dataSource.type === DataSourceType.API_REQUEST) return useApiRequestDataSourceHandler(dataSource, initialData);
   if (dataSource.type === DataSourceType.STATIC) return useStaticDataSource(dataSource);
   return useContextDataSource(dataSource);
+}
+
+function excludeModelData<T>(data: T) {
+  return Object.fromEntries(Object.entries(data).filter(([key]) => !key.includes(modelContextPathPostfix)));
+}
+
+export function dataSourceValueWasChanged<T>(data: T, initialData: T) {
+  //TODO: убрать excludeModelData после того, как будет реализована модель данных
+  return !isEqual(toJS(excludeModelData(data)), toJS(excludeModelData(initialData)));
 }
