@@ -183,7 +183,7 @@ module.exports = function (context, getActions) {
                     {
                       title: "Атрибуты",
                       block: {
-                        type: "RowFields/GroupedFieldsList",
+                        type: "RowFields/GroupedFieldsOnEdit",
                         options: [
                           {
                             title: "Основные",
@@ -195,6 +195,9 @@ module.exports = function (context, getActions) {
                                   required: true,
                                   type: "edit:Text",
                                   options: {
+                                    alignOptions: {
+                                      titleAlign: "top",
+                                    },
                                     inputOptions: {
                                       width: "large",
                                       size: "large",

@@ -21,6 +21,7 @@ import {
   jc,
   marginTop,
   padding,
+  paddingTop,
   position,
   transform,
   transition,
@@ -112,6 +113,12 @@ function FilterBlock({
               options={{
                 mode: FieldListItemMode.VERTICAL,
                 fields: selectedFilterIndex === -1 ? [] : options![selectedFilterIndex].fields,
+              }}
+              alignConfig={{
+                vertical: {
+                  alignFieldRow: Aligns.CENTER,
+                  titleStyles: [paddingTop(0)],
+                },
               }}
             />
             {resultActions.clear && dataAndInitialDataAreNotEqual && (

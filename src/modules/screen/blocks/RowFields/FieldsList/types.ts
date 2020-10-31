@@ -1,3 +1,5 @@
+import { AlignFieldsRowConfigInterface } from "../types";
+
 import { BlockInterface } from "state/globalState";
 
 export enum FieldListItemMode {
@@ -48,6 +50,7 @@ export type FieldListInterface = {
 export type FieldListComponentInterface = BlockInterface<FieldListInterface> & {
   useTitleWidthCalculation: boolean;
   styles?: any;
+  alignConfig?: AlignFieldsRowConfigInterface;
   forceTitleWidth?: number;
   onCalculateTitleWidth?: (width: number) => void;
 };

@@ -18,15 +18,18 @@ import {
   marginTop,
 } from "libs/styles";
 
-import FieldList from "./FieldsList";
-import { useForceWidthStyles } from "./hooks";
-import { FieldListInterface } from "./FieldsList/types";
+import FieldList from "../FieldsList";
+import { useForceWidthStyles } from "../hooks";
+import { FieldListInterface } from "../FieldsList/types";
+import { AlignFieldsRowConfigInterface } from "../types";
 
 import { BlockInterface } from "state/globalState";
 
-export type GroupedFieldsListInterface = BlockInterface<{ title: string; fieldList: FieldListInterface }[]>;
+export type GroupedFieldsListInterface = { alignConfig: AlignFieldsRowConfigInterface } & BlockInterface<
+  { title: string; fieldList: FieldListInterface }[]
+>;
 
-function GroupedFieldsList({ options }: GroupedFieldsListInterface) {
+function Index({ options, alignConfig }: GroupedFieldsListInterface) {
   const { forceWidth, widthRefs } = useForceWidthStyles();
 
   const calculateWidth = (index: number) => (width: number) => {
@@ -49,6 +52,7 @@ function GroupedFieldsList({ options }: GroupedFieldsListInterface) {
             forceTitleWidth={forceWidth}
             options={group.fieldList}
             onCalculateTitleWidth={calculateWidth(key)}
+            alignConfig={alignConfig}
           />
         </Wrapper>
       ))}
@@ -56,4 +60,4 @@ function GroupedFieldsList({ options }: GroupedFieldsListInterface) {
   );
 }
 
-export default React.memo(GroupedFieldsList);
+export default React.memo(Index);

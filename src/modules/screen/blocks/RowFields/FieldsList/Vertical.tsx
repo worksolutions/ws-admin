@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import Wrapper from "primitives/Wrapper";
 import Typography from "primitives/Typography";
@@ -8,6 +8,7 @@ import Hint from "primitives/Popper/Hint";
 import {
   ai,
   Aligns,
+  alignSelf,
   child,
   firstChild,
   flex,
@@ -23,7 +24,6 @@ import {
   marginTop,
   maxWidth,
   minHeight,
-  minWidth,
   overflow,
   width,
 } from "libs/styles";
@@ -39,6 +39,7 @@ function VerticalFieldsList({
   useTitleWidthCalculation,
   onCalculateTitleWidth,
   styles,
+  alignConfig,
 }: FieldListComponentInterface) {
   const { forceWidth, widthRefs } = useForceWidthStyles(onCalculateTitleWidth);
 
@@ -46,6 +47,8 @@ function VerticalFieldsList({
     if (!ref) return;
     widthRefs.current[index] = ref.getBoundingClientRect().width;
   };
+
+  const alignTitle = useMemo(() => alignConfig?.vertical?.alignFieldRow, [alignConfig]);
 
   return (
     <Wrapper styles={[flex, flexColumn, marginTop(16), lastChild(marginBottom(0)), styles]}>
@@ -59,6 +62,8 @@ function VerticalFieldsList({
               marginRight(16),
               forceWidth && width(forceWidth),
               forceTitleWidth && width(forceTitleWidth),
+              alignConfig?.vertical?.titleStyles,
+              alignTitle && alignSelf(alignTitle),
             ]}
           >
             <Typography color="gray-blue/05" styles={[flex, ai(Aligns.CENTER), jc(Aligns.END)]}>
@@ -99,7 +104,11 @@ function VerticalFieldsList({
                 child([minHeight(38), overflow("hidden")], ".modifier"),
               ]}
             >
-              <FieldItemElementRenderer type={field.type} options={field.options} />
+              <FieldItemElementRenderer
+                type={field.type}
+                options={field.options}
+                styles={alignConfig?.vertical?.elementStyles}
+              />
             </Wrapper>
           </Wrapper>
         );
