@@ -59,22 +59,20 @@ const Resizer = React.forwardRef(function (
 
   const [hoverLine] = useHover((hovered) => {
     return (
-      <div>
+      <Wrapper
+        styles={[
+          down && child(backgroundColor("blue/05"), ".border-line"),
+          hover(child(backgroundColor("blue/05"), ".border-line")),
+        ]}
+      >
         <Wrapper
           as={animated.div}
           {...getResizingLineProps()}
-          styles={[
-            position("absolute"),
-            top(0),
-            bottom(0),
-            cursor("ew-resize"),
-            width(16),
-            down && child(backgroundColor("blue/05"), "> *"),
-            hover(child(backgroundColor("blue/05"), "> *")),
-          ]}
+          styles={[position("absolute"), top(0), bottom(0), cursor("ew-resize"), width(16)]}
           style={{ left: to([childContentStyles.width], (x) => `${x - 8}px`) }}
         >
           <Wrapper
+            className="border-line"
             as={animated.div}
             styles={[
               transition(`background-color ${duration160}`),
@@ -89,7 +87,7 @@ const Resizer = React.forwardRef(function (
         <Wrapper
           as={animated.div}
           style={{ left: childContentStyles.width }}
-          styles={[absoluteCenter, visibility(contentIsClosed ? "visible" : hovered ? "visible" : "hidden")]}
+          styles={[absoluteCenter, visibility(contentIsClosed ? "visible" : hovered || down ? "visible" : "hidden")]}
         >
           <Button
             styles={[
@@ -106,7 +104,7 @@ const Resizer = React.forwardRef(function (
             onClick={contentIsClosed ? showContent : hideContent}
           />
         </Wrapper>
-      </div>
+      </Wrapper>
     );
   });
 
