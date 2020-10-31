@@ -3,14 +3,9 @@ import React, { memo, useMemo } from "react";
 import { Aligns, paddingTop } from "libs/styles";
 
 import GroupedFieldsList from "./InnerGroupedFieldsList";
-import { FieldListInterface } from "./FieldsList/types";
-import { AlignFieldsRowConfigInterface } from "./types";
+import { AlignFieldsRowConfigInterface, GroupedFieldsListInterface } from "./types";
 
-import { BlockInterface } from "state/globalState";
-
-type GroupedFieldsListInterface = BlockInterface<{ title: string; fieldList: FieldListInterface }[]>;
-
-const configAlign: AlignFieldsRowConfigInterface = {
+const configAlignField: AlignFieldsRowConfigInterface = {
   vertical: {
     alignFieldRow: Aligns.START,
     titleStyles: [paddingTop(10)],
@@ -21,7 +16,7 @@ const configAlign: AlignFieldsRowConfigInterface = {
 };
 
 const GroupedFieldsOnEdit = (props: GroupedFieldsListInterface) => {
-  const alignConfig = useMemo(() => configAlign, [configAlign]);
+  const alignConfig = useMemo(() => configAlignField, [configAlignField]);
 
   return <GroupedFieldsList {...props} alignConfig={alignConfig} />;
 };
