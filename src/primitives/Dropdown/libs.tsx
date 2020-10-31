@@ -7,6 +7,7 @@ import Icon, { Icons } from "../Icon";
 import { InputSize } from "../Input/InputWrapper";
 import { ButtonSize } from "../Button";
 import { ListItemInterface, ListItemSize } from "../List/ListItem";
+import { flexShrink } from "../../libs/styles";
 
 import { DropdownContainerInterface, DropdownItem } from "./types";
 

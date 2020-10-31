@@ -1,4 +1,4 @@
-export function calculatePaginationData(page: number, perPage: number, elementsCount: number) {
+export function calculatePaginationParams(page: number, perPage: number, elementsCount: number) {
   const lastElementNumberOnPage = page * perPage;
   const firstElementNumberOnPage = lastElementNumberOnPage - perPage + 1;
   const pages = Math.ceil(elementsCount / perPage);

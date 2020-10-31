@@ -106,22 +106,20 @@ function DroppedList({
   onChange,
   onClose,
 }: DroppedListInterface<any>) {
-  const { placement, opened, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
-    placement: placementProp,
-  });
+  const { placement, opened, open, close, initPopper } = usePopper({ placement: placementProp });
   const { style } = useVisibilityAnimation(opened);
-
   useEffectSkipFirst(() => {
-    if (wasRendered) return;
+    if (opened) return;
     if (!onClose) return;
     onClose();
-  }, [wasRendered]);
+  }, [opened]);
 
   const Component = ComponentByOpenMode[mode];
   const toggle = toggleByOpenMode[mode];
 
   const renderItems = () => {
     if (!items) return null;
+
     const ItemsList = (
       <List
         emptyText={emptyText}
@@ -129,23 +127,24 @@ function DroppedList({
         titleDots
         activeItemIds={selectedItemIds}
         items={items}
-        onClick={(id) => onChange(id, disableWasRendered)}
+        onClick={(id) => onChange(id, close)}
       />
     );
+
     return itemsWrapper ? itemsWrapper(ItemsList) : ItemsList;
   };
 
   const renderChild = (clickOutsideRef: any) =>
     children(
       {
-        opened: wasRendered,
-        open: enableWasRendered,
-        close: disableWasRendered,
-        toggle: () => toggle(wasRendered, enableWasRendered, disableWasRendered),
+        opened,
+        open,
+        close,
+        toggle: () => toggle(opened, open, close),
       },
       provideRef(clickOutsideRef, initPopper("parent")),
       <>
-        {wasRendered && (
+        {opened && (
           <Wrapper
             as={animated.div}
             style={style}
@@ -178,12 +177,7 @@ function DroppedList({
     );
 
   return (
-    <Component
-      ignoreHtmlClickElements={ignoreClickOutsideElements}
-      opened={wasRendered}
-      open={enableWasRendered}
-      close={disableWasRendered}
-    >
+    <Component ignoreHtmlClickElements={ignoreClickOutsideElements} opened={opened} open={open} close={close}>
       {renderChild}
     </Component>
   );

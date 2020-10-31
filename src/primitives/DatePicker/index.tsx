@@ -7,7 +7,7 @@ import { InputInterface } from "primitives/Input/Input";
 import usePopper from "primitives/Popper/usePopper";
 import Wrapper from "primitives/Wrapper";
 
-import { opacity, width } from "libs/styles";
+import { width } from "libs/styles";
 import { cb } from "libs/CB";
 import { useEffectSkipFirst } from "libs/hooks/common";
 import { provideRef } from "libs/provideRef";
@@ -74,24 +74,22 @@ export default cb(
     { tip, error: errorProp, size, placeholder, outerStyles, hasCurrentDayButton },
     { state: { config, inputValue, min, max, setInputValue, error, lastValidValue } },
   ) {
-    const { placement, opened, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
-      placement: "bottom-start",
-    });
+    const { placement, opened, open, close, initPopper } = usePopper({ placement: "bottom-start" });
     const { style } = useVisibilityAnimation(opened);
 
     function inputRef(input: HTMLInputElement | null) {
       if (!input) return;
       initPopper("parent")(input);
-      input.addEventListener("focus", () => enableWasRendered());
+      input.addEventListener("focus", open);
     }
 
     function inputOuterRef(element: HTMLElement | null) {
       if (!element) return;
-      element.addEventListener("click", () => enableWasRendered());
+      element.addEventListener("click", open);
     }
 
     return (
-      <HandleClickOutside enabled={wasRendered} onClickOutside={disableWasRendered}>
+      <HandleClickOutside enabled={opened} onClickOutside={close}>
         {(ref) => (
           <MaskedInput
             size={size}
@@ -109,13 +107,8 @@ export default cb(
             onChange={setInputValue}
           >
             <>
-              {wasRendered && (
-                <Wrapper
-                  as={animated.div}
-                  style={style}
-                  styles={[zIndex_popup, opacity(wasRendered ? 1 : 0.6)]}
-                  ref={initPopper("child")}
-                >
+              {opened && (
+                <Wrapper as={animated.div} style={style} styles={zIndex_popup} ref={initPopper("child")}>
                   <Calendar
                     min={min}
                     max={max}

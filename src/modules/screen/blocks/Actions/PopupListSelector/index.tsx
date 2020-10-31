@@ -12,7 +12,7 @@ import Wrapper from "primitives/Wrapper";
 import Loading from "components/LoadingContainer/Loading";
 import LoadingProvider from "components/LoadingContainer/LoadingProvider";
 
-import { child, transform } from "libs/styles";
+import { child, maxHeight, overflow, transform } from "libs/styles";
 
 import { useStateFromContext } from "modules/context/insertContext";
 import { useAppContext } from "modules/context/hooks/useAppContext";
@@ -61,7 +61,7 @@ function PopupListSelector({
   if (!options.selectedItems?.contextPath) return null;
 
   const appContext = useAppContext();
-  const [{ list, pagination }] = useStateFromContext<PopupListSelectorDataInterface>(options.contextPath, appContext);
+  const [{ list }] = useStateFromContext<PopupListSelectorDataInterface>(options.contextPath, appContext);
   const [selectedItems] = useStateFromContext<PopupListItemInterface[]>(options.selectedItems.contextPath, appContext);
   const resultActions = useActions(actions, appContext);
   const { loadingContainer } = useDataSource(dataSource!);
@@ -73,7 +73,7 @@ function PopupListSelector({
       itemsWrapper={(child) => (
         <LoadingProvider>
           {(ref) => (
-            <Wrapper ref={ref}>
+            <Wrapper ref={ref} styles={[overflow("scroll"), maxHeight(400)]}>
               {loadingContainer.loading && <Loading />}
               {child}
             </Wrapper>

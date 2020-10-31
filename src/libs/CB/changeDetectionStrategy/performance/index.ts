@@ -7,7 +7,6 @@ import isEqual from "./isEqual";
  * декоратор для глубокого сравнения объектов в props
  * @function
  * @param {[]string} ignorePropNames - игнорировать пропсы с указанными именами при проверке
- * @param {boolean} deep - глубокая проверка объектов
  * @example
  * @performance(["onClick"])
  * class App extends React.Component {

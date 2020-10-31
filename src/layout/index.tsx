@@ -5,6 +5,7 @@ import { assoc } from "ramda";
 
 import Wrapper from "primitives/Wrapper";
 import { Icons } from "primitives/Icon";
+import Modal from "primitives/Modal";
 
 import {
   ai,
@@ -21,8 +22,8 @@ import {
 } from "libs/styles";
 import { cb } from "libs/CB";
 
-import { useDataSource } from "../modules/context/dataSource/useDataSource";
-import Modal from "../primitives/Modal";
+import { useDataSource } from "modules/context/dataSource/useDataSource";
+
 import { browserHistory } from "../common";
 
 import MenuSidebar, { sidebarWidth } from "./MenuSidebar";
@@ -106,7 +107,6 @@ export default cb(
                 />
               ),
             },
-            { href: "/settings", selected: false, type: "button", icon: "settings" },
           ]}
         />
         <Wrapper

@@ -27,7 +27,7 @@ import {
 import stopPropagation from "libs/stopPropagation";
 import { useEffectSkipFirst } from "libs/hooks/common";
 
-import { calculatePaginationData, getMaskedInputWidth } from "./libs";
+import { calculatePaginationParams, getMaskedInputWidth } from "./libs";
 
 interface PaginationInterface {
   styles?: any;
@@ -101,7 +101,7 @@ function Pagination({ styles, page, perPage, elementsCount, onChange }: Paginati
   useEffectSkipFirst(() => onChange(1), [perPage]);
 
   const { lastElementNumberOnPage, firstElementNumberOnPage, pages } = React.useMemo(
-    () => calculatePaginationData(page, perPage, elementsCount),
+    () => calculatePaginationParams(page, perPage, elementsCount),
     [page, perPage, elementsCount],
   );
 

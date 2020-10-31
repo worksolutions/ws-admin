@@ -60,7 +60,6 @@ const cssAnimateProperties = [
   "border",
   "box-shadow",
   "opacity",
-  "visibility",
   "background-color",
   "width",
   "height",

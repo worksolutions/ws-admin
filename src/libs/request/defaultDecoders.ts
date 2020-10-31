@@ -14,6 +14,14 @@ export const valueDecoder = <T>(inputValue: T) =>
     return value === inputValue ? ok<string, T>(value) : err(`Пришло: "${value}"; Ожидалось "${inputValue}"`);
   });
 
+export const withDefaultValueDecoder = <A, D>(decoder: Decoder<A>, defaultValue: D) =>
+  new Decoder((value: Record<string, any>) => {
+    return decoder.decodeAny(value).cata({
+      Ok: (value) => ok<string, A | D>(value),
+      Err: () => ok<string, D>(defaultValue),
+    });
+  });
+
 export const fieldWithDefaultDecoder = <A>(key: string, decoder: Decoder<A>, defaultValue: A | null = null) =>
   new Decoder((value: Record<string, any>) => {
     if (isNil(value[key])) {

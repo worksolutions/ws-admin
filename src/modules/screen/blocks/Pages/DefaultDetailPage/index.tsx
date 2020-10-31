@@ -22,6 +22,7 @@ function DefaultDetailPage({
   if (dataSource) {
     const data = useDataSource(dataSource);
     if (data.loadingContainer.loading) return <Loading />;
+    if (data.loadingContainer.hasAnyError()) return null;
   }
 
   return (
