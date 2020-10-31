@@ -485,10 +485,28 @@ module.exports = function (context, getActions) {
                           block: {
                             type: "HTMLEditor",
                             actions: {
-                              change: {
-                                type: "update-context",
-                                options: { context: `${context}.content` },
-                              },
+                              preview: [
+                                {
+                                  type: "update-context",
+                                  options: { context: `${tempContext}.editor.isPreviewMode` },
+                                },
+                                {
+                                  type: "open-modal",
+                                  options: {
+                                    name: "content-preview-modal",
+                                  },
+                                },
+                              ],
+                              change: [
+                                {
+                                  type: "update-context",
+                                  options: { context: `${context}.content` },
+                                },
+                                {
+                                  type: "update-context",
+                                  options: { context: `${context}.enhancedContent` },
+                                },
+                              ],
                               upload: {
                                 type: "api:uploadFile",
                                 options: {
@@ -497,6 +515,7 @@ module.exports = function (context, getActions) {
                               },
                             },
                             options: {
+                              visibilityMode: { contextPath: `${tempContext}.editor.isPreviewMode` },
                               blocks: [
                                 {
                                   type: "Actions/ButtonPopUp",
@@ -908,6 +927,41 @@ module.exports = function (context, getActions) {
                   },
                 ],
               },
+            },
+          },
+          "content-preview-modal": {
+            title: "Предпросмотр",
+            size: "FULL_WIDTH",
+            block: {
+              type: "FormattedHTMLText",
+              dataSource: {
+                type: "api:request",
+                contextPath: `${context}.enhancedContent`,
+                options: {
+                  reference: "/content/articles/{{screen:articleId}}/convert-enhancers",
+                  method: "post",
+                  body: {
+                    content: `=${context}.content`,
+                  },
+                },
+              },
+            },
+            actions: {
+              close: [
+                {
+                  type: "modify-output-data-context",
+                  options: {
+                    resultValue: "",
+                  },
+                },
+                {
+                  type: "update-context",
+                  options: {
+                    context: `${tempContext}.editor.isPreviewMode`,
+                    takeIncomeDataFromPreviousAction: true,
+                  },
+                },
+              ],
             },
           },
         },

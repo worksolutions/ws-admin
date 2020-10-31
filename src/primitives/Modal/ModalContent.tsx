@@ -33,9 +33,9 @@ import {
 } from "libs/styles";
 
 export enum ModalSize {
-  ADJUST_CONTENT,
-  FULL_WIDTH,
-  SMALL,
+  ADJUST_CONTENT = "ADJUST_CONTENT",
+  FULL_WIDTH = "FULL_WIDTH",
+  SMALL = "SMALL",
 }
 
 const modalWidthBySize: Record<ModalSize, string | number> = {

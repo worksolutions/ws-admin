@@ -149,8 +149,11 @@ module.exports = {
                 title: "Текст",
                 block: {
                   type: "FormattedHTMLText",
-                  options: {
-                    value: "=screen:article.content",
+                  dataSource: {
+                    type: "context",
+                    options: {
+                      key: "screen:article.enhancedContent",
+                    },
                   },
                 },
               },

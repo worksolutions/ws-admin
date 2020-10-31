@@ -17,6 +17,7 @@ import { useActions } from "modules/context/actions/useActions";
 import globalEventBus from "modules/globalEventBus";
 
 import BlocksList from "../BlocksList";
+import { useStateFromContext } from "modules/context/insertContext";
 
 import { editorStyles } from "./editorStyles";
 
@@ -27,18 +28,19 @@ interface HTMLEditorOptionsInterface {
   buttonOptions?: { icon: Icons };
   listItems?: ListItemInterface<any>[];
   blocks?: BlockInterface[];
+  visibilityMode: { contextPath: string };
 }
 
 const items = [
-  { code: "1", title: "Редактор" },
-  { code: "2", title: "Превью" },
+  { code: "0", title: "Редактор" },
+  { code: "1", title: "Превью" },
 ];
 
 function HTMLEditor({
   options,
   dataSource,
   actions,
-}: BlockInterface<HTMLEditorOptionsInterface, "change" | "upload" | "optionalAction">) {
+}: BlockInterface<HTMLEditorOptionsInterface, "change" | "upload" | "preview">) {
   if (!actions?.change) return null;
   if (!actions?.upload) return null;
   if (!dataSource) return null;
@@ -47,7 +49,18 @@ function HTMLEditor({
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
   const { data } = useDataSource(dataSource!);
+  const [isPreviewMode] = useStateFromContext(options.visibilityMode.contextPath, appContext);
   const [radioValue, setRadioValue] = React.useState(() => items[0].code);
+
+  React.useEffect(() => {
+    if (isPreviewMode) return;
+    setRadioValue(items[0].code);
+  }, [isPreviewMode]);
+
+  function toggleMode(code: string) {
+    setRadioValue(code);
+    resultActions.preview.run(code);
+  }
 
   async function uploadFile(file: File) {
     try {
@@ -72,7 +85,7 @@ function HTMLEditor({
           beforeLastSeparator: options.blocks && <BlocksList blocks={options.blocks} />,
           atTheEndOfContainer: (
             <Wrapper styles={[marginLeft(25)]}>
-              <RadioGroup size={RadioGroupSize.SMALL} active={radioValue} onChange={setRadioValue} items={items} />
+              <RadioGroup size={RadioGroupSize.SMALL} active={radioValue} onChange={toggleMode} items={items} />
             </Wrapper>
           ),
         }}

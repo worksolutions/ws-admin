@@ -48,7 +48,7 @@ type ListSelectorOptionsInterface = {
 };
 
 type ListSelectorItemInterface = {
-  id: string | number;
+  code: string | number;
   heading?: string;
   title: string;
   image?: string;
@@ -98,19 +98,19 @@ function ListSelector({
                 {data?.list && (
                   <List
                     itemSize={ListItemSize.LARGE}
-                    items={data.list.map(({ id, image, heading, title }) => ({
-                      code: id,
+                    items={data.list.map(({ code, image, heading, title }) => ({
+                      code,
                       title,
                       heading,
                       leftContent: <ImageWithDefault width={52} height={32} src={image} />,
                       circledLeftContent: false,
-                      rightContent: selectedItem === id ? <Icon icon="check" color="blue/05" /> : undefined,
+                      rightContent: selectedItem === code ? <Icon icon="check" color="blue/05" /> : undefined,
                     }))}
                     activeItemIds={[selectedItem]}
                     titleDots
                     titleStyles={[whiteSpace("normal"), maxHeight(40), maxWidth(292)]}
                     itemStyles={[padding("10px 8px")]}
-                    onClick={(code) => resultActions.select.run(data.list.find(propEq("id", code))?.id)}
+                    onClick={(code) => resultActions.select.run(data.list.find(propEq("code", code))?.code)}
                   />
                 )}
               </Wrapper>
