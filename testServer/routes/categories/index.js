@@ -13,7 +13,6 @@ module.exports = (app) => {
         id: data.id,
         title: data.name,
         code: data.code,
-        "code-enableTransliteration": false,
       }),
     },
   );
