@@ -1,6 +1,6 @@
 import { Container } from "typedi";
 
-import { REQUEST_CANCELLED, RequestManager } from "libs/request";
+import { REQUEST_CANCELLED, RequestError, RequestManager } from "libs/request";
 import { identityValueDecoder } from "libs/request/defaultDecoders";
 
 import { insertContext } from "modules/context/insertContext";
@@ -39,8 +39,8 @@ function apiRequestDataSource(
         },
       })
         .then(resolve)
-        .catch((err) => {
-          if (err === REQUEST_CANCELLED) return;
+        .catch((err: RequestError) => {
+          if (err.getMessage() === REQUEST_CANCELLED) return;
           reject(err);
         });
     }),
