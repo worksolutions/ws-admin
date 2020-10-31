@@ -41,9 +41,8 @@ function useApiRequestDataSourceHandler<RESULT>(
 
   React.useEffect(() => {
     return localStore.loadingContainer.observeErrors(() => {
-      const error = localStore.loadingContainer.getAnyError();
-      if (!error) return;
-      globalEventBus.emit("ADD_TOAST", { error: true, text: error });
+      if (!localStore.loadingContainer.hasAnyError()) return;
+      globalEventBus.emit("ADD_TOAST", { error: true, text: localStore.loadingContainer.getAnyError() });
     });
   }, []);
 
