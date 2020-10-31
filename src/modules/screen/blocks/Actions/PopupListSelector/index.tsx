@@ -61,7 +61,7 @@ function PopupListSelector({
   if (!options.selectedItems?.contextPath) return null;
 
   const appContext = useAppContext();
-  const [{ list, pagination }] = useStateFromContext<PopupListSelectorDataInterface>(options.contextPath, appContext);
+  const [{ list }] = useStateFromContext<PopupListSelectorDataInterface>(options.contextPath, appContext);
   const [selectedItems] = useStateFromContext<PopupListItemInterface[]>(options.selectedItems.contextPath, appContext);
   const resultActions = useActions(actions, appContext);
   const { loadingContainer } = useDataSource(dataSource!);
