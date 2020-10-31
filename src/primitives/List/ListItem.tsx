@@ -12,6 +12,7 @@ import {
   disableOutline,
   flex,
   flexColumn,
+  flexShrink,
   flexValue,
   focus,
   horizontalPadding,
@@ -95,6 +96,7 @@ function makeIcon(icon?: InputIconProp, styles?: any, circledIcon = true) {
         overflow("hidden"),
         ai(Aligns.CENTER),
         jc(Aligns.CENTER),
+        flexShrink(0),
         styles,
       ]}
     >
@@ -132,7 +134,7 @@ function ListItem<CODE extends string | number>({
       onClick={() => onClick && enabled && onClick(code)}
     >
       {leftIcon}
-      <Wrapper styles={[flexValue(1), textAlign("left"), flex, flexColumn]}>
+      <Wrapper styles={[flexValue(1), textAlign("left"), flex, flexColumn, overflow("hidden")]}>
         {heading && (
           <Typography type="caption-regular" noWrap>
             {heading}

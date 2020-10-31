@@ -122,6 +122,7 @@ function DroppedList({
 
   const renderItems = () => {
     if (!items) return null;
+
     const ItemsList = (
       <List
         emptyText={emptyText}
@@ -132,6 +133,7 @@ function DroppedList({
         onClick={(id) => onChange(id, disableWasRendered)}
       />
     );
+
     return itemsWrapper ? itemsWrapper(ItemsList) : ItemsList;
   };
 
