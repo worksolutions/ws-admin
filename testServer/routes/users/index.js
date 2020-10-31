@@ -10,7 +10,6 @@ module.exports = (app) => {
           user: {
             avatarReference: user.image ? prepareUrl(user.image.path) : null,
             name: user.name + " " + user.surname,
-            reference: "/users/list/" + user.id,
           },
           position: user.position,
           email: user.email,
