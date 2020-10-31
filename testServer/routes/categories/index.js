@@ -8,26 +8,32 @@ module.exports = (app) => {
           id: category.id,
           name: category.name,
           code: category.code,
-          actions: [
-            {
-              mode: "button",
-              icon: "edit",
-              iconColor: "gray-blue/07",
-              type: "redirect",
-              options: {
-                reference: "/",
+          actions: {
+            list: [
+              {
+                mode: "button",
+                icon: "edit",
+                iconColor: "gray-blue/07",
+                action: {
+                  type: "redirect",
+                  options: {
+                    reference: "/",
+                  },
+                },
               },
-            },
-            {
-              mode: "button",
-              icon: "delete",
-              iconColor: "gray-blue/07",
-              type: "redirect",
-              options: {
-                reference: "/",
+              {
+                mode: "button",
+                icon: "delete",
+                iconColor: "gray-blue/07",
+                action: {
+                  type: "redirect",
+                  options: {
+                    reference: "/",
+                  },
+                },
               },
-            },
-          ],
+            ],
+          },
         })),
         pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
       };
