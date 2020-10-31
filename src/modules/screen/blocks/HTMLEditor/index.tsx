@@ -17,7 +17,7 @@ import { useActions } from "modules/context/actions/useActions";
 import globalEventBus from "modules/globalEventBus";
 
 import BlocksList from "../BlocksList";
-import { useStateFromContext } from "../../../context/insertContext";
+import { useStateFromContext } from "modules/context/insertContext";
 
 import { editorStyles } from "./editorStyles";
 
