@@ -63,7 +63,7 @@ function Hint({
   type = HintType.black,
   margin: marginProp,
 }: HintInterface) {
-  const { placement, opened, wasRendered, enableWasRendered, disableWasRendered, initPopper } = usePopper({
+  const { placement, opened, open, close, initPopper } = usePopper({
     ...popperConfig,
     showOnHover,
   });
@@ -84,14 +84,12 @@ function Hint({
 
     const mouseEnterHandler = () => {
       clearTimeout(showTimer);
-      showTimer = setTimeout(() => {
-        enableWasRendered();
-      }, showDelay);
+      showTimer = setTimeout(open, showDelay);
     };
 
     const mouseLeaveHandler = () => {
       clearTimeout(showTimer);
-      disableWasRendered();
+      close();
     };
 
     element.addEventListener("mouseenter", mouseEnterHandler);
@@ -101,12 +99,12 @@ function Hint({
       element.removeEventListener("mouseenter", mouseEnterHandler);
       element.removeEventListener("mouseleave", mouseLeaveHandler);
     };
-  }, [showDelay, element, disableWasRendered, enableWasRendered]);
+  }, [showDelay, element]);
 
   const themeStyles = styledForType[type];
 
   const hint =
-    force || (wasRendered && !!text) ? (
+    force || (opened && !!text) ? (
       <Wrapper
         as={animated.div}
         style={style}
