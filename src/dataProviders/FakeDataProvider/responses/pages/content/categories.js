@@ -245,6 +245,34 @@ module.exports = {
             },
           },
         },
+        "delete-category": {
+          title: "Удаление категории",
+          subTitle: "Вы уверены, что хотите удалить категорию «{{screen:tempCategory.title}}»?",
+          actionBlock: {
+            type: "Actions/Button",
+            options: { name: "Удалить", size: "LARGE", contextPath: `screen:tempCategory.action` },
+            actions: {
+              click: [
+                {
+                  type: "api:request",
+                  options: {
+                    reference: "/categories/{{screen:tempCategory.id}}",
+                    method: "delete",
+                  },
+                },
+                {
+                  type: "force-data-source-reload",
+                  options: {
+                    id: "categories",
+                  },
+                },
+                {
+                  type: "close-modal",
+                },
+              ],
+            },
+          },
+        },
       },
     },
   ],

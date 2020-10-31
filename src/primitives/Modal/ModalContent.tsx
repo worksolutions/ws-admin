@@ -27,6 +27,7 @@ import {
   marginTop,
   maxWidth,
   padding,
+  textAlign,
   verticalAlign,
   verticalPadding,
   width,
@@ -132,6 +133,7 @@ export const ModalContent = observer(function ({
             backgroundColor("white"),
             elevation32,
             borderRadius(8),
+            textAlign("left"),
           ]}
         >
           <Wrapper

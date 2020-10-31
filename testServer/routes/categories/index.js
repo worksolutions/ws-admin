@@ -51,12 +51,22 @@ module.exports = (app) => {
                 mode: "button",
                 icon: "delete",
                 iconColor: "gray-blue/07",
-                action: {
-                  type: "redirect",
-                  options: {
-                    reference: "/",
+                action: [
+                  {
+                    type: "api:request",
+                    options: {
+                      reference: `/category/${category.id}`,
+                      method: "get",
+                      saveToContext: "screen:tempCategory",
+                    },
                   },
-                },
+                  {
+                    type: "open-modal",
+                    options: {
+                      name: "delete-category",
+                    },
+                  },
+                ],
               },
             ],
           },
