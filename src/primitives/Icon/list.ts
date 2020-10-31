@@ -45,4 +45,5 @@ export const list = {
   "camera-plus": require("./icons/camera-plus.svg"),
   snowflake: require("./icons/asterisk.svg"),
   notes: require("./icons/notes.svg"),
+  "save-indicator": require("./icons/save-indicator.svg"),
 };

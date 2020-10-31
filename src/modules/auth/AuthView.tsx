@@ -148,7 +148,7 @@ function AuthView({ reloadProfile }: { reloadProfile: () => void }) {
                 ref={initParent}
                 styles={[marginTop(16)]}
                 type={ButtonType.PRIMARY}
-                loading={authenticate.loadingContainer.loading}
+                loadingRight={authenticate.loadingContainer.loading}
                 size={ButtonSize.LARGE}
                 onClick={auth}
               >
