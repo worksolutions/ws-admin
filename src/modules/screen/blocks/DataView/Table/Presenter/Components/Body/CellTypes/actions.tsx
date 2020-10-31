@@ -1,5 +1,5 @@
 import React from "react";
-import { cond, equals, always, T, propEq } from "ramda";
+import { propEq } from "ramda";
 
 import Icon, { Icons } from "primitives/Icon";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -78,8 +78,8 @@ function renderDropdownAction({ actions }: TableActionPropsInterface) {
 }
 
 enum ActionsType {
-  DEFAULT = "DEFAULT",
-  DROPDOWN = "DROPDOWN",
+  DEFAULT = "default",
+  DROPDOWN = "dropdown",
 }
 
 const mapComponentAndActionsType = {

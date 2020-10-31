@@ -24,7 +24,7 @@ module.exports = (app) => {
             publishedAt: article.publishedAt ? moment.unix(article.publishedAt).format("DD MMMM YYYY") : "",
             status: matchCodeAndStatusForFront[article.status],
             actions: {
-              type: "DROPDOWN",
+              type: "dropdown",
               list: [
                 {
                   name: "Редактировать",
