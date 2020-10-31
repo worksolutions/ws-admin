@@ -6,7 +6,7 @@ import { Icons } from "primitives/Icon";
 import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
 import { useEffectSkipFirst } from "libs/hooks/common";
-import { fullWidth, maxWidth, minWidth, width } from "libs/styles";
+import { fullWidth, maxWidth, minWidth } from "libs/styles";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
@@ -55,7 +55,7 @@ function ActionInput({ actions, options, styles, onChange }: ActionInputInterfac
     <ClearInputWrapper styles={widthStyles} needShow={!!value && options?.cleanable} clear={() => setValue("")}>
       <Input
         outerStyles={[styles, fullWidth]}
-        styles={[fullWidth]}
+        styles={[fullWidth, minWidth("100%"), maxWidth("100%")]}
         size={options?.size}
         value={value || ""}
         placeholder={options?.placeholder || "Не заполнено"}
