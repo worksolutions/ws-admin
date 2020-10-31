@@ -29,7 +29,7 @@ module.exports = {
               },
             },
           ],
-          discard: {
+          close: {
             type: "redirect",
             options: {
               reference: "/content/articles/{{screen:articleId}}",

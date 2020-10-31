@@ -37,8 +37,8 @@ function renderButtonActions({ actions }: TableActionPropsInterface) {
           styles={[marginLeft(buttonMarginLeft), firstChild(marginLeft(0), "&")]}
           type={ButtonType.ICON}
           size={ButtonSize.SMALL}
-          iconLeft={action.loading ? undefined : action.icon}
-          loading={action.loading}
+          iconLeft={action.icon}
+          loadingLeft={action.loading}
           onClick={() => action.handler()}
         />
       ))}

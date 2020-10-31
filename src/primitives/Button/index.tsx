@@ -9,6 +9,7 @@ import { ButtonType } from "./types";
 
 interface ButtonInterface extends BaseButtonWrapperInterface {
   tabIndex?: number;
+  loadingText?: string;
   className?: string;
   preventDefault?: boolean;
   children?: React.ReactNode;
@@ -29,7 +30,8 @@ const Button = React.forwardRef(function (
   return (
     <ButtonWrapper {...buttonWrapperProps}>
       {(styles, iconLeft, iconRight) => {
-        const clickHandler = buttonWrapperProps.loading ? undefined : onClick;
+        const loading = buttonWrapperProps.loadingLeft || buttonWrapperProps.loadingRight;
+        const clickHandler = loading ? undefined : onClick;
         return (
           <Wrapper
             className={className}
@@ -41,7 +43,7 @@ const Button = React.forwardRef(function (
             onClick={clickHandler && (preventDefaultProp ? preventDefault(clickHandler) : clickHandler)}
           >
             {iconLeft}
-            {buttonWrapperProps.loading ? buttonWrapperProps.loadingText || children : children}
+            {loading ? buttonWrapperProps.loadingText || children : children}
             {iconRight}
           </Wrapper>
         );

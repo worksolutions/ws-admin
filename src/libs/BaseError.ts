@@ -31,6 +31,10 @@ const errorDecoder = succeed({})
   );
 
 export class BaseError {
+  static isBaseError(value: any): value is BaseError {
+    return value instanceof BaseError;
+  }
+
   static make(message: string, errors: Record<string, string> = {}) {
     return new BaseError({
       message,
@@ -44,10 +48,9 @@ export class BaseError {
     this.error = errorDecoder
       .decodeAny(error)
       .getOrElseValue({ message: "Не удалось определить формат ошибки", errors: {} });
-    console.log(this.error);
   }
 
-  hasAnyErrors() {
+  hasErrors() {
     return Object.keys(this.error.errors).length !== 0;
   }
 
