@@ -195,9 +195,6 @@ module.exports = function (context, getActions) {
                                   required: true,
                                   type: "edit:Text",
                                   options: {
-                                    alignOptions: {
-                                      titleAlign: "top",
-                                    },
                                     inputOptions: {
                                       width: "large",
                                       size: "large",

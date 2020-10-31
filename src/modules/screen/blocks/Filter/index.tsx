@@ -2,7 +2,6 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { duration160 } from "layout/durations";
 import { elevation32 } from "style/shadows";
-import { toJS } from "mobx";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
