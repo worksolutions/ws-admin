@@ -35,8 +35,8 @@ function getStylesNameOnIcons(
 }
 
 export interface BaseButtonWrapperInterface {
-  loading?: boolean;
-  loadingText?: string;
+  loadingLeft?: boolean;
+  loadingRight?: boolean;
   iconLeft?: Icons;
   iconRight?: Icons;
   iconLeftWidth?: number;
@@ -60,7 +60,6 @@ const cssAnimateProperties = [
   "border",
   "box-shadow",
   "opacity",
-  "visibility",
   "background-color",
   "width",
   "height",
@@ -70,6 +69,19 @@ const cssAnimateProperties = [
 
 const transitionStyle = transition(cssAnimateProperties.map((val) => `${val} ${duration160}`).join(","));
 
+function makeIcon(
+  loading: boolean | undefined,
+  icon: Icons | undefined,
+  { height, width, className }: { className: string; width?: number; height?: number },
+) {
+  const resultClassName = `icon ${className}`;
+
+  if (loading) return <Spinner className={resultClassName} />;
+  if (!icon) return null;
+
+  return <Icon className={resultClassName} icon={icon} width={width} height={height} />;
+}
+
 function ButtonWrapper({
   children,
   size = ButtonSize.LARGE,
@@ -77,7 +89,8 @@ function ButtonWrapper({
   iconLeft,
   iconRight,
   styles,
-  loading,
+  loadingLeft,
+  loadingRight,
   iconLeftWidth,
   iconLeftHeight,
   iconRightWidth,
@@ -91,7 +104,7 @@ function ButtonWrapper({
     if (isIconButton)
       return {
         iconLeft: iconLeft || iconRight,
-        iconRight: null,
+        iconRight: undefined,
         leftWidth: iconLeftWidth || iconRightWidth,
         leftHeight: iconLeftHeight || iconRightHeight,
         rightWidth: 0,
@@ -100,7 +113,7 @@ function ButtonWrapper({
 
     return {
       iconLeft,
-      iconRight: iconRight,
+      iconRight,
       leftWidth: iconLeftWidth,
       leftHeight: iconLeftHeight,
       rightWidth: iconRightWidth,
@@ -110,19 +123,19 @@ function ButtonWrapper({
 
   const resultStyles = buttonStyles[getStylesNameOnIcons(!!icons.iconLeft, !!icons.iconRight)];
 
-  const leftIconElement = icons.iconLeft && (
-    <Icon className="icon icon-left" icon={icons.iconLeft} width={icons.leftWidth} height={icons.leftHeight} />
-  );
+  const leftIconElement = makeIcon(loadingLeft, icons.iconLeft, {
+    className: "icon-left",
+    width: icons.leftWidth,
+    height: icons.leftHeight,
+  });
 
-  const rightIconElement = loading ? (
-    <Spinner className="icon icon-right" />
-  ) : (
-    icons.iconRight && (
-      <Icon className="icon icon-right" icon={icons.iconRight} width={icons.rightWidth} height={iconRightHeight} />
-    )
-  );
+  const rightIconElement = makeIcon(loadingRight, icons.iconRight, {
+    className: "icon-right",
+    width: icons.rightWidth,
+    height: icons.rightHeight,
+  });
 
-  const isActive = !loading;
+  const isNotLoading = !(loadingLeft || loadingRight);
 
   return children(
     [
@@ -138,7 +151,12 @@ function ButtonWrapper({
       resultStyles.default,
       disabled
         ? resultStyles.disabled
-        : isActive && [pointer, hover(resultStyles.hover), focus(resultStyles.focused), active(resultStyles.active)],
+        : isNotLoading && [
+            pointer,
+            hover(resultStyles.hover),
+            focus(resultStyles.focused),
+            active(resultStyles.active),
+          ],
       styles,
     ],
     leftIconElement,

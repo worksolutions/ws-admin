@@ -18,7 +18,7 @@ type ContextInitializerOptions = {
   static?: { path: string; value: any }[];
 } & Partial<ContainsRawActions<Record<string, AnyRawAction>>>;
 
-function ContextInitializer({ options, dataSource }: BlockInterface<ContextInitializerOptions>) {
+function ContextInitializer({ options, dataSource, ...props }: BlockInterface<ContextInitializerOptions>) {
   if (!options) return null;
 
   const appContext = useAppContext();
@@ -44,7 +44,7 @@ function ContextInitializer({ options, dataSource }: BlockInterface<ContextIniti
   if (data && data.loadingContainer.loading) return <Loading />;
   if (!apiDataInitialized) return <Loading />;
 
-  return options.block ? <BlockRenderer {...options.block} /> : null;
+  return options.block ? <BlockRenderer {...props} {...options.block} /> : null;
 }
 
 export default React.memo(observer(ContextInitializer));

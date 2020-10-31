@@ -24,7 +24,7 @@ interface TableActionPropsInterface {
   actions: { name: string; icon?: Icons; iconColor?: Colors; loading?: boolean; handler: () => Promise<void> }[];
 }
 
-function renderEmptyAction(action: any) {
+function renderEmptyAction(_action: any) {
   return null;
 }
 
@@ -38,6 +38,7 @@ function renderButtonActions({ actions }: TableActionPropsInterface) {
           type={ButtonType.ICON}
           size={ButtonSize.SMALL}
           iconLeft={action.icon}
+          loadingLeft={action.loading}
           onClick={() => action.handler()}
         />
       ))}

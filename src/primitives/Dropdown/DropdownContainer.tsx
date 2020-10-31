@@ -13,6 +13,8 @@ import {
   marginLeft,
   marginRight,
   marginTop,
+  maxHeight,
+  overflow,
   paddingBottom,
   paddingLeft,
   transform,
@@ -75,6 +77,7 @@ const DropdownContainer = function ({
       selectedItemIds={selectedItemCodes}
       includeMinWidthCalculation={!searchable}
       emptyText={getEmptyText(search, { searchable, notFoundText: searchableNotFoundText }, searchableEmptyListText)}
+      itemsWrapper={(child) => <Wrapper styles={[maxHeight(400), overflow("scroll")]}>{child}</Wrapper>}
       topComponent={
         searchable && (
           <ClearInputWrapper

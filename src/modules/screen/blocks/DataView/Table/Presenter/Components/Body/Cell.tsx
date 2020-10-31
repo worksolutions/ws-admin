@@ -10,6 +10,7 @@ import {
   bottom,
   horizontalPadding,
   left,
+  minWidth,
   position,
   right,
   top,
@@ -53,6 +54,7 @@ function Cell({ tableViewOptions, item, column, tableCellProps, styles, index }:
         verticalPadding(componentVerticalPadding),
         horizontalPadding(halfOfCellDefaultHorizontalPadding),
         width(cellWidth),
+        minWidth(cellWidth),
         position("relative"),
         styles,
       ]}

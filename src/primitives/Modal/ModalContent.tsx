@@ -172,7 +172,7 @@ export const ModalContent = observer(function ({
               <Button
                 size={ButtonSize.LARGE}
                 type={ButtonType.PRIMARY}
-                loading={primaryActionLoading}
+                loadingRight={primaryActionLoading}
                 onClick={() => onPrimaryAction(close)}
               >
                 {primaryActionText}
@@ -182,7 +182,7 @@ export const ModalContent = observer(function ({
               <Button
                 size={ButtonSize.LARGE}
                 type={ButtonType.SECONDARY}
-                loading={secondaryActionLoading}
+                loadingRight={secondaryActionLoading}
                 onClick={() => onSecondaryAction(close)}
               >
                 {secondaryActionText}

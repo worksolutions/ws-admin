@@ -70,13 +70,14 @@ export class LoadingContainer {
     const defaultError = this.getDefaultError();
     if (defaultError) return defaultError;
     const errorKeys = Object.keys(this.errors);
-    if (errorKeys.length === 0) return null;
-    return errorKeys[0];
+    const unknownError = "Неизвестный формат ошибки";
+    if (errorKeys.length === 0) return unknownError;
+    return this.errors[errorKeys[0]] || unknownError;
   };
 
   hasErrors = () => Object.keys(this.errors).length !== 0;
 
-  hasAnyError = () => !!this.getAnyError();
+  hasAnyError = () => this.hasErrors() || !!this.getDefaultError();
 
   private errorsObservers = new Set<Function>();
 

@@ -30,7 +30,7 @@ function ActionButton({
       type={options.type || ButtonType.PRIMARY}
       size={options.size || ButtonSize.MEDIUM}
       iconLeft={options.icon}
-      loading={resultActions.click.loadingContainer.loading}
+      loadingLeft={resultActions.click.loadingContainer.loading}
       onClick={() => resultActions.click.run()}
     >
       {options.name}

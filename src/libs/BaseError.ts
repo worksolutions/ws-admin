@@ -2,30 +2,39 @@ import Decoder, { field, keyValuePairs, string, succeed } from "jsonous";
 import { fromPairs } from "ramda";
 import { ok } from "resulty";
 
+import { withDefaultValueDecoder } from "./request/defaultDecoders";
+
 interface ErrorInterface {
   message: string;
   errors: Record<string, string>;
 }
 
 const errorDecoder = succeed({})
-  .assign("message", field("message", string))
+  .assign("message", withDefaultValueDecoder(field("message", string), ""))
   .assign(
     "errors",
-    field(
-      "errors",
-      keyValuePairs(
-        new Decoder((errorData) => {
-          const stringError = string.decodeAny(errorData);
-          return stringError.cata({
-            Ok: (value) => ok(value),
-            Err: () => ok(JSON.stringify(errorData)),
-          });
-        }),
-      ).map((pairs) => fromPairs(pairs)),
+    withDefaultValueDecoder(
+      field(
+        "errors",
+        keyValuePairs(
+          new Decoder((errorData) => {
+            const stringError = string.decodeAny(errorData);
+            return stringError.cata({
+              Ok: (value) => ok(value),
+              Err: () => ok(JSON.stringify(errorData)),
+            });
+          }),
+        ).map((pairs) => fromPairs(pairs)),
+      ),
+      {},
     ),
   );
 
 export class BaseError {
+  static isBaseError(value: any): value is BaseError {
+    return value instanceof BaseError;
+  }
+
   static make(message: string, errors: Record<string, string> = {}) {
     return new BaseError({
       message,
@@ -41,7 +50,7 @@ export class BaseError {
       .getOrElseValue({ message: "Не удалось определить формат ошибки", errors: {} });
   }
 
-  hasAnyErrors() {
+  hasErrors() {
     return Object.keys(this.error.errors).length !== 0;
   }
 

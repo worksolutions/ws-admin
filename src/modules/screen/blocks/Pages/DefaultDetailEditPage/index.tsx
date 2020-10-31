@@ -22,8 +22,21 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: 
   const resultActions = useEditActions(options!.saveOptions.context, actions!);
   const { data, initialData, loadingContainer, updateInitial } = useDataSource(dataSource!);
   const touched = useFormTouched(data, initialData);
-  const save = useDetailSaver(resultActions, () => updateInitial(data));
+  const {
+    saveCompleteOpened,
+    saveCompleteShowed,
+    save,
+    apply,
+    saveLoading,
+    applyLoading,
+  } = useDetailSaver(resultActions, () => updateInitial(data));
   const checkRequiredFields = useDetailRequiredFieldsChecker(options!.saveOptions.requiredContextFields);
+
+  function applyDetail() {
+    const correct = checkRequiredFields();
+    if (!correct) return;
+    apply();
+  }
 
   function saveDetail() {
     const correct = checkRequiredFields();
@@ -44,11 +57,14 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: 
           status={options?.status}
           rightSideElement={
             <Saver
-              saveDisabled={resultActions.save.loadingContainer.loading || !touched}
-              saveLoading={resultActions.save.loadingContainer.loading}
-              onDiscard={resultActions.discard?.run}
-              onSave={console.log}
-              onApply={saveDetail}
+              saveCompleteOpened={saveCompleteOpened}
+              saveCompleteShowed={saveCompleteShowed}
+              applyLoading={applyLoading}
+              saveLoading={saveLoading}
+              saveDisabled={saveLoading || applyLoading || !touched}
+              onDiscard={resultActions.close!.run}
+              onApply={applyDetail}
+              onSave={saveDetail}
             />
           }
         />
