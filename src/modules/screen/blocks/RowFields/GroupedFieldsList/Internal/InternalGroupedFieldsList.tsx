@@ -18,15 +18,11 @@ import {
   marginTop,
 } from "libs/styles";
 
-import FieldList from "./FieldsList";
-import { useForceWidthStyles } from "./hooks";
-import { FieldListInterface } from "./FieldsList/types";
+import { useForceWidthStyles } from "../../hooks";
+import { InternalGroupedFieldsListInterface } from "../../types";
+import AlignContainerFieldsList from "../../FieldsList/Internal/AlignContainerFieldsList";
 
-import { BlockInterface } from "state/globalState";
-
-export type GroupedFieldsListInterface = BlockInterface<{ title: string; fieldList: FieldListInterface }[]>;
-
-function GroupedFieldsList({ options }: GroupedFieldsListInterface) {
+function InternalGroupedFieldsList({ options, isEditable }: InternalGroupedFieldsListInterface) {
   const { forceWidth, widthRefs } = useForceWidthStyles();
 
   const calculateWidth = (index: number) => (width: number) => {
@@ -43,12 +39,13 @@ function GroupedFieldsList({ options }: GroupedFieldsListInterface) {
               styles={[flexValue(1), marginLeft(20), height(1), backgroundColor("gray-blue/02"), marginTop(2)]}
             />
           </Wrapper>
-          <FieldList
+          <AlignContainerFieldsList
             useTitleWidthCalculation
             styles={horizontalPadding(20)}
             forceTitleWidth={forceWidth}
             options={group.fieldList}
             onCalculateTitleWidth={calculateWidth(key)}
+            isEditable={isEditable}
           />
         </Wrapper>
       ))}
@@ -56,4 +53,4 @@ function GroupedFieldsList({ options }: GroupedFieldsListInterface) {
   );
 }
 
-export default React.memo(GroupedFieldsList);
+export default React.memo(InternalGroupedFieldsList);

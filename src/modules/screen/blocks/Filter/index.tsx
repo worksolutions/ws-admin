@@ -2,7 +2,6 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { duration160 } from "layout/durations";
 import { elevation32 } from "style/shadows";
-import { toJS } from "mobx";
 
 import Wrapper from "primitives/Wrapper";
 import Button, { ButtonSize, ButtonType } from "primitives/Button";
@@ -31,8 +30,9 @@ import { useBoolean, useEffectSkipFirst } from "libs/hooks/common";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { dataSourceValueWasChanged, useDataSource } from "modules/context/dataSource/useDataSource";
-import FieldsList from "modules/screen/blocks/RowFields/FieldsList";
 import { FieldListItemInterface, FieldListItemMode } from "modules/screen/blocks/RowFields/FieldsList/types";
+
+import AlignContainerFieldsList from "../RowFields/FieldsList/Internal/AlignContainerFieldsList";
 
 import FilterItem from "./Item";
 import DroppedMenuWrapper from "./DroppedMenuWrapper";
@@ -105,14 +105,17 @@ function FilterBlock({
             ]}
             onClick={opened ? close : open}
           />
+
           <DroppedMenuWrapper opened={opened}>
-            <FieldsList
+            <AlignContainerFieldsList
               useTitleWidthCalculation
               options={{
                 mode: FieldListItemMode.VERTICAL,
                 fields: selectedFilterIndex === -1 ? [] : options![selectedFilterIndex].fields,
               }}
+              isEditable={false}
             />
+
             {resultActions.clear && filterIsApplied && (
               <Button
                 styles={marginTop(16)}

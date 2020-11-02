@@ -1,7 +1,7 @@
 import React from "react";
 
-import HorizontalFieldsList from "./Horizontal";
-import VerticalFieldsList from "./Vertical";
+import HorizontalFieldsList from "./Internal/Horizontal";
+import VerticalFieldsList from "./Internal/Vertical";
 import { FieldListComponentInterface, FieldListItemMode } from "./types";
 
 function FieldsList({
@@ -10,6 +10,7 @@ function FieldsList({
   onCalculateTitleWidth,
   useTitleWidthCalculation,
   styles,
+  alignConfig,
 }: FieldListComponentInterface) {
   const mode = options!.mode || FieldListItemMode.HORIZONTAL;
 
@@ -17,6 +18,7 @@ function FieldsList({
     <HorizontalFieldsList
       styles={styles}
       options={options}
+      alignConfig={alignConfig}
       forceTitleWidth={forceTitleWidth}
       onCalculateTitleWidth={onCalculateTitleWidth}
     />
@@ -25,6 +27,7 @@ function FieldsList({
       useTitleWidthCalculation={useTitleWidthCalculation}
       styles={styles}
       options={options}
+      alignConfig={alignConfig}
       forceTitleWidth={forceTitleWidth}
       onCalculateTitleWidth={onCalculateTitleWidth}
     />

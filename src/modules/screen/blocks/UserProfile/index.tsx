@@ -43,6 +43,7 @@ function UserProfile({
           <Avatar size={128} styles={marginRight(32)} reference={data.avatar} />
           <Wrapper>
             <Typography type="h2-bold">{data.name}</Typography>
+
             <FieldsList
               useTitleWidthCalculation={false}
               options={{

@@ -101,6 +101,7 @@ export const cellComponent: CellComponentData = ({ item: actions, index }) => {
     actions.list.forEach((action: any, index: number) => {
       result[index.toString()] = action.action;
     });
+
     return result;
   }, [actions.list]);
 
