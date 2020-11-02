@@ -34,6 +34,8 @@ import { dataSourceValueWasChanged, useDataSource } from "modules/context/dataSo
 import FieldsList from "modules/screen/blocks/RowFields/FieldsList";
 import { FieldListItemInterface, FieldListItemMode } from "modules/screen/blocks/RowFields/FieldsList/types";
 
+import AlignContainerFieldsList from "../RowFields/FieldsList/AlignContainerFieldsList";
+
 import FilterItem from "./Item";
 import DroppedMenuWrapper from "./DroppedMenuWrapper";
 
@@ -105,20 +107,17 @@ function FilterBlock({
             ]}
             onClick={opened ? close : open}
           />
+
           <DroppedMenuWrapper opened={opened}>
-            <FieldsList
+            <AlignContainerFieldsList
               useTitleWidthCalculation
               options={{
                 mode: FieldListItemMode.VERTICAL,
                 fields: selectedFilterIndex === -1 ? [] : options![selectedFilterIndex].fields,
               }}
-              alignConfig={{
-                vertical: {
-                  alignFieldRow: Aligns.CENTER,
-                  titleStyles: [paddingTop(0)],
-                },
-              }}
+              isEditable={false}
             />
+
             {resultActions.clear && filterIsApplied && (
               <Button
                 styles={marginTop(16)}

@@ -29,7 +29,7 @@ export type GroupedFieldsListInterface = { alignConfig: AlignFieldsRowConfigInte
   { title: string; fieldList: FieldListInterface }[]
 >;
 
-function Index({ options, alignConfig }: GroupedFieldsListInterface) {
+function InternalGroupedFieldsList({ options, alignConfig }: GroupedFieldsListInterface) {
   const { forceWidth, widthRefs } = useForceWidthStyles();
 
   const calculateWidth = (index: number) => (width: number) => {
@@ -60,4 +60,4 @@ function Index({ options, alignConfig }: GroupedFieldsListInterface) {
   );
 }
 
-export default React.memo(Index);
+export default React.memo(InternalGroupedFieldsList);

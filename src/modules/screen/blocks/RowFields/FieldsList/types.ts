@@ -54,3 +54,7 @@ export type FieldListComponentInterface = BlockInterface<FieldListInterface> & {
   forceTitleWidth?: number;
   onCalculateTitleWidth?: (width: number) => void;
 };
+
+export type AlignContainerFieldsListInterface = {
+  isEditable: boolean;
+} & Omit<FieldListComponentInterface, "alignConfig">;

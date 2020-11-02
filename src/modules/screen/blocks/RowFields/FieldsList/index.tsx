@@ -1,4 +1,5 @@
 import React from "react";
+import { toJS } from "mobx";
 
 import HorizontalFieldsList from "./Horizontal";
 import VerticalFieldsList from "./Vertical";
@@ -12,6 +13,8 @@ function FieldsList({
   styles,
   alignConfig,
 }: FieldListComponentInterface) {
+  console.log("options ", toJS(options));
+
   const mode = options!.mode || FieldListItemMode.HORIZONTAL;
 
   return mode === FieldListItemMode.HORIZONTAL ? (

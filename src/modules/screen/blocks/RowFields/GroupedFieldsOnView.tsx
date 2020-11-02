@@ -2,23 +2,13 @@ import React, { memo, useMemo } from "react";
 
 import { Aligns, paddingTop } from "libs/styles";
 
-import GroupedFieldsList from "./InnerGroupedFieldsList";
+import GroupedFieldsList from "./InternalGroupedFieldsList";
 import { AlignFieldsRowConfigInterface, GroupedFieldsListInterface } from "./types";
+import { AlignContainerFieldsListInterface } from "./FieldsList/types";
+import AlignContainerFieldsList from "./FieldsList/AlignContainerFieldsList";
 
-const configAlignField: AlignFieldsRowConfigInterface = {
-  vertical: {
-    alignFieldRow: Aligns.CENTER,
-    titleStyles: [paddingTop(0)],
-  },
-  horizontal: {
-    alignFieldRow: Aligns.START,
-  },
-};
-
-const GroupedFieldsOnView = (props: GroupedFieldsListInterface) => {
-  const alignConfig = useMemo(() => configAlignField, [configAlignField]);
-
-  return <GroupedFieldsList {...props} alignConfig={alignConfig} />;
-};
+const GroupedFieldsOnView = (props: AlignContainerFieldsListInterface) => (
+  <AlignContainerFieldsList {...props} isEditable={false} />
+);
 
 export default memo(GroupedFieldsOnView);
