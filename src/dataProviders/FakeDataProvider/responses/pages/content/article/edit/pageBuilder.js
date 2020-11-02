@@ -183,7 +183,7 @@ module.exports = function (context, getActions) {
                     {
                       title: "Атрибуты",
                       block: {
-                        type: "RowFields/GroupedFieldsOnEdit",
+                        type: "RowFields/GroupedFieldsList/GroupedFieldsOnEdit",
                         options: [
                           {
                             title: "Основные",

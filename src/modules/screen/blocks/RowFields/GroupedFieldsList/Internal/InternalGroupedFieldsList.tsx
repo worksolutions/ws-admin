@@ -18,18 +18,11 @@ import {
   marginTop,
 } from "libs/styles";
 
-import FieldList from "../FieldsList";
-import { useForceWidthStyles } from "../hooks";
-import { FieldListInterface } from "../FieldsList/types";
-import { AlignFieldsRowConfigInterface } from "../types";
+import { useForceWidthStyles } from "../../hooks";
+import { InternalGroupedFieldsListInterface } from "../../types";
+import AlignContainerFieldsList from "../../FieldsList/Internal/AlignContainerFieldsList";
 
-import { BlockInterface } from "state/globalState";
-
-export type GroupedFieldsListInterface = { alignConfig: AlignFieldsRowConfigInterface } & BlockInterface<
-  { title: string; fieldList: FieldListInterface }[]
->;
-
-function InternalGroupedFieldsList({ options, alignConfig }: GroupedFieldsListInterface) {
+function InternalGroupedFieldsList({ options, isEditable }: InternalGroupedFieldsListInterface) {
   const { forceWidth, widthRefs } = useForceWidthStyles();
 
   const calculateWidth = (index: number) => (width: number) => {
@@ -46,13 +39,13 @@ function InternalGroupedFieldsList({ options, alignConfig }: GroupedFieldsListIn
               styles={[flexValue(1), marginLeft(20), height(1), backgroundColor("gray-blue/02"), marginTop(2)]}
             />
           </Wrapper>
-          <FieldList
+          <AlignContainerFieldsList
             useTitleWidthCalculation
             styles={horizontalPadding(20)}
             forceTitleWidth={forceWidth}
             options={group.fieldList}
             onCalculateTitleWidth={calculateWidth(key)}
-            alignConfig={alignConfig}
+            isEditable={isEditable}
           />
         </Wrapper>
       ))}

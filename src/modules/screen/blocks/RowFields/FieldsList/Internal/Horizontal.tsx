@@ -5,7 +5,6 @@ import Typography from "primitives/Typography";
 import LayoutGrid from "primitives/LayoutGrid";
 
 import {
-  Aligns,
   alignSelf,
   child,
   flex,
@@ -17,8 +16,8 @@ import {
   maxWidth,
 } from "libs/styles";
 
-import { FieldListComponentInterface } from "./types";
-import FieldItemElementRenderer from "./Elements";
+import { FieldListComponentInterface } from "../types";
+import FieldItemElementRenderer from "../Elements";
 
 function HorizontalFieldsList({
   options,

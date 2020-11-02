@@ -6,6 +6,10 @@ import { BlockInterface } from "state/globalState";
 
 export type GroupedFieldsListInterface = BlockInterface<{ title: string; fieldList: FieldListInterface }[]>;
 
+export interface InternalGroupedFieldsListInterface extends GroupedFieldsListInterface {
+  isEditable: boolean;
+}
+
 export interface AlignFieldsRowConfigInterface {
   vertical?: {
     alignFieldRow?: Aligns;

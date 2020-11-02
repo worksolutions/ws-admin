@@ -20,7 +20,6 @@ import {
   jc,
   marginTop,
   padding,
-  paddingTop,
   position,
   transform,
   transition,
@@ -31,10 +30,9 @@ import { useBoolean, useEffectSkipFirst } from "libs/hooks/common";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import { dataSourceValueWasChanged, useDataSource } from "modules/context/dataSource/useDataSource";
-import FieldsList from "modules/screen/blocks/RowFields/FieldsList";
 import { FieldListItemInterface, FieldListItemMode } from "modules/screen/blocks/RowFields/FieldsList/types";
 
-import AlignContainerFieldsList from "../RowFields/FieldsList/AlignContainerFieldsList";
+import AlignContainerFieldsList from "../RowFields/FieldsList/Internal/AlignContainerFieldsList";
 
 import FilterItem from "./Item";
 import DroppedMenuWrapper from "./DroppedMenuWrapper";

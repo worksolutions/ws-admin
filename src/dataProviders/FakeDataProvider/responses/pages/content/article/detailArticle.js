@@ -52,7 +52,7 @@ module.exports = {
               {
                 title: "Атрибуты",
                 block: {
-                  type: "RowFields/GroupedFieldsOnView",
+                  type: "RowFields/GroupedFieldsList/GroupedFieldsOnView",
                   options: [
                     {
                       title: "Основные",

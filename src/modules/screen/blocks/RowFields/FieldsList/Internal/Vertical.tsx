@@ -28,10 +28,9 @@ import {
   width,
 } from "libs/styles";
 
-import { useForceWidthStyles } from "../hooks";
-
-import { FieldListComponentInterface } from "./types";
-import FieldItemElementRenderer from "./Elements";
+import { useForceWidthStyles } from "../../hooks";
+import { FieldListComponentInterface } from "../types";
+import FieldItemElementRenderer from "../Elements";
 
 function VerticalFieldsList({
   options,
