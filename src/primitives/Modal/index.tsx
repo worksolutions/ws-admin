@@ -23,6 +23,9 @@ import {
 } from "libs/styles";
 import { useBoolean, useEffectSkipFirst } from "libs/hooks/common";
 
+import { insertContext } from "modules/context/insertContext";
+import { useAppContext } from "modules/context/hooks/useAppContext";
+
 import { activeModal, ModalContent, ModalInterface, ModalSize } from "./ModalContent";
 
 const root = document.getElementById("root")!;
@@ -37,7 +40,7 @@ function Modal({
   onPrimaryAction,
   secondaryActionText,
   primaryActionText,
-  subTitle,
+  subTitle: subTitleProp,
   onClose,
   children,
   secondaryActionLoading,
@@ -46,6 +49,7 @@ function Modal({
   closeOnBackdropClick,
 }: ModalInterface) {
   const [opened, open, close] = useBoolean(() => (isNil(openedProp) ? false : openedProp));
+  const { value: subTitle } = insertContext(subTitleProp, useAppContext().context);
 
   useEffectSkipFirst(() => {
     if (openedProp) {
