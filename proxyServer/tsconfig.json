@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016",
+      "es2019",
+      "esnext"
+    ],
+    "declaration": true,
+    "removeComments": true,
+    "allowJs": true,
+    "checkJs": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "skipLibCheck": true,
+    "incremental": true,
+    "downlevelIteration": false,
+    "paths": {
+      "assets/*": ["assets/*"],
+      "libs/*": ["libs/*"],
+      "modules/*": ["modules/*"],
+      "services/*": ["services/*"],
+      "types/*": ["types/*"]
+    }
+  }
+}

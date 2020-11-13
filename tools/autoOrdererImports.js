@@ -30,10 +30,9 @@ function groupedImportsByOrders(imports) {
       if (!matches || matches.length === 0) {
         matches = imp.match(/(?<=import ").+(?=")/gm);
       }
+      if (!matches) return imp;
       const fromStr = matches[0];
-      const orderGroup = config.importOrders.find((el) =>
-        fromStr.match(el.pattern),
-      );
+      const orderGroup = config.importOrders.find((el) => fromStr.match(el.pattern));
       return orderGroup.order.toString();
     }),
   )(imports);

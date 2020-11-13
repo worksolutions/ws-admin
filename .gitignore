@@ -4,3 +4,8 @@ node_modules
 .env
 package-lock.json
 
+proxyServer/node_modules
+proxyServer/.idea
+proxyServer/build
+proxyServer/.env
+proxyServer/package-lock.json
