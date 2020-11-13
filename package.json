@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "NODE_ENV=production react-app-rewired build && cd testServer && npm run build",
-    "serve-production-proxy": "NODE_ENV=production PORT=80 node proxyServer/dist/src/main.js",
+    "build": "NODE_ENV=production react-app-rewired build && cd proxyServer && npm run build",
+    "serve-production-proxy": "NODE_ENV=production node proxyServer/dist/src/main.js",
     "test": "react-app-rewired test",
     "format": "prettier --write --list-different \"src/**/*.{ts,tsx,js,json,yml}\"",
     "lint": "eslint src --ext .ts,.js,.jsx --fix",

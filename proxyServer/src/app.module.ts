@@ -28,7 +28,7 @@ import { DefaultModule } from 'modules/default/default.module';
     FileStorageModule,
     DefaultModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../..', 'build'),
+      rootPath: join(__dirname, '../../..', 'build'),
     }),
   ],
 })
