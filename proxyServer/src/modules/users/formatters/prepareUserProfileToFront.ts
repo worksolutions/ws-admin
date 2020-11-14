@@ -1,8 +1,7 @@
 import prepareUrl from 'libs/prepareUrl';
 
-export default function({ user }) {
-  if (!user.image) return;
-  const imagePath = prepareUrl(user.image.path);
+export default function ({ user }) {
+  const imagePath = user.image ? prepareUrl(user.image.path) : null;
 
   user.firstName = user.name;
   user.blocked = !user.active;

@@ -25,16 +25,4 @@ export class AdminController {
       require(join(process.cwd(), 'src/assets/serverConfig/main-config.js')),
     );
   }
-
-  @Post('admin/user/update')
-  async updateUserProfile() {
-    return await this.proxyService.sendProxyRequest({
-      realServerUrl: '/api/users/update',
-      modifyResponse: prepareUserProfileToFront,
-      modifyRequest: ({ requestParams: { data } }) => {
-        const resultData = { ...data, active: !data.blocked };
-        return { data: omit(['blocked'], resultData) };
-      },
-    });
-  }
 }
