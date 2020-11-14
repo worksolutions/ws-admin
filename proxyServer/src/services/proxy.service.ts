@@ -2,11 +2,11 @@ import { is, isNil, omit } from 'ramda';
 
 import axios from 'axios';
 
-import { Injectable, Inject, Res } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 import { REQUEST } from '@nestjs/core';
 
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 import { ConfigService } from '@nestjs/config';
 

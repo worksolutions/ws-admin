@@ -33,7 +33,7 @@ async function getSubArticlesContent(text, getArticle) {
   if (!articleMatch) return [];
 
   return await Promise.all(
-    articleMatch.map(match => {
+    articleMatch.map((match) => {
       const articleCodeText = match.split('#')[1];
       return getArticle(articleCodeText.split(':')[1]);
     }),
@@ -45,11 +45,11 @@ export async function getContentWithReadAlsoEnhancers(
   originalRequestParams,
 ) {
   try {
-    const articles = (await getSubArticlesContent(content, code => {
+    const articles = (await getSubArticlesContent(content, (code) => {
       return axios('/api/blog/article/' + code, originalRequestParams);
     })) as any;
 
-    const articlesData = articles.map(article => article.data.data);
+    const articlesData = articles.map((article) => article.data.data);
     return EnhancersConverterReadAlso.convert(content, articlesData);
   } catch (e) {
     console.error(e);
@@ -57,7 +57,11 @@ export async function getContentWithReadAlsoEnhancers(
   }
 }
 
-export async function modifyArticleResponse(data, originalRequestParams) {
+export async function modifyArticleResponse(
+  data,
+  { originalRequestParams },
+  withRelatedArticles = false,
+) {
   data.status = statusesByNumber[data.status];
   if (data.publishedAt)
     data.publishedAt = moment.unix(data.publishedAt).format('DD.MM.YYYY');
@@ -67,35 +71,13 @@ export async function modifyArticleResponse(data, originalRequestParams) {
   if (data.contentImage) data.contentImage = convertImage(data.contentImage);
   if (data.background) data.background = convertImage(data.background);
 
-  if (false && data.relatedArticles) {
-    const relatedArticles = await module.exports.modifyRelatedArticleResponse(
-      data,
-      originalRequestParams,
+  if (withRelatedArticles && data.relatedArticles) {
+    data.relatedArticles = await modifyRelatedArticleResponse(
+      { data },
+      { originalRequestParams },
     );
-    data.relatedArticles = data.relatedArticles.map((article, index) => {
-      const isPublished = article.status === 1;
-      const relatedArticle = relatedArticles[index];
-      const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
-
-      return {
-        id: article.id,
-        heading: moment
-          .unix(article[isPublished ? 'publishedAt' : 'createdAt'])
-          .format('DD MMMM YYYY'),
-        statuses: [
-          {
-            icon: 'badge',
-            color: badgeColor,
-            hint,
-            size: 'SMALL',
-          },
-        ],
-        title: article.title,
-        image: relatedArticle.image,
-        redirectReference: '/content/articles/' + article.id,
-        actions: [],
-      };
-    });
+  } else {
+    data.relatedArticles = [];
   }
 
   if (!data.content) {
@@ -112,25 +94,26 @@ export async function modifyArticleResponse(data, originalRequestParams) {
 }
 
 export async function modifyRelatedArticleResponse(
-  data,
-  originalRequestParams,
+  { data },
+  { originalRequestParams },
 ) {
   const articles = await Promise.all(
-    data.relatedArticles.map(article =>
-      axios('/api/blog/article/' + article.code, originalRequestParams),
+    data.relatedArticles.map((article) =>
+      axios('/api/articles/' + article.id, originalRequestParams),
     ),
   );
+
   return articles
     .map((article: any) => article.data.data)
-    .map(article => {
+    .map((article) => {
       const isPublished = article.status === 1;
       const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
 
       return {
         title: article.title,
         id: article.id,
-        image: article.announceImageUrl
-          ? prepareUrl(article.announceImageUrl)
+        image: article.announceImage
+          ? prepareUrl(article.announceImage.path)
           : null,
         redirectReference: '/content/articles/' + article.id,
         heading: moment
@@ -179,7 +162,7 @@ export async function loadArticle(articleId, requestParams) {
     ...requestParams,
     method: 'GET',
   });
-  return filter(value => !isNil(value), {
+  return filter((value) => !isNil(value), {
     ...omit(['createdBy', 'updatedBy'], data),
     author: data.author?.id,
     tagDescription: data.tagDescription,
@@ -192,7 +175,7 @@ export async function loadArticle(articleId, requestParams) {
   });
 }
 
-export const prepareArticleToFront = article => {
+export const prepareArticleToFront = (article) => {
   const isPublished = article.status === 1;
   const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
 
@@ -248,7 +231,7 @@ export const modifyArticlesRequest = ({ requestParams: { params } }) => {
 
 export function modifyArticlesTableResponse({ data, meta }) {
   return {
-    list: data.map(article => ({
+    list: data.map((article) => ({
       id: article.id,
       announceImage: article.announceImage
         ? prepareUrl(article.announceImage.path)
