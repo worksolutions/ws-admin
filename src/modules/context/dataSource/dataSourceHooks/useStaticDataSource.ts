@@ -22,7 +22,8 @@ export function useStaticDataSource<RESULT = any>(dataSource: DataSourceInterfac
       initialData: clone(data),
       loadingContainer: new LoadingContainer(false),
       reload: () => null,
-      updateInitial: () => {},
+      updateInitial: () => null,
+      reset: () => null,
     };
   });
 

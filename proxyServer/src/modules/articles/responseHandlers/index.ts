@@ -52,7 +52,6 @@ export async function getContentWithReadAlsoEnhancers(
     const articlesData = articles.map((article) => article.data.data);
     return EnhancersConverterReadAlso.convert(content, articlesData);
   } catch (e) {
-    console.error(e);
     return content;
   }
 }

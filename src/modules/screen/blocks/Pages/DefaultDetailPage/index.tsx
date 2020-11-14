@@ -1,5 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
 
 import Loading from "components/LoadingContainer/Loading";
 
@@ -20,7 +21,7 @@ function DefaultDetailPage({
   modals,
 }: CommonPageInterface & BlockInterface<PageHeaderInterface>) {
   if (dataSource) {
-    const data = useDataSource(dataSource);
+    const data = useDataSource(dataSource, {});
     if (data.loadingContainer.loading) return <Loading />;
     if (data.loadingContainer.hasAnyError()) return null;
   }

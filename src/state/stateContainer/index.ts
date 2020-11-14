@@ -45,7 +45,16 @@ export class StateContainer<T = Record<string, any>> {
   }
 
   @action.bound
-  mergeStates(value: object) {
+  mergeStates(value: object, override = false) {
+    if (override) {
+      Object.keys(this.state).forEach((key) => {
+        // @ts-ignore
+        this.state[key] = undefined;
+      });
+      Object.assign(this.state, value);
+      return;
+    }
+
     StateContainer.deepMergeStates(this.state, value);
   }
 

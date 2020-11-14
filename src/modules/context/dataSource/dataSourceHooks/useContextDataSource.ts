@@ -42,6 +42,10 @@ export function useContextDataSource<RESULT = any>(dataSource: DataSourceInterfa
 
     if (dataSource.contextPath && data) {
       updateState({ path: dataSource.contextPath, data });
+
+      allDisposers.push(() => {
+        updateState({ path: dataSource.contextPath!, data: undefined });
+      });
     }
 
     return {
@@ -50,6 +54,7 @@ export function useContextDataSource<RESULT = any>(dataSource: DataSourceInterfa
       loadingContainer: new LoadingContainer(false),
       reload: () => null,
       updateInitial: (data) => (localStore.initialData = clone(data)),
+      reset: () => null,
     };
   });
 

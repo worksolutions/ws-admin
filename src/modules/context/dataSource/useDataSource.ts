@@ -26,6 +26,7 @@ function useEmptyDataSource<DATA>() {
       loadingContainer: new LoadingContainer(false),
       reload: () => undefined,
       updateInitial: () => undefined,
+      reset: () => undefined,
     }),
     [],
   );
@@ -44,10 +45,15 @@ function useApiRequestDataSourceHandler<RESULT>(
   });
 
   React.useEffect(() => {
-    return localStore.loadingContainer.observeErrors(() => {
+    const disposer = localStore.loadingContainer.observeErrors(() => {
       if (!localStore.loadingContainer.hasAnyError()) return;
       globalEventBus.emit("ADD_TOAST", { error: true, text: localStore.loadingContainer.getAnyError() });
     });
+
+    return () => {
+      disposer();
+      localStore.reset();
+    };
   }, []);
 
   return localStore;

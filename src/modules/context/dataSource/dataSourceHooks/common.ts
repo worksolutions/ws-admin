@@ -15,6 +15,7 @@ export interface DataSourceResultInterface<RESULT = any> {
   loadingContainer: LoadingContainer;
   reload: () => void;
   updateInitial: (data: RESULT | null) => void;
+  reset: () => void;
 }
 
 export function makeOnDependencyChangeUpdater(context: any, onUpdate: () => void, deep = false) {

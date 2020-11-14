@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 import { RequestError } from "libs/request";
 
-import { useAppContext } from "modules/context/hooks/useAppContext";
+import { convertContextDependencyToUpdateStatePayload, useAppContext } from "modules/context/hooks/useAppContext";
 import { insertContext } from "modules/context/insertContext";
 
 import apiRequestDataSourceFetcher from "./sources/apiRequestDataSourceFetcher";
@@ -30,6 +30,10 @@ export default function useApiRequestDataSource<RESULT = any>(
     const { dependencies } = insertContext(contextPath, context);
 
     dependencies.forEach((dependency) => {
+      if (!isNil(initialData)) {
+        updateState(convertContextDependencyToUpdateStatePayload(initialData)(dependency));
+      }
+
       const disposer = makeOnDependencyChangeUpdater(
         context,
         () => {
@@ -50,10 +54,11 @@ export default function useApiRequestDataSource<RESULT = any>(
       loadingContainer: new LoadingContainer(true),
       reload: runDataSourceFetcher,
       updateInitial: () => undefined,
+      reset: () => onDataReceived(initialData, true),
     };
   });
 
-  function onDataReceived(data: any) {
+  function onDataReceived(data: any, overridePrevious?: boolean) {
     localStore.data = data;
     if (!localStore.initialData) {
       localStore.initialData = clone(data);
@@ -64,7 +69,7 @@ export default function useApiRequestDataSource<RESULT = any>(
     if (isNil(data)) return;
 
     if (dataSource.contextPath) {
-      updateState({ path: dataSource.contextPath, data });
+      updateState({ path: dataSource.contextPath, data }, overridePrevious);
     }
   }
 

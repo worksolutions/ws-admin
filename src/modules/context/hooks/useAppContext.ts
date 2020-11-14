@@ -5,6 +5,7 @@ import { Container } from "typedi";
 import { splitByPoint } from "libs/path";
 
 import { getContextTypeAndPathByParam } from "../contextParamParser";
+import { ContextDependencyInterface } from "../insertContext";
 
 import { ScreenState } from "state/screenState";
 import { GlobalState } from "state/globalState";
@@ -18,15 +19,15 @@ const screenState = Container.get(ScreenState);
 const globalState = Container.get(GlobalState);
 
 export function useAppContext() {
-  const updateContext = (rawPayload: UpdateStatePayload) => {
+  const updateContext = (rawPayload: UpdateStatePayload, override = false) => {
     const { payload, contextType } = getUpdateStateInfoFromPayload(rawPayload);
     const data = assocPath(splitByPoint(payload.path), payload.data, {});
     switch (contextType) {
       case "screen":
-        screenState.stateContainer.mergeStates(data);
+        screenState.stateContainer.mergeStates(data, override);
         break;
       default:
-        globalState.stateContainer.mergeStates(data);
+        globalState.stateContainer.mergeStates(data, override);
         break;
     }
   };
@@ -51,3 +52,9 @@ const getUpdateStateInfoFromPayload = (payload: UpdateStatePayload) => {
     },
   };
 };
+
+export function convertContextDependencyToUpdateStatePayload(resultData: any) {
+  return function ({ path, contextType }: ContextDependencyInterface): UpdateStatePayload {
+    return { path: `${contextType}:${path.join(".")}`, data: resultData };
+  };
+}
