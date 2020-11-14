@@ -4,7 +4,7 @@ module.exports = function (context, getActions) {
   const relatedArticlesContext = `${tempContext}.related-articles`;
 
   return {
-    type: "ContextInitializer",
+    type: 'ContextInitializer',
     options: {
       static: [
         { path: context, value: {} },
@@ -14,45 +14,53 @@ module.exports = function (context, getActions) {
       ],
       actions: {
         loadCategories: {
-          type: "api:request",
+          type: 'api:request',
           options: {
-            reference: "/categories-list",
-            method: "get",
+            reference: '/categories-list',
+            method: 'get',
             body: {
-              page: "1",
-              perPage: "100",
+              page: '1',
+              perPage: '100',
             },
             saveToContext: `${tempContext}.categories`,
           },
         },
         loadUsers: {
-          type: "api:request",
+          type: 'api:request',
           options: {
-            reference: "/users-list",
-            method: "get",
+            reference: '/users-list',
+            method: 'get',
             body: {
-              page: "1",
-              perPage: "100",
+              page: '1',
+              perPage: '100',
             },
             saveToContext: `${tempContext}.users`,
           },
         },
       },
       block: {
-        type: "Pages/DefaultDetailEditPage",
+        type: 'Pages/DefaultDetailEditPage',
         dataSource: {
-          type: "context",
+          type: 'context',
           options: { key: context },
         },
         options: {
-          title: "Статья",
+          title: 'Статья',
           status: {
             dataSource: {
-              type: "static",
+              type: 'static',
               options: [
-                { badgeColor: "gray-blue/05", code: "UN_PUBLISHED", title: "Не опубликовано" },
-                { badgeColor: "green/05", code: "PUBLISHED", title: "Опубликовано" },
-                { badgeColor: "orange/05", code: "DRAFT", title: "Черновик" },
+                {
+                  badgeColor: 'gray-blue/05',
+                  code: 'UN_PUBLISHED',
+                  title: 'Не опубликовано',
+                },
+                {
+                  badgeColor: 'green/05',
+                  code: 'PUBLISHED',
+                  title: 'Опубликовано',
+                },
+                { badgeColor: 'orange/05', code: 'DRAFT', title: 'Черновик' },
               ],
             },
             options: {
@@ -60,63 +68,80 @@ module.exports = function (context, getActions) {
             },
             actions: {
               change: {
-                type: "update-context",
+                type: 'update-context',
                 options: { context: `${context}.status` },
               },
             },
           },
           saveOptions: {
-            context: "screen:article",
-            requiredContextFields: [`${context}.title`, `${context}.code`, `${context}.category`, `${context}.author`],
+            context: 'screen:article',
+            requiredContextFields: [
+              `${context}.title`,
+              `${context}.code`,
+              `${context}.category`,
+              `${context}.author`,
+            ],
           },
         },
         slots: {
           mainContent: {
-            type: "BlocksList",
+            type: 'BlocksList',
             blocks: [
               {
-                type: "Actions/Modifiers/ContextModifier",
+                type: 'Actions/Modifiers/ContextModifier',
                 options: {
-                  type: "model-disabler",
+                  type: 'model-disabler',
                   enableTrigger: {
-                    type: "if-context-true-value",
+                    type: 'if-context-true-value',
                     contextPath: `${context}.code-enableTransliteration`,
                   },
                   options: { contextPath: `${context}.code` },
                 },
               },
               {
-                type: "Actions/Modifiers/ContextModifier",
+                type: 'Actions/Modifiers/ContextModifier',
                 options: {
-                  type: "transliteration",
+                  type: 'transliteration',
                   enableTrigger: {
-                    type: "if-context-true-value",
+                    type: 'if-context-true-value',
                     contextPath: `${context}.code-enableTransliteration`,
                   },
-                  options: { fromContextPath: `${context}.title`, toContextPath: `${context}.code` },
+                  options: {
+                    fromContextPath: `${context}.title`,
+                    toContextPath: `${context}.code`,
+                  },
                 },
               },
               {
-                type: "Actions/Modifiers/ContextModifier",
+                type: 'Actions/Modifiers/ContextModifier',
                 options: {
-                  type: "model-disabler",
-                  enableTrigger: { type: "if-context-true-value", contextPath: `${context}.tagTitle-takeFromTitle` },
+                  type: 'model-disabler',
+                  enableTrigger: {
+                    type: 'if-context-true-value',
+                    contextPath: `${context}.tagTitle-takeFromTitle`,
+                  },
                   options: { contextPath: `${context}.tagTitle` },
                 },
               },
               {
-                type: "Actions/Modifiers/ContextModifier",
+                type: 'Actions/Modifiers/ContextModifier',
                 options: {
-                  type: "copy-context",
-                  enableTrigger: { type: "if-context-true-value", contextPath: `${context}.tagTitle-takeFromTitle` },
-                  options: { fromContextPath: `${context}.title`, toContextPath: `${context}.tagTitle` },
+                  type: 'copy-context',
+                  enableTrigger: {
+                    type: 'if-context-true-value',
+                    contextPath: `${context}.tagTitle-takeFromTitle`,
+                  },
+                  options: {
+                    fromContextPath: `${context}.title`,
+                    toContextPath: `${context}.tagTitle`,
+                  },
                 },
               },
               {
-                type: "Actions/Modifiers/ContextModifier",
+                type: 'Actions/Modifiers/ContextModifier',
                 options: {
-                  type: "exclude-array-items-by-id-from-context",
-                  enableTrigger: { type: "always" },
+                  type: 'exclude-array-items-by-id-from-context',
+                  enableTrigger: { type: 'always' },
                   options: {
                     fromContextPath: `${context}.relatedArticles`,
                     toContextPath: `${relatedArticlesContext}.list`,
@@ -124,190 +149,204 @@ module.exports = function (context, getActions) {
                 },
               },
               {
-                type: "Actions/Modifiers/ContextModifier",
+                type: 'Actions/Modifiers/ContextModifier',
                 options: {
-                  type: "transliteration",
+                  type: 'transliteration',
                   enableTrigger: {
-                    type: "if-context-true-value",
+                    type: 'if-context-true-value',
                     contextPath: `screen:newCategory.code-enableTransliteration`,
                   },
-                  options: { fromContextPath: `screen:newCategory.title`, toContextPath: `screen:newCategory.code` },
+                  options: {
+                    fromContextPath: `screen:newCategory.title`,
+                    toContextPath: `screen:newCategory.code`,
+                  },
                 },
               },
               {
-                type: "Actions/Modifiers/ContextModifier",
+                type: 'Actions/Modifiers/ContextModifier',
                 options: {
-                  type: "model-disabler",
+                  type: 'model-disabler',
                   enableTrigger: {
-                    type: "if-context-true-value",
+                    type: 'if-context-true-value',
                     contextPath: `screen:newCategory.code-enableTransliteration`,
                   },
                   options: { contextPath: `screen:newCategory.code` },
                 },
               },
               {
-                type: "Actions/Modifiers/ContextModifier",
+                type: 'Actions/Modifiers/ContextModifier',
                 options: {
-                  type: "model-disabler",
+                  type: 'model-disabler',
                   enableTrigger: {
-                    type: "if-context-false-value",
-                    mode: "or",
-                    contextPath: [`screen:newCategory.title`, `screen:newCategory.code`],
+                    type: 'if-context-false-value',
+                    mode: 'or',
+                    contextPath: [
+                      `screen:newCategory.title`,
+                      `screen:newCategory.code`,
+                    ],
                   },
                   options: { contextPath: `screen:newCategory.action` },
                 },
               },
               {
-                type: "Actions/Modifiers/ContextModifier",
+                type: 'Actions/Modifiers/ContextModifier',
                 options: {
-                  type: "model-disabler",
+                  type: 'model-disabler',
                   enableTrigger: {
-                    type: "if-context-false-value",
-                    mode: "or",
+                    type: 'if-context-false-value',
+                    mode: 'or',
                     contextPath: [
                       `screen:newUser.firstName`,
                       `screen:newUser.lastName`,
-                      "screen:newUser.email",
-                      "screen:newUser.position",
-                      "screen:newUser.password",
-                      "screen:newUser.passwordConfirmation",
+                      'screen:newUser.email',
+                      'screen:newUser.position',
+                      'screen:newUser.password',
+                      'screen:newUser.passwordConfirmation',
                     ],
                   },
                   options: { contextPath: `screen:newUser.action` },
                 },
               },
               {
-                type: "Tabs",
+                type: 'Tabs',
                 options: {
                   tabs: [
                     {
-                      title: "Атрибуты",
+                      title: 'Атрибуты',
                       block: {
-                        type: "RowFields/GroupedFieldsList/GroupedFieldsOnEdit",
+                        type: 'RowFields/GroupedFieldsList/GroupedFieldsOnEdit',
                         options: [
                           {
-                            title: "Основные",
+                            title: 'Основные',
                             fieldList: {
-                              mode: "vertical",
+                              mode: 'vertical',
                               fields: [
                                 {
-                                  title: "Название",
+                                  title: 'Название',
                                   required: true,
-                                  type: "edit:Text",
+                                  type: 'edit:Text',
                                   options: {
                                     inputOptions: {
-                                      width: "large",
-                                      size: "large",
+                                      width: 'large',
+                                      size: 'large',
                                       contextPath: `${context}.title`,
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
-                                        options: { context: `${context}.title` },
+                                        type: 'update-context',
+                                        options: {
+                                          context: `${context}.title`,
+                                        },
                                       },
                                     },
                                   },
                                 },
                                 {
-                                  title: "Текст анонса",
-                                  type: "edit:Text",
+                                  title: 'Текст анонса',
+                                  type: 'edit:Text',
                                   options: {
                                     inputOptions: {
-                                      width: "large",
-                                      size: "large",
+                                      width: 'large',
+                                      size: 'large',
                                       multiline: true,
                                       contextPath: `${context}.announce`,
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
-                                        options: { context: `${context}.announce` },
+                                        type: 'update-context',
+                                        options: {
+                                          context: `${context}.announce`,
+                                        },
                                       },
                                     },
                                   },
                                 },
                                 {
-                                  title: "Дата публикации",
-                                  type: "edit:Date",
+                                  title: 'Дата публикации',
+                                  type: 'edit:Date',
                                   options: {
                                     dateOptions: {
-                                      width: "large",
-                                      size: "large",
+                                      width: 'large',
+                                      size: 'large',
                                       contextPath: `${context}.publishedAt`,
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
-                                        options: { context: `${context}.publishedAt` },
+                                        type: 'update-context',
+                                        options: {
+                                          context: `${context}.publishedAt`,
+                                        },
                                       },
                                     },
                                   },
                                 },
                                 {
-                                  title: "Категория",
+                                  title: 'Категория',
                                   required: true,
-                                  type: "edit:Dropdown",
+                                  type: 'edit:Dropdown',
                                   options: {
                                     dropdownOptions: {
-                                      width: "small",
-                                      size: "large",
+                                      width: 'small',
+                                      size: 'large',
                                       contextPath: `${context}.category`,
                                       optionalActionButton: {
-                                        title: "Добавить категорию",
-                                        icon: "plus-big",
+                                        title: 'Добавить категорию',
+                                        icon: 'plus-big',
                                       },
                                     },
                                     dataSource: {
-                                      type: "context",
+                                      type: 'context',
                                       options: {
                                         key: `${tempContext}.categories`,
                                       },
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
-                                        options: { context: `${context}.category` },
+                                        type: 'update-context',
+                                        options: {
+                                          context: `${context}.category`,
+                                        },
                                       },
                                       optionalAction: {
-                                        type: "open-modal",
+                                        type: 'open-modal',
                                         options: {
-                                          name: "create-category",
+                                          name: 'create-category',
                                         },
                                       },
                                     },
                                   },
                                 },
                                 {
-                                  title: "Автор",
+                                  title: 'Автор',
                                   required: true,
-                                  type: "edit:Dropdown",
+                                  type: 'edit:Dropdown',
                                   options: {
                                     dropdownOptions: {
-                                      width: "small",
-                                      size: "large",
+                                      width: 'small',
+                                      size: 'large',
                                       contextPath: `${context}.author`,
                                       optionalActionButton: {
-                                        title: "Добавить автора",
-                                        icon: "plus-big",
+                                        title: 'Добавить автора',
+                                        icon: 'plus-big',
                                       },
                                     },
                                     dataSource: {
-                                      type: "context",
+                                      type: 'context',
                                       options: {
                                         key: `${tempContext}.users`,
                                       },
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
+                                        type: 'update-context',
                                         options: {
                                           context: `${context}.author`,
                                         },
                                       },
                                       optionalAction: {
-                                        type: "open-modal",
+                                        type: 'open-modal',
                                         options: {
-                                          name: "create-user",
+                                          name: 'create-user',
                                         },
                                       },
                                     },
@@ -317,86 +356,94 @@ module.exports = function (context, getActions) {
                             },
                           },
                           {
-                            title: "Мета",
+                            title: 'Мета',
                             fieldList: {
-                              mode: "vertical",
+                              mode: 'vertical',
                               fields: [
                                 {
-                                  title: "Символьный код",
+                                  title: 'Символьный код',
                                   required: true,
-                                  type: "edit:Text",
-                                  hint: "Допустимы только символы английского алфавита, цифры и дефис",
+                                  type: 'edit:Text',
+                                  hint:
+                                    'Допустимы только символы английского алфавита, цифры и дефис',
                                   options: {
                                     inputOptions: {
-                                      width: "large",
-                                      size: "large",
+                                      width: 'large',
+                                      size: 'large',
                                       contextPath: `${context}.code`,
                                     },
                                     modifier: {
-                                      type: "toggle",
-                                      title: "Генерировать символьный код из названия",
+                                      type: 'toggle',
+                                      title:
+                                        'Генерировать символьный код из названия',
                                       contextPath: `${context}.code-enableTransliteration`,
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
+                                        type: 'update-context',
                                         options: { context: `${context}.code` },
                                       },
                                     },
                                   },
                                 },
                                 {
-                                  title: "Заголовок",
-                                  type: "edit:Text",
+                                  title: 'Заголовок',
+                                  type: 'edit:Text',
                                   options: {
                                     inputOptions: {
-                                      width: "large",
-                                      size: "large",
+                                      width: 'large',
+                                      size: 'large',
                                       contextPath: `${context}.tagTitle`,
                                     },
                                     modifier: {
-                                      type: "toggle",
-                                      title: "Заголовок из названия",
+                                      type: 'toggle',
+                                      title: 'Заголовок из названия',
                                       contextPath: `${context}.tagTitle-takeFromTitle`,
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
-                                        options: { context: `${context}.tagTitle` },
+                                        type: 'update-context',
+                                        options: {
+                                          context: `${context}.tagTitle`,
+                                        },
                                       },
                                     },
                                   },
                                 },
                                 {
-                                  title: "Описание",
-                                  type: "edit:Text",
+                                  title: 'Описание',
+                                  type: 'edit:Text',
                                   options: {
                                     inputOptions: {
-                                      width: "large",
-                                      size: "large",
+                                      width: 'large',
+                                      size: 'large',
                                       multiline: true,
                                       contextPath: `${context}.tagDescription`,
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
-                                        options: { context: `${context}.tagDescription` },
+                                        type: 'update-context',
+                                        options: {
+                                          context: `${context}.tagDescription`,
+                                        },
                                       },
                                     },
                                   },
                                 },
                                 {
-                                  title: "Ключевые слова",
-                                  type: "edit:Tokens",
+                                  title: 'Ключевые слова',
+                                  type: 'edit:Tokens',
                                   options: {
                                     tokenOptions: {
-                                      width: "large",
+                                      width: 'large',
                                       contextPath: `${context}.keywords`,
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
-                                        options: { context: `${context}.keywords` },
+                                        type: 'update-context',
+                                        options: {
+                                          context: `${context}.keywords`,
+                                        },
                                       },
                                     },
                                   },
@@ -405,13 +452,13 @@ module.exports = function (context, getActions) {
                             },
                           },
                           {
-                            title: "Изображения",
+                            title: 'Изображения',
                             fieldList: {
-                              mode: "horizontal",
+                              mode: 'horizontal',
                               fields: [
                                 {
-                                  title: "Изображение анонса",
-                                  type: "edit:Image",
+                                  title: 'Изображение анонса',
+                                  type: 'edit:Image',
                                   options: {
                                     imageOptions: {
                                       aspectRatio: 1.6,
@@ -419,21 +466,23 @@ module.exports = function (context, getActions) {
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
-                                        options: { context: `${context}.announceImage` },
+                                        type: 'update-context',
+                                        options: {
+                                          context: `${context}.announceImage`,
+                                        },
                                       },
                                       upload: {
-                                        type: "api:uploadFile",
+                                        type: 'api:uploadFile',
                                         options: {
-                                          reference: "/file_storage/store",
+                                          reference: '/file_storage/store',
                                         },
                                       },
                                     },
                                   },
                                 },
                                 {
-                                  title: "Изображение заголовка",
-                                  type: "edit:Image",
+                                  title: 'Изображение заголовка',
+                                  type: 'edit:Image',
                                   options: {
                                     imageOptions: {
                                       aspectRatio: 1.6,
@@ -441,21 +490,23 @@ module.exports = function (context, getActions) {
                                     },
                                     actions: {
                                       change: {
-                                        type: "update-context",
-                                        options: { context: `${context}.contentImage` },
+                                        type: 'update-context',
+                                        options: {
+                                          context: `${context}.contentImage`,
+                                        },
                                       },
                                       upload: {
-                                        type: "api:uploadFile",
+                                        type: 'api:uploadFile',
                                         options: {
-                                          reference: "/file_storage/store",
+                                          reference: '/file_storage/store',
                                         },
                                       },
                                     },
                                   },
                                 },
                                 {
-                                  title: "Фон",
-                                  type: "edit:Image",
+                                  title: 'Фон',
+                                  type: 'edit:Image',
                                   options: {
                                     imageOptions: {
                                       aspectRatio: 1.6,
@@ -463,9 +514,9 @@ module.exports = function (context, getActions) {
                                     },
                                     actions: {
                                       upload: {
-                                        type: "api:uploadFile",
+                                        type: 'api:uploadFile',
                                         options: {
-                                          reference: "/file_storage/store",
+                                          reference: '/file_storage/store',
                                         },
                                       },
                                     },
@@ -478,58 +529,58 @@ module.exports = function (context, getActions) {
                       },
                     },
                     {
-                      title: "Текст",
+                      title: 'Текст',
                       block: {
-                        type: "ContextInitializer",
+                        type: 'ContextInitializer',
                         options: {
                           block: {
-                            type: "HTMLEditor",
+                            type: 'HTMLEditor',
                             actions: {
                               preview: [
                                 {
-                                  type: "update-context",
-                                  options: { context: `${tempContext}.editor.isPreviewMode` },
+                                  type: 'update-context',
+                                  options: {
+                                    context: `${tempContext}.editor.isPreviewMode`,
+                                  },
                                 },
                                 {
-                                  type: "open-modal",
+                                  type: 'open-modal',
                                   options: {
-                                    name: "content-preview-modal",
+                                    name: 'content-preview-modal',
                                   },
                                 },
                               ],
-                              change: [
-                                {
-                                  type: "update-context",
-                                  options: { context: `${context}.content` },
-                                },
-                                {
-                                  type: "update-context",
-                                  options: { context: `${context}.enhancedContent` },
-                                },
-                              ],
                               upload: {
-                                type: "api:uploadFile",
+                                type: 'api:uploadFile',
                                 options: {
-                                  reference: "/file_storage/store",
+                                  reference: '/file_storage/store',
                                 },
                               },
                             },
                             options: {
-                              visibilityMode: { contextPath: `${tempContext}.editor.isPreviewMode` },
+                              contextPath: [
+                                `${context}.content`,
+                                `${context}.enhancedContent`,
+                              ],
+                              visibilityMode: {
+                                contextPath: `${tempContext}.editor.isPreviewMode`,
+                              },
                               blocks: [
                                 {
-                                  type: "Actions/ButtonPopUp",
+                                  type: 'Actions/ButtonPopUp',
                                   options: {
-                                    buttonOptions: { icon: "snowflake" },
+                                    buttonOptions: { icon: 'snowflake' },
                                     listItems: [
                                       {
-                                        title: "Внутренняя статья",
-                                        code: "add-inner-article-link-in-content",
-                                        leftContent: "dashboard",
+                                        title: 'Внутренняя статья',
+                                        code:
+                                          'add-inner-article-link-in-content',
+                                        leftContent: 'dashboard',
                                         action: {
-                                          type: "open-modal",
+                                          type: 'open-modal',
                                           options: {
-                                            name: "add-inner-article-link-in-content",
+                                            name:
+                                              'add-inner-article-link-in-content',
                                           },
                                         },
                                       },
@@ -538,53 +589,63 @@ module.exports = function (context, getActions) {
                                 },
                               ],
                             },
-                            dataSource: {
-                              type: "context",
-                              options: {
-                                key: `${context}.content`,
-                              },
-                            },
                           },
                         },
                       },
                     },
                     {
-                      title: "Статьи по теме",
+                      title: 'Статьи по теме',
                       block: {
-                        type: "Layout/DefaultContainer",
+                        type: 'Layout/DefaultContainer',
                         slots: {
                           headerContent: {
-                            type: "ContextInitializer",
+                            type: 'ContextInitializer',
                             options: {
-                              static: [{ path: `${relatedArticlesContext}.search`, value: "" }],
+                              static: [
+                                {
+                                  path: `${relatedArticlesContext}.search`,
+                                  value: '',
+                                },
+                              ],
                               block: {
-                                type: "Actions/PopupListSelector",
+                                type: 'Actions/PopupListSelector',
                                 options: {
                                   contextPath: relatedArticlesContext,
-                                  selectedItems: { contextPath: `${context}.relatedArticles` },
-                                  buttonOptions: { name: "Добавить статью", icon: "plus-big" },
-                                  searchInputOptions: { contextPath: `${relatedArticlesContext}.search` },
+                                  selectedItems: {
+                                    contextPath: `${context}.relatedArticles`,
+                                  },
+                                  buttonOptions: {
+                                    name: 'Добавить статью',
+                                    icon: 'plus-big',
+                                  },
+                                  searchInputOptions: {
+                                    contextPath: `${relatedArticlesContext}.search`,
+                                  },
                                 },
                                 actions: {
                                   select: {
-                                    type: "update-context",
-                                    options: { context: `${context}.relatedArticles` },
+                                    type: 'update-context',
+                                    options: {
+                                      context: `${context}.relatedArticles`,
+                                    },
                                   },
                                   search: {
-                                    type: "update-context",
-                                    options: { context: `${relatedArticlesContext}.search` },
+                                    type: 'update-context',
+                                    options: {
+                                      context: `${relatedArticlesContext}.search`,
+                                    },
                                   },
                                 },
                                 dataSource: {
-                                  type: "api:request",
+                                  type: 'api:request',
                                   contextPath: relatedArticlesContext,
                                   options: {
-                                    reference: "/articles/simple-list",
-                                    method: "get",
+                                    reference: '/articles/simple-list',
+                                    method: 'get',
                                     body: {
                                       title: `=${relatedArticlesContext}.search`,
-                                      page: "1",
-                                      perPage: "20",
+                                      page: '1',
+                                      perPage: '20',
                                     },
                                   },
                                 },
@@ -592,9 +653,9 @@ module.exports = function (context, getActions) {
                             },
                           },
                           mainContent: {
-                            type: "DataView/Cards",
+                            type: 'DataView/Cards',
                             dataSource: {
-                              type: "context",
+                              type: 'context',
                               options: {
                                 key: `${context}.relatedArticles`,
                               },
@@ -632,47 +693,47 @@ module.exports = function (context, getActions) {
           content: `=${context}.content`,
         }),
         modals: {
-          "create-category": {
-            title: "Создание категории",
+          'create-category': {
+            title: 'Создание категории',
             block: {
-              type: "RowFields/FieldsList",
+              type: 'RowFields/FieldsList',
               options: {
-                mode: "vertical",
+                mode: 'vertical',
                 fields: [
                   {
-                    type: "edit:Text",
+                    type: 'edit:Text',
                     options: {
                       inputOptions: {
-                        width: "full-width",
-                        size: "large",
-                        placeholder: "Название",
+                        width: 'full-width',
+                        size: 'large',
+                        placeholder: 'Название',
                         contextPath: `screen:newCategory.title`,
                       },
                       actions: {
                         change: {
-                          type: "update-context",
+                          type: 'update-context',
                           options: { context: `screen:newCategory.title` },
                         },
                       },
                     },
                   },
                   {
-                    type: "edit:Text",
+                    type: 'edit:Text',
                     options: {
                       inputOptions: {
-                        width: "full-width",
-                        size: "large",
-                        placeholder: "Символьный код",
+                        width: 'full-width',
+                        size: 'large',
+                        placeholder: 'Символьный код',
                         contextPath: `screen:newCategory.code`,
                       },
                       modifier: {
-                        type: "toggle",
-                        title: "Генерировать символьный код из названия",
+                        type: 'toggle',
+                        title: 'Генерировать символьный код из названия',
                         contextPath: `screen:newCategory.code-enableTransliteration`,
                       },
                       actions: {
                         change: {
-                          type: "update-context",
+                          type: 'update-context',
                           options: { context: `screen:newCategory.code` },
                         },
                       },
@@ -682,44 +743,48 @@ module.exports = function (context, getActions) {
               },
             },
             actionBlock: {
-              type: "Actions/Button",
-              options: { name: "Создать", size: "LARGE", contextPath: `screen:newCategory.action` },
+              type: 'Actions/Button',
+              options: {
+                name: 'Создать',
+                size: 'LARGE',
+                contextPath: `screen:newCategory.action`,
+              },
               actions: {
                 click: [
                   {
-                    type: "api:request",
+                    type: 'api:request',
                     options: {
-                      reference: "/categories/store",
-                      method: "post",
+                      reference: '/categories/store',
+                      method: 'post',
                       body: {
-                        code: "=screen:newCategory.code",
-                        name: "=screen:newCategory.title",
+                        code: '=screen:newCategory.code',
+                        name: '=screen:newCategory.title',
                       },
                     },
                   },
                   {
-                    type: "append-context",
+                    type: 'append-context',
                     options: { contextPath: `${tempContext}.categories` },
                   },
                   {
-                    type: "close-modal",
+                    type: 'close-modal',
                   },
                 ],
               },
             },
           },
-          "create-user": {
-            title: "Создание пользователя",
+          'create-user': {
+            title: 'Создание пользователя',
             block: {
-              type: "BlocksList",
+              type: 'BlocksList',
               blocks: [
                 {
-                  type: "RowFields/FieldsList",
+                  type: 'RowFields/FieldsList',
                   options: {
-                    mode: "vertical",
+                    mode: 'vertical',
                     fields: [
                       {
-                        type: "edit:Avatar",
+                        type: 'edit:Avatar',
                         options: {
                           imageOptions: {
                             aspectRatio: 1,
@@ -727,99 +792,101 @@ module.exports = function (context, getActions) {
                           },
                           actions: {
                             upload: {
-                              type: "api:uploadFile",
+                              type: 'api:uploadFile',
                               options: {
-                                reference: "/file_storage/store",
+                                reference: '/file_storage/store',
                               },
                             },
                           },
                         },
                       },
                       {
-                        type: "edit:Text",
+                        type: 'edit:Text',
                         options: {
                           inputOptions: {
-                            width: "full-width",
-                            size: "large",
-                            placeholder: "Имя",
+                            width: 'full-width',
+                            size: 'large',
+                            placeholder: 'Имя',
                             contextPath: `screen:newUser.firstName`,
                           },
                           actions: {
                             change: {
-                              type: "update-context",
+                              type: 'update-context',
                               options: { context: `screen:newUser.firstName` },
                             },
                           },
                         },
                       },
                       {
-                        type: "edit:Text",
+                        type: 'edit:Text',
                         options: {
                           inputOptions: {
-                            width: "full-width",
-                            size: "large",
-                            placeholder: "Фамилия",
+                            width: 'full-width',
+                            size: 'large',
+                            placeholder: 'Фамилия',
                             contextPath: `screen:newUser.lastName`,
                           },
                           actions: {
                             change: {
-                              type: "update-context",
+                              type: 'update-context',
                               options: { context: `screen:newUser.lastName` },
                             },
                           },
                         },
                       },
                       {
-                        type: "edit:Text",
+                        type: 'edit:Text',
                         options: {
                           inputOptions: {
-                            width: "full-width",
-                            size: "large",
-                            placeholder: "Должность",
+                            width: 'full-width',
+                            size: 'large',
+                            placeholder: 'Должность',
                             contextPath: `screen:newUser.position`,
                           },
                           actions: {
                             change: {
-                              type: "update-context",
+                              type: 'update-context',
                               options: { context: `screen:newUser.position` },
                             },
                           },
                         },
                       },
                       {
-                        type: "edit:Text",
+                        type: 'edit:Text',
                         options: {
                           inputOptions: {
-                            width: "full-width",
-                            size: "large",
-                            placeholder: "E-mail",
+                            width: 'full-width',
+                            size: 'large',
+                            placeholder: 'E-mail',
                             contextPath: `screen:newUser.email`,
                           },
                           actions: {
                             change: {
-                              type: "update-context",
+                              type: 'update-context',
                               options: { context: `screen:newUser.email` },
                             },
                           },
                         },
                       },
                       {
-                        type: "edit:Password",
+                        type: 'edit:Password',
                         options: {
                           inputOptions: {
-                            width: "full-width",
-                            size: "large",
+                            width: 'full-width',
+                            size: 'large',
                             valueContextPath: `screen:newUser.password`,
                             confirmationContextPath: `screen:newUser.passwordConfirmation`,
                           },
                           actions: {
                             valueChange: {
-                              type: "update-context",
+                              type: 'update-context',
                               options: { context: `screen:newUser.password` },
                             },
                             confirmationChange: {
-                              type: "update-context",
-                              options: { context: `screen:newUser.passwordConfirmation` },
+                              type: 'update-context',
+                              options: {
+                                context: `screen:newUser.passwordConfirmation`,
+                              },
                             },
                           },
                         },
@@ -830,75 +897,89 @@ module.exports = function (context, getActions) {
               ],
             },
             actionBlock: {
-              type: "Actions/Button",
-              options: { name: "Создать", size: "LARGE", contextPath: `screen:newUser.action` },
+              type: 'Actions/Button',
+              options: {
+                name: 'Создать',
+                size: 'LARGE',
+                contextPath: `screen:newUser.action`,
+              },
               actions: {
                 click: [
                   {
-                    type: "api:request",
+                    type: 'api:request',
                     options: {
-                      reference: "/users/store",
-                      method: "post",
+                      reference: '/users/store',
+                      method: 'post',
                       body: {
-                        name: "=screen:newUser.firstName",
-                        surname: "=screen:newUser.lastName",
-                        email: "=screen:newUser.email",
-                        position: "=screen:newUser.position",
-                        password: "=screen:newUser.password",
-                        password_confirmation: "=screen:newUser.passwordConfirmation",
-                        imageId: "=screen:newUser.avatar.id",
-                        blocked: "0",
+                        name: '=screen:newUser.firstName',
+                        surname: '=screen:newUser.lastName',
+                        email: '=screen:newUser.email',
+                        position: '=screen:newUser.position',
+                        password: '=screen:newUser.password',
+                        password_confirmation:
+                          '=screen:newUser.passwordConfirmation',
+                        imageId: '=screen:newUser.avatar.id',
+                        blocked: '0',
                       },
                     },
                   },
                   {
-                    type: "append-context",
+                    type: 'append-context',
                     options: { contextPath: `${tempContext}.users` },
                   },
                   {
-                    type: "close-modal",
+                    type: 'close-modal',
                   },
                 ],
               },
             },
           },
-          "add-inner-article-link-in-content": {
-            title: "Ссылка на статью",
-            size: "ADJUST_CONTENT",
+          'add-inner-article-link-in-content': {
+            title: 'Ссылка на статью',
+            size: 'ADJUST_CONTENT',
             block: {
-              type: "ContextInitializer",
+              type: 'ContextInitializer',
               options: {
                 static: [
-                  { path: `${tempContext}.editor.search`, value: "" },
-                  { path: `${tempContext}.editor.selected-article-link`, value: "" },
+                  { path: `${tempContext}.editor.search`, value: '' },
+                  {
+                    path: `${tempContext}.editor.selected-article-link`,
+                    value: '',
+                  },
                 ],
                 block: {
-                  type: "Actions/ListSelector",
+                  type: 'Actions/ListSelector',
                   options: {
                     contextPath: `${tempContext}.editor.articles-link`,
-                    selectedItem: { contextPath: `${tempContext}.editor.selected-article-link` },
-                    searchInputOptions: { contextPath: `${tempContext}.editor.search` },
+                    selectedItem: {
+                      contextPath: `${tempContext}.editor.selected-article-link`,
+                    },
+                    searchInputOptions: {
+                      contextPath: `${tempContext}.editor.search`,
+                    },
                   },
                   actions: {
                     select: {
-                      type: "update-context",
-                      options: { context: `${tempContext}.editor.selected-article-link` },
+                      type: 'update-context',
+                      options: {
+                        context: `${tempContext}.editor.selected-article-link`,
+                      },
                     },
                     search: {
-                      type: "update-context",
+                      type: 'update-context',
                       options: { context: `${tempContext}.editor.search` },
                     },
                   },
                   dataSource: {
-                    type: "api:request",
+                    type: 'api:request',
                     contextPath: `${tempContext}.editor.articles-link`,
                     options: {
-                      reference: "/articles/simple-list",
-                      method: "get",
+                      reference: '/articles/simple-list',
+                      method: 'get',
                       body: {
                         title: `=${tempContext}.editor.search`,
-                        page: "1",
-                        perPage: "32",
+                        page: '1',
+                        perPage: '32',
                       },
                     },
                   },
@@ -906,40 +987,41 @@ module.exports = function (context, getActions) {
               },
             },
             actionBlock: {
-              type: "Actions/Button",
-              options: { name: "Добавить", size: "LARGE" },
+              type: 'Actions/Button',
+              options: { name: 'Добавить', size: 'LARGE' },
               actions: {
                 click: [
                   {
-                    type: "modify-output-data-context",
+                    type: 'modify-output-data-context',
                     options: {
                       resultOutput: `#article:{{${tempContext}.editor.selected-article-link}}#`,
                     },
                   },
                   {
-                    type: "append-context",
+                    type: 'append-context',
                     options: {
                       contextPath: `${context}.content`,
                     },
                   },
                   {
-                    type: "close-modal",
+                    type: 'close-modal',
                   },
                 ],
               },
             },
           },
-          "content-preview-modal": {
-            title: "Предпросмотр",
-            size: "FULL_WIDTH",
+          'content-preview-modal': {
+            title: 'Предпросмотр',
+            size: 'FULL_WIDTH',
             block: {
-              type: "FormattedHTMLText",
+              type: 'FormattedHTMLText',
               dataSource: {
-                type: "api:request",
+                type: 'api:request',
                 contextPath: `${context}.enhancedContent`,
                 options: {
-                  reference: "/content/articles/{{screen:articleId}}/convert-enhancers",
-                  method: "post",
+                  reference:
+                    '/content/articles/{{screen:articleId}}/convert-enhancers',
+                  method: 'post',
                   body: {
                     content: `=${context}.content`,
                   },
@@ -949,13 +1031,13 @@ module.exports = function (context, getActions) {
             actions: {
               close: [
                 {
-                  type: "modify-output-data-context",
+                  type: 'modify-output-data-context',
                   options: {
-                    resultValue: "",
+                    resultValue: '',
                   },
                 },
                 {
-                  type: "update-context",
+                  type: 'update-context',
                   options: {
                     context: `${tempContext}.editor.isPreviewMode`,
                     takeIncomeDataFromPreviousAction: true,

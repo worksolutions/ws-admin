@@ -66,7 +66,7 @@ export function useDataSource<RESULT = any>(
   if (!dataSource) return useEmptyDataSource<RESULT>();
   if (dataSource.type === DataSourceType.API_REQUEST) return useApiRequestDataSourceHandler(dataSource, initialData);
   if (dataSource.type === DataSourceType.STATIC) return useStaticDataSource(dataSource);
-  return useContextDataSource(dataSource);
+  return useContextDataSource(dataSource, initialData);
 }
 
 function excludeModelData<T>(data: T) {

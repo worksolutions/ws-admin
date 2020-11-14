@@ -12,18 +12,19 @@ import { Aligns, backgroundColor, flex, fullWidth, jc, marginLeft, minHeight } f
 import { convertNativeFileToFileInterface } from "libs/hooks/files/helpers/createFileInput";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
-import { useDataSource } from "modules/context/dataSource/useDataSource";
 import { useActions } from "modules/context/actions/useActions";
 import globalEventBus from "modules/globalEventBus";
+import { useStateFromContext } from "modules/context/insertContext";
 
 import BlocksList from "../BlocksList";
-import { useStateFromContext } from "modules/context/insertContext";
+import { useStateContextModel } from "../../../model";
 
 import { editorStyles } from "./editorStyles";
 
 import { BlockInterface } from "state/globalState";
 
 interface HTMLEditorOptionsInterface {
+  contextPath: string | string[];
   value: string;
   buttonOptions?: { icon: Icons };
   listItems?: ListItemInterface<any>[];
@@ -36,19 +37,13 @@ const items = [
   { code: "1", title: "Превью" },
 ];
 
-function HTMLEditor({
-  options,
-  dataSource,
-  actions,
-}: BlockInterface<HTMLEditorOptionsInterface, "change" | "upload" | "preview">) {
-  if (!actions?.change) return null;
+function HTMLEditor({ options, actions }: BlockInterface<HTMLEditorOptionsInterface, "upload" | "preview">) {
   if (!actions?.upload) return null;
-  if (!dataSource) return null;
   if (!options) return null;
 
   const appContext = useAppContext();
   const resultActions = useActions(actions, appContext);
-  const { data } = useDataSource(dataSource!);
+  const { value, setValue } = useStateContextModel(options.contextPath, appContext);
   const [isPreviewMode] = useStateFromContext(options.visibilityMode.contextPath, appContext);
   const [radioValue, setRadioValue] = React.useState(() => items[0].code);
 
@@ -76,10 +71,8 @@ function HTMLEditor({
       styles={[fullWidth, minHeight("100%"), backgroundColor("gray-blue/01"), flex, jc(Aligns.CENTER), editorStyles]}
     >
       <Editor
-        initialText={data}
-        onChange={(data) => {
-          resultActions.change.run(data);
-        }}
+        initialText={value}
+        onChange={setValue}
         uploader={uploadFile}
         additionalToolbarElements={{
           beforeLastSeparator: options.blocks && <BlocksList blocks={options.blocks} />,

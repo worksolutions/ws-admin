@@ -1,11 +1,11 @@
 import { useLocalStore } from "mobx-react-lite";
-import { clone } from "ramda";
+import { clone, isNil } from "ramda";
 import { Lambda } from "mobx";
 import React from "react";
 
 import { splitByPoint } from "libs/path";
 
-import { useAppContext } from "modules/context/hooks/useAppContext";
+import { convertContextDependencyToUpdateStatePayload, useAppContext } from "modules/context/hooks/useAppContext";
 import { ContextDependencyInterface } from "modules/context/insertContext";
 
 import { DataSourceResultInterface, makeOnDependencyChangeUpdater } from "./common";
@@ -24,7 +24,10 @@ function convertDataSourceDependencyToContextDependency(
   };
 }
 
-export function useContextDataSource<RESULT = any>(dataSource: DataSourceInterface<DataSourceType.CONTEXT>) {
+export function useContextDataSource<RESULT = any>(
+  dataSource: DataSourceInterface<DataSourceType.CONTEXT>,
+  initialData: RESULT,
+) {
   const { context, updateState } = useAppContext();
 
   const allDisposers: Lambda[] = [];
@@ -34,10 +37,16 @@ export function useContextDataSource<RESULT = any>(dataSource: DataSourceInterfa
   const localStore: DataSourceResultInterface<RESULT> = useLocalStore<DataSourceResultInterface<RESULT>>(() => {
     const { dependency, value: data } = contextDataSource(dataSource, context);
 
+    const contextDependency = convertDataSourceDependencyToContextDependency(dependency);
+
+    if (!isNil(initialData)) {
+      updateState(convertContextDependencyToUpdateStatePayload(initialData)(contextDependency));
+    }
+
     allDisposers.push(
       makeOnDependencyChangeUpdater(context, () => {
         localStore.data = contextDataSource(dataSource, context).value;
-      })(convertDataSourceDependencyToContextDependency(dependency)),
+      })(contextDependency),
     );
 
     if (dataSource.contextPath && data) {

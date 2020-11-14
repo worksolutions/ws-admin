@@ -11,7 +11,7 @@ import {
 } from "./libs";
 
 interface EditorInterface {
-  initialText: string;
+  initialText?: string | null;
   onChange: (text: string) => void;
   uploader: (file: File) => Promise<any>;
   onInit?: (ref: EditorRefInterface) => void;
