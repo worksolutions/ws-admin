@@ -1,3 +1,3 @@
-export default function(url: string) {
-  return url.startsWith('http') ? url : process.env.DEV_API_HOST + url;
+export default function (url: string) {
+  return url.startsWith('http') ? url : process.env.API_SERVER_HOST + url;
 }

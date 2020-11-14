@@ -1,12 +1,17 @@
 import { omit } from 'ramda';
+
 import { Controller, Get, Param, Post } from '@nestjs/common';
 
 import { CacheService } from 'services/cache.service';
+
 import { ProxyService } from 'services/proxy.service';
 
 import prepareUsersDataToFront from './formatters/prepareUsersDataToFront';
+
 import prepareUserToFront from './formatters/prepareUserToFront';
+
 import prepareUserForListToFront from './formatters/prepareUserForListToFront';
+
 import prepareUserProfileToFront from './formatters/prepareUserProfileToFront';
 
 @Controller('api')

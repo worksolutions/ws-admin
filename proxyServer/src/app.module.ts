@@ -1,8 +1,10 @@
+import { join } from 'path';
+
 import { ServeStaticModule } from '@nestjs/serve-static';
 
-import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
-import { join } from 'path';
+import { Module } from '@nestjs/common';
 
 import { CoreModule } from 'modules/core.module';
 
@@ -20,6 +22,7 @@ import { DefaultModule } from 'modules/default/default.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ envFilePath: join(process.cwd(), '../', '.env') }),
     CoreModule,
     UsersModule,
     AdminModule,
@@ -27,9 +30,10 @@ import { DefaultModule } from 'modules/default/default.module';
     CategoriesModule,
     FileStorageModule,
     DefaultModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../..', 'build'),
-    }),
-  ],
+    process.env.SERVE_STATIC_FILES === '1' &&
+      ServeStaticModule.forRoot({
+        rootPath: join(process.cwd(), '../', 'build'),
+      }),
+  ].filter(Boolean),
 })
 export class AppModule {}

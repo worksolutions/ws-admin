@@ -1,7 +1,11 @@
+import { join } from 'path';
+
 import { omit } from 'ramda';
+
 import { Controller, Get, Post } from '@nestjs/common';
 
 import { CacheService } from 'services/cache.service';
+
 import { ProxyService } from 'services/proxy.service';
 
 import prepareUserProfileToFront from 'modules/users/formatters/prepareUserProfileToFront';
@@ -16,7 +20,10 @@ export class AdminController {
   @Get('admin/config')
   async getConfig(): Promise<string> {
     this.cacheService.removeConfigCache('serverConfig/main-config.js');
-    return JSON.stringify(require('../../assets/serverConfig/main-config.js'));
+    this.cacheService.removeConfigCache('serverConfig/pages');
+    return JSON.stringify(
+      require(join(process.cwd(), 'src/assets/serverConfig/main-config.js')),
+    );
   }
 
   @Post('admin/user/update')

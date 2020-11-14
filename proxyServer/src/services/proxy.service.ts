@@ -2,11 +2,11 @@ import { is, isNil, omit } from 'ramda';
 
 import axios from 'axios';
 
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Res } from '@nestjs/common';
 
 import { REQUEST } from '@nestjs/core';
 
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 import { ConfigService } from '@nestjs/config';
 
@@ -39,13 +39,15 @@ export class ProxyService {
     );
     try {
       const response = await ProxyService.sendRequest(reqParams);
-      return ProxyService.responseProcessing(
+      return await ProxyService.responseProcessing(
         modifyResponse,
         response,
         reqParams,
       );
     } catch (e) {
-      return ProxyService.handleErrors(e, modifyError);
+      const error = ProxyService.handleErrors(e, modifyError);
+      this.request.res.status(error.status);
+      this.request.res.send(error.data);
     }
   }
 
@@ -88,7 +90,7 @@ export class ProxyService {
   private async prepareRequestParams(
     modifyRequest?: ModifyFunctionType,
   ): Promise<Record<string, any>> {
-    const apiHost = this.configService.get('DEV_API_HOST');
+    const apiHost = this.configService.get('API_SERVER_HOST');
     const headers = {
       ...omit(['host'], this.request.headers),
       origin: apiHost,
@@ -136,20 +138,17 @@ export class ProxyService {
     return response;
   }
 
-  private static handleErrors(
-    error: any,
-    modifyError?: ModifyFunctionType,
-  ): Record<string, any> {
+  private static handleErrors(error: any, modifyError?: ModifyFunctionType) {
     const { response } = error;
     if (!response) {
-      response.data = { error: 'proxy - internal server error' };
-      return response.data;
+      return { data: { error: 'proxy - internal server error' }, status: 500 };
     }
+
     if (modifyError) {
       const newData = modifyError(response.data);
       response.data = isNil(newData) ? response.data : newData;
-      return response;
     }
-    return response;
+
+    return { data: response.data, status: response.status };
   }
 }

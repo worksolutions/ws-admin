@@ -96,7 +96,7 @@ export class ArticlesController {
         if (article.keywords) {
           article.keywords = article.keywords
             .split(', ')
-            .map(code => ({ code, title: code }));
+            .map((code) => ({ code, title: code }));
         }
         if (article.category) {
           article.category = article.category.id;
@@ -117,7 +117,7 @@ export class ArticlesController {
       modifyRequest: ({ requestParams: { data } }) => ({
         data: modifyRequest(data),
       }),
-      modifyError: err => {
+      modifyError: (err) => {
         err.errors = convertServerErrorsToClientErrors(err.errors);
       },
     });
@@ -131,7 +131,7 @@ export class ArticlesController {
       modifyRequest: ({ requestParams: { data } }) => ({
         data: modifyRequest(data),
       }),
-      modifyError: err => {
+      modifyError: (err) => {
         err.errors = convertServerErrorsToClientErrors(err.errors);
       },
     });
@@ -143,12 +143,12 @@ export class ArticlesController {
     if (!content) return '';
     return getContentWithReadAlsoEnhancers(content, {
       method: 'GET',
-      baseURL: process.env.DEV_API_HOST,
+      baseURL: process.env.API_SERVER_HOST,
       params: req.query,
       data: req.body,
       headers: {
         ...ramda.omit(['host'], req.headers),
-        origin: process.env.DEV_API_HOST,
+        origin: process.env.API_SERVER_HOST,
       },
     });
   }
