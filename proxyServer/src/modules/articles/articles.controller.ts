@@ -1,8 +1,8 @@
-import ramda, { assoc } from 'ramda';
+import ramda from 'ramda';
 
 import { Request } from 'express';
 
-import { Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req } from '@nestjs/common';
 
 import { CacheService } from 'services/cache.service';
 
@@ -72,7 +72,8 @@ export class ArticlesController {
   async getArticle(@Param() params): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/${params.articleId}`,
-      modifyResponse: (data, param) => modifyArticleResponse(data.data, param),
+      modifyResponse: (data, param) =>
+        modifyArticleResponse(data.data, param, false),
     });
   }
 
@@ -88,11 +89,8 @@ export class ArticlesController {
   async editArticle(@Param() params): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/${params.articleId}`,
-      modifyResponse: async ({ data }, { originalRequestParams }) => {
-        const article = await modifyArticleResponse(
-          data,
-          originalRequestParams,
-        );
+      modifyResponse: async ({ data }, params) => {
+        const article = await modifyArticleResponse(data, params, true);
         if (article.keywords) {
           article.keywords = article.keywords
             .split(', ')

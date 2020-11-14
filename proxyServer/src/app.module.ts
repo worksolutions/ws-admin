@@ -1,5 +1,7 @@
 import { join } from 'path';
 
+import 'moment/locale/ru';
+
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { ConfigModule } from '@nestjs/config';
