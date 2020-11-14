@@ -160,7 +160,7 @@ module.exports = {
                 {
                   type: "api:request",
                   options: {
-                    reference: "/admin/user/update",
+                    reference: "/users/update",
                     method: "post",
                     body: {
                       id: "=screen:temp-data.currentUser.id",
