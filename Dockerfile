@@ -14,6 +14,8 @@ COPY . .
 WORKDIR /usr/src/proxyServer
 RUN npm install
 
+WORKDIR /usr/src/
+
 ENV EXTEND_ESLINT true
 RUN npm run build
 
