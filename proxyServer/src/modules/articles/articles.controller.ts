@@ -1,4 +1,4 @@
-import ramda from 'ramda';
+import { omit } from 'ramda';
 
 import { Request } from 'express';
 
@@ -135,7 +135,7 @@ export class ArticlesController {
     });
   }
 
-  @Post('/content/articles/*/convert-enhancers')
+  @Post('/content/articles-convert-enhancers')
   async convertEnhancers(@Req() req: Request): Promise<string> {
     const { content } = req.body;
     if (!content) return '';
@@ -145,7 +145,7 @@ export class ArticlesController {
       params: req.query,
       data: req.body,
       headers: {
-        ...ramda.omit(['host'], req.headers),
+        ...omit(['host'], req.headers),
         origin: process.env.API_SERVER_HOST,
       },
     });

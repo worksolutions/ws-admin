@@ -1019,8 +1019,7 @@ module.exports = function (context, getActions) {
                 type: 'api:request',
                 contextPath: `${context}.enhancedContent`,
                 options: {
-                  reference:
-                    '/content/articles/{{screen:articleId}}/convert-enhancers',
+                  reference: '/content/articles-convert-enhancers',
                   method: 'post',
                   body: {
                     content: `=${context}.content`,
