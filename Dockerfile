@@ -2,7 +2,7 @@ FROM node:14-slim
 
 RUN apt update
 
-RUN apt install git python make g++ gcc -y && apt-get install build-essential
+RUN apt install git python make g++ gcc -y && apt install build-essential
 
 WORKDIR /usr/src/
 COPY package.json .
