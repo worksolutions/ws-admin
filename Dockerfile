@@ -10,10 +10,12 @@ COPY package.json .
 
 RUN npm install
 
+WORKDIR /usr/src/proxyServer
+RUN npm install
+WORKDIR /usr/src/
+
 COPY . .
-
 ENV EXTEND_ESLINT true
-
 RUN npm run build
 
 CMD npm run serve-production-proxy
