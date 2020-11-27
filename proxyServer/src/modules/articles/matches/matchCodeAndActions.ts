@@ -1,3 +1,5 @@
+import { DRAFT, NUMBERS_FOR_STATUSES, PUBLISHED, UNPUBLISHED } from "modules/articles/matches/matchStatusAndCode";
+
 const getActionsForUnPublishedArticle = (articleId, dataSourceId) => ({
   name: "Опубликовать",
   icon: "bolt-alt",
@@ -53,7 +55,7 @@ const getActionsForPublishedArticle = (articleId, dataSourceId) => ({
 });
 
 export default {
-  0: getActionsForUnPublishedArticle,
-  1: getActionsForPublishedArticle,
-  2: getActionsForUnPublishedArticle,
+  [NUMBERS_FOR_STATUSES[DRAFT]]: getActionsForUnPublishedArticle,
+  [NUMBERS_FOR_STATUSES[PUBLISHED]]: getActionsForPublishedArticle,
+  [NUMBERS_FOR_STATUSES[UNPUBLISHED]]: getActionsForUnPublishedArticle,
 };

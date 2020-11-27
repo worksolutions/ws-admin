@@ -1,12 +1,8 @@
-import { omit } from 'ramda';
-
-import { Request } from 'express';
-
-import { Controller, Get, Param, Post, Req } from '@nestjs/common';
-
-import { CacheService } from 'services/cache.service';
-
-import { ProxyService } from 'services/proxy.service';
+import { omit } from "ramda";
+import { Request } from "express";
+import { Controller, Get, Param, Post, Req } from "@nestjs/common";
+import { CacheService } from "services/cache.service";
+import { ProxyService } from "services/proxy.service";
 
 import {
   convertServerErrorsToClientErrors,
@@ -18,22 +14,20 @@ import {
   modifyRelatedArticleResponse,
   modifyRequest,
   prepareArticleToFront,
-} from 'modules/articles/responseHandlers';
+} from "modules/articles/responseHandlers";
+import { NUMBERS_FOR_STATUSES, PUBLISHED, UNPUBLISHED } from "modules/articles/matches/matchStatusAndCode";
 
-@Controller('api')
+@Controller("api")
 export class ArticlesController {
-  constructor(
-    private cacheService: CacheService,
-    private proxyService: ProxyService,
-  ) {}
+  constructor(private cacheService: CacheService, private proxyService: ProxyService) {}
 
-  @Get('/articles/simple-list')
+  @Get("/articles/simple-list")
   async getArticlesSimpleList(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles`,
       modifyRequest: ({ requestParams: { params } }) => {
         return {
-          params: { ...params, orderDirection: 'desc', orderField: 'id' },
+          params: { ...params, orderDirection: "desc", orderField: "id" },
         };
       },
       modifyResponse: ({ data, meta }) => {
@@ -45,7 +39,7 @@ export class ArticlesController {
     });
   }
 
-  @Get('articles/cards')
+  @Get("articles/cards")
   async getArticleCards(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles`,
@@ -59,7 +53,7 @@ export class ArticlesController {
     });
   }
 
-  @Get('/articles/table')
+  @Get("/articles/table")
   async getArticlesTable(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles`,
@@ -68,16 +62,15 @@ export class ArticlesController {
     });
   }
 
-  @Get('/article/:articleId')
+  @Get("/article/:articleId")
   async getArticle(@Param() params): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/${params.articleId}`,
-      modifyResponse: (data, param) =>
-        modifyArticleResponse(data.data, param, false),
+      modifyResponse: (data, param) => modifyArticleResponse(data.data, param, false),
     });
   }
 
-  @Get('/article/:articleId/related-articles')
+  @Get("/article/:articleId/related-articles")
   async getRelatedArticles(@Param() params): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/${params.articleId}`,
@@ -85,16 +78,14 @@ export class ArticlesController {
     });
   }
 
-  @Get('/article/:articleId/edit')
+  @Get("/article/:articleId/edit")
   async editArticle(@Param() params): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/${params.articleId}`,
       modifyResponse: async ({ data }, params) => {
         const article = await modifyArticleResponse(data, params, true);
         if (article.keywords) {
-          article.keywords = article.keywords
-            .split(', ')
-            .map((code) => ({ code, title: code }));
+          article.keywords = article.keywords.split(", ").map((code) => ({ code, title: code }));
         }
         if (article.category) {
           article.category = article.category.id;
@@ -107,7 +98,7 @@ export class ArticlesController {
     });
   }
 
-  @Post('/create-article')
+  @Post("/create-article")
   async articleStore(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/store`,
@@ -121,7 +112,7 @@ export class ArticlesController {
     });
   }
 
-  @Post('/save-article')
+  @Post("/save-article")
   async articleUpdate(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/update`,
@@ -135,37 +126,37 @@ export class ArticlesController {
     });
   }
 
-  @Post('/content/articles-convert-enhancers')
+  @Post("/content/articles-convert-enhancers")
   async convertEnhancers(@Req() req: Request): Promise<string> {
     const { content } = req.body;
-    if (!content) return '';
+    if (!content) return "";
     return getContentWithReadAlsoEnhancers(content, {
-      method: 'GET',
+      method: "GET",
       baseURL: process.env.API_SERVER_HOST,
       params: req.query,
       data: req.body,
       headers: {
-        ...omit(['host'], req.headers),
+        ...omit(["host"], req.headers),
         origin: process.env.API_SERVER_HOST,
       },
     });
   }
 
-  @Post('/article/:articleId/publish')
-  async articlesPunish(@Param() params): Promise<string> {
+  @Post("/article/:articleId/publish")
+  async articlesPunish(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
-      realServerUrl: `/api/articles/${params.articleId}`,
+      realServerUrl: `/api/articles/update`,
       modifyRequest: async ({ urlParams, requestParams }) => {
         const article = await loadArticle(urlParams.articleId, requestParams);
         return {
           params: {},
-          data: { ...article, status: 1 },
+          data: { ...article, status: NUMBERS_FOR_STATUSES[PUBLISHED] },
         };
       },
     });
   }
 
-  @Post('/article/:articleId/unpublish')
+  @Post("/article/:articleId/unpublish")
   async getArticleUpdate(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/update`,
@@ -173,7 +164,7 @@ export class ArticlesController {
         const article = await loadArticle(urlParams.articleId, requestParams);
         return {
           params: {},
-          data: { ...article, status: 1 },
+          data: { ...article, status: NUMBERS_FOR_STATUSES[UNPUBLISHED] },
         };
       },
     });

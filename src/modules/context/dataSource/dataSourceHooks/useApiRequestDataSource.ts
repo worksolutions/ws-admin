@@ -32,6 +32,7 @@ export default function useApiRequestDataSource<RESULT = any>(
     dependencies.forEach((dependency) => {
       if (!isNil(initialData)) {
         updateState(convertContextDependencyToUpdateStatePayload(initialData)(dependency));
+        //TODO: убрать и подписаться на изменения после получения данных
       }
 
       const disposer = makeOnDependencyChangeUpdater(

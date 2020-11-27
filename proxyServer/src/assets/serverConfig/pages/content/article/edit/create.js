@@ -10,7 +10,7 @@ module.exports = {
     {
       type: "ContextInitializer",
       options: {
-        static: [{ path: "screen:article", value: { status: "UN_PUBLISHED" } }],
+        static: [{ path: "screen:article", value: { status: "unpublished" } }],
         block: pageBuilder("screen:article", (body) => ({
           save: [
             {
