@@ -56,6 +56,7 @@ export function useResizeTableMain(id: string, cells: { isResizing: boolean }[],
       setHeaderWidths(savedWidths);
       return;
     }
+
     setTimeout(() => {
       setHeaderWidths(calculateHeaderWidths(headerRef.current!));
     }, 100);
