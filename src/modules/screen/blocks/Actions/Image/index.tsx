@@ -62,7 +62,6 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
   }
 
   const { dropAreaProps, openNativeFileDialog, dropping } = useFileSelector(uploadFile, [AcceptTypes.IMAGE]);
-
   if (value?.path) {
     return (
       <BaseWrapper
