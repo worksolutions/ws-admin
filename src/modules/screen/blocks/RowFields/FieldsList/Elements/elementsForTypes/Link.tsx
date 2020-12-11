@@ -14,7 +14,6 @@ import { ElementAndTypeMatchPropsInterface } from "./types";
 export default ({ options, styles }: ElementAndTypeMatchPropsInterface) => {
   const reference = insertContext(options.reference, useAppContext().context);
   const title = insertContext(options.title, useAppContext().context);
-
   return (
     <Wrapper styles={[styles, flex, ai(Aligns.CENTER)]}>
       <TypographyLink to={reference.value}>{title.value}</TypographyLink>

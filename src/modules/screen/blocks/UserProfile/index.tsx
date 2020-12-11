@@ -25,7 +25,6 @@ function UserProfile({
   options,
 }: BlockInterface<{ value: string; fieldsListItemWithPlaceholder?: boolean }>) {
   const { data, loadingContainer } = useDataSource<UserInterface>(dataSource!);
-
   if (loadingContainer.loading) return <Spinner />;
   if (!data) return null;
 

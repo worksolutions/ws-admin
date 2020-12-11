@@ -48,6 +48,7 @@ const RowComponent = observer(function ({ row, id }: { row: Row; id: string }) {
         styles={[width(halfOfCellDefaultHorizontalPadding), maxWidth(halfOfCellDefaultHorizontalPadding)]}
         as="td"
       />
+
       {row.cells.map((cell, index) => (
         <Fragment key={index}>{cell.render("Cell", { fixedSizes, contentWidths, index })}</Fragment>
       ))}
