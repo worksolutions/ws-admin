@@ -19,7 +19,6 @@ import {
 } from "modules/screen/blocks/RowFields/FieldsList/types";
 
 import { BlockInterface, UserInterface } from "state/globalState";
-import { toJS } from "mobx";
 
 function UserProfile({
   dataSource,
