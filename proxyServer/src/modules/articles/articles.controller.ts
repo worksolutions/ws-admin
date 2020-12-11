@@ -1,8 +1,8 @@
-import { omit } from "ramda";
-import { Request } from "express";
-import { Controller, Get, Param, Post, Req } from "@nestjs/common";
-import { CacheService } from "services/cache.service";
-import { ProxyService } from "services/proxy.service";
+import {omit} from "ramda";
+import {Request} from "express";
+import {Controller, Get, Param, Post, Req} from "@nestjs/common";
+import {CacheService} from "services/cache.service";
+import {ProxyService} from "services/proxy.service";
 
 import {
   convertServerErrorsToClientErrors,
@@ -15,57 +15,65 @@ import {
   modifyRequest,
   prepareArticleToFront,
 } from "modules/articles/responseHandlers";
-import { NUMBERS_FOR_STATUSES, PUBLISHED, UNPUBLISHED } from "modules/articles/matches/matchStatusAndCode";
+import {NUMBERS_FOR_STATUSES, PUBLISHED, UNPUBLISHED} from "modules/articles/matches/matchStatusAndCode";
+import {getArticlesCardsData, getArticlesTableData} from "modules/articles/libs/getArticles";
 
 @Controller("api")
 export class ArticlesController {
-  constructor(private cacheService: CacheService, private proxyService: ProxyService) {}
+  constructor(private cacheService: CacheService, private proxyService: ProxyService) {
+  }
 
   @Get("/articles/simple-list")
   async getArticlesSimpleList(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles`,
-      modifyRequest: ({ requestParams: { params } }) => {
+      modifyRequest: ({requestParams: {params}}) => {
         return {
-          params: { ...params, orderDirection: "desc", orderField: "id" },
+          params: {...params, orderDirection: "desc", orderField: "id"},
         };
       },
-      modifyResponse: ({ data, meta }) => {
+      modifyResponse: ({data, meta}) => {
         return {
           list: data.map(prepareArticleToFront),
-          pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
+          pagination: {pagesCount: meta.last_page, itemsCount: meta.total},
         };
       },
     });
   }
 
-  @Get("articles/cards")
+  @Get("/articles/cards")
   async getArticleCards(): Promise<string> {
-    return await this.proxyService.sendProxyRequest({
-      realServerUrl: `/api/articles`,
-      modifyRequest: modifyArticlesRequest,
-      modifyResponse: ({ data, meta }) => {
-        return {
-          list: data.map(prepareArticleToFront),
-          pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
-        };
-      },
-    });
+    return await getArticlesCardsData(this.proxyService, `/articles/`);
+  }
+
+  @Get("/useful_articles/cards")
+  async getUsefulArticleCards(): Promise<string> {
+    return await getArticlesCardsData(this.proxyService, `/useful_articles/`);
   }
 
   @Get("/articles/table")
   async getArticlesTable(): Promise<string> {
-    return await this.proxyService.sendProxyRequest({
-      realServerUrl: `/api/articles`,
-      modifyRequest: modifyArticlesRequest,
-      modifyResponse: modifyArticlesTableResponse,
-    });
+    return await getArticlesTableData(this.proxyService, `/api/articles`);
   }
+
+  @Get("/useful_articles/table")
+  async getUsefulArticleTable(): Promise<string> {
+    return await getArticlesTableData(this.proxyService, `/api/useful_articles`);
+  }
+
 
   @Get("/article/:articleId")
   async getArticle(@Param() params): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/${params.articleId}`,
+      modifyResponse: (data, param) => modifyArticleResponse(data.data, param, false),
+    });
+  }
+
+  @Get("/useful_article/:articleId")
+  async getUsefulArticle(@Param() params): Promise<string> {
+    return await this.proxyService.sendProxyRequest({
+      realServerUrl: `/api/useful_articles/${params.articleId}`,
       modifyResponse: (data, param) => modifyArticleResponse(data.data, param, false),
     });
   }
@@ -82,10 +90,10 @@ export class ArticlesController {
   async editArticle(@Param() params): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/${params.articleId}`,
-      modifyResponse: async ({ data }, params) => {
+      modifyResponse: async ({data}, params) => {
         const article = await modifyArticleResponse(data, params, true);
         if (article.keywords) {
-          article.keywords = article.keywords.split(", ").map((code) => ({ code, title: code }));
+          article.keywords = article.keywords.split(", ").map((code) => ({code, title: code}));
         }
         if (article.category) {
           article.category = article.category.id;
@@ -102,8 +110,8 @@ export class ArticlesController {
   async articleStore(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/store`,
-      modifyResponse: ({ data }) => ({ id: data.id }),
-      modifyRequest: ({ requestParams: { data } }) => ({
+      modifyResponse: ({data}) => ({id: data.id}),
+      modifyRequest: ({requestParams: {data}}) => ({
         data: modifyRequest(data),
       }),
       modifyError: (err) => {
@@ -117,7 +125,7 @@ export class ArticlesController {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/update`,
       modifyResponse: async () => null,
-      modifyRequest: ({ requestParams: { data } }) => ({
+      modifyRequest: ({requestParams: {data}}) => ({
         data: modifyRequest(data),
       }),
       modifyError: (err) => {
@@ -128,7 +136,7 @@ export class ArticlesController {
 
   @Post("/content/articles-convert-enhancers")
   async convertEnhancers(@Req() req: Request): Promise<string> {
-    const { content } = req.body;
+    const {content} = req.body;
     if (!content) return "";
     return getContentWithReadAlsoEnhancers(content, {
       method: "GET",
@@ -146,11 +154,11 @@ export class ArticlesController {
   async articlesPunish(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/update`,
-      modifyRequest: async ({ urlParams, requestParams }) => {
+      modifyRequest: async ({urlParams, requestParams}) => {
         const article = await loadArticle(urlParams.articleId, requestParams);
         return {
           params: {},
-          data: { ...article, status: NUMBERS_FOR_STATUSES[PUBLISHED] },
+          data: {...article, status: NUMBERS_FOR_STATUSES[PUBLISHED]},
         };
       },
     });
@@ -160,11 +168,11 @@ export class ArticlesController {
   async getArticleUpdate(): Promise<string> {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/update`,
-      modifyRequest: async ({ urlParams, requestParams }) => {
+      modifyRequest: async ({urlParams, requestParams}) => {
         const article = await loadArticle(urlParams.articleId, requestParams);
         return {
           params: {},
-          data: { ...article, status: NUMBERS_FOR_STATUSES[UNPUBLISHED] },
+          data: {...article, status: NUMBERS_FOR_STATUSES[UNPUBLISHED]},
         };
       },
     });

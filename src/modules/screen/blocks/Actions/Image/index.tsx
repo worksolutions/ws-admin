@@ -6,6 +6,7 @@ import { Icons } from "primitives/Icon";
 
 import { useFileSelector } from "libs/hooks/files/useFileSelector";
 import { boxShadow } from "libs/styles";
+import { displayBlock } from "libs/styles/cleaner";
 import { AcceptTypes } from "libs/hooks/files/helpers/inputAccept";
 import { RequestError } from "libs/request";
 
@@ -65,7 +66,7 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
   if (value?.path) {
     return (
       <BaseWrapper
-        styles={styles}
+        styles={[styles, displayBlock]}
         loading={resultActions.upload.loadingContainer.loading}
         progress={resultActions.upload.progressContainer.progressValue}
         discardUploading={discardUploading}
