@@ -19,13 +19,13 @@ import {
 } from "modules/screen/blocks/RowFields/FieldsList/types";
 
 import { BlockInterface, UserInterface } from "state/globalState";
+import { toJS } from "mobx";
 
 function UserProfile({
   dataSource,
   options,
 }: BlockInterface<{ value: string; fieldsListItemWithPlaceholder?: boolean }>) {
   const { data, loadingContainer } = useDataSource<UserInterface>(dataSource!);
-
   if (loadingContainer.loading) return <Spinner />;
   if (!data) return null;
 

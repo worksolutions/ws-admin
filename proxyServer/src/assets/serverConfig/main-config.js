@@ -71,6 +71,6 @@ module.exports = {
     options: {
       reference: "*",
     },
-    blocks: [require("./pages/test"), require("./pages/content"), require("./pages/users"), require("./pages/me")],
+    blocks: [require("./pages/test"), require("./pages/content"), require("./pages/users"), require("./pages/me"), require('./pages/user')],
   },
 };

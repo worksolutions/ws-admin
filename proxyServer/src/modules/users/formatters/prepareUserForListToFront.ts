@@ -7,5 +7,6 @@ export default function(user) {
     leftContent: user.image ? prepareUrl(user.image.path) : null,
     subTitle: `${user.position} • ${user.email}`,
     blocked: !user.active,
+
   };
 }
