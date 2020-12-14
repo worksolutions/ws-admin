@@ -84,7 +84,7 @@ module.exports = function (url) {
                               title: "Автор",
                               type: "icon-link",
                               options: {
-                                title: "{{screen:article.author.name}} {{screen:useful-article.author.surname}}",
+                                title: "{{screen:article.author.name}} {{screen:article.author.surname}}",
                                 imageReference: "=screen:article.author.image.path",
                                 reference: "/user/{{screen:article.author.id}}",
                               },

@@ -73,7 +73,7 @@ export class ArticlesController {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles`,
       modifyRequest: modifyArticlesRequest,
-      modifyResponse: modifyArticlesTableResponse,
+      modifyResponse: ({ data, meta }) => modifyArticlesTableResponse(data, meta, "articles"),
     });
   }
 
@@ -82,7 +82,7 @@ export class ArticlesController {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/useful_articles`,
       modifyRequest: modifyArticlesRequest,
-      modifyResponse: modifyArticlesTableResponse,
+      modifyResponse: ({ data, meta }) => modifyArticlesTableResponse(data, meta, "useful_articles"),
     });
   }
 
