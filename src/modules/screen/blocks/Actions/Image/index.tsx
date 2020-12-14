@@ -5,7 +5,7 @@ import { mergeRight } from "ramda";
 import { Icons } from "primitives/Icon";
 
 import { useFileSelector } from "libs/hooks/files/useFileSelector";
-import { boxShadow, flex } from "libs/styles";
+import { boxShadow } from "libs/styles";
 import { AcceptTypes } from "libs/hooks/files/helpers/inputAccept";
 import { RequestError } from "libs/request";
 
@@ -93,7 +93,7 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
 
   return (
     <BaseWrapper
-      styles={[flex, styles, dropping && boxShadow([0, 0, 0, 2, "blue/04"])]}
+      styles={[styles, dropping && boxShadow([0, 0, 0, 2, "blue/04"])]}
       loading={resultActions.upload.loadingContainer.loading}
       progress={resultActions.upload.progressContainer.progressValue}
       openNativeFileDialog={openNativeFileDialog}
