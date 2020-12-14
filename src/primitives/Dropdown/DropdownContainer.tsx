@@ -77,7 +77,7 @@ const DropdownContainer = function ({
       selectedItemIds={selectedItemCodes}
       includeMinWidthCalculation={!searchable}
       emptyText={getEmptyText(search, { searchable, notFoundText: searchableNotFoundText }, searchableEmptyListText)}
-      itemsWrapper={(child) => <Wrapper styles={[maxHeight(400), overflow("scroll")]}>{child}</Wrapper>}
+      itemsWrapper={(child) => <Wrapper styles={[maxHeight(400), overflow("auto")]}>{child}</Wrapper>}
       topComponent={
         searchable && (
           <ClearInputWrapper

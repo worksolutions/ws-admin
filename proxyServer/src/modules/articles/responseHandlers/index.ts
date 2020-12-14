@@ -126,7 +126,7 @@ export async function loadArticle(articleId, requestParams) {
   });
 }
 
-export const prepareArticleToFront = (article) => {
+export const prepareArticleToFront = (article, urlArticle) => {
   const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
 
   return {
@@ -134,7 +134,7 @@ export const prepareArticleToFront = (article) => {
     code: article.code,
     title: article.title,
     image: article.announceImage ? prepareUrl(article.announceImage.path) : null,
-    redirectReference: "/content/articles/" + article.id,
+    redirectReference: `/content${urlArticle}` + article.id,
     heading: moment.unix(article.createdAt).format("DD MMMM YYYY"),
     statuses: [
       {
@@ -178,7 +178,7 @@ export function modifyArticlesTableResponse({ data, meta }) {
       announceImage: article.announceImage ? prepareUrl(article.announceImage.path) : null,
       name: {
         value: article.title,
-        redirectReference: "/content/articles/" + article.id,
+        redirectReference: "/content/useful-articles/" + article.id,
       },
       publishedAt: article.publishedAt ? moment.unix(article.publishedAt).format("DD MMMM YYYY") : "",
       status: matchCodeAndStatusForFront[article.status],

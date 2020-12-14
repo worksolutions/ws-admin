@@ -1,5 +1,4 @@
 import prepareUrl from "libs/prepareUrl";
-import { assoc, assocPath, compose } from "ramda";
 
 export default function ({ data, meta }) {
   return {
@@ -8,6 +7,7 @@ export default function ({ data, meta }) {
       user: {
         avatarReference: user.image ? prepareUrl(user.image.path) : null,
         name: user.name + " " + user.surname,
+        reference: "/user/" + user.id,
       },
       position: user.position,
       email: user.email,

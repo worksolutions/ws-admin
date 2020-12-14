@@ -4,8 +4,12 @@ import { UserInterface } from "types/users";
 
 export default function ({ user: { active, ...userData } }: { user: UserInterface }) {
   const user = { ...userData, blocked: !active };
-  if (!user.image) return { user };
+  if (!user.image) return user;
+  const url = prepareUrl(user.image.path);
+
   return {
-    user: assoc("image", assoc("path", prepareUrl(user.image.path), user.image), user),
+    ...user,
+    image: assoc("path", url, user.image),
+    avatar: url,
   };
 }

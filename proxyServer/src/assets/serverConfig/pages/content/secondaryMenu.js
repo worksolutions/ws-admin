@@ -19,6 +19,12 @@ module.exports = {
           reference: "/content/categories",
           subElements: [],
         },
+        {
+          name: "Полезные статьи",
+          icon: "content-multiple",
+          reference: "/content/useful_articles",
+          subElements: [],
+        },
       ],
     },
     contextPath: "menu.secondary-menu-items",
