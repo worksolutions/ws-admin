@@ -171,14 +171,14 @@ export const modifyArticlesRequest = ({ requestParams: { params } }) => {
   return { params: result };
 };
 
-export function modifyArticlesTableResponse({ data, meta }) {
+export function modifyArticlesTableResponse(data, meta, name) {
   return {
     list: data.map((article) => ({
       id: article.id,
       announceImage: article.announceImage ? prepareUrl(article.announceImage.path) : null,
       name: {
         value: article.title,
-        redirectReference: "/content/useful-articles/" + article.id,
+        redirectReference: `/content/${name}/` + article.id,
       },
       publishedAt: article.publishedAt ? moment.unix(article.publishedAt).format("DD MMMM YYYY") : "",
       status: matchCodeAndStatusForFront[article.status],
