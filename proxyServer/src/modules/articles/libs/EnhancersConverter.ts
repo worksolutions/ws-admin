@@ -1,4 +1,4 @@
-import prepareUrl from 'libs/prepareUrl';
+import prepareUrl from "libs/prepareUrl";
 
 class EnhancersConverter {
   convert(text, template, enhancerConfig) {

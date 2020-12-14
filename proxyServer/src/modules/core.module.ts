@@ -1,12 +1,12 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Module } from "@nestjs/common";
 
-import { ConfigService } from '@nestjs/config';
+import { ConfigService } from "@nestjs/config";
 
-import { CacheService } from 'services/cache.service';
+import { CacheService } from "services/cache.service";
 
-import { ProxyService } from 'services/proxy.service';
+import { ProxyService } from "services/proxy.service";
 
-import { ErrorService } from 'services/error.service';
+import { ErrorService } from "services/error.service";
 
 @Global()
 @Module({

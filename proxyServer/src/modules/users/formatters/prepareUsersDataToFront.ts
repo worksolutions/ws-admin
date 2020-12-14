@@ -1,37 +1,36 @@
-import prepareUrl from 'libs/prepareUrl';
-import { assoc, assocPath, compose } from 'ramda';
+import prepareUrl from "libs/prepareUrl";
 
-export default function({ data, meta }) {
+export default function ({ data, meta }) {
   return {
-    list: data.map(user => ({
+    list: data.map((user) => ({
       id: user.id,
       user: {
         avatarReference: user.image ? prepareUrl(user.image.path) : null,
-        name: user.name + ' ' + user.surname,
-        reference: '/user/' + user.id
+        name: user.name + " " + user.surname,
+        reference: "/user/" + user.id
       },
       position: user.position,
       email: user.email,
-      status: user.active ? 'Активный' : 'Заблокирован',
+      status: user.active ? "Активный" : "Заблокирован",
       actions: {
         list: [
           {
-            mode: 'button',
-            icon: 'edit',
-            iconColor: 'gray-blue/07',
+            mode: "button",
+            icon: "edit",
+            iconColor: "gray-blue/07",
             action: [
               {
-                type: 'api:request',
+                type: "api:request",
                 options: {
                   reference: `/users/${user.id}`,
-                  method: 'get',
-                  saveToContext: 'screen:temp-data',
+                  method: "get",
+                  saveToContext: "screen:temp-data",
                 },
               },
               {
-                type: 'open-modal',
+                type: "open-modal",
                 options: {
-                  name: 'edit-user-profile',
+                  name: "edit-user-profile",
                 },
               },
             ],

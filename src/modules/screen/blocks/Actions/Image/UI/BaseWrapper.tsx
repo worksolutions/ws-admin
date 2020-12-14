@@ -3,19 +3,7 @@ import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
-import {
-  ai,
-  Aligns,
-  borderRadius,
-  boxShadow,
-  flex,
-  flexValue,
-  hover,
-  jc,
-  overflow,
-  position,
-  transition,
-} from "libs/styles";
+import { ai, Aligns, borderRadius, boxShadow, flexValue, hover, jc, overflow, position, transition } from "libs/styles";
 
 import LoadingProgress from "./LoadingProgress";
 
