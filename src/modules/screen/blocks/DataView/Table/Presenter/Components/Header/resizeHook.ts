@@ -56,9 +56,13 @@ export function useResizeTableMain(id: string, cells: { isResizing: boolean }[],
       setHeaderWidths(savedWidths);
       return;
     }
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setHeaderWidths(calculateHeaderWidths(headerRef.current!));
-    }, 100);
+    }, 0);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   useEffectSkipFirst(() => {
