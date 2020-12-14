@@ -8,6 +8,7 @@ import { useFileSelector } from "libs/hooks/files/useFileSelector";
 import { boxShadow } from "libs/styles";
 import { AcceptTypes } from "libs/hooks/files/helpers/inputAccept";
 import { RequestError } from "libs/request";
+import { displayBlock } from "libs/styles/cleaner";
 
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
@@ -62,11 +63,10 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
   }
 
   const { dropAreaProps, openNativeFileDialog, dropping } = useFileSelector(uploadFile, [AcceptTypes.IMAGE]);
-
   if (value?.path) {
     return (
       <BaseWrapper
-        styles={styles}
+        styles={[styles, displayBlock]}
         loading={resultActions.upload.loadingContainer.loading}
         progress={resultActions.upload.progressContainer.progressValue}
         discardUploading={discardUploading}
