@@ -1,17 +1,14 @@
-import { All, Controller, Post, Req } from '@nestjs/common';
+import { All, Controller, Post, Req } from "@nestjs/common";
 
-import { CacheService } from 'services/cache.service';
+import { CacheService } from "services/cache.service";
 
-import { ProxyService } from 'services/proxy.service';
+import { ProxyService } from "services/proxy.service";
 
-import { Request } from 'express';
+import { Request } from "express";
 
-@Controller('api')
+@Controller("api")
 export class DefaultController {
-  constructor(
-    private cacheService: CacheService,
-    private proxyService: ProxyService,
-  ) {}
+  constructor(private cacheService: CacheService, private proxyService: ProxyService) {}
 
   // @Post('/login')
   // login(@Req() request: Request) {
@@ -20,7 +17,7 @@ export class DefaultController {
   //   });
   // }
 
-  @All('*')
+  @All("*")
   index(@Req() request: Request) {
     return this.proxyService.sendProxyRequest({});
   }

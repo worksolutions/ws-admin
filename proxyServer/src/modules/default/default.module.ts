@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
 
-import { DefaultController } from 'modules/default/default.controller';
+import { DefaultController } from "modules/default/default.controller";
 
 @Module({
   controllers: [DefaultController],

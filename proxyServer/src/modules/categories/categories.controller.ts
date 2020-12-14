@@ -1,24 +1,21 @@
-import { omit } from 'ramda';
+import { omit } from "ramda";
 
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post } from "@nestjs/common";
 
-import { CacheService } from 'services/cache.service';
+import { CacheService } from "services/cache.service";
 
-import { ProxyService } from 'services/proxy.service';
+import { ProxyService } from "services/proxy.service";
 
-import prepareUserProfileToFront from 'modules/users/formatters/prepareUserProfileToFront';
+import prepareUserProfileToFront from "modules/users/formatters/prepareUserProfileToFront";
 
-@Controller('api')
+@Controller("api")
 export class CategoriesController {
-  constructor(
-    private cacheService: CacheService,
-    private proxyService: ProxyService,
-  ) {}
+  constructor(private cacheService: CacheService, private proxyService: ProxyService) {}
 
-  @Get('/category/:categoryId')
+  @Get("/category/:categoryId")
   async getDetailCategory(@Param() params) {
     return await this.proxyService.sendProxyRequest({
-      realServerUrl: '/api/categories/' + params.categoryId,
+      realServerUrl: "/api/categories/" + params.categoryId,
       modifyResponse: ({ data }) => ({
         id: data.id,
         title: data.name,
@@ -27,56 +24,56 @@ export class CategoriesController {
     });
   }
 
-  @Get('categories')
+  @Get("categories")
   async getCategories() {
     return await this.proxyService.sendProxyRequest({
-      realServerUrl: '/api/categories/',
+      realServerUrl: "/api/categories/",
       modifyResponse: ({ data, meta }) => {
         return {
-          list: data.map(category => ({
+          list: data.map((category) => ({
             id: category.id,
             name: category.name,
             code: category.code,
             actions: {
               list: [
                 {
-                  mode: 'button',
-                  icon: 'edit',
-                  iconColor: 'gray-blue/07',
+                  mode: "button",
+                  icon: "edit",
+                  iconColor: "gray-blue/07",
                   action: [
                     {
-                      type: 'api:request',
+                      type: "api:request",
                       options: {
                         reference: `/category/${category.id}`,
-                        method: 'get',
-                        saveToContext: 'screen:tempCategory',
+                        method: "get",
+                        saveToContext: "screen:tempCategory",
                       },
                     },
                     {
-                      type: 'open-modal',
+                      type: "open-modal",
                       options: {
-                        name: 'edit-category',
+                        name: "edit-category",
                       },
                     },
                   ],
                 },
                 {
-                  mode: 'button',
-                  icon: 'delete',
-                  iconColor: 'gray-blue/07',
+                  mode: "button",
+                  icon: "delete",
+                  iconColor: "gray-blue/07",
                   action: [
                     {
-                      type: 'api:request',
+                      type: "api:request",
                       options: {
                         reference: `/category/${category.id}`,
-                        method: 'get',
-                        saveToContext: 'screen:tempCategory',
+                        method: "get",
+                        saveToContext: "screen:tempCategory",
                       },
                     },
                     {
-                      type: 'open-modal',
+                      type: "open-modal",
                       options: {
-                        name: 'delete-category',
+                        name: "delete-category",
                       },
                     },
                   ],
@@ -90,19 +87,18 @@ export class CategoriesController {
     });
   }
 
-  @Get('/categories-list')
+  @Get("/categories-list")
   async getCategorieslist() {
     return await this.proxyService.sendProxyRequest({
-      realServerUrl: '/api/categories/',
-      modifyResponse: ({ data }) =>
-        data.map(category => ({ code: category.id, title: category.name })),
+      realServerUrl: "/api/categories/",
+      modifyResponse: ({ data }) => data.map((category) => ({ code: category.id, title: category.name })),
     });
   }
 
-  @Post('/categories/store')
+  @Post("/categories/store")
   async getCategoriesStore() {
     return await this.proxyService.sendProxyRequest({
-      realServerUrl: '/api/categories/store',
+      realServerUrl: "/api/categories/store",
       modifyResponse: ({ data }) => ({ code: data.id, title: data.name }),
     });
   }

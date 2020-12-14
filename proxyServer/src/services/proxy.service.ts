@@ -1,14 +1,14 @@
-import { is, isNil, omit } from 'ramda';
+import { is, isNil, omit } from "ramda";
 
-import axios from 'axios';
+import axios from "axios";
 
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from "@nestjs/common";
 
-import { REQUEST } from '@nestjs/core';
+import { REQUEST } from "@nestjs/core";
 
-import { Request } from 'express';
+import { Request } from "express";
 
-import { ConfigService } from '@nestjs/config';
+import { ConfigService } from "@nestjs/config";
 
 type ModifyFunctionType = (...data: any[]) => any;
 type ModifyResponseFunctionType = (data: any, options: any) => any;
@@ -22,10 +22,7 @@ interface SendProxyRequestInterface {
 
 @Injectable()
 export class ProxyService {
-  constructor(
-    @Inject(REQUEST) private readonly request: Request,
-    private configService: ConfigService,
-  ) {}
+  constructor(@Inject(REQUEST) private readonly request: Request, private configService: ConfigService) {}
 
   async sendProxyRequest({
     realServerUrl,
@@ -33,17 +30,10 @@ export class ProxyService {
     modifyRequest,
     modifyError,
   }: SendProxyRequestInterface): Promise<any> {
-    const reqParams = await this.makeRequestParams(
-      modifyRequest,
-      realServerUrl,
-    );
+    const reqParams = await this.makeRequestParams(modifyRequest, realServerUrl);
     try {
       const response = await ProxyService.sendRequest(reqParams);
-      return await ProxyService.responseProcessing(
-        modifyResponse,
-        response,
-        reqParams,
-      );
+      return await ProxyService.responseProcessing(modifyResponse, response, reqParams);
     } catch (e) {
       const error = ProxyService.handleErrors(e, modifyError);
       this.request.res.status(error.status);
@@ -51,11 +41,7 @@ export class ProxyService {
     }
   }
 
-  private static async responseProcessing(
-    modifyResponse,
-    response,
-    { resultUrl, requestParams },
-  ) {
+  private static async responseProcessing(modifyResponse, response, { resultUrl, requestParams }) {
     if (!modifyResponse) return response.data;
     const modifiedResponse = await ProxyService.modifyOriginalResponse(
       response,
@@ -80,19 +66,13 @@ export class ProxyService {
   }
 
   private prepareRequestUrl(realServerUrl?: any): string {
-    return (
-      (is(Function, realServerUrl)
-        ? realServerUrl(this.request)
-        : realServerUrl) || this.request.originalUrl
-    );
+    return (is(Function, realServerUrl) ? realServerUrl(this.request) : realServerUrl) || this.request.originalUrl;
   }
 
-  private async prepareRequestParams(
-    modifyRequest?: ModifyFunctionType,
-  ): Promise<Record<string, any>> {
-    const apiHost = this.configService.get('API_SERVER_HOST');
+  private async prepareRequestParams(modifyRequest?: ModifyFunctionType): Promise<Record<string, any>> {
+    const apiHost = this.configService.get("API_SERVER_HOST");
     const headers = {
-      ...omit(['host'], this.request.headers),
+      ...omit(["host"], this.request.headers),
       origin: apiHost,
     };
     const requestParams = {
@@ -102,9 +82,7 @@ export class ProxyService {
       data: this.request.body,
       headers,
     };
-    return modifyRequest
-      ? await this.modifyRequestParams(requestParams, modifyRequest)
-      : requestParams;
+    return modifyRequest ? await this.modifyRequestParams(requestParams, modifyRequest) : requestParams;
   }
 
   private async modifyRequestParams(
@@ -141,7 +119,7 @@ export class ProxyService {
   private static handleErrors(error: any, modifyError?: ModifyFunctionType) {
     const { response } = error;
     if (!response) {
-      return { data: { error: 'proxy - internal server error' }, status: 500 };
+      return { data: { error: "proxy - internal server error" }, status: 500 };
     }
 
     if (modifyError) {
