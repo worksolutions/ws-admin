@@ -95,7 +95,6 @@ const getComponentByActions = ({ type = ActionsType.DEFAULT, list }: { type: Act
 
 export const cellComponent: CellComponentData = ({ item: actions, index }) => {
   const appContext = useAppContext();
-
   const memoizedActions = React.useMemo(() => {
     const result: Record<string, AnyRawAction> = {};
     actions.list.forEach((action: any, index: number) => {
@@ -108,7 +107,6 @@ export const cellComponent: CellComponentData = ({ item: actions, index }) => {
   const patchedActions = useActions(memoizedActions, appContext);
 
   const ComponentByActionsCount: React.FC<TableActionPropsInterface> = getComponentByActions(actions);
-
   return {
     component: (
       <Wrapper styles={flex}>
