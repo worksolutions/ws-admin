@@ -3,19 +3,7 @@ import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
-import {
-  ai,
-  Aligns,
-  borderRadius,
-  boxShadow,
-  flex,
-  flexValue,
-  hover,
-  jc,
-  overflow,
-  position,
-  transition,
-} from "libs/styles";
+import { ai, Aligns, borderRadius, boxShadow, flexValue, hover, jc, overflow, position, transition } from "libs/styles";
 
 import LoadingProgress from "./LoadingProgress";
 
@@ -45,6 +33,7 @@ function BaseWrapper({
         transition(`box-shadow ${duration160}`),
         boxShadow([0, 0, 0, 1, "gray-blue/02"]),
         hover(boxShadow([0, 0, 0, 1, "gray-blue/03"])),
+        flexValue(1),
         ai(Aligns.CENTER),
         jc(Aligns.CENTER),
         overflow("hidden"),
