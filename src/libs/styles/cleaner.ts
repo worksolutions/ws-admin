@@ -7,3 +7,7 @@ export const borderNone = css`
 export const emptyBoxShadow = css`
   box-shadow: none;
 `;
+
+export const displayBlock = css`
+  display: block;
+`;
