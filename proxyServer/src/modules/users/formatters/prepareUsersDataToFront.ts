@@ -7,7 +7,7 @@ export default function ({ data, meta }) {
       user: {
         avatarReference: user.image ? prepareUrl(user.image.path) : null,
         name: user.name + " " + user.surname,
-        reference: "/user/" + user.id
+        reference: "/user/" + user.id,
       },
       position: user.position,
       email: user.email,

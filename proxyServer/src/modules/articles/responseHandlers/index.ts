@@ -11,7 +11,6 @@ import { NUMBERS_FOR_STATUSES, STATUSES_FOR_NUMBERS } from "modules/articles/mat
 
 import EnhancersConverterReadAlso from "../libs/EnhancersConverter";
 
-
 function convertImage(image) {
   image.path = prepareUrl(image.path);
   image.name = image.originalName + "." + image.path.split(".").pop();
@@ -71,8 +70,6 @@ export async function modifyRelatedArticleResponse({ data }, { originalRequestPa
   const articles = await Promise.all(
     data.relatedArticles.map((article) => axios("/api/articles/" + article.id, originalRequestParams)),
   );
-
-
 
   return articles
     .map((article: any) => article.data.data)

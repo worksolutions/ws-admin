@@ -33,6 +33,7 @@ function BaseWrapper({
         transition(`box-shadow ${duration160}`),
         boxShadow([0, 0, 0, 1, "gray-blue/02"]),
         hover(boxShadow([0, 0, 0, 1, "gray-blue/03"])),
+        flexValue(1),
         ai(Aligns.CENTER),
         jc(Aligns.CENTER),
         overflow("hidden"),
