@@ -58,7 +58,7 @@ export function useResizeTableMain(id: string, cells: { isResizing: boolean }[],
     }
     const timeout = setTimeout(() => {
       setHeaderWidths(calculateHeaderWidths(headerRef.current!));
-    }, 0);
+    }, 100);
 
     return () => {
       clearTimeout(timeout);
