@@ -3,7 +3,21 @@ import { duration160 } from "layout/durations";
 
 import Wrapper from "primitives/Wrapper";
 
-import { ai, Aligns, borderRadius, boxShadow, flexValue, hover, jc, overflow, position, transition } from "libs/styles";
+import {
+  ai,
+  Aligns,
+  borderRadius,
+  boxShadow,
+  flex,
+  flexValue,
+  height,
+  hover,
+  jc,
+  overflow,
+  position,
+  transition,
+  width,
+} from "libs/styles";
 
 import LoadingProgress from "./LoadingProgress";
 
@@ -33,15 +47,23 @@ function BaseWrapper({
         transition(`box-shadow ${duration160}`),
         boxShadow([0, 0, 0, 1, "gray-blue/02"]),
         hover(boxShadow([0, 0, 0, 1, "gray-blue/03"])),
-        flexValue(1),
-        ai(Aligns.CENTER),
-        jc(Aligns.CENTER),
         overflow("hidden"),
+        flexValue(1),
         styles,
       ]}
       onClick={loading ? undefined : openNativeFileDialog}
     >
-      {loading ? <LoadingProgress progress={progress} discard={discardUploading} /> : children}
+      {loading ? (
+        <Wrapper
+          className="blockWrapper"
+          styles={[width("100%"), height("100%"), flex, ai(Aligns.CENTER), jc(Aligns.CENTER)]}
+          onClick={loading ? undefined : openNativeFileDialog}
+        >
+          <LoadingProgress progress={progress} discard={discardUploading} />
+        </Wrapper>
+      ) : (
+        children
+      )}
     </Wrapper>
   );
 }
