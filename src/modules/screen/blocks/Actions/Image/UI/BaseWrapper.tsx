@@ -10,13 +10,13 @@ import {
   boxShadow,
   flex,
   flexValue,
-  height,
+  fullHeight,
+  fullWidth,
   hover,
   jc,
   overflow,
   position,
   transition,
-  width,
 } from "libs/styles";
 
 import LoadingProgress from "./LoadingProgress";
@@ -51,14 +51,10 @@ function BaseWrapper({
         flexValue(1),
         styles,
       ]}
-      onClick={loading ? undefined : openNativeFileDialog}
+      onClick={!loading && openNativeFileDialog}
     >
       {loading ? (
-        <Wrapper
-          className="blockWrapper"
-          styles={[width("100%"), height("100%"), flex, ai(Aligns.CENTER), jc(Aligns.CENTER)]}
-          onClick={loading ? undefined : openNativeFileDialog}
-        >
+        <Wrapper styles={[fullWidth, fullHeight, flex, ai(Aligns.CENTER), jc(Aligns.CENTER)]}>
           <LoadingProgress progress={progress} discard={discardUploading} />
         </Wrapper>
       ) : (
