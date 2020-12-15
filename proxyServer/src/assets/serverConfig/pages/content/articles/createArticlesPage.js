@@ -11,7 +11,13 @@ module.exports = function (url) {
       {
         type: "ContextInitializer",
         options: {
-          static: [{ path: "screen:article", value: { status: "unpublished" } }],
+          static: [
+            { path: "screen:article", value: { status: "unpublished" } },
+            {
+              path: `screen:article.relatedArticles`,
+              value: [],
+            },
+          ],
           block: pageBuilder("screen:article", (body) => ({
             save: [
               {

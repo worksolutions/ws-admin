@@ -118,7 +118,7 @@ module.exports = {
                   options: {
                     imageOptions: {
                       aspectRatio: 1,
-                      contextPath: `screen:temp-data.user.image`,
+                      contextPath: `screen:temp-data.image`,
                     },
                     actions: {
                       upload: {
@@ -137,12 +137,12 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "Имя",
-                      contextPath: `screen:temp-data.user.name`,
+                      contextPath: `screen:temp-data.name`,
                     },
                     actions: {
                       change: {
                         type: "update-context",
-                        options: { context: `screen:temp-data.user.name` },
+                        options: { context: `screen:temp-data.name` },
                       },
                     },
                   },
@@ -154,12 +154,12 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "Фамилия",
-                      contextPath: `screen:temp-data.user.surname`,
+                      contextPath: `screen:temp-data.surname`,
                     },
                     actions: {
                       change: {
                         type: "update-context",
-                        options: { context: `screen:temp-data.user.surname` },
+                        options: { context: `screen:temp-data.surname` },
                       },
                     },
                   },
@@ -171,12 +171,12 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "Должность",
-                      contextPath: `screen:temp-data.user.position`,
+                      contextPath: `screen:temp-data.position`,
                     },
                     actions: {
                       change: {
                         type: "update-context",
-                        options: { context: `screen:temp-data.user.position` },
+                        options: { context: `screen:temp-data.position` },
                       },
                     },
                   },
@@ -188,12 +188,12 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       placeholder: "E-mail",
-                      contextPath: `screen:temp-data.user.email`,
+                      contextPath: `screen:temp-data.email`,
                     },
                     actions: {
                       change: {
                         type: "update-context",
-                        options: { context: `screen:temp-data.user.email` },
+                        options: { context: `screen:temp-data.email` },
                       },
                     },
                   },
@@ -205,12 +205,12 @@ module.exports = {
                       width: "full-width",
                       size: "large",
                       text: "Заблокировать",
-                      contextPath: `screen:temp-data.user.blocked`,
+                      contextPath: `screen:temp-data.blocked`,
                     },
                     actions: {
                       change: {
                         type: "update-context",
-                        options: { context: "screen:temp-data.user.blocked" },
+                        options: { context: "screen:temp-data.blocked" },
                       },
                     },
                   },
@@ -229,13 +229,13 @@ module.exports = {
                     reference: "/users/update",
                     method: "post",
                     body: {
-                      id: "=screen:temp-data.user.id",
-                      name: "=screen:temp-data.user.name",
-                      surname: "=screen:temp-data.user.surname",
-                      email: "=screen:temp-data.user.email",
-                      position: "=screen:temp-data.user.position",
-                      imageId: "=screen:temp-data.user.image.id",
-                      blocked: "=screen:temp-data.user.blocked",
+                      id: "=screen:temp-data.id",
+                      name: "=screen:temp-data.name",
+                      surname: "=screen:temp-data.surname",
+                      email: "=screen:temp-data.email",
+                      position: "=screen:temp-data.position",
+                      imageId: "=screen:temp-data.image.id",
+                      blocked: "=screen:temp-data.blocked",
                     },
                   },
                 },
