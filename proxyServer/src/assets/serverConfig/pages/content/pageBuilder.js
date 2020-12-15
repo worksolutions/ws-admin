@@ -11,6 +11,10 @@ module.exports = function (context, getActions) {
         { path: `${relatedArticlesContext}.list`, value: [] },
         { path: `${tempContext}.categories`, value: [] },
         { path: `${tempContext}.users`, value: [] },
+        {
+          path: `${context}.relatedArticles`,
+          value: [],
+        },
       ],
       actions: {
         loadCategories: {
