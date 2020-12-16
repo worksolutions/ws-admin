@@ -13,9 +13,10 @@ import { useSetDocumentTitle } from "libs/hooks/special";
 
 import { AuthTokenSaver } from "modules/auth/authTokenSaver";
 
-import { fullHeight, fullWidth } from "./libs/styles";
-import TestPage from "./modules/screen/blocks/Test";
-import AuthPage from "./modules/auth/AuthPage";
+import { fullHeight, fullWidth } from "../libs/styles";
+
+import TestPage from "./screen/blocks/Test";
+import AuthPage from "./auth/AuthPage";
 
 import { GlobalState } from "state/globalState";
 

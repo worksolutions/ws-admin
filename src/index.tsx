@@ -1,37 +1,8 @@
-import "reflect-metadata";
-import React from "react";
-import ReactDOM from "react-dom";
-import { Router } from "react-router";
-import "mobx-react-lite/batchingForReactDom";
-import "style/index.css";
+import configurator from "./entryPoint/entryPoint";
 
-import { TypographyGlobalStyle } from "primitives/Typography";
-
-import "libs/date";
-import { RequestManager } from "libs/request";
-
-import ToastReceiver from "modules/ToastReceiver";
-
-import App from "./App";
-import { browserHistory } from "./common";
-
-ReactDOM.render(
-  <Router history={browserHistory}>
-    <>
-      <App />
-      <ToastReceiver />
-      <TypographyGlobalStyle />
-    </>
-  </Router>,
-  document.getElementById("root"),
-);
-
-if (process.env.NODE_ENV === "development") {
-  RequestManager.loggerEnabled = true;
-}
-
-RequestManager.baseURL = "/api";
-
-RequestManager.beforeSendMiddleware.push((config) => {
-  if (!config.headers) config.headers = {};
-});
+configurator.setPrimitiveEditorAvailableDecorators([
+  {
+    type: "link",
+    payload: {},
+  },
+]);
