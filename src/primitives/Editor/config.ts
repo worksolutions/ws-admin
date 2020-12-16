@@ -9,13 +9,18 @@ export const config = Object.assign(
   {
     link: {
       decorators: {
-        addTargetToExternalLinks: {
+        decorator1: {
           mode: "automatic",
-          callback: (url: string) => /^(https?:)?\/\//.test(url),
+          callback: (url: string) => url.startsWith("http") && new URL(url).hostname !== "worksolutions.ru",
           attributes: {
             target: "_blank",
             rel: "nofollow noopener noreferrer",
           },
+        },
+        decorator2: {
+          mode: "automatic",
+          callback: (url: string) => url.startsWith("http"),
+          attributes: {},
         },
       },
     },
