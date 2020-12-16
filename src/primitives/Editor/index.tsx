@@ -66,6 +66,7 @@ export default React.memo(function Editor({
 }: EditorInterface) {
   const [toolbarContainer, setToolbarContainer] = React.useState<HTMLElement | null>(null);
   const [lastToolbarSeparator, setLastToolbarSeparator] = React.useState<HTMLElement | null>(null);
+  const [newConfig] = React.useState(() => modifyEditorConfig(config));
 
   function modifyEditorConfig(config: object) {
     if (!configModifiers) return config;
@@ -106,7 +107,7 @@ export default React.memo(function Editor({
   }
   return (
     <Suspense fallback={<Spinner />}>
-      <CKEditor5 data={initialText} config={modifyEditorConfig(config)} onInit={init} />
+      <CKEditor5 data={initialText} config={newConfig} onInit={init} />
       {toolbarContainer && ReactDOM.createPortal(additionalToolbarElements?.atTheEndOfContainer, toolbarContainer)}
       {lastToolbarSeparator &&
         ReactDOM.createPortal(additionalToolbarElements?.beforeLastSeparator, lastToolbarSeparator)}
