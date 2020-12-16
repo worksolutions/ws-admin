@@ -8,16 +8,7 @@ export const config = Object.assign(
   },
   {
     link: {
-      decorators: {
-        addTargetToExternalLinks: {
-          mode: "automatic",
-          callback: (url: string) => /^(https?:)?\/\//.test(url),
-          attributes: {
-            target: "_blank",
-            rel: "nofollow noopener noreferrer",
-          },
-        },
-      },
+      decorators: {},
     },
     language: "ru",
     toolbar: [

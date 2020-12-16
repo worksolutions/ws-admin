@@ -10,8 +10,11 @@ import {
   prepareEditorToCustomize,
 } from "./libs";
 
+import { EditorConfigModifiers, EditorConfigModifiersInterface, EditorDecoratorPayload } from "./types";
+
 interface EditorInterface {
   initialText?: string | null;
+  configModifiers: EditorConfigModifiersInterface[];
   onChange: (text: string) => void;
   uploader: (file: File) => Promise<any>;
   onInit?: (ref: EditorRefInterface) => void;
@@ -41,8 +44,21 @@ const CKEditor5 = React.lazy(() => {
   });
 });
 
+const configEditorMap = {
+  [EditorConfigModifiers.link]: (configClone: any, payloadDecorators: EditorDecoratorPayload[]) => {
+    payloadDecorators.forEach((payload: any, index: any) => {
+      configClone.link.decorators = {
+        ...configClone.link.decorators,
+        [`decorator${index}`]: { ...payload, mode: "automatic" },
+      };
+    });
+    return configClone;
+  },
+};
+
 export default React.memo(function Editor({
   initialText,
+  configModifiers,
   uploader,
   onChange,
   onInit,
@@ -50,6 +66,16 @@ export default React.memo(function Editor({
 }: EditorInterface) {
   const [toolbarContainer, setToolbarContainer] = React.useState<HTMLElement | null>(null);
   const [lastToolbarSeparator, setLastToolbarSeparator] = React.useState<HTMLElement | null>(null);
+
+  function modifyEditorConfig(config: object) {
+    if (!configModifiers) return config;
+    const configClone = Object.assign({}, config);
+    configModifiers.forEach((configModifier) => {
+      configEditorMap[configModifier.type](configClone, configModifier.payload);
+    });
+
+    return configClone;
+  }
 
   function init(editor: any) {
     prepareEditorToCustomize();
@@ -60,6 +86,7 @@ export default React.memo(function Editor({
     editor.model.document.on("change:data", () => {
       onChange(editor.getData());
     });
+
     if (onInit)
       onInit({
         insertContent: (text, appendNewLines = false) => {
@@ -77,10 +104,9 @@ export default React.memo(function Editor({
         },
       });
   }
-
   return (
     <Suspense fallback={<Spinner />}>
-      <CKEditor5 data={initialText} config={config} onInit={init} />
+      <CKEditor5 data={initialText} config={modifyEditorConfig(config)} onInit={init} />
       {toolbarContainer && ReactDOM.createPortal(additionalToolbarElements?.atTheEndOfContainer, toolbarContainer)}
       {lastToolbarSeparator &&
         ReactDOM.createPortal(additionalToolbarElements?.beforeLastSeparator, lastToolbarSeparator)}

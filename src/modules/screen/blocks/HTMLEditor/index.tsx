@@ -11,6 +11,7 @@ import { ListItemInterface } from "primitives/List/ListItem";
 import { Aligns, backgroundColor, flex, fullWidth, jc, marginLeft, minHeight } from "libs/styles";
 import { convertNativeFileToFileInterface } from "libs/hooks/files/helpers/createFileInput";
 
+import configurator from "entryPoint/Configurator";
 import { useAppContext } from "modules/context/hooks/useAppContext";
 import { useActions } from "modules/context/actions/useActions";
 import globalEventBus from "modules/globalEventBus";
@@ -72,6 +73,7 @@ function HTMLEditor({ options, actions }: BlockInterface<HTMLEditorOptionsInterf
     >
       <Editor
         initialText={value}
+        configModifiers={configurator.editorConfigModifiers}
         onChange={setValue}
         uploader={uploadFile}
         additionalToolbarElements={{
