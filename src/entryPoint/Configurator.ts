@@ -1,21 +1,11 @@
-class AppEntryConfigurator {
-  primitiveEditorAvailableDecorators: EditorDecorator[] = [];
+import { EditorConfigModifiersType } from "../primitives/Editor/types";
 
-  setPrimitiveEditorAvailableDecorators(availableDecorators: EditorDecorator[]) {
-    this.primitiveEditorAvailableDecorators = availableDecorators;
+class AppEntryConfigurator {
+  editorConfigModifiers: EditorConfigModifiersType[] = [];
+
+  setEditorConfigModifiers(configModifiers: EditorConfigModifiersType[]) {
+    this.editorConfigModifiers = configModifiers;
   }
 }
 
 export default new AppEntryConfigurator();
-
-interface EditorDecorator {
-  type: "link";
-  payload: [
-    {
-      needApply: (url) => true;
-      attributes: {
-        rel: "df";
-      };
-    },
-  ];
-}
