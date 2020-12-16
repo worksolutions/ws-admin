@@ -1,16 +1,18 @@
 import configurator from "./entryPoint/entryPoint";
 import { EditorConfigModifiers } from "./primitives/Editor/types";
 
-configurator.setPrimitiveEditorAvailableDecorators([
+configurator.setEditorConfigModifiers([
   {
     type: EditorConfigModifiers.link,
-    payload: [
+    modifierPayload: [
       {
-        callback: (url: string) => url.startsWith("http"),
-        attributes: {},
-      },
-      {
-        callback: (url: string) => new URL(url).hostname !== "worksolutions.ru",
+        callback: (url) => {
+          try {
+            return !(new URL(url).hostname === "worksolutions.ru");
+          } catch (e) {
+            return false;
+          }
+        },
         attributes: {
           target: "_blank",
           rel: "nofollow noopener noreferrer",

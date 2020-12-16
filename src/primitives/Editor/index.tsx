@@ -10,11 +10,12 @@ import {
   prepareEditorToCustomize,
 } from "./libs";
 
-import { EditorConfigModifiers, EditorConfigModifiersInterface, EditorDecoratorPayload } from "./types";
+import { EditorConfigModifiers, EditorConfigModifiersType, EditorLinkDecoratorInterface } from "./types";
+import { assocPath } from "ramda";
 
 interface EditorInterface {
   initialText?: string | null;
-  configModifiers: EditorConfigModifiersInterface[];
+  configModifiers: EditorConfigModifiersType[];
   onChange: (text: string) => void;
   uploader: (file: File) => Promise<any>;
   onInit?: (ref: EditorRefInterface) => void;
@@ -44,15 +45,14 @@ const CKEditor5 = React.lazy(() => {
   });
 });
 
-const configEditorMap = {
-  [EditorConfigModifiers.link]: (configClone: any, payloadDecorators: EditorDecoratorPayload[]) => {
-    payloadDecorators.forEach((payload: any, index: any) => {
-      configClone.link.decorators = {
-        ...configClone.link.decorators,
-        [`decorator${index}`]: { ...payload, mode: "automatic" },
-      };
+const editorConfigModifiersMap = {
+  [EditorConfigModifiers.link]: (config: any, payloadDecorators: EditorLinkDecoratorInterface[]) => {
+    let newConfig = config;
+    payloadDecorators.forEach((payload, index) => {
+      newConfig = assocPath(["link", "decorators", `decorator${index}`], { ...payload, mode: "automatic" }, newConfig);
     });
-    return configClone;
+
+    return newConfig;
   },
 };
 
@@ -69,12 +69,12 @@ export default React.memo(function Editor({
 
   function modifyEditorConfig(config: object) {
     if (!configModifiers) return config;
-    const configClone = Object.assign({}, config);
+    let newConfig = config;
     configModifiers.forEach((configModifier) => {
-      configEditorMap[configModifier.type](configClone, configModifier.payload);
+      newConfig = editorConfigModifiersMap[configModifier.type](newConfig, configModifier.modifierPayload);
     });
 
-    return configClone;
+    return newConfig;
   }
 
   function init(editor: any) {

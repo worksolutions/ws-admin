@@ -1,9 +1,9 @@
-export interface EditorConfigModifiersInterface {
-  type: EditorConfigModifiers;
-  payload: EditorDecoratorPayload[];
-}
+export type EditorConfigModifiersType = {
+  type: EditorConfigModifiers.link;
+  modifierPayload: EditorLinkDecoratorInterface[];
+};
 
-export interface EditorDecoratorPayload {
+export interface EditorLinkDecoratorInterface {
   callback: (url: string) => boolean;
   attributes: {
     rel?: string;

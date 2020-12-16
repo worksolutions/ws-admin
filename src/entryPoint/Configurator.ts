@@ -1,9 +1,9 @@
-import { EditorConfigModifiersInterface } from "../primitives/Editor/types";
+import { EditorConfigModifiersType } from "../primitives/Editor/types";
 
 class AppEntryConfigurator {
-  editorConfigModifiers: EditorConfigModifiersInterface[] = [];
+  editorConfigModifiers: EditorConfigModifiersType[] = [];
 
-  setPrimitiveEditorAvailableDecorators(configModifiers: EditorConfigModifiersInterface[]) {
+  setEditorConfigModifiers(configModifiers: EditorConfigModifiersType[]) {
     this.editorConfigModifiers = configModifiers;
   }
 }
