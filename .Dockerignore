@@ -1,6 +1,10 @@
 /node_modules
 /build
+/proxyServer/dist
+/proxyServer/node_modules
 /coverage
 /.idea
-.env
-package-lock.json
+/package-lock.json
+/proxyServer/package-lock.json
+/Dockerfile
+/.Dockerignore
