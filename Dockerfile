@@ -14,7 +14,7 @@ RUN mkdir proxyServer
 WORKDIR /usr/src/proxyServer
 
 COPY ./proxyServer/package.json .
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 WORKDIR /usr/src/
 
