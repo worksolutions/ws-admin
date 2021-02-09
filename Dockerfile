@@ -1,5 +1,7 @@
 FROM node:15-slim
 
+ARG public_path
+
 RUN apt update
 
 RUN apt install git python make g++ gcc -y
@@ -21,6 +23,7 @@ WORKDIR /usr/src/
 COPY . .
 
 ENV EXTEND_ESLINT true
+ENV PUBLIC_PATH $public_path
 
 RUN npm run build
 
