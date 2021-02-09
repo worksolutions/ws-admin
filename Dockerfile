@@ -1,6 +1,6 @@
 FROM node:15-slim
 
-ARG public_path
+ARG public_url
 
 RUN apt update
 
@@ -23,7 +23,7 @@ WORKDIR /usr/src/
 COPY . .
 
 ENV EXTEND_ESLINT true
-ENV PUBLIC_PATH $public_path
+ENV PUBLIC_URL $public_url
 
 RUN npm run build
 
