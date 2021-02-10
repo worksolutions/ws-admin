@@ -22,7 +22,7 @@ WORKDIR /usr/src/
 
 COPY . .
 
-ENV EXTEND_ESLINT true
+ENV EXTEND_ESLINT "true"
 ENV PUBLIC_URL $public_url
 
 RUN npm run build
