@@ -32,6 +32,6 @@ if (process.env.NODE_ENV === "development") {
   RequestManager.loggerEnabled = true;
 }
 
-RequestManager.baseURL = (process.env.PUBLIC_URL || "") + "/api";
+RequestManager.baseURL = "/api";
 
 export default configurator;

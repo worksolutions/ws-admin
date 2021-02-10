@@ -1,7 +1,5 @@
 FROM node:15-slim
 
-ARG public_url
-
 RUN apt update
 
 RUN apt install git python make g++ gcc -y
@@ -23,7 +21,6 @@ WORKDIR /usr/src/
 COPY . .
 
 ENV EXTEND_ESLINT "true"
-ENV PUBLIC_URL $public_url
 
 RUN npm run build
 
