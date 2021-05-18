@@ -67,6 +67,17 @@ export const htmlTextStyles = css`
     background: ${getColor("gray-blue/01")};
   }
 
+  blockquote {
+    overflow: hidden;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    margin-left: 0;
+    margin-right: 0;
+    font-style: italic;
+    border-left: 5px solid #ccc;
+    margin-bottom: 24px;
+  }
+
   li {
     margin-bottom: 20px;
   }

@@ -26,6 +26,7 @@ export const config = Object.assign(
       "bulletedList",
       "|",
       "link",
+      "blockQuote",
       "imageUpload",
       "mediaEmbed",
       "code",

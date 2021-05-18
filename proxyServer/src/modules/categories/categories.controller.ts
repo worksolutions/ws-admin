@@ -1,12 +1,8 @@
-import { omit } from "ramda";
-
 import { Controller, Get, Param, Post } from "@nestjs/common";
 
 import { CacheService } from "services/cache.service";
 
 import { ProxyService } from "services/proxy.service";
-
-import prepareUserProfileToFront from "modules/users/formatters/prepareUserProfileToFront";
 
 @Controller("api")
 export class CategoriesController {
