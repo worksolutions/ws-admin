@@ -7,7 +7,6 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build --webpack --webpackPath ./webpack.config.js",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start --webpack --webpackPath ./webpack.config.js",
     "start:dev": "nest start --debug --watch --webpack --webpackPath ./webpack.config.js",
     "start:prod": "node dist/main",
