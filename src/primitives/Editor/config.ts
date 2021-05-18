@@ -26,6 +26,7 @@ export const config = Object.assign(
       "bulletedList",
       "|",
       "link",
+      "blockQuote",
       "imageUpload",
       "mediaEmbed",
       "code",
@@ -34,7 +35,6 @@ export const config = Object.assign(
       "|",
       "undo",
       "redo",
-      "blockQuote",
     ],
     table: {
       contentToolbar: ["tableRow", "tableColumn"],
