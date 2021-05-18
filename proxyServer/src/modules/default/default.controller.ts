@@ -10,10 +10,10 @@ import { Request } from "express";
 export class DefaultController {
   constructor(private cacheService: CacheService, private proxyService: ProxyService) {}
 
-  // @Post('/login')
+  // @Post("/login")
   // login(@Req() request: Request) {
   //   return this.proxyService.sendProxyRequest({
-  //     realServerUrl: 'request.url',
+  //     realServerUrl: "request.url",
   //   });
   // }
 

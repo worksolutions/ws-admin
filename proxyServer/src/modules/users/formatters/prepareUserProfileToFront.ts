@@ -1,6 +1,6 @@
 import prepareUrl from "libs/prepareUrl";
 
-export default function ({ user }) {
+export default function({ user }) {
   const imagePath = user.image ? prepareUrl(user.image.path) : null;
 
   user.firstName = user.name;

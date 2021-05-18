@@ -14,7 +14,7 @@ class EnhancersConverter {
 
 class EnhancersConverterReadAlso extends EnhancersConverter {
   convert(text, articlesData) {
-    const payloadData = articlesData.map((article) =>
+    const payloadData = articlesData.map(article =>
       JSON.stringify({
         image: article.announceImageUrl ? prepareUrl(article.announceImageUrl) : null,
         imageAspectRatio: 1.6,

@@ -34,6 +34,7 @@ export const config = Object.assign(
       "|",
       "undo",
       "redo",
+      "blockQuote",
     ],
     table: {
       contentToolbar: ["tableRow", "tableColumn"],
