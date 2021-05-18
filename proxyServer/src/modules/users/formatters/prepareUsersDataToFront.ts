@@ -1,8 +1,8 @@
 import prepareUrl from "libs/prepareUrl";
 
-export default function({ data, meta }) {
+export default function ({ data, meta }) {
   return {
-    list: data.map(user => ({
+    list: data.map((user) => ({
       id: user.id,
       user: {
         avatarReference: user.image ? prepareUrl(user.image.path) : null,

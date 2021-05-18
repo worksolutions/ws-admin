@@ -47,7 +47,7 @@ export class ArticlesController {
       modifyRequest: modifyArticlesRequest,
       modifyResponse: ({ data, meta }) => {
         return {
-          list: data.map(article => prepareArticleToFront(article, "/articles/")),
+          list: data.map((article) => prepareArticleToFront(article, "/articles/")),
           pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
         };
       },
@@ -61,7 +61,7 @@ export class ArticlesController {
       modifyRequest: modifyArticlesRequest,
       modifyResponse: ({ data, meta }) => {
         return {
-          list: data.map(article => prepareArticleToFront(article, "/useful_articles/")),
+          list: data.map((article) => prepareArticleToFront(article, "/useful_articles/")),
           pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
         };
       },
@@ -142,7 +142,7 @@ export class ArticlesController {
       modifyRequest: ({ requestParams: { data } }) => ({
         data: modifyRequest(data),
       }),
-      modifyError: err => {
+      modifyError: (err) => {
         err.errors = convertServerErrorsToClientErrors(err.errors);
       },
     });
@@ -156,7 +156,7 @@ export class ArticlesController {
       modifyRequest: ({ requestParams: { data } }) => ({
         data: modifyRequest(data),
       }),
-      modifyError: err => {
+      modifyError: (err) => {
         err.errors = convertServerErrorsToClientErrors(err.errors);
       },
     });
@@ -170,7 +170,7 @@ export class ArticlesController {
       modifyRequest: ({ requestParams: { data } }) => ({
         data: modifyRequest(data),
       }),
-      modifyError: err => {
+      modifyError: (err) => {
         err.errors = convertServerErrorsToClientErrors(err.errors);
       },
     });
@@ -184,7 +184,7 @@ export class ArticlesController {
       modifyRequest: ({ requestParams: { data } }) => ({
         data: modifyRequest(data),
       }),
-      modifyError: err => {
+      modifyError: (err) => {
         err.errors = convertServerErrorsToClientErrors(err.errors);
       },
     });

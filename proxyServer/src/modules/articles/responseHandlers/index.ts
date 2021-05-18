@@ -22,7 +22,7 @@ async function getSubArticlesContent(text, getArticle) {
   if (!articleMatch) return [];
 
   return await Promise.all(
-    articleMatch.map(match => {
+    articleMatch.map((match) => {
       const articleCodeText = match.split("#")[1];
       return getArticle(articleCodeText.split(":")[1]);
     }),
@@ -31,11 +31,11 @@ async function getSubArticlesContent(text, getArticle) {
 
 export async function getContentWithReadAlsoEnhancers(content, originalRequestParams) {
   try {
-    const articles = (await getSubArticlesContent(content, code => {
+    const articles = (await getSubArticlesContent(content, (code) => {
       return axios("/api/blog/article/" + code, originalRequestParams);
     })) as any;
 
-    const articlesData = articles.map(article => article.data.data);
+    const articlesData = articles.map((article) => article.data.data);
     return EnhancersConverterReadAlso.convert(content, articlesData);
   } catch (e) {
     return content;
@@ -68,12 +68,12 @@ export async function modifyArticleResponse(data, { originalRequestParams }, wit
 
 export async function modifyRelatedArticleResponse({ data }, { originalRequestParams }) {
   const articles = await Promise.all(
-    data.relatedArticles.map(article => axios("/api/articles/" + article.id, originalRequestParams)),
+    data.relatedArticles.map((article) => axios("/api/articles/" + article.id, originalRequestParams)),
   );
 
   return articles
     .map((article: any) => article.data.data)
-    .map(article => {
+    .map((article) => {
       const { badgeColor, hint } = matchCodeAndStatusOptions[article.status];
 
       return {
@@ -114,7 +114,7 @@ export async function loadArticle(articleId, requestParams) {
     ...requestParams,
     method: "GET",
   });
-  return filter(value => !isNil(value), {
+  return filter((value) => !isNil(value), {
     ...omit(["createdBy", "updatedBy"], data),
     author: data.author?.id,
     tagDescription: data.tagDescription,
@@ -173,7 +173,7 @@ export const modifyArticlesRequest = ({ requestParams: { params } }) => {
 
 export function modifyArticlesTableResponse(data, meta, name) {
   return {
-    list: data.map(article => ({
+    list: data.map((article) => ({
       id: article.id,
       announceImage: article.announceImage ? prepareUrl(article.announceImage.path) : null,
       name: {

@@ -26,7 +26,7 @@ export class CategoriesController {
       realServerUrl: "/api/categories/",
       modifyResponse: ({ data, meta }) => {
         return {
-          list: data.map(category => ({
+          list: data.map((category) => ({
             id: category.id,
             name: category.name,
             code: category.code,
@@ -87,7 +87,7 @@ export class CategoriesController {
   async getCategorieslist() {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: "/api/categories/",
-      modifyResponse: ({ data }) => data.map(category => ({ code: category.id, title: category.name })),
+      modifyResponse: ({ data }) => data.map((category) => ({ code: category.id, title: category.name })),
     });
   }
 

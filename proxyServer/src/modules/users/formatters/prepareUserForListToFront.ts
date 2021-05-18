@@ -1,6 +1,6 @@
 import prepareUrl from "libs/prepareUrl";
 
-export default function(user) {
+export default function (user) {
   return {
     code: user.id,
     title: user.name + " " + user.surname,
