@@ -15,7 +15,10 @@ export const getLanguage = (text: string) => LANGUAGES.find(testLanguage(text));
 
 const brRegExp = /<br ?\/?>/g;
 const carryover = "\n";
-const arrowRegExp = /&gt;/g;
-const arrow = ">";
+const rightArrowRegExp = /&gt;/g;
+const rightArrow = ">";
+const leftArrowRegExp = /&lt;/g;
+const leftArrow = "<";
 
-export const htmlCodeFormat = (innerHTML: string) => innerHTML.replace(brRegExp, carryover).replace(arrowRegExp, arrow);
+export const htmlCodeFormat = (innerHTML: string) =>
+  innerHTML.replace(brRegExp, carryover).replace(rightArrowRegExp, rightArrow).replace(leftArrowRegExp, leftArrow);
