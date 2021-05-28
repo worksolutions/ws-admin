@@ -19,12 +19,12 @@ import {
 } from "libs/styles";
 import { BlockInterface } from "state/globalState";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
+import { DEFAULT_LANGUAGE, getLanguage, htmlCodeFormat } from "libs/prism";
 
 import BlockRenderer from "../../BlockRenderer";
 
 import { htmlStyles } from "./htmlStyles";
 import { modifyTextWithEnhancers } from "./enhancers";
-import { DEFAULT_LANGUAGE, getLanguage, htmlCodeFormat } from "../../../../libs/prism";
 
 function FormattedHTMLText({ styles, dataSource }: BlockInterface<{ value: string }> & { styles?: any }) {
   const { data: text } = useDataSource(dataSource!);
