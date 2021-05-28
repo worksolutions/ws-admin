@@ -179,6 +179,26 @@ export const htmlTableStyles = css`
   table {
     border-bottom: ${tableBorder};
   }
+  pre {
+    position: relative;
+  }
+
+  [data-language-text]:after {
+    position: absolute;
+    content: attr(data-language-text);
+    padding: 4px 8px;
+    background: ${getColor("gray-blue/02")};
+    color: #50647b;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    right: 8px;
+    top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
 `;
 
 export const htmlStyles = css`

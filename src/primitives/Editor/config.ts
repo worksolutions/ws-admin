@@ -64,10 +64,11 @@ export const config = Object.assign(
     },
     codeBlock: {
       languages: [
-        { language: "plaintext", label: "Plain text", class: "" },
-        { language: "php", label: "PHP", class: "php-code" },
-        { language: "javascript", label: "JavaScript", class: "js javascript js-code" },
-        { language: "python", label: "Python" },
+        { language: "plaintext", label: "Plain text", class: "data-code-plaintext" },
+        { language: "php", label: "PHP", class: "data-code-php" },
+        { language: "javascript", label: "JavaScript", class: "data-code-javascript" },
+        { language: "html", label: "HTML", class: "data-code-html" },
+        { language: "css", label: "CSS", class: "data-code-css" },
       ],
     },
   },

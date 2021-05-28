@@ -24,8 +24,7 @@ import BlockRenderer from "../../BlockRenderer";
 
 import { htmlStyles } from "./htmlStyles";
 import { modifyTextWithEnhancers } from "./enhancers";
-
-import { htmlCodeFormat, getLanguage } from "./libs";
+import { DEFAULT_LANGUAGE, getLanguage, htmlCodeFormat } from "../../../../libs/prism";
 
 function FormattedHTMLText({ styles, dataSource }: BlockInterface<{ value: string }> & { styles?: any }) {
   const { data: text } = useDataSource(dataSource!);
@@ -37,6 +36,9 @@ function FormattedHTMLText({ styles, dataSource }: BlockInterface<{ value: strin
     ref.current!.innerHTML = enhancers.text;
     ref.current!.querySelectorAll("pre code").forEach((element) => {
       const language = getLanguage(element.className);
+      element.setAttribute("data-language-text", (language || DEFAULT_LANGUAGE).toUpperCase());
+      if (!language) return;
+
       element.innerHTML = Prism.highlight(htmlCodeFormat(element.innerHTML), Prism.languages[language], language);
     });
   }, [text]);

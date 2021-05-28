@@ -104,7 +104,7 @@ export const editorStyles = css`
         ${border(1, "gray-blue/02")} !important;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
         border-radius: 6px !important;
-        overflow: hidden;
+        overflow: auto;
         padding: 7px 8px !important;
       }
 
@@ -177,6 +177,7 @@ export const editorStyles = css`
 
         .ck-dropdown__panel {
           width: 200px;
+          overflow: auto !important;
         }
 
         .ck-list {
