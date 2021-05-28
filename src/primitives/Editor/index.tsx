@@ -31,16 +31,18 @@ export interface EditorRefInterface {
 
 const CKEditor5 = React.lazy(() => {
   // @ts-ignore
-  import("edelgarat-ckeditor5-custom-build/build/translations/ru");
+  import("@worksolutions/ckeditor5/build/translations/ru.js");
   return Promise.all([
-    import("!!raw-loader!edelgarat-ckeditor5-custom-build/build/ckeditor"),
+    import("!!raw-loader!@worksolutions/ckeditor5/build/ckeditor"),
     // @ts-ignore
     import("@ckeditor/ckeditor5-react"),
-  ]).then(([editor, ReactEditor]) => {
+    // @ts-ignore
+  ]).then(([editor, ReactCkeditor]) => {
     eval(editor.default);
-    const { ClassicEditor } = window as any;
+    const { CKSource } = window as any;
+    const ReactEditor = ReactCkeditor.CKEditor;
     return {
-      default: (props: any) => <ReactEditor.default {...props} editor={ClassicEditor} />,
+      default: (props: any) => <ReactEditor {...props} editor={CKSource.Editor} />,
     };
   });
 });
@@ -107,7 +109,7 @@ export default React.memo(function Editor({
   }
   return (
     <Suspense fallback={<Spinner />}>
-      <CKEditor5 data={initialText} config={newConfig} onInit={init} />
+      <CKEditor5 data={initialText} config={newConfig} onReady={init} />
       {toolbarContainer && ReactDOM.createPortal(additionalToolbarElements?.atTheEndOfContainer, toolbarContainer)}
       {lastToolbarSeparator &&
         ReactDOM.createPortal(additionalToolbarElements?.beforeLastSeparator, lastToolbarSeparator)}

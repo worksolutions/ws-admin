@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 import { css } from "styled-components";
 
 import { TypographyTypes } from "primitives/Typography";
@@ -62,10 +64,6 @@ export const editorStyles = css`
       }
 
       .ck-button {
-        min-height: 32px !important;
-        max-height: 32px !important;
-        min-width: 32px !important;
-        max-width: 32px !important;
         margin: 0 1px !important;
         padding: 4px !important;
         border-radius: 6px !important;
@@ -276,5 +274,36 @@ export const editorStyles = css`
     }
 
     ${htmlTextStyles}
+  }
+
+  .ck-dropdown__button {
+    display: flex;
+  }
+  .ck-button_with-text {
+    width: 100% !important;
+  }
+
+  .ck-list {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .ck-list__item {
+    margin: 4px 0 !important;
+  }
+
+  .ck.ck-editor__editable pre[data-language]:after {
+    padding: 4px 8px;
+    background: ${getColor("gray-blue/02")};
+    color: ${getColor("gray-blue/07")};
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    right: 8px;
+    top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
   }
 `;

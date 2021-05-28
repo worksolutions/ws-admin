@@ -17,7 +17,7 @@ import {
   overflow,
   padding,
 } from "libs/styles";
-
+import { BlockInterface } from "state/globalState";
 import { useDataSource } from "modules/context/dataSource/useDataSource";
 
 import BlockRenderer from "../../BlockRenderer";
@@ -25,7 +25,7 @@ import BlockRenderer from "../../BlockRenderer";
 import { htmlStyles } from "./htmlStyles";
 import { modifyTextWithEnhancers } from "./enhancers";
 
-import { BlockInterface } from "state/globalState";
+import { htmlCodeFormat, getLanguage } from "./libs";
 
 function FormattedHTMLText({ styles, dataSource }: BlockInterface<{ value: string }> & { styles?: any }) {
   const { data: text } = useDataSource(dataSource!);
@@ -36,12 +36,8 @@ function FormattedHTMLText({ styles, dataSource }: BlockInterface<{ value: strin
   React.useEffect(() => {
     ref.current!.innerHTML = enhancers.text;
     ref.current!.querySelectorAll("pre code").forEach((element) => {
-      const [, language] = element.className.split("-");
-      element.innerHTML = Prism.highlight(
-        element.innerHTML.replace(/<br ?\/?>/g, "\n"),
-        Prism.languages[language],
-        language,
-      );
+      const language = getLanguage(element.className);
+      element.innerHTML = Prism.highlight(htmlCodeFormat(element.innerHTML), Prism.languages[language], language);
     });
   }, [text]);
 
@@ -71,4 +67,4 @@ function FormattedHTMLText({ styles, dataSource }: BlockInterface<{ value: strin
   );
 }
 
-export default React.memo(observer(FormattedHTMLText));
+export default observer(FormattedHTMLText);
