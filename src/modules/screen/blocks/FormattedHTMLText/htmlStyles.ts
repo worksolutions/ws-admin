@@ -199,6 +199,10 @@ export const htmlTableStyles = css`
     justify-content: center;
     border-radius: 4px;
   }
+
+  .operator {
+    background: none !important;
+  }
 `;
 
 export const htmlStyles = css`
