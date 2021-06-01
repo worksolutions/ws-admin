@@ -7,7 +7,7 @@ import { config } from "dotenv";
 declare const module: any;
 
 config({ path: join(process.cwd(), "../", ".env") });
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 if (!process.env.NODE_PROXY_PORT) {
   throw new Error("Переменная окружения NODE_PROXY_PORT не установлена");
 }
