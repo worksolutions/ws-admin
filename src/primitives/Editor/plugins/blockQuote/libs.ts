@@ -20,9 +20,9 @@ export function uploadFile(
   input.addEventListener("change", eventHandler);
 }
 
-export function getFile(element: HTMLInputElement) {
-  if (!element) return;
-  if (!element.files) return;
+export function getFile(element: HTMLInputElement): File | null {
+  if (!element) return null;
+  if (!element.files) return null;
 
   return element.files[0];
 }

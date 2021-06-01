@@ -184,7 +184,7 @@ export class BlockQuote {
   }
 
   private async createLoader(file: File): Promise<{ default: string } | null> {
-    return tryCatch<{ default: string }>(
+    return tryCatch<Promise<{ default: string }>>(
       async () => {
         const loader = await this.editor.plugins.get("FileRepository").createLoader(file);
         await loader.read();
