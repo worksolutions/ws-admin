@@ -19,3 +19,10 @@ export function uploadFile(
   //@ts-ignore
   input.addEventListener("change", eventHandler);
 }
+
+export function getFile(element: HTMLInputElement) {
+  if (!element) return;
+  if (!element.files) return;
+
+  return element.files[0];
+}

@@ -1,7 +1,9 @@
+import { tryCatch } from "libs/tryCatch";
+
 import { SimpleBoxToolbarElem } from "./toolbar/SimpleBoxToolbarElem";
 import { InsertBlockQuoteCommand } from "./commands/InsertBlockQuoteCommand";
-import { isNotImage, uploadFile } from "./libs";
-import { ConversionController } from "../../core/Conversion/ConversionController";
+import { getFile, isNotImage, uploadFile } from "./libs";
+import { ConversionController } from "../../pluginHelpers/Conversion/ConversionController";
 
 export const BLOCK_QUOTE_NAME = "blockQuoteName";
 export const BLOCK_QUOTE_CONTAINER = "blockQuoteContainer";
@@ -18,7 +20,7 @@ export const BLOCK_QUOTE_WRAPPER_TOP_CLASS = "block-quote-wrapper-top";
 export const BLOCK_QUOTE_WRAPPER_TOP_TEXT_CLASS = "block-quote-wrapper-top-text";
 
 export const DATA_BLOCK_QUOTE_WRAPPER_TOP = "data-block-quote-wrapper-top";
-//TODO сделать базовый класс плагина
+
 export class BlockQuote {
   static create(writer: any) {
     const blockQuoteImage = writer.createElement("image", { src: "none" });
@@ -56,12 +58,18 @@ export class BlockQuote {
   }
 
   init() {
-    this.editor.commands.add("insertBlockQuote", new InsertBlockQuoteCommand(this.editor));
-    this.simpleBoxToolbarElem.execute();
-
+    this.defineToolbar();
+    this.defineCommands();
     this.defineSchema();
     this.defineConversions();
     this.defineListeners();
+  }
+  private defineToolbar() {
+    this.simpleBoxToolbarElem.init();
+  }
+
+  private defineCommands() {
+    this.editor.commands.add("insertBlockQuote", new InsertBlockQuoteCommand(this.editor));
   }
 
   private defineSchema() {
@@ -162,11 +170,11 @@ export class BlockQuote {
       if (isNotImage(target)) return;
 
       uploadFile(async ({ target: htmlTarget }) => {
-        if (!htmlTarget.files) return;
+        const file = getFile(htmlTarget);
+        if (!file) return;
 
-        const loader = this.createLoader(htmlTarget.files[0]);
-        await loader.read();
-        const upload = await loader.upload();
+        const upload = await this.createLoader(file);
+        if (!upload) return;
 
         this.editor.model.change((writer: any) =>
           writer.setAttribute("src", upload.default, this.selection.getSelectedElement()),
@@ -175,7 +183,14 @@ export class BlockQuote {
     });
   }
 
-  private createLoader(file: File) {
-    return this.editor.plugins.get("FileRepository").createLoader(file);
+  private async createLoader(file: File): Promise<{ default: string } | null> {
+    return tryCatch<{ default: string }>(
+      async () => {
+        const loader = await this.editor.plugins.get("FileRepository").createLoader(file);
+        await loader.read();
+        return await loader.upload();
+      },
+      () => null,
+    );
   }
 }

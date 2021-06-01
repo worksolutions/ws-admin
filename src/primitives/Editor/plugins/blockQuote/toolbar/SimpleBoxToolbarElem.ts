@@ -7,7 +7,7 @@ const svg = `
 export class SimpleBoxToolbarElem {
   constructor(private readonly editor: any) {}
 
-  execute() {
+  init() {
     const button = document.createElement("span");
     button.classList.add("ck");
     button.classList.add("ck-button");

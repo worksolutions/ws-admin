@@ -1,5 +1,5 @@
 import { css } from "styled-components";
-import { getColor } from "../../../../../libs/styles";
+import { getColor } from "libs/styles";
 
 export const blockQuoteStyles = css`
   .block-quote-wrapper-top-text {

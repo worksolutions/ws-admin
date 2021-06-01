@@ -1,5 +1,5 @@
 import { BlockQuote } from "../index";
-import { CommandInterface } from "../../../core/command/CommandInterface";
+import { CommandInterface } from "../../../pluginHelpers/command/CommandInterface";
 
 export class InsertBlockQuoteCommand implements CommandInterface {
   constructor(private readonly editor: any) {}
