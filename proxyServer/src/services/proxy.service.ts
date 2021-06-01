@@ -118,6 +118,7 @@ export class ProxyService {
 
   private static handleErrors(error: any, modifyError?: ModifyFunctionType) {
     const { response } = error;
+
     if (!response) {
       return { data: { error: "proxy - internal server error" }, status: 500 };
     }

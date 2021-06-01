@@ -6,6 +6,7 @@ import { TypographyTypes } from "primitives/Typography";
 import { blueTypographyLinkStyles } from "primitives/Typography/TypographyLink";
 
 import { getColor } from "libs/styles";
+import { blockQuoteStyles } from "../../../../primitives/Editor/plugins/blockQuote/styles/blockQuoteStyles";
 
 // @ts-ignore
 Prism.manual = true;
@@ -208,4 +209,5 @@ export const htmlTableStyles = css`
 export const htmlStyles = css`
   ${htmlTextStyles}
   ${htmlTableStyles}
+  ${blockQuoteStyles}
 `;

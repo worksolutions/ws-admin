@@ -1,3 +1,5 @@
+import { BlockQuote } from "./plugins/blockQuote";
+
 export const config = Object.assign(
   {},
   {
@@ -26,7 +28,6 @@ export const config = Object.assign(
       "bulletedList",
       "|",
       "link",
-      "blockQuote",
       "imageUpload",
       "mediaEmbed",
       "|",
@@ -34,6 +35,7 @@ export const config = Object.assign(
       "|",
       "horizontalLine",
       "insertTable",
+      "imageinsert",
       "|",
       "undo",
       "redo",
@@ -41,6 +43,7 @@ export const config = Object.assign(
     table: {
       contentToolbar: ["tableRow", "tableColumn"],
     },
+    extraPlugins: [BlockQuote],
     heading: {
       options: [
         {

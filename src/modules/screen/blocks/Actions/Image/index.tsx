@@ -109,4 +109,4 @@ function ActionImage({ actions, options, styles }: ActionImageInterface) {
   );
 }
 
-export default React.memo(observer(ActionImage));
+export default observer(ActionImage);
