@@ -55,7 +55,7 @@ export function hidePlaceholder(writer: any, element: any) {
   return false;
 }
 
-export function needsPlaceholder(element: any, keepOnFocus: any) {
+export function needShowPlaceholder(element: any, keepOnFocus: any) {
   if (!element.isAttached()) return false;
 
   const hasContent = Array.from(element.getChildren()).some((element: any) => !element.is("uiElement"));
@@ -114,7 +114,7 @@ function updatePlaceholder(writer: any, element: any, config: any) {
 
   const isOnlyChild = isDirectHost || element.childCount == 1;
 
-  if (isOnlyChild && needsPlaceholder(hostElement, config.keepOnFocus)) {
+  if (isOnlyChild && needShowPlaceholder(hostElement, config.keepOnFocus)) {
     if (showPlaceholder(writer, hostElement)) wasViewModified = true;
   } else if (hidePlaceholder(writer, hostElement)) {
     wasViewModified = true;
