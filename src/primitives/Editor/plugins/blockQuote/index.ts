@@ -47,6 +47,7 @@ export class BlockQuotePlugin {
   private readonly schema: any;
   private readonly view: any;
   private readonly selection: any;
+
   constructor(private editor: any) {
     this.view = this.editor.editing.view;
     this.schema = this.editor.model.schema;
