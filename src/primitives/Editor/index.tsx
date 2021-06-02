@@ -129,8 +129,10 @@ class CK5UploadAdapter {
 
   upload() {
     return this.loader.file.then(async (file: File) => {
-      const { path } = await this.uploader(file);
-      return { default: path };
+      const result = await this.uploader(file);
+      if (!result) return { default: null };
+
+      return { default: result.path };
     });
   }
 

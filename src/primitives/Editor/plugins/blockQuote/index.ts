@@ -174,7 +174,7 @@ export class BlockQuote {
         if (!file) return;
 
         const upload = await this.createLoader(file);
-        if (!upload) return;
+        if (!upload?.default) return;
 
         this.editor.model.change((writer: any) =>
           writer.setAttribute("src", upload.default, this.selection.getSelectedElement()),
