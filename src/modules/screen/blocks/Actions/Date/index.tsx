@@ -4,7 +4,6 @@ import { isNil } from "ramda";
 
 import DatePicker, { DatePickerMode } from "primitives/DatePicker";
 import { InputSize } from "primitives/Input/InputWrapper";
-import ClearInputWrapper from "primitives/Input/ClearInputWrapper";
 
 import { useEffectSkipFirst } from "libs/hooks/common";
 
@@ -45,21 +44,20 @@ function ActionDate({ options, actions, styles }: ActionDateInterface) {
   if (!resultActions.change) return null;
 
   return (
-    <ClearInputWrapper needShow={!!value && options?.cleanable} clear={() => setValue(null)}>
-      <DatePicker
-        disabled={disabled}
-        error={!!error}
-        tip={error}
-        outerStyles={styles}
-        initialValue={value}
-        size={options.size}
-        allowEmpty={options.allowEmpty}
-        mode={DatePickerMode.DATE}
-        hasCurrentDayButton={isNil(options.hasCurrentDayButton) ? true : options.hasCurrentDayButton}
-        onChange={setValue}
-      />
-    </ClearInputWrapper>
+    <DatePicker
+      disabled={disabled}
+      error={!!error}
+      tip={error}
+      outerStyles={styles}
+      initialValue={value}
+      size={options.size}
+      allowEmpty={options.allowEmpty}
+      mode={DatePickerMode.DATE}
+      cleanable={options?.cleanable}
+      hasCurrentDayButton={isNil(options.hasCurrentDayButton) ? true : options.hasCurrentDayButton}
+      onChange={setValue}
+    />
   );
 }
 
-export default React.memo(observer(ActionDate));
+export default observer(ActionDate);
