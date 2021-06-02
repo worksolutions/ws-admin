@@ -71,4 +71,4 @@ function FormattedHTMLText({ styles, dataSource }: BlockInterface<{ value: strin
   );
 }
 
-export default React.memo(observer(FormattedHTMLText));
+export default observer(FormattedHTMLText);
