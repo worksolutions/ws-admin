@@ -113,7 +113,9 @@ export const blockQuoteStyles = css`
   .ck-placeholder {
     border-bottom: 2px solid #dbe3f0 !important;
   }
+`;
 
+export const blockQuoteCursorStyles = css`
   .block-quote-container {
     cursor: all-scroll;
   }
