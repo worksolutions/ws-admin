@@ -1,5 +1,3 @@
-import { tryCatch } from "libs/tryCatch";
-
 import { SimpleBoxToolbarElem } from "./toolbar/SimpleBoxToolbarElem";
 import { InsertBlockQuoteCommand } from "./commands/InsertBlockQuoteCommand";
 import { getFile, isNotImage, uploadFile } from "./libs";
@@ -21,7 +19,7 @@ export const BLOCK_QUOTE_WRAPPER_TOP_TEXT_CLASS = "block-quote-wrapper-top-text"
 
 export const DATA_BLOCK_QUOTE_WRAPPER_TOP = "data-block-quote-wrapper-top";
 
-export class BlockQuote {
+export class BlockQuotePlugin {
   static create(writer: any) {
     const blockQuoteImage = writer.createElement("image", { src: "none" });
 
@@ -184,13 +182,12 @@ export class BlockQuote {
   }
 
   private async createLoader(file: File): Promise<{ default: string } | null> {
-    return tryCatch<Promise<{ default: string }>>(
-      async () => {
-        const loader = await this.editor.plugins.get("FileRepository").createLoader(file);
-        await loader.read();
-        return await loader.upload();
-      },
-      () => null,
-    );
+    try {
+      const loader = await this.editor.plugins.get("FileRepository").createLoader(file);
+      await loader.read();
+      return await loader.upload();
+    } catch (e) {
+      return null;
+    }
   }
 }

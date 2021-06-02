@@ -58,9 +58,7 @@ export function hidePlaceholder(writer: any, element: any) {
 export function needsPlaceholder(element: any, keepOnFocus: any) {
   if (!element.isAttached()) return false;
 
-  const hasContent = Array.from(element.getChildren())
-    // @ts-ignore
-    .some((element) => !element.is("uiElement"));
+  const hasContent = Array.from(element.getChildren()).some((element: any) => !element.is("uiElement"));
 
   if (hasContent) return false;
   if (keepOnFocus) return true;
@@ -90,7 +88,7 @@ function updateDocumentPlaceholders(doc: any, writer: any) {
   Array.from(placeholders).forEach(([element, config]: any) => {
     if (config.isDirectHost) return;
 
-    const hostElement = getChildPlaceholderHostSubstitute(element);
+    const hostElement = getChildPlaceholderHostSubstituteElement(element);
 
     if (!hostElement) return;
 
@@ -125,7 +123,7 @@ function updatePlaceholder(writer: any, element: any, config: any) {
   return wasViewModified;
 }
 
-function getChildPlaceholderHostSubstitute(parent: any) {
+function getChildPlaceholderHostSubstituteElement(parent: any) {
   if (!parent.childCount) return null;
 
   const firstChild = parent.getChild(0);

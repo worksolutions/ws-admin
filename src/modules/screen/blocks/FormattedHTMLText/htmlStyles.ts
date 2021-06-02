@@ -4,9 +4,9 @@ import Prism from "prismjs";
 
 import { TypographyTypes } from "primitives/Typography";
 import { blueTypographyLinkStyles } from "primitives/Typography/TypographyLink";
+import { blockQuoteStyles } from "primitives/Editor/plugins/blockQuote/styles/blockQuoteStyles";
 
 import { getColor } from "libs/styles";
-import { blockQuoteStyles } from "../../../../primitives/Editor/plugins/blockQuote/styles/blockQuoteStyles";
 
 // @ts-ignore
 Prism.manual = true;

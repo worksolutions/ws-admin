@@ -22,9 +22,9 @@ export function setLabel(element: any, labelOrCreator: any, writer: any) {
 
 function addSelectionHandle(widgetElement: any, writer: any) {
   const selectionHandle = writer.createUIElement("div", { class: "ck " + SELECTION_HANDLE_CLASS }, function (
+    this: any,
     domDocument: any,
   ) {
-    //@ts-ignore
     return this.toDomElement(domDocument);
   });
 

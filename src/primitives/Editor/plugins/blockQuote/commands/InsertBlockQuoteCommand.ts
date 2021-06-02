@@ -1,4 +1,4 @@
-import { BlockQuote } from "../index";
+import { BlockQuotePlugin } from "../index";
 import { CommandInterface } from "../../../pluginHelpers/command/CommandInterface";
 
 export class InsertBlockQuoteCommand implements CommandInterface {
@@ -6,7 +6,7 @@ export class InsertBlockQuoteCommand implements CommandInterface {
 
   execute() {
     this.editor.model.change((writer: any) => {
-      this.editor.model.insertContent(BlockQuote.create(writer));
+      this.editor.model.insertContent(BlockQuotePlugin.create(writer));
     });
   }
   refresh() {}

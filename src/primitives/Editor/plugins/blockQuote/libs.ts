@@ -16,8 +16,7 @@ export function uploadFile(
   const input = document.createElement("INPUT");
   input.setAttribute("type", "file");
   input.click();
-  //@ts-ignore
-  input.addEventListener("change", eventHandler);
+  input.addEventListener("change", eventHandler as any);
 }
 
 export function getFile(element: HTMLInputElement): File | null {

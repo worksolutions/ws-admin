@@ -1,4 +1,4 @@
-import { BlockQuote } from "./plugins/blockQuote";
+import { BlockQuotePlugin } from "./plugins/blockQuote";
 
 export const config = Object.assign(
   {},
@@ -43,7 +43,7 @@ export const config = Object.assign(
     table: {
       contentToolbar: ["tableRow", "tableColumn"],
     },
-    extraPlugins: [BlockQuote],
+    extraPlugins: [BlockQuotePlugin],
     heading: {
       options: [
         {
