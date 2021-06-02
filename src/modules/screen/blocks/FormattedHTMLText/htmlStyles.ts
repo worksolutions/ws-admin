@@ -4,6 +4,7 @@ import Prism from "prismjs";
 
 import { TypographyTypes } from "primitives/Typography";
 import { blueTypographyLinkStyles } from "primitives/Typography/TypographyLink";
+import { blockQuoteStyles } from "primitives/Editor/plugins/blockQuote/styles/blockQuoteStyles";
 
 import { getColor } from "libs/styles";
 
@@ -199,9 +200,14 @@ export const htmlTableStyles = css`
     justify-content: center;
     border-radius: 4px;
   }
+
+  .operator {
+    background: none !important;
+  }
 `;
 
 export const htmlStyles = css`
   ${htmlTextStyles}
   ${htmlTableStyles}
+  ${blockQuoteStyles}
 `;

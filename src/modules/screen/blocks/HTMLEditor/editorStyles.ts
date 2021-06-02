@@ -3,7 +3,7 @@
 import { css } from "styled-components";
 
 import { TypographyTypes } from "primitives/Typography";
-
+import { blockQuoteCursorStyles, blockQuoteStyles } from "primitives/Editor/plugins/blockQuote/styles/blockQuoteStyles";
 import { border, getColor, makeBorderBoxShadow } from "libs/styles";
 
 import { htmlTextStyles } from "../FormattedHTMLText/htmlStyles";
@@ -307,4 +307,7 @@ export const editorStyles = css`
     justify-content: center;
     border-radius: 4px;
   }
+
+  ${blockQuoteStyles}
+  ${blockQuoteCursorStyles}
 `;
