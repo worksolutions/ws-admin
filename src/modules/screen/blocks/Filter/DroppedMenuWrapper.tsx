@@ -58,7 +58,7 @@ function DroppedMenuWrapper({ children, opened }: { children: React.ReactNode; o
               padding(`${paddingTopValue}px 16px ${paddingBottomValue}px 16px`),
             ]}
           >
-            {children}
+            {opened && children}
           </Wrapper>
         </Wrapper>
       )}

@@ -134,4 +134,4 @@ function FilterBlock({
   );
 }
 
-export default React.memo(observer(FilterBlock));
+export default observer(FilterBlock);
