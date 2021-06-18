@@ -10,6 +10,11 @@ import { htmlTextStyles } from "../FormattedHTMLText/htmlStyles";
 
 export const editorStyles = css`
   .ck {
+    .ck-toolbar__items {
+      display: flex;
+      flex-wrap: wrap !important;
+    }
+
     &.ck-dropdown.ck-toolbar__grouped-dropdown.ck-toolbar-dropdown {
       display: none !important;
     }
@@ -41,7 +46,6 @@ export const editorStyles = css`
         position: static !important;
       }
     }
-
     &.ck-toolbar {
       background: white !important;
       border: none;
@@ -50,9 +54,11 @@ export const editorStyles = css`
 
       &__items {
         justify-content: center;
-        max-width: 1054px;
         margin: 0 !important;
-        height: 40px;
+      }
+
+      &.ck-toolbar_grouping {
+        padding: 5px;
       }
 
       &.ck-toolbar_grouping .ck-toolbar__separator {

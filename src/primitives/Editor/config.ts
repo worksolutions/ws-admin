@@ -28,21 +28,14 @@ export const config = Object.assign(
       "bulletedList",
       "|",
       "link",
-      "imageUpload",
       "mediaEmbed",
       "|",
       "codeBlock",
       "|",
       "horizontalLine",
-      "insertTable",
       "imageinsert",
       "|",
-      "undo",
-      "redo",
     ],
-    table: {
-      contentToolbar: ["tableRow", "tableColumn"],
-    },
     extraPlugins: [BlockQuotePlugin],
     heading: {
       options: [
