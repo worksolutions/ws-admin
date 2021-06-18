@@ -57,10 +57,6 @@ export const editorStyles = css`
         margin: 0 !important;
       }
 
-      &.ck-toolbar_grouping {
-        padding: 5px;
-      }
-
       &.ck-toolbar_grouping .ck-toolbar__separator {
         align-self: center !important;
         height: 12px;
@@ -102,6 +98,11 @@ export const editorStyles = css`
 
       .custom-toolbar-button {
         outline: none !important;
+      }
+
+      .ck-dropdown {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
       }
 
       .ck-dropdown__panel {
