@@ -18,7 +18,7 @@ function convertImage(image) {
   return image;
 }
 
-const createArticleRegExp = (articleType) => new RegExp(`#${articleType}:\\w+#`, "g");
+const createArticleRegExp = (articleType) => new RegExp(`#${articleType}:[\-\\w]+#`, "g");
 
 async function getSubArticlesContent(text, articleType, getArticle) {
   const articleMatch = text.match(createArticleRegExp(articleType));
