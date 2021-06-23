@@ -1,28 +1,39 @@
 import prepareUrl from "libs/prepareUrl";
+import { ArticlesTypes } from "modules/articles/types";
+
+const createTextEnhancer = (name, payload) => `#text-enhancer:${name}:${payload}#`;
+const articlesTemplate = new RegExp(`#(${Object.values(ArticlesTypes).join("|")}):\\w+#`, "g");
 
 class EnhancersConverter {
-  convert(text, template, enhancerConfig) {
+  convert(text, template, { name, payloadData }) {
     let index = 0;
+    return text.replace(template, (...[sourceString]) => {
+      const payload = payloadData[index];
+      if (!payload) return sourceString;
 
-    return text.replace(template, () => {
-      const payload = enhancerConfig.payloadData[index];
       index++;
-      return `#text-enhancer:${enhancerConfig.name}:${payload}#`;
+      return createTextEnhancer(name, payload);
     });
   }
 }
 
 class EnhancersConverterReadAlso extends EnhancersConverter {
   convert(text, articlesData) {
-    const payloadData = articlesData.map((article) =>
+    return super.convert(text, articlesTemplate, {
+      name: "ReadAlso",
+      payloadData: this.createPayloadData(articlesData),
+    });
+  }
+
+  createPayloadData(articlesData) {
+    return articlesData.map(({ announceImageUrl, title, code }) =>
       JSON.stringify({
-        image: article.announceImageUrl ? prepareUrl(article.announceImageUrl) : null,
+        image: announceImageUrl ? prepareUrl(announceImageUrl) : null,
         imageAspectRatio: 1.6,
-        text: article.title,
-        reference: prepareUrl(`/blog/${article.code}`),
+        text: title,
+        reference: prepareUrl(`/blog/${code}`),
       }),
     );
-    return super.convert(text, /#article:[\w-_]+#/g, { name: "ReadAlso", payloadData });
   }
 }
 
