@@ -16,9 +16,10 @@ class EnhancersConverter {
 class EnhancersConverterReadAlso extends EnhancersConverter {
   convert(text, articlesData) {
     articlesData.forEach((articlesDataItem) => {
-      const [articleType] = text.match(articlesTemplate(articlesDataItem.code));
+      const template = articlesTemplate(articlesDataItem.code);
+      const [articleType] = text.match(template);
 
-      text = super.convert(text, articlesTemplate(articlesDataItem.code), {
+      text = super.convert(text, template, {
         name: "ReadAlso",
         payloadData: this.createPayloadData(articlesDataItem, articleType.match(articlesRegExp)[0]),
       });
