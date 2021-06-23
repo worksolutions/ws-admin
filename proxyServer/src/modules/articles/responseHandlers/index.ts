@@ -52,7 +52,6 @@ export async function getContentWithReadAlsoEnhancers(content, originalRequestPa
 
     return EnhancersConverterReadAlso.convert(content, concat(articlesData, usefulArticlesData));
   } catch (e) {
-    console.log(e);
     return content;
   }
 }
