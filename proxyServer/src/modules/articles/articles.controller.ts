@@ -22,22 +22,27 @@ import prepareArticleToEdit from "modules/articles/formatters/prepareArticleToEd
 export class ArticlesController {
   constructor(private cacheService: CacheService, private proxyService: ProxyService) {}
 
+  async getSimpleListArticles(articlesType) {
+    return await this.proxyService.sendProxyRequest({
+      realServerUrl: `/api/${articlesType}`,
+      modifyRequest: ({ requestParams: { params } }) => ({
+        params: { ...params, orderDirection: "desc", orderField: "id" },
+      }),
+      modifyResponse: ({ data, meta }) => ({
+        list: data.map(prepareArticleToFront),
+        pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
+      }),
+    });
+  }
+
   @Get("/articles/simple-list")
   async getArticlesSimpleList(): Promise<string> {
-    return await this.proxyService.sendProxyRequest({
-      realServerUrl: `/api/articles`,
-      modifyRequest: ({ requestParams: { params } }) => {
-        return {
-          params: { ...params, orderDirection: "desc", orderField: "id" },
-        };
-      },
-      modifyResponse: ({ data, meta }) => {
-        return {
-          list: data.map(prepareArticleToFront),
-          pagination: { pagesCount: meta.last_page, itemsCount: meta.total },
-        };
-      },
-    });
+    return await this.getSimpleListArticles("articles");
+  }
+
+  @Get("/useful_articles/simple-list")
+  async getUsefulArticlesSimpleList(): Promise<string> {
+    return await this.getSimpleListArticles("useful_articles");
   }
 
   @Get("/articles/cards")

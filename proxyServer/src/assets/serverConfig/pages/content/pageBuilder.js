@@ -559,13 +559,24 @@ module.exports = function (context, getActions) {
                                     buttonOptions: { icon: "snowflake" },
                                     listItems: [
                                       {
-                                        title: "Внутренняя статья",
+                                        title: "Статья из Блога",
                                         code: "add-inner-article-link-in-content",
                                         leftContent: "dashboard",
                                         action: {
                                           type: "open-modal",
                                           options: {
                                             name: "add-inner-article-link-in-content",
+                                          },
+                                        },
+                                      },
+                                      {
+                                        title: "Статья из Полезного",
+                                        code: "add-inner-useful-article-link-in-content",
+                                        leftContent: "content-multiple",
+                                        action: {
+                                          type: "open-modal",
+                                          options: {
+                                            name: "add-inner-useful-article-link-in-content",
                                           },
                                         },
                                       },
@@ -927,7 +938,7 @@ module.exports = function (context, getActions) {
                 static: [
                   { path: `${tempContext}.editor.search`, value: "" },
                   {
-                    path: `${tempContext}.editor.selected-article-link`,
+                    path: `${tempContext}.editor.selected-article-useful-link`,
                     value: "",
                   },
                 ],
@@ -979,6 +990,82 @@ module.exports = function (context, getActions) {
                     type: "modify-output-data-context",
                     options: {
                       resultOutput: `#article:{{${tempContext}.editor.selected-article-link}}#`,
+                    },
+                  },
+                  {
+                    type: "append-context",
+                    options: {
+                      contextPath: `${context}.content`,
+                    },
+                  },
+                  {
+                    type: "close-modal",
+                  },
+                ],
+              },
+            },
+          },
+          "add-inner-useful-article-link-in-content": {
+            title: "Ссылка на статью",
+            size: "ADJUST_CONTENT",
+            block: {
+              type: "ContextInitializer",
+              options: {
+                static: [
+                  { path: `${tempContext}.editor.search`, value: "" },
+                  {
+                    path: `${tempContext}.editor.selected-article-useful-link`,
+                    value: "",
+                  },
+                ],
+                block: {
+                  type: "Actions/ListSelector",
+                  options: {
+                    contextPath: `${tempContext}.editor.articles-link`,
+                    selectedItem: {
+                      contextPath: `${tempContext}.editor.selected-article-useful-link`,
+                    },
+                    searchInputOptions: {
+                      contextPath: `${tempContext}.editor.search`,
+                    },
+                  },
+                  actions: {
+                    select: {
+                      type: "update-context",
+                      options: {
+                        context: `${tempContext}.editor.selected-article-useful-link`,
+                      },
+                    },
+                    search: {
+                      type: "update-context",
+                      options: { context: `${tempContext}.editor.search` },
+                    },
+                  },
+                  dataSource: {
+                    type: "api:request",
+                    contextPath: `${tempContext}.editor.articles-link`,
+                    options: {
+                      reference: "/useful_articles/simple-list",
+                      method: "get",
+                      body: {
+                        title: `=${tempContext}.editor.search`,
+                        page: "1",
+                        perPage: "32",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            actionBlock: {
+              type: "Actions/Button",
+              options: { name: "Добавить", size: "LARGE" },
+              actions: {
+                click: [
+                  {
+                    type: "modify-output-data-context",
+                    options: {
+                      resultOutput: `#useful:{{${tempContext}.editor.selected-article-useful-link}}#`,
                     },
                   },
                   {

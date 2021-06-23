@@ -1,6 +1,6 @@
 import * as moment from "moment";
 import axios from "axios";
-import { assoc, filter, isNil, omit, prop } from "ramda";
+import { assoc, concat, filter, isNil, omit, prop } from "ramda";
 
 import prepareUrl from "libs/prepareUrl";
 
@@ -8,6 +8,7 @@ import matchCodeAndStatusOptions from "modules/articles/matches/matchCodeAndStat
 import matchCodeAndActions from "modules/articles/matches/matchCodeAndActions";
 import matchCodeAndStatusForFront from "modules/articles/matches/matchCodeAndStatusForFront";
 import { NUMBERS_FOR_STATUSES, STATUSES_FOR_NUMBERS } from "modules/articles/matches/matchStatusAndCode";
+import { ArticlesTypes } from "modules/articles/types";
 
 import EnhancersConverterReadAlso from "../libs/EnhancersConverter";
 
@@ -17,8 +18,10 @@ function convertImage(image) {
   return image;
 }
 
-async function getSubArticlesContent(text, getArticle) {
-  const articleMatch = text.match(/#article:[\w-_]+#/g);
+const createArticleRegExp = (articleType) => new RegExp(`#${articleType}:\\w+#`, "g");
+
+async function getSubArticlesContent(text, articleType, getArticle) {
+  const articleMatch = text.match(createArticleRegExp(articleType));
   if (!articleMatch) return [];
 
   return await Promise.all(
@@ -29,14 +32,25 @@ async function getSubArticlesContent(text, getArticle) {
   );
 }
 
+async function getSubArticlesData(content, originalRequestParams) {
+  return await Promise.all([
+    getSubArticlesContent(content, ArticlesTypes.BLOG_ARTICLE, (code) =>
+      axios("/api/blog/article/" + code, originalRequestParams).catch(() => null),
+    ),
+    getSubArticlesContent(content, ArticlesTypes.USEFUL_ARTICLE, (code) =>
+      axios("/api/useful/" + code, originalRequestParams).catch(() => null),
+    ),
+  ]);
+}
+
 export async function getContentWithReadAlsoEnhancers(content, originalRequestParams) {
   try {
-    const articles = (await getSubArticlesContent(content, (code) => {
-      return axios("/api/blog/article/" + code, originalRequestParams);
-    })) as any;
+    const [articles, usefulArticles] = await getSubArticlesData(content, originalRequestParams);
 
-    const articlesData = articles.map((article) => article.data.data);
-    return EnhancersConverterReadAlso.convert(content, articlesData);
+    const articlesData = articles.filter(Boolean).map((article) => article.data.data);
+    const usefulArticlesData = usefulArticles.filter(Boolean).map((article) => article.data.data);
+
+    return EnhancersConverterReadAlso.convert(content, concat(articlesData, usefulArticlesData));
   } catch (e) {
     return content;
   }
