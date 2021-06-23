@@ -1065,7 +1065,7 @@ module.exports = function (context, getActions) {
                   {
                     type: "modify-output-data-context",
                     options: {
-                      resultOutput: `#useful-article:{{${tempContext}.editor.selected-article-useful-link}}#`,
+                      resultOutput: `#useful:{{${tempContext}.editor.selected-article-useful-link}}#`,
                     },
                   },
                   {

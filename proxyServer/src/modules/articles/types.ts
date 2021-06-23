@@ -1,4 +1,4 @@
 export enum ArticlesTypes {
-  USEFUL_ARTICLE = "useful-article",
+  USEFUL_ARTICLE = "useful",
   BLOG_ARTICLE = "article",
 }
