@@ -2,10 +2,10 @@ import prepareUrl from "libs/prepareUrl";
 import { ArticlesTypes } from "modules/articles/types";
 
 const createTextEnhancer = (name, payload) => `#text-enhancer:${name}:${payload}#`;
-const getArticlesAcrossLine = Object.values(ArticlesTypes).join("|");
+const articlesAcrossLine = Object.values(ArticlesTypes).join("|");
 
-const articlesTemplate = (code) => new RegExp(`#(${getArticlesAcrossLine}):${code}#`, "g");
-const articlesRegExp = new RegExp(`(${getArticlesAcrossLine})`, "g");
+const getArticlesRegExp = (code) => new RegExp(`#(${articlesAcrossLine}):${code}#`, "g");
+const articlesRegExp = new RegExp(`(${articlesAcrossLine})`, "g");
 
 class EnhancersConverter {
   convert(text, template, { name, payloadData }) {
@@ -16,7 +16,7 @@ class EnhancersConverter {
 class EnhancersConverterReadAlso extends EnhancersConverter {
   convert(text, articlesData) {
     articlesData.forEach((articlesDataItem) => {
-      const template = articlesTemplate(articlesDataItem.code);
+      const template = getArticlesRegExp(articlesDataItem.code);
       const [articleType] = text.match(template);
 
       text = super.convert(text, template, {
