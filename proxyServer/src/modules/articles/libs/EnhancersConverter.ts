@@ -33,8 +33,13 @@ class EnhancersConverterReadAlso extends EnhancersConverter {
       image: announceImageUrl ? prepareUrl(announceImageUrl) : null,
       imageAspectRatio: 1.6,
       text: title,
-      reference: prepareUrl(`/${path}/${code}`),
+      reference: prepareUrl(`/${this.preparePath(path)}/${code}`),
     });
+  }
+
+  preparePath(path) {
+    if (path === ArticlesTypes.BLOG_ARTICLE) return "blog";
+    return path;
   }
 }
 
