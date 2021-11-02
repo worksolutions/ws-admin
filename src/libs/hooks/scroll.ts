@@ -27,7 +27,6 @@ export function useScrollCallbackWasScrolledBoolean() {
     if (scrolled) return;
     setTimeout(setScrolled, 1, true);
   });
-
   return { setScrollableElement, scrolled };
 }
 

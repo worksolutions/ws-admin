@@ -9,6 +9,7 @@ import { REQUEST } from "@nestjs/core";
 import { Request } from "express";
 
 import { ConfigService } from "@nestjs/config";
+import { log } from "util";
 
 type ModifyFunctionType = (...data: any[]) => any;
 type ModifyResponseFunctionType = (data: any, options: any) => any;
@@ -36,6 +37,7 @@ export class ProxyService {
       return await ProxyService.responseProcessing(modifyResponse, response, reqParams);
     } catch (e) {
       const error = ProxyService.handleErrors(e, modifyError);
+
       this.request.res.status(error.status);
       this.request.res.send(error.data);
     }
@@ -118,11 +120,10 @@ export class ProxyService {
 
   private static handleErrors(error: any, modifyError?: ModifyFunctionType) {
     const { response } = error;
-
     if (!response) {
       return { data: { error: "proxy - internal server error" }, status: 500 };
     }
-
+    console.log(response);
     if (modifyError) {
       const newData = modifyError(response.data);
       response.data = isNil(newData) ? response.data : newData;

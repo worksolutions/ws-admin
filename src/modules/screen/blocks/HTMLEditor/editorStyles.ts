@@ -28,6 +28,7 @@ export const editorStyles = css`
       align-items: center;
       justify-content: flex-start;
       width: 100%;
+      height: 100%;
       position: static;
     }
 
@@ -230,17 +231,22 @@ export const editorStyles = css`
     }
 
     &.ck-editor__main {
-      display: flex;
-      justify-content: center;
       width: 100%;
       flex-grow: 1;
       padding: 16px;
+      overflow-y: auto;
+      box-sizing: border-box;
+
+      &::-webkit-scrollbar-track {
+        background: #ffffff;
+      }
 
       & > .ck-editor__editable {
         width: 100%;
         max-width: 752px;
         min-height: 100%;
         padding: 40px 64px;
+        margin: 0 auto;
 
         border: 1px solid ${getColor("gray-blue/02")} !important;
         border-radius: 6px !important;

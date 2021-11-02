@@ -144,9 +144,12 @@ export class ArticlesController {
     return await this.proxyService.sendProxyRequest({
       realServerUrl: `/api/articles/store`,
       modifyResponse: ({ data }) => ({ id: data.id }),
-      modifyRequest: ({ requestParams: { data } }) => ({
-        data: modifyRequest(data),
-      }),
+      modifyRequest: ({ requestParams: { data } }) => {
+        console.log(data);
+        return {
+          data: modifyRequest(data),
+        }
+      },
       modifyError: (err) => {
         err.errors = convertServerErrorsToClientErrors(err.errors);
       },

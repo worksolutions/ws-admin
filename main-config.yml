@@ -366,10 +366,10 @@
                                     type: "text"
                                     options: 
                                       value: "{{screen:article.publishedAt}}"
-                                  - 
+                                  -
                                     title: "Категория"
                                     type: "text"
-                                    options: 
+                                    options:
                                       value: "{{screen:article.category.name}}"
                                   - 
                                     title: "Автор"

@@ -157,6 +157,9 @@ function FormattedDataView({ options, actions, styles }: FormattedDataViewInterf
             onChange={(page) => {
               setPage(page);
               paginationViewActions.change.run(assoc("page", page, paginationViewData.data!));
+              // if (useRef.current) {
+              //   useRef.current?.scrollTo(0, 0);
+              // }
             }}
           />
         </Wrapper>

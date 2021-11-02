@@ -25,7 +25,6 @@ interface CardsViewBlockDataSource {
 
 function CardsViewBlock({ dataSource, options, onUpdateMeta }: CardsViewBlockInterface) {
   const { data, loadingContainer } = useDataSource<CardsViewBlockDataSource>(dataSource!);
-
   useFormattedDataLoader(data, loadingContainer, onUpdateMeta);
 
   if (!data) return null;

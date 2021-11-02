@@ -40,6 +40,7 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: 
 
   function saveDetail() {
     const correct = checkRequiredFields();
+    console.log(correct);
     if (!correct) return;
     save();
   }

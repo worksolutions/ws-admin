@@ -1,5 +1,6 @@
 import { join } from "path";
 
+
 import { NestFactory } from "@nestjs/core";
 
 import { config } from "dotenv";
@@ -11,7 +12,7 @@ config({ path: join(process.cwd(), "../", ".env") });
 if (!process.env.NODE_PROXY_PORT) {
   throw new Error("Переменная окружения NODE_PROXY_PORT не установлена");
 }
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 async function bootstrap() {
   const { AppModule } = await import("./app.module");
   const app = await NestFactory.create(AppModule);

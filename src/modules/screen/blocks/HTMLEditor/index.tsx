@@ -8,7 +8,18 @@ import RadioGroup, { RadioGroupSize } from "primitives/RadioGroup";
 import { Icons } from "primitives/Icon";
 import { ListItemInterface } from "primitives/List/ListItem";
 
-import { Aligns, backgroundColor, flex, fullWidth, jc, marginLeft, minHeight } from "libs/styles";
+import {
+  Aligns,
+  backgroundColor,
+  borderRadius,
+  flex,
+  fullWidth,
+  height,
+  jc,
+  marginLeft,
+  minHeight,
+  overflow,
+} from "libs/styles";
 import { convertNativeFileToFileInterface } from "libs/hooks/files/helpers/createFileInput";
 
 import configurator from "entryPoint/Configurator";
@@ -69,7 +80,16 @@ function HTMLEditor({ options, actions }: BlockInterface<HTMLEditorOptionsInterf
 
   return (
     <Wrapper
-      styles={[fullWidth, minHeight("100%"), backgroundColor("gray-blue/01"), flex, jc(Aligns.CENTER), editorStyles]}
+      styles={[
+        fullWidth,
+        height("100%"),
+        borderRadius("8px"),
+        overflow("hidden"),
+        backgroundColor("gray-blue/01"),
+        flex,
+        jc(Aligns.CENTER),
+        editorStyles,
+      ]}
     >
       <Editor
         initialText={value}

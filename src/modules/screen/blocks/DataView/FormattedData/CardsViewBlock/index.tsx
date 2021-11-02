@@ -1,9 +1,9 @@
-import React, { Ref } from "react";
+import React, { Ref, useCallback, useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
 
 import Wrapper from "primitives/Wrapper";
 
-import { flexValue, fullWidth, overflowY, position } from "libs/styles";
+import { background, flexValue, fullWidth, overflowY, position } from "libs/styles";
 
 import { ViewMetaData } from "../../types";
 import { CardsViewConfigInterface } from "../types";
@@ -21,8 +21,22 @@ function CardsViewBlockWrapper(
   { options, notFound, setMetaData, spinner }: CardsViewBlockWrapperInterface,
   ref: Ref<HTMLElement>,
 ) {
+  const wrapperRef = React.useRef<HTMLElement | null>();
+
+  const createRef = useCallback((wrapRef) => {
+    wrapperRef.current = wrapRef;
+    // @ts-ignore
+    ref(wrapRef);
+  }, []);
+
+  useEffect(() => {
+    if (spinner === false) {
+      wrapperRef.current?.scrollTo(0, 0);
+    }
+  }, [spinner]);
+
   return (
-    <Wrapper ref={ref} styles={[fullWidth, flexValue(1), overflowY("auto"), position("relative")]}>
+    <Wrapper ref={createRef} styles={[fullWidth, flexValue(1), overflowY("auto"), position("relative")]}>
       {notFound}
       <CardsViewBlock {...options} onUpdateMeta={setMetaData} />
       {spinner}

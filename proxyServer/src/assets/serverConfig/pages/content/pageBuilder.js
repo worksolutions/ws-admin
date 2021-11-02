@@ -75,7 +75,7 @@ module.exports = function (context, getActions) {
           },
           saveOptions: {
             context: "screen:article",
-            requiredContextFields: [`${context}.title`, `${context}.code`, `${context}.category`, `${context}.author`],
+            requiredContextFields: [`${context}.title`, `${context}.code`],
           },
         },
         slots: {

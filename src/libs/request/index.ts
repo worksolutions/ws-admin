@@ -81,6 +81,7 @@ export class RequestManager {
     requestOptions: OptionsInterface,
     requestConfig: RequestConfigInterface,
   ) {
+    console.log(requestOptions);
     const { urlParams, cancelName, cancelToken, progressReceiver } = requestOptions;
     const { contentType } = requestConfig;
 
@@ -136,16 +137,15 @@ export class RequestManager {
     }
 
     RequestManager.applyAllBeforeSendMiddleware(requestData);
-
     try {
       const { data } = await axios(requestData);
-
       if (cancelName && RequestManager.cancellations[cancelName]) {
         RequestManager.cancellations[cancelName] = undefined!;
       }
 
       return [data, null];
     } catch (_originalAxiosError) {
+      console.log(_originalAxiosError);
       const axiosError: AxiosError = _originalAxiosError;
       if (axiosError.message === REQUEST_CANCELLED)
         return [null, new RequestError({ message: REQUEST_CANCELLED, errors: {} }, -1, axiosError)];
@@ -191,7 +191,6 @@ export class RequestManager {
     serverDataDecoder?: Decoder<T>,
   ): Promise<T> {
     const [result, error] = await RequestManager.makeAndDecodeResponse(url, method, body, options, requestConfig);
-
     if (error) throw error;
 
     if (!serverDataDecoder) return null!;

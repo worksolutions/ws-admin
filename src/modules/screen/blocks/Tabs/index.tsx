@@ -7,7 +7,7 @@ import Wrapper from "primitives/Wrapper";
 
 import LoadingProvider from "components/LoadingContainer/LoadingProvider";
 
-import { border, borderRadius, flexValue, overflowY } from "libs/styles";
+import { border, borderRadius, flexValue, height, overflowY } from "libs/styles";
 
 import BlockRenderer from "modules/screen/BlockRenderer";
 
@@ -45,7 +45,7 @@ function TabsBlock({ options }: BlockInterface<{ key?: string; tabs: { title: st
             {(loadingProviderRef) => (
               <Wrapper
                 ref={loadingProviderRef}
-                styles={[border(1, "gray-blue/02"), borderRadius(8), flexValue(1), overflowY("auto")]}
+                styles={[border(1, "gray-blue/02"), overflowY("auto"), borderRadius(8), flexValue(1)]}
               >
                 <BlockRenderer {...tab.block} />
               </Wrapper>
