@@ -1,7 +1,9 @@
 const articlesPage = require("./articles/articlesPage");
 const detailPageArticle = require("./articles/detailArticlePage");
+const editUsefulArticlePage = require("./articles/editUsefulArticlePage");
 const editArticlePage = require("./articles/editArticlePage");
 const createArticlesPage = require("./articles/createArticlesPage");
+const createUsefulArticlesPage = require("./articles/createUsefulArticlesPage");
 
 module.exports = {
   type: "Screen",
@@ -17,8 +19,8 @@ module.exports = {
     detailPageArticle("articles"),
     detailPageArticle("useful_articles"),
     editArticlePage("articles"),
-    editArticlePage("useful_articles"),
+    editUsefulArticlePage("useful_articles"),
     createArticlesPage("articles"),
-    createArticlesPage("useful_articles"),
+    createUsefulArticlesPage("useful_articles"),
   ],
 };

@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-module.exports = function (context, getActions) {
+module.exports = function (context, requiredContextFields, getActions) {
   const tempContext = `screen:temp-article`;
   const relatedArticlesContext = `${tempContext}.related-articles`;
 
@@ -75,7 +75,7 @@ module.exports = function (context, getActions) {
           },
           saveOptions: {
             context: "screen:article",
-            requiredContextFields: [`${context}.title`, `${context}.code`],
+            requiredContextFields: requiredContextFields,
           },
         },
         slots: {

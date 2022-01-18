@@ -19,7 +19,7 @@ module.exports = function (url) {
           contextPath: "screen:article",
         },
         options: {
-          block: pageBuilder("screen:article", [`screen:article.title`, `screen:article.code`, `screen:article.category`, `screen:article.author`], (body) => ({
+          block: pageBuilder("screen:article", [`screen:article.title`, `screen:article.code`], (body) => ({
             save: [
               {
                 type: "api:request",

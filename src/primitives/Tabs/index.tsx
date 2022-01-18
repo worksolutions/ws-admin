@@ -50,7 +50,15 @@ function Tabs({ activeIndex, setActiveIndex, items, styles }: TabsInterface) {
     <>
       <Wrapper ref={ref} styles={[flex, position("relative"), zIndex(1), styles]}>
         {items.map(({ title }, key) => (
-          <Tab key={key} active={activeIndex === key} title={title} onClick={() => setActiveIndex(key)} />
+          <Tab
+            key={key}
+            active={activeIndex === key}
+            title={title}
+            onClick={() => {
+              console.log(key);
+              setActiveIndex(key);
+            }}
+          />
         ))}
         {widths && widths.length !== 0 && (
           <Wrapper

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { toJS } from "mobx";
+import qs from "querystring";
 
 import Loading from "components/LoadingContainer/Loading";
 
@@ -17,10 +17,19 @@ import { useEditActions } from "./hooks/useEditActions";
 import { useFormTouched } from "./hooks/useFormTouched";
 import { useDetailSaver } from "./hooks/useDetailSaver";
 import { useDetailRequiredFieldsChecker } from "./hooks/useDetailRequiredFieldsChecker";
+import { useHistory } from "react-router";
 
 function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: DefaultDetailEditPageInterface) {
   const resultActions = useEditActions(options!.saveOptions.context, actions!);
   const { data, initialData, loadingContainer, updateInitial } = useDataSource(dataSource!);
+  const history = useHistory();
+
+  const toggleToErrorsTab = useCallback(() => {
+    // все обязательные поля находятся в 1 табе, переключаем на нее
+    const parsedQuery = qs.parse(location.search.slice(1));
+    history.push({ search: qs.encode({ ...parsedQuery, ["tab"]: "0".toString() }) });
+  }, []);
+
   const touched = useFormTouched(data, initialData);
   const {
     saveCompleteOpened,
@@ -34,14 +43,20 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: 
 
   function applyDetail() {
     const correct = checkRequiredFields();
-    if (!correct) return;
+    // тут надо переключить на первый таб
+    if (!correct) {
+      toggleToErrorsTab();
+      return;
+    }
     apply();
   }
 
   function saveDetail() {
     const correct = checkRequiredFields();
-    console.log(correct);
-    if (!correct) return;
+    if (!correct) {
+      // getErrorsTab();
+      return;
+    }
     save();
   }
 

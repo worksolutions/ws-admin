@@ -9,7 +9,6 @@ import { BlockInterface } from "state/globalState";
 
 function BlockRenderer(props: BlockInterface & { styles?: any; type?: string; spinnerSize?: number }) {
   const [BlockComponent, setBlockComponent] = useState<FC<BlockInterface>>();
-
   useEffect(() => {
     loadBlockComponent(props.type!, (value) => {
       setBlockComponent(value);
@@ -19,7 +18,6 @@ function BlockRenderer(props: BlockInterface & { styles?: any; type?: string; sp
   if (!BlockComponent) {
     return <Loading />;
   }
-
   return <BlockComponent {...props} />;
 }
 
