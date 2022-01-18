@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import qs from "querystring";
 
@@ -27,7 +27,7 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: 
   const toggleToErrorsTab = useCallback(() => {
     // все обязательные поля находятся в 1 табе, переключаем на нее
     const parsedQuery = qs.parse(location.search.slice(1));
-    history.push({ search: qs.encode({ ...parsedQuery, ["tab"]: "0".toString() }) });
+    history.push({ search: qs.encode({ ...parsedQuery, ["tab"]: "0" }) });
   }, []);
 
   const touched = useFormTouched(data, initialData);
@@ -39,25 +39,24 @@ function DefaultDetailEditPage({ slots, options, actions, dataSource, modals }: 
     saveLoading,
     applyLoading,
   } = useDetailSaver(resultActions, () => updateInitial(data));
+
   const checkRequiredFields = useDetailRequiredFieldsChecker(options!.saveOptions.requiredContextFields);
 
-  function applyDetail() {
+  function getErrorsTab(cb: { (): void }) {
     const correct = checkRequiredFields();
-    // тут надо переключить на первый таб
     if (!correct) {
       toggleToErrorsTab();
       return;
     }
-    apply();
+    cb();
+  }
+
+  function applyDetail() {
+    getErrorsTab(apply);
   }
 
   function saveDetail() {
-    const correct = checkRequiredFields();
-    if (!correct) {
-      // getErrorsTab();
-      return;
-    }
-    save();
+    getErrorsTab(save);
   }
 
   if (loadingContainer.loading) return <Loading />;
