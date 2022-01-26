@@ -1,4 +1,4 @@
-import { InsertBlockQuoteCommand } from "./commands/InsertBlockQuoteCommand";
+import { InsertCommand } from "../../pluginHelpers/InsertCommand";
 import { getFile, isNotImage, uploadFile } from "./libs";
 import { ConversionController } from "../../pluginHelpers/Conversion/ConversionController";
 import { makeToolbarElement } from "../../pluginHelpers/makeToolbarElement";
@@ -72,7 +72,9 @@ export class BlockQuotePlugin {
   }
 
   private defineCommands() {
-    this.editor.commands.add("insertBlockQuote", new InsertBlockQuoteCommand(this.editor));
+    const insertCallback = BlockQuotePlugin.create;
+
+    this.editor.commands.add("insertBlockQuote", new InsertCommand(this.editor, insertCallback));
   }
 
   private defineSchema() {
