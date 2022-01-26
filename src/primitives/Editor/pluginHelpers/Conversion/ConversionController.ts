@@ -24,7 +24,10 @@ export class ConversionController {
     this.for(ConversionTypes.EDITING_DOWNCAST).elementToElement({
       model,
       view: checkModelController((modelElement: any, modelController: any) => {
-        const editable = modelController.writer.createContainerElement(name, { class: classes, ...attributes });
+        const elementAttributes = { ...attributes };
+        if (classes) elementAttributes.class = classes;
+
+        const editable = modelController.writer.createContainerElement(name, elementAttributes);
 
         return useWidget ? toWidget(editable, modelController.writer) : editable;
       }),
@@ -39,7 +42,10 @@ export class ConversionController {
     this.for(ConversionTypes.EDITING_DOWNCAST).elementToElement({
       model,
       view: checkModelController((modelElement: any, modelController: any) => {
-        const editable = modelController.writer.createEditableElement(name, { class: classes });
+        const elementAttributes: { class?: string } = {};
+        if (classes) elementAttributes.class = classes;
+
+        const editable = modelController.writer.createEditableElement(name, elementAttributes);
 
         if (placeholder)
           enablePlaceholder({
