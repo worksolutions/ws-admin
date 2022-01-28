@@ -7,3 +7,5 @@ proxyServer/node_modules
 proxyServer/.idea
 proxyServer/dist
 proxyServer/.env
+
+.DS_Store
