@@ -1,4 +1,5 @@
 import { BlockQuotePlugin } from "./plugins/blockQuote";
+import { ImageStackPlugin } from "./plugins/imageStack";
 
 export const config = Object.assign(
   {},
@@ -36,7 +37,7 @@ export const config = Object.assign(
       "imageinsert",
       "|",
     ],
-    extraPlugins: [BlockQuotePlugin],
+    extraPlugins: [BlockQuotePlugin, ImageStackPlugin],
     heading: {
       options: [
         {
