@@ -1,11 +1,11 @@
 enum ModelsEnum {
   imageStackContainer = "imageStackContainer",
   imageStack = "imageStack",
-  image = "image",
 }
 
 enum SelectorsEnum {
   imageStack = "image-stack",
+  button = "image-stack__button",
 }
 
 export { ModelsEnum, SelectorsEnum };
