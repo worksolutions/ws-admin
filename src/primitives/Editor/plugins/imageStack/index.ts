@@ -5,11 +5,11 @@ import { ConversionController } from "../../pluginHelpers/Conversion/ConversionC
 import { makeToolbarElement } from "../../pluginHelpers/makeToolbarElement";
 
 import { uploadFile } from "../blockQuote/libs";
-import { getBase64FromFile } from "./utils";
 import { getImageStackImageModels, getImageStackImageNodes } from "./helpers";
 import { imageStackIcon, removeIcon } from "../../icons";
 
 import { ModelsEnum, SelectorsEnum } from "./enums";
+import { saveFileToServer } from "../../pluginHelpers/saveFileToServer";
 
 type UploadEventHandler = Parameters<typeof uploadFile>[0];
 type UploadEvent = Parameters<UploadEventHandler>[0];
@@ -97,13 +97,16 @@ class ImageStackPlugin {
     const files = e.target.files;
     if (!files) return;
 
-    const base64Images: any[] = [];
+    const imagesSrc: string[] = [];
 
     for (const file of files) {
-      await getBase64FromFile(file).then((base64Image) => base64Images.push(base64Image));
+      await saveFileToServer(file, this.editor).then((upload) => {
+        if (!upload) return;
+        imagesSrc.push(upload.default);
+      });
     }
 
-    editor.model.change((writer: any) => editor.model.insertContent(ImageStackPlugin.create(base64Images, writer)));
+    editor.model.change((writer: any) => editor.model.insertContent(ImageStackPlugin.create(imagesSrc, writer)));
     this.defineRemoveButtons();
   }
 

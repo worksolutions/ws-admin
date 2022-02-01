@@ -3,6 +3,7 @@ import { getFile, isNotImage, uploadFile } from "./libs";
 import { ConversionController } from "../../pluginHelpers/Conversion/ConversionController";
 import { makeToolbarElement } from "../../pluginHelpers/makeToolbarElement";
 import { blockQuoteIcon } from "../../icons";
+import { saveFileToServer } from "../../pluginHelpers/saveFileToServer";
 
 export const BLOCK_QUOTE_NAME = "blockQuoteName";
 export const BLOCK_QUOTE_CONTAINER = "blockQuoteContainer";
@@ -192,7 +193,7 @@ export class BlockQuotePlugin {
         const file = getFile(htmlTarget);
         if (!file) return;
 
-        const upload = await this.createLoader(file);
+        const upload = await saveFileToServer(file, this.editor);
         if (!upload?.default) return;
 
         this.editor.model.change((writer: any) =>
@@ -200,15 +201,5 @@ export class BlockQuotePlugin {
         );
       });
     });
-  }
-
-  private async createLoader(file: File): Promise<{ default: string } | null> {
-    try {
-      const loader = await this.editor.plugins.get("FileRepository").createLoader(file);
-      await loader.read();
-      return await loader.upload();
-    } catch (e) {
-      return null;
-    }
   }
 }
