@@ -24,6 +24,12 @@ const removeButtonIcon = `
   </svg
 `;
 
+const imageStackIcon = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.12613 1.47107C2.65338 1.47107 1.45947 2.66497 1.45947 4.13773V15.8044C1.45947 17.2771 2.65338 18.471 4.12613 18.471H5.54077V19.5289C5.54077 21.1858 6.88392 22.5289 8.54077 22.5289H19.5408C21.1976 22.5289 22.5408 21.1858 22.5408 19.5289V8.52893C22.5408 6.87208 21.1976 5.52893 19.5408 5.52893H18.4594V4.13773C18.4594 2.66497 17.2655 1.47107 15.7928 1.47107H4.12613ZM18.4594 7.52893V15.8044C18.4594 17.2771 17.2655 18.471 15.7928 18.471H7.54077V19.5289C7.54077 20.0812 7.98849 20.5289 8.54077 20.5289H19.5408C20.0931 20.5289 20.5408 20.0812 20.5408 19.5289V8.52893C20.5408 7.97665 20.0931 7.52893 19.5408 7.52893H18.4594ZM3.45947 4.13773C3.45947 3.76954 3.75795 3.47107 4.12613 3.47107H15.7928C16.1609 3.47107 16.4594 3.76954 16.4594 4.13773V11.1868L15.2115 9.93884C14.1683 8.89563 12.4769 8.89563 11.4337 9.93884L10.7901 10.5825L8.52764 8.27777L8.52111 8.27123C7.47791 7.22803 5.78654 7.22803 4.74333 8.27123L4.73368 8.28088L3.45947 9.62662V4.13773ZM16.3186 16.2141L12.1913 12.0097L12.8479 11.3531C13.1101 11.0909 13.5351 11.0909 13.7973 11.3531L16.4594 14.0152V15.8044C16.4594 15.9589 16.4069 16.1011 16.3186 16.2141ZM7.10434 9.6829L13.7682 16.471H4.12613C3.75795 16.471 3.45947 16.1725 3.45947 15.8044V12.5355L6.16512 9.67799C6.42696 9.42415 6.8445 9.42579 7.10434 9.6829Z" fill="black"/>
+  </svg>
+`;
+
 class ImageStackPlugin {
   static create(imagesSrc: any[], writer: any) {
     const imageStackContainer = writer.createElement(ModelsEnum.imageStackContainer);
@@ -119,7 +125,7 @@ class ImageStackPlugin {
       uploadFile(partialOnUpload, { accept: "image/png, image/jpeg", multiple: true });
     };
 
-    makeToolbarElement(this.editor, "Hello world!", onClick);
+    makeToolbarElement(this.editor, imageStackIcon, onClick);
   }
 
   private defineSchema() {
@@ -143,7 +149,7 @@ class ImageStackPlugin {
     containerConversion.containerConversions({
       model: ModelsEnum.imageStackContainer,
       name: "section",
-      classes: "",
+      classes: SelectorsEnum.imageStackContainer,
       useWidget: true,
     });
 

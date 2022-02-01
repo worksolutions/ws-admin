@@ -4,6 +4,7 @@ enum ModelsEnum {
 }
 
 enum SelectorsEnum {
+  imageStackContainer = "image-stack-container",
   imageStack = "image-stack",
   button = "image-stack__button",
 }
