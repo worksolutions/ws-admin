@@ -50,7 +50,8 @@
     "styled-components": "4.3.2",
     "transliteration": "^2.1.11",
     "typedi": "0.8.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "vanilla-lazyload": "^17.5.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "4.2.4",

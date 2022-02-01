@@ -1,15 +1,16 @@
 import { partial } from "ramda";
 import { v4 as UUIDv4 } from "uuid";
+import LazyLoad, { ILazyLoadInstance } from "vanilla-lazyload";
 
 import { ConversionController } from "../../pluginHelpers/Conversion/ConversionController";
 import { makeToolbarElement } from "../../pluginHelpers/makeToolbarElement";
+import { saveFileToServer } from "../../pluginHelpers/saveFileToServer";
 
 import { uploadFile } from "../blockQuote/libs";
 import { getImageStackImageModels, getImageStackImageNodes } from "./helpers";
 import { imageStackIcon, removeIcon } from "../../icons";
 
 import { ModelsEnum, SelectorsEnum } from "./enums";
-import { saveFileToServer } from "../../pluginHelpers/saveFileToServer";
 
 type UploadEventHandler = Parameters<typeof uploadFile>[0];
 type UploadEvent = Parameters<UploadEventHandler>[0];
@@ -27,7 +28,7 @@ class ImageStackPlugin {
     writer.append(imageStack, imageStackContainer);
 
     imagesSrc.forEach((src) => {
-      const image = writer.createElement("image", { src, __id: UUIDv4() });
+      const image = writer.createElement("image", { "__data-src": src, __id: UUIDv4(), src: "" });
 
       writer.append(image, imageStack);
     });
@@ -38,11 +39,14 @@ class ImageStackPlugin {
   private readonly conversion: any;
   private readonly schema: any;
   private readonly view: any;
+  private readonly lazyLoadInstance: ILazyLoadInstance;
 
   constructor(private editor: any) {
     this.view = this.editor.editing.view;
     this.schema = this.editor.model.schema;
     this.conversion = editor.conversion;
+
+    this.lazyLoadInstance = new LazyLoad({ data_src: "src", elements_selector: `.${SelectorsEnum.imageStack} img` });
   }
 
   init() {
@@ -50,6 +54,11 @@ class ImageStackPlugin {
     this.defineSchema();
     this.defineConversions();
     this.defineRemoveButtons();
+    this.defineLazyLoad();
+  }
+
+  private defineLazyLoad() {
+    this.editor.model.document.on("change", () => this.lazyLoadInstance.update());
   }
 
   private defineRemoveButtonListener(targetImage: TargetImage, removeButton: Element) {
@@ -108,6 +117,7 @@ class ImageStackPlugin {
 
     editor.model.change((writer: any) => editor.model.insertContent(ImageStackPlugin.create(imagesSrc, writer)));
     this.defineRemoveButtons();
+    this.lazyLoadInstance.update();
   }
 
   private defineToolbar() {
@@ -132,11 +142,47 @@ class ImageStackPlugin {
       allowIn: ModelsEnum.imageStackContainer,
     });
 
-    this.schema.extend("image", { allowAttributes: "__id" });
+    this.schema.extend("image", { allowAttributes: ["__id", "__data-src"] });
+  }
+
+  // eslint-disable-next-line max-params
+  private onAddAttribute(attributeName: string, event: any, data: any, conversionApi: any) {
+    this.defineRemoveButtons();
+    this.lazyLoadInstance.update();
+    if (!conversionApi.consumable.consume(data.item, event.name)) return;
+
+    const writer = conversionApi.writer;
+    const viewElement = conversionApi.mapper.toViewElement(data.item);
+
+    if (data.attributeNewValue !== null) {
+      writer.setAttribute(attributeName, data.attributeNewValue, viewElement);
+      return;
+    }
+
+    writer.removeAttribute(attributeName, viewElement);
+  }
+
+  // eslint-disable-next-line max-params
+  private onAddAttributeToImg(attributeName: string, event: any, data: any, conversionApi: any) {
+    this.lazyLoadInstance.update();
+    if (!conversionApi.consumable.consume(data.item, event.name)) return;
+
+    const writer = conversionApi.writer;
+    const figure = conversionApi.mapper.toViewElement(data.item);
+    const img = figure.getChild(0);
+
+    if (data.attributeNewValue !== null) {
+      writer.setAttribute(attributeName, data.attributeNewValue, img);
+      return;
+    }
+
+    writer.removeAttribute(attributeName, img);
   }
 
   private defineConversions() {
     const containerConversion = new ConversionController(this.conversion, this.view);
+    const boundOnAddAttribute = this.onAddAttribute.bind(this);
+    const boundOnAddAttributeToImg = this.onAddAttributeToImg.bind(this);
 
     containerConversion.containerConversions({
       model: ModelsEnum.imageStackContainer,
@@ -156,21 +202,14 @@ class ImageStackPlugin {
       model: "__id",
     });
 
+    this.editor.conversion.for("upcast").attributeToAttribute({
+      view: "data-src",
+      model: "__data-src",
+    });
+
     this.editor.conversion.for("downcast").add((dispatcher: any) => {
-      dispatcher.on("attribute:__id:image", (event: any, data: any, conversionApi: any) => {
-        this.defineRemoveButtons();
-        if (!conversionApi.consumable.consume(data.item, event.name)) return;
-
-        const writer = conversionApi.writer;
-        const figure = conversionApi.mapper.toViewElement(data.item);
-
-        if (data.attributeNewValue !== null) {
-          writer.setAttribute("id", data.attributeNewValue, figure);
-          return;
-        }
-
-        writer.removeAttribute("id", figure);
-      });
+      dispatcher.on("attribute:__id:image", partial(boundOnAddAttribute, ["id"]));
+      dispatcher.on("attribute:__data-src:image", partial(boundOnAddAttributeToImg, ["data-src"]));
     });
   }
 }
