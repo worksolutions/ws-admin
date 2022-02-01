@@ -3,7 +3,6 @@ import { join } from "path";
 import { NestFactory } from "@nestjs/core";
 
 import { config } from "dotenv";
-import { json, urlencoded } from "express";
 
 declare const module: any;
 
@@ -16,10 +15,6 @@ if (!process.env.NODE_PROXY_PORT) {
 async function bootstrap() {
   const { AppModule } = await import("./app.module");
   const app = await NestFactory.create(AppModule);
-
-  app.use(json({ limit: '50mb' }));
-  app.use(urlencoded({ extended: true, limit: '50mb' }));
-
   await app.listen(process.env.NODE_PROXY_PORT);
 
   if (module.hot) {
