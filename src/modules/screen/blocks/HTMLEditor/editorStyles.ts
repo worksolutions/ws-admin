@@ -4,7 +4,7 @@ import { css } from "styled-components";
 
 import { TypographyTypes } from "primitives/Typography";
 import { blockQuoteCursorStyles, blockQuoteStyles } from "primitives/Editor/plugins/blockQuote/styles/blockQuoteStyles";
-import { imageStackStyles } from "../../../../primitives/Editor/plugins/imageStack/styles";
+import { imageStackStyles } from "primitives/Editor/plugins/imageStack/styles";
 
 import { border, getColor, makeBorderBoxShadow } from "libs/styles";
 

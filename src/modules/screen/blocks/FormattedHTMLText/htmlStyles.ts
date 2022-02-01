@@ -5,7 +5,7 @@ import Prism from "prismjs";
 import { TypographyTypes } from "primitives/Typography";
 import { blueTypographyLinkStyles } from "primitives/Typography/TypographyLink";
 import { blockQuoteStyles } from "primitives/Editor/plugins/blockQuote/styles/blockQuoteStyles";
-import { imageStackStyles } from "../../../../primitives/Editor/plugins/imageStack/styles";
+import { imageStackStyles } from "primitives/Editor/plugins/imageStack/styles";
 
 import { getColor } from "libs/styles";
 

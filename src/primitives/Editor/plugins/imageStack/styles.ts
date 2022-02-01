@@ -1,8 +1,8 @@
 import { css } from "styled-components";
 
-import { getColor } from "../../../../libs/styles";
+import { getColor } from "libs/styles";
 
-import { secondaryStyle } from "../../../Button/styles/types/secondary";
+import { secondaryStyle } from "primitives/Button/styles/types/secondary";
 
 export const imageStackStyles = css`
   .image-stack {
