@@ -5,6 +5,7 @@ import { makeToolbarElement } from "../../pluginHelpers/makeToolbarElement";
 
 export const BLOCK_QUOTE_NAME = "blockQuoteName";
 export const BLOCK_QUOTE_CONTAINER = "blockQuoteContainer";
+export const BLOCK_QUOTE = "customBlockQuote";
 export const BLOCK_QUOTE_POSITION = "blockQuotePosition";
 export const BLOCK_QUOTE_TEXT = "blockQuoteText";
 export const BLOCK_QUOTE_WRAPPER_TOP = "blockQuoteWrapperTop";
@@ -12,6 +13,7 @@ export const BLOCK_QUOTE_WRAPPER_TOP_TEXT = "blockQuoteWrapperTopText";
 
 export const BLOCK_QUOTE_NAME_CLASS = "block-quote-name";
 export const BLOCK_QUOTE_CONTAINER_CLASS = "block-quote-container";
+export const BLOCK_QUOTE_CLASS = "block-quote";
 export const BLOCK_QUOTE_POSITION_CLASS = "block-quote-position";
 export const BLOCK_QUOTE_TEXT_CLASS = "block-quote-text";
 export const BLOCK_QUOTE_WRAPPER_TOP_CLASS = "block-quote-wrapper-top";
@@ -30,6 +32,7 @@ export class BlockQuotePlugin {
     const blockQuoteImage = writer.createElement("image", { src: "none" });
 
     const blockQuoteContainer = writer.createElement(BLOCK_QUOTE_CONTAINER);
+    const blockQuote = writer.createElement(BLOCK_QUOTE);
     const blockQuoteWrapperTop = writer.createElement(BLOCK_QUOTE_WRAPPER_TOP);
     const blockQuoteWrapperTopText = writer.createElement(BLOCK_QUOTE_WRAPPER_TOP_TEXT);
     const blockQuoteName = writer.createElement(BLOCK_QUOTE_NAME);
@@ -42,8 +45,10 @@ export class BlockQuotePlugin {
     writer.append(blockQuoteImage, blockQuoteWrapperTop);
     writer.append(blockQuoteWrapperTopText, blockQuoteWrapperTop);
 
-    writer.append(blockQuoteWrapperTop, blockQuoteContainer);
-    writer.append(blockQuoteText, blockQuoteContainer);
+    writer.append(blockQuoteWrapperTop, blockQuote);
+    writer.append(blockQuoteText, blockQuote);
+
+    writer.append(blockQuote, blockQuoteContainer);
 
     return blockQuoteContainer;
   }
@@ -67,6 +72,7 @@ export class BlockQuotePlugin {
     this.defineConversions();
     this.defineListeners();
   }
+
   private defineToolbar() {
     makeToolbarElement(this.editor, svg, () => this.editor.execute("insertBlockQuote"));
   }
@@ -83,18 +89,25 @@ export class BlockQuotePlugin {
       allowWhere: "$block",
     });
 
-    this.schema.register(BLOCK_QUOTE_WRAPPER_TOP, {
+    this.schema.register(BLOCK_QUOTE, {
       isLimit: true,
       allowContentOf: "$root",
       allowWhere: "$block",
       allowIn: BLOCK_QUOTE_CONTAINER,
     });
 
+    this.schema.register(BLOCK_QUOTE_WRAPPER_TOP, {
+      isLimit: true,
+      allowContentOf: "$root",
+      allowWhere: "$block",
+      allowIn: BLOCK_QUOTE,
+    });
+
     this.schema.register(BLOCK_QUOTE_WRAPPER_TOP_TEXT, {
       isLimit: true,
       allowContentOf: "$root",
       allowWhere: "$block",
-      allowIn: BLOCK_QUOTE_CONTAINER,
+      allowIn: BLOCK_QUOTE,
     });
 
     this.schema.register(BLOCK_QUOTE_NAME, {
@@ -115,7 +128,7 @@ export class BlockQuotePlugin {
       isLimit: true,
       allowContentOf: "$root",
       allowWhere: "$block",
-      allowIn: BLOCK_QUOTE_CONTAINER,
+      allowIn: BLOCK_QUOTE,
     });
 
     this.schema.addChildCheck((context: any, childDefinition: any) => {
@@ -133,6 +146,12 @@ export class BlockQuotePlugin {
       name: "section",
       classes: BLOCK_QUOTE_CONTAINER_CLASS,
       useWidget: true,
+    });
+
+    containerConversion.containerConversions({
+      model: BLOCK_QUOTE,
+      name: "div",
+      classes: BLOCK_QUOTE_CLASS,
     });
 
     containerConversion.containerConversions({
