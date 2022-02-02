@@ -68,7 +68,7 @@ class ImageStackPlugin {
 
       images.forEach((image) => {
         const modelId = image.getAttribute("__id");
-        const modelSrc = image.getAttribute("src");
+        const modelSrc = image.getAttribute("__data-src");
 
         if (modelId !== targetImage.id && modelSrc !== targetImage.src) return;
 
@@ -97,7 +97,7 @@ class ImageStackPlugin {
       removeButton.append(buttonIcon);
       widgetTypeAround.append(removeButton);
 
-      const imgSrc = imgNode.getAttribute("src");
+      const imgSrc = imgNode.getAttribute("__data-src");
 
       this.defineRemoveButtonListener({ id: imageId, src: imgSrc }, removeButton);
     });
