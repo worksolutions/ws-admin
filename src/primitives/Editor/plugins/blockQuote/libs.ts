@@ -1,5 +1,5 @@
-import { DATA_BLOCK_QUOTE_WRAPPER_TOP } from "./index";
 import { InputHTMLAttributes } from "react";
+import { DATA_BLOCK_QUOTE_WRAPPER_TOP } from "./index";
 
 export function isNotImage(elem: any) {
   if (!elem) return true;

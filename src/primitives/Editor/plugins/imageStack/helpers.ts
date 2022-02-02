@@ -2,9 +2,7 @@ import { ModelsEnum, SelectorsEnum } from "./enums";
 
 const getImageStackImageNodes = () => document.querySelectorAll(`.${SelectorsEnum.imageStack} figure`);
 
-const getImageStackImageModels = (editor: any) => {
-  const root = editor.model.document.getRoot();
-  const rootChildren = root.getChildren();
+const getImageStackImageModels = (rootChildren: any[]) => {
   const images = [];
 
   for (const rootChild of rootChildren) {

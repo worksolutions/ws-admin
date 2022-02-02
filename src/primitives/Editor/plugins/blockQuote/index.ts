@@ -1,9 +1,12 @@
-import { InsertCommand } from "../../pluginHelpers/InsertCommand";
 import { getFile, isNotImage, uploadFile } from "./libs";
+
+import { InsertCommand } from "../../pluginHelpers/InsertCommand";
+
 import { ConversionController } from "../../pluginHelpers/Conversion/ConversionController";
 import { makeToolbarElement } from "../../pluginHelpers/makeToolbarElement";
-import { blockQuoteIcon } from "../../icons";
 import { saveFileToServer } from "../../pluginHelpers/saveFileToServer";
+
+import { blockQuoteIcon } from "../../icons";
 
 export const BLOCK_QUOTE_NAME = "blockQuoteName";
 export const BLOCK_QUOTE_CONTAINER = "blockQuoteContainer";

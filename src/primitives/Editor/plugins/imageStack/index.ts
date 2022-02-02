@@ -63,7 +63,8 @@ class ImageStackPlugin {
 
   private defineRemoveButtonListener(targetImage: TargetImage, removeButton: Element) {
     removeButton.addEventListener("click", () => {
-      const images = getImageStackImageModels(this.editor);
+      const root = this.editor.model.document.getRoot();
+      const images = getImageStackImageModels(root.getChildren());
 
       images.forEach((image) => {
         const modelId = image.getAttribute("__id");
@@ -106,14 +107,17 @@ class ImageStackPlugin {
     const files = e.target.files;
     if (!files) return;
 
+    const partialSaveFileToServer = partial(saveFileToServer, [this.editor]);
+    const saveFileToServerPromises = Array.from(files).map(partialSaveFileToServer);
     const imagesSrc: string[] = [];
 
-    for (const file of files) {
-      await saveFileToServer(file, this.editor).then((upload) => {
-        if (!upload) return;
-        imagesSrc.push(upload.default);
-      });
-    }
+    await Promise.allSettled(saveFileToServerPromises).then((results) =>
+      results.forEach((result) => {
+        if (result.status !== "fulfilled" || !result.value) return;
+
+        imagesSrc.push(result.value.default);
+      }),
+    );
 
     editor.model.change((writer: any) => editor.model.insertContent(ImageStackPlugin.create(imagesSrc, writer)));
     this.defineRemoveButtons();

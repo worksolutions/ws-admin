@@ -8,7 +8,7 @@ import { loadBlockComponent } from "./libs";
 
 import { BlockInterface } from "state/globalState";
 
-import { SelectorsEnum } from "../../../primitives/Editor/plugins/imageStack/enums";
+import { SelectorsEnum } from "primitives/Editor/plugins/imageStack/enums";
 
 function BlockRenderer(props: BlockInterface & { styles?: any; type?: string; spinnerSize?: number }) {
   const [BlockComponent, setBlockComponent] = useState<FC<BlockInterface>>();

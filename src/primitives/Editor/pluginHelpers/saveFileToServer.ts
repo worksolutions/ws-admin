@@ -1,4 +1,4 @@
-export const saveFileToServer = async (file: File, editor: any): Promise<{ default: string } | null> => {
+export const saveFileToServer = async (editor: any, file: File): Promise<{ default: string } | null> => {
   try {
     const loader = await editor.plugins.get("FileRepository").createLoader(file);
     await loader.read();
