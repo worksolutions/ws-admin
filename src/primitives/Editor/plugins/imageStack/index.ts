@@ -58,7 +58,7 @@ class ImageStackPlugin {
   }
 
   private defineLazyLoad() {
-    this.editor.model.document.on("change", () => this.lazyLoadInstance.update());
+    this.editor.model.on("insertContent", () => this.lazyLoadInstance.update());
   }
 
   private defineRemoveButtonListener(targetImage: TargetImage, removeButton: Element) {
@@ -72,9 +72,7 @@ class ImageStackPlugin {
 
         if (modelId !== targetImage.id && modelSrc !== targetImage.src) return;
 
-        this.editor.model.change((writer: any) => {
-          writer.remove(image);
-        });
+        this.editor.model.change((writer: any) => writer.remove(image));
       });
     });
   }
@@ -88,8 +86,9 @@ class ImageStackPlugin {
       const buttonIcon = document.createElement("span");
       const imageId = node.getAttribute("id");
       const imgNode = node.querySelector("img");
+      const existButton = widgetTypeAround?.querySelector(`.${SelectorsEnum.button}`);
 
-      if (!imgNode || !widgetTypeAround) return;
+      if (!imgNode || !widgetTypeAround || existButton) return;
 
       buttonIcon.innerHTML = removeIcon;
       removeButton.setAttribute("class", SelectorsEnum.button);
@@ -97,7 +96,7 @@ class ImageStackPlugin {
       removeButton.append(buttonIcon);
       widgetTypeAround.append(removeButton);
 
-      const imgSrc = imgNode.getAttribute("__data-src");
+      const imgSrc = imgNode.getAttribute("data-src");
 
       this.defineRemoveButtonListener({ id: imageId, src: imgSrc }, removeButton);
     });
