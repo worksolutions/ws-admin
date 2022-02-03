@@ -5,6 +5,9 @@ import { getColor } from "libs/styles";
 import { secondaryStyle } from "primitives/Button/styles/types/secondary";
 
 export const imageStackStyles = css`
+  .image-stack-container {
+    width: 50%;
+  }
   .image-stack {
     border: 1px solid ${getColor("border/opaque")};
     border-radius: 20px;
