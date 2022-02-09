@@ -8,6 +8,9 @@ export default function prepareArticleToEdit() {
     if (article.category) {
       article.category = article.category.id;
     }
+    if (article.type) {
+      article.type = article.type.id;
+    }
     if (article.author) {
       article.author = article.author.id;
     }

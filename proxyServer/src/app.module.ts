@@ -18,6 +18,8 @@ import { ArticlesModule } from "modules/articles/articles.module";
 
 import { CategoriesModule } from "modules/categories/categories.module";
 
+import { TypesModule } from "modules/types/types.module";
+
 import { FileStorageModule } from "modules/fileStorage/fileStorage.module";
 
 import { DefaultModule } from "modules/default/default.module";
@@ -30,6 +32,7 @@ import { DefaultModule } from "modules/default/default.module";
     AdminModule,
     ArticlesModule,
     CategoriesModule,
+    TypesModule,
     FileStorageModule,
     DefaultModule,
     process.env.SERVE_STATIC_FILES === "1" &&

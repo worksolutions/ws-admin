@@ -10,6 +10,7 @@ module.exports = function (context, getActions) {
         { path: context, value: {} },
         { path: `${relatedArticlesContext}.list`, value: [] },
         { path: `${tempContext}.categories`, value: [] },
+        { path: `${tempContext}.types`, value: [] },
         { path: `${tempContext}.users`, value: [] },
       ],
       actions: {
@@ -23,6 +24,18 @@ module.exports = function (context, getActions) {
               perPage: "100",
             },
             saveToContext: `${tempContext}.categories`,
+          },
+        },
+        loadTypes: {
+          type: "api:request",
+          options: {
+            reference: "/types-list",
+            method: "get",
+            body: {
+              page: "1",
+              perPage: "100",
+            },
+            saveToContext: `${tempContext}.types`,
           },
         },
         loadUsers: {
@@ -75,7 +88,7 @@ module.exports = function (context, getActions) {
           },
           saveOptions: {
             context: "screen:article",
-            requiredContextFields: [`${context}.title`, `${context}.code`, `${context}.category`, `${context}.author`],
+            requiredContextFields: [`${context}.title`, `${context}.code`, `${context}.category`, `${context}.type`, `${context}.author`],
           },
         },
         slots: {
@@ -303,6 +316,32 @@ module.exports = function (context, getActions) {
                                         type: "open-modal",
                                         options: {
                                           name: "create-category",
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                                {
+                                  title: "Тип",
+                                  required: true,
+                                  type: "edit:Dropdown",
+                                  options: {
+                                    dropdownOptions: {
+                                      width: "small",
+                                      size: "large",
+                                      contextPath: `${context}.type`,
+                                    },
+                                    dataSource: {
+                                      type: "context",
+                                      options: {
+                                        key: `${tempContext}.types`,
+                                      },
+                                    },
+                                    actions: {
+                                      change: {
+                                        type: "update-context",
+                                        options: {
+                                          context: `${context}.type`,
                                         },
                                       },
                                     },
@@ -675,6 +714,7 @@ module.exports = function (context, getActions) {
           announce: `=${context}.announce`,
           author: `=${context}.author`,
           category: `=${context}.category`,
+          type: `=${context}.type`,
           code: `=${context}.code`,
           externalLink: `=${context}.externalLink`,
           keywords: `=${context}.keywords`,
