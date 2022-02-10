@@ -81,6 +81,11 @@ module.exports = function (url) {
                               options: { value: "=screen:article.category.name" },
                             },
                             {
+                              title: "Тип",
+                              type: "text",
+                              options: { value: "=screen:article.type.name" },
+                            },
+                            {
                               title: "Автор",
                               type: "icon-link",
                               options: {

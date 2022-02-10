@@ -133,6 +133,7 @@ export async function loadArticle(articleId, requestParams) {
     author: data.author?.id,
     tagDescription: data.tagDescription,
     category: data.category?.id,
+    type: data.type?.id,
     relatedArticles: data.relatedArticles?.map(prop("id")),
     contentImage: data.contentImage?.id,
     announceImage: data.announceImage?.id,
