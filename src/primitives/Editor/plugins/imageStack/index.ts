@@ -20,6 +20,8 @@ type TargetImage = {
   src: string | null;
 };
 
+type AddAttributeOptions = { data: any; conversionApi: any };
+
 class ImageStackPlugin {
   static create(imagesSrc: any[], writer: any) {
     const imageStackContainer = writer.createElement(ModelsEnum.imageStackContainer);
@@ -46,7 +48,10 @@ class ImageStackPlugin {
     this.schema = this.editor.model.schema;
     this.conversion = editor.conversion;
 
-    this.lazyLoadInstance = new LazyLoad({ data_src: "src", elements_selector: `.${SelectorsEnum.imageStack} img` });
+    this.lazyLoadInstance = new LazyLoad({
+      data_src: "src",
+      elements_selector: `.${SelectorsEnum.imageStack} img`,
+    });
   }
 
   init() {
@@ -148,8 +153,7 @@ class ImageStackPlugin {
     this.schema.extend("image", { allowAttributes: ["__id", "__data-src"] });
   }
 
-  // eslint-disable-next-line max-params
-  private onAddAttribute(attributeName: string, event: any, data: any, conversionApi: any) {
+  private onAddAttribute(attributeName: string, event: any, { data, conversionApi }: AddAttributeOptions) {
     this.defineRemoveButtons();
     this.lazyLoadInstance.update();
     if (!conversionApi.consumable.consume(data.item, event.name)) return;
@@ -165,8 +169,7 @@ class ImageStackPlugin {
     writer.removeAttribute(attributeName, viewElement);
   }
 
-  // eslint-disable-next-line max-params
-  private onAddAttributeToImg(attributeName: string, event: any, data: any, conversionApi: any) {
+  private onAddAttributeToImg(attributeName: string, event: any, { data, conversionApi }: AddAttributeOptions) {
     this.lazyLoadInstance.update();
     if (!conversionApi.consumable.consume(data.item, event.name)) return;
 
@@ -211,8 +214,13 @@ class ImageStackPlugin {
     });
 
     this.editor.conversion.for("downcast").add((dispatcher: any) => {
-      dispatcher.on("attribute:__id:image", partial(boundOnAddAttribute, ["id"]));
-      dispatcher.on("attribute:__data-src:image", partial(boundOnAddAttributeToImg, ["data-src"]));
+      dispatcher.on("attribute:__id:image", (event: any, data: any, conversionApi: any) =>
+        partial(boundOnAddAttribute, ["id"])(event, { data, conversionApi }),
+      );
+
+      dispatcher.on("attribute:__data-src:image", (event: any, data: any, conversionApi: any) =>
+        partial(boundOnAddAttributeToImg, ["data-src"])(event, { data, conversionApi }),
+      );
     });
   }
 }
