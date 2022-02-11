@@ -8,13 +8,13 @@ RUN apt-get install build-essential -y
 WORKDIR /usr/src/
 
 COPY package.json .
-RUN npm install --legacy-peer-deps
+RUN npm ci
 
 RUN mkdir proxyServer
 WORKDIR /usr/src/proxyServer
 
 COPY ./proxyServer/package.json .
-RUN npm install --legacy-peer-deps
+RUN npm ci
 
 WORKDIR /usr/src/
 
