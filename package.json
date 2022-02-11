@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "NODE_ENV=production concurrently -p '[{name}]' -n 'CLIENT,BACKEND' -c 'blue.bold,green.bold' 'react-app-rewired build' 'cd proxyServer && npm run build'",
+    "build": "NODE_ENV=production concurrently -p '[{name}]' -n 'CLIENT,BACKEND' -c 'blue.bold,green.bold' 'react-app-rewired --max-old-space-size=1024 build' 'cd proxyServer && npm run build'",
     "serve-production-proxy": "NODE_ENV=production cd proxyServer && npm run start:prod",
     "serve-production-proxy:win": "set NODE_ENV=production && cd proxyServer && npm run start:prod",
     "test": "react-app-rewired test",
