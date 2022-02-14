@@ -1,10 +1,16 @@
-import { SimpleBoxToolbarElem } from "./toolbar/SimpleBoxToolbarElem";
-import { InsertBlockQuoteCommand } from "./commands/InsertBlockQuoteCommand";
 import { getFile, isNotImage, uploadFile } from "./libs";
+
+import { InsertCommand } from "../../pluginHelpers/InsertCommand";
+
 import { ConversionController } from "../../pluginHelpers/Conversion/ConversionController";
+import { makeToolbarElement } from "../../pluginHelpers/makeToolbarElement";
+import { saveFileToServer } from "../../pluginHelpers/saveFileToServer";
+
+import { blockQuoteIcon } from "../../icons";
 
 export const BLOCK_QUOTE_NAME = "blockQuoteName";
 export const BLOCK_QUOTE_CONTAINER = "blockQuoteContainer";
+export const BLOCK_QUOTE = "customBlockQuote";
 export const BLOCK_QUOTE_POSITION = "blockQuotePosition";
 export const BLOCK_QUOTE_TEXT = "blockQuoteText";
 export const BLOCK_QUOTE_WRAPPER_TOP = "blockQuoteWrapperTop";
@@ -12,6 +18,7 @@ export const BLOCK_QUOTE_WRAPPER_TOP_TEXT = "blockQuoteWrapperTopText";
 
 export const BLOCK_QUOTE_NAME_CLASS = "block-quote-name";
 export const BLOCK_QUOTE_CONTAINER_CLASS = "block-quote-container";
+export const BLOCK_QUOTE_CLASS = "block-quote";
 export const BLOCK_QUOTE_POSITION_CLASS = "block-quote-position";
 export const BLOCK_QUOTE_TEXT_CLASS = "block-quote-text";
 export const BLOCK_QUOTE_WRAPPER_TOP_CLASS = "block-quote-wrapper-top";
@@ -24,6 +31,7 @@ export class BlockQuotePlugin {
     const blockQuoteImage = writer.createElement("image", { src: "none" });
 
     const blockQuoteContainer = writer.createElement(BLOCK_QUOTE_CONTAINER);
+    const blockQuote = writer.createElement(BLOCK_QUOTE);
     const blockQuoteWrapperTop = writer.createElement(BLOCK_QUOTE_WRAPPER_TOP);
     const blockQuoteWrapperTopText = writer.createElement(BLOCK_QUOTE_WRAPPER_TOP_TEXT);
     const blockQuoteName = writer.createElement(BLOCK_QUOTE_NAME);
@@ -36,14 +44,15 @@ export class BlockQuotePlugin {
     writer.append(blockQuoteImage, blockQuoteWrapperTop);
     writer.append(blockQuoteWrapperTopText, blockQuoteWrapperTop);
 
-    writer.append(blockQuoteWrapperTop, blockQuoteContainer);
-    writer.append(blockQuoteText, blockQuoteContainer);
+    writer.append(blockQuoteWrapperTop, blockQuote);
+    writer.append(blockQuoteText, blockQuote);
+
+    writer.append(blockQuote, blockQuoteContainer);
 
     return blockQuoteContainer;
   }
 
   private readonly conversion: any;
-  private readonly simpleBoxToolbarElem: any;
   private readonly schema: any;
   private readonly view: any;
   private readonly selection: any;
@@ -53,7 +62,6 @@ export class BlockQuotePlugin {
     this.schema = this.editor.model.schema;
     this.conversion = editor.conversion;
     this.selection = this.editor.model.document.selection;
-    this.simpleBoxToolbarElem = new SimpleBoxToolbarElem(this.editor);
   }
 
   init() {
@@ -63,12 +71,15 @@ export class BlockQuotePlugin {
     this.defineConversions();
     this.defineListeners();
   }
+
   private defineToolbar() {
-    this.simpleBoxToolbarElem.init();
+    makeToolbarElement(this.editor, blockQuoteIcon, () => this.editor.execute("insertBlockQuote"));
   }
 
   private defineCommands() {
-    this.editor.commands.add("insertBlockQuote", new InsertBlockQuoteCommand(this.editor));
+    const insertCallback = BlockQuotePlugin.create;
+
+    this.editor.commands.add("insertBlockQuote", new InsertCommand(this.editor, insertCallback));
   }
 
   private defineSchema() {
@@ -77,18 +88,25 @@ export class BlockQuotePlugin {
       allowWhere: "$block",
     });
 
-    this.schema.register(BLOCK_QUOTE_WRAPPER_TOP, {
+    this.schema.register(BLOCK_QUOTE, {
       isLimit: true,
       allowContentOf: "$root",
       allowWhere: "$block",
       allowIn: BLOCK_QUOTE_CONTAINER,
     });
 
+    this.schema.register(BLOCK_QUOTE_WRAPPER_TOP, {
+      isLimit: true,
+      allowContentOf: "$root",
+      allowWhere: "$block",
+      allowIn: BLOCK_QUOTE,
+    });
+
     this.schema.register(BLOCK_QUOTE_WRAPPER_TOP_TEXT, {
       isLimit: true,
       allowContentOf: "$root",
       allowWhere: "$block",
-      allowIn: BLOCK_QUOTE_CONTAINER,
+      allowIn: BLOCK_QUOTE,
     });
 
     this.schema.register(BLOCK_QUOTE_NAME, {
@@ -109,7 +127,7 @@ export class BlockQuotePlugin {
       isLimit: true,
       allowContentOf: "$root",
       allowWhere: "$block",
-      allowIn: BLOCK_QUOTE_CONTAINER,
+      allowIn: BLOCK_QUOTE,
     });
 
     this.schema.addChildCheck((context: any, childDefinition: any) => {
@@ -127,6 +145,12 @@ export class BlockQuotePlugin {
       name: "section",
       classes: BLOCK_QUOTE_CONTAINER_CLASS,
       useWidget: true,
+    });
+
+    containerConversion.containerConversions({
+      model: BLOCK_QUOTE,
+      name: "div",
+      classes: BLOCK_QUOTE_CLASS,
     });
 
     containerConversion.containerConversions({
@@ -172,7 +196,7 @@ export class BlockQuotePlugin {
         const file = getFile(htmlTarget);
         if (!file) return;
 
-        const upload = await this.createLoader(file);
+        const upload = await saveFileToServer(file, this.editor);
         if (!upload?.default) return;
 
         this.editor.model.change((writer: any) =>
@@ -180,15 +204,5 @@ export class BlockQuotePlugin {
         );
       });
     });
-  }
-
-  private async createLoader(file: File): Promise<{ default: string } | null> {
-    try {
-      const loader = await this.editor.plugins.get("FileRepository").createLoader(file);
-      await loader.read();
-      return await loader.upload();
-    } catch (e) {
-      return null;
-    }
   }
 }

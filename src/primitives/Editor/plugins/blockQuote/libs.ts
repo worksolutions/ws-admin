@@ -1,3 +1,4 @@
+import { InputHTMLAttributes } from "react";
 import { DATA_BLOCK_QUOTE_WRAPPER_TOP } from "./index";
 
 export function isNotImage(elem: any) {
@@ -12,9 +13,17 @@ export function isNotImage(elem: any) {
 
 export function uploadFile(
   eventHandler: (e: Omit<HTMLElementEventMap["change"], "target"> & { target: HTMLInputElement }) => void,
+  attributes: InputHTMLAttributes<HTMLInputElement> = {},
 ) {
   const input = document.createElement("INPUT");
   input.setAttribute("type", "file");
+
+  for (const attributesKey in attributes) {
+    const attribute = attributesKey as keyof typeof attributes;
+
+    input.setAttribute(attribute, attributes[attribute]);
+  }
+
   input.click();
   input.addEventListener("change", eventHandler as any);
 }

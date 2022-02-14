@@ -60,7 +60,7 @@ function useApiRequestDataSourceHandler<RESULT>(
 }
 
 export function useDataSource<RESULT = any>(
-  dataSource: AnyDataSource,
+  dataSource?: AnyDataSource,
   initialData: RESULT = null!,
 ): DataSourceResultInterface<RESULT> {
   if (!dataSource) return useEmptyDataSource<RESULT>();
