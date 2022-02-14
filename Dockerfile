@@ -8,12 +8,14 @@ RUN apt-get install build-essential -y
 WORKDIR /usr/src/
 
 COPY package.json .
+COPY package-lock.json .
 RUN npm ci
 
 RUN mkdir proxyServer
 WORKDIR /usr/src/proxyServer
 
 COPY ./proxyServer/package.json .
+COPY ./proxyServer/package-lock.json .
 RUN npm ci
 
 WORKDIR /usr/src/
